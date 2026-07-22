@@ -25,7 +25,7 @@ python etl/load_datastore.py          # 3. (optional) dry-run load plan
 ```
 
 ## Outputs → `etl/out/`
-- **Aggregates:** `agg_district_month.csv`, `agg_hotspots.csv`, `agg_unit.csv`, `agg_outcomes.csv`, `agg_case_status.csv`, `agg_socioeconomic.csv`, `agg_timeofday.csv` (MODELED).
+- **Aggregates:** `agg_district_month.csv`, `agg_hotspots.csv`, `agg_unit.csv`, `agg_outcomes.csv`, `agg_case_status.csv`, `agg_socioeconomic.csv`, `entity_edges.csv` (REAL co-occurrence graph), `agg_timeofday.csv` (MODELED).
 - **Dimensions:** `dim_district.csv`, `dim_crime_head.csv`, `dim_crime_subhead.csv`, `dim_case_status.csv`, `dim_gravity.csv`, `dim_complaint_mode.csv`, `dim_act.csv`, `dim_section.csv`, `dim_rank.csv`.
 - **Provenance:** `meta.json` (row counts, per-year, coord coverage before/after, geocoding stats, data-class labels).
 

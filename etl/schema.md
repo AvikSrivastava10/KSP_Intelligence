@@ -96,6 +96,15 @@ the Data Store (and bundle as CSV fallback). Types use Catalyst Data Store colum
 | method | varchar | `category_encoded` (real signal e.g. BURGLARY-NIGHT) \| `criminological_prior` \| `default_distributed` |
 | count | int | **Illustrative only — never trains real models.** |
 
+**`entity_edges`** — REAL within-case co-occurrence graph (feeds Phase 5 Module A: Louvain + association rules)
+| Column | Type | Notes |
+|---|---|---|
+| src_type | varchar | `crime_head` \| `act` |
+| src | varchar | source entity |
+| dst_type | varchar | `act` \| `district` |
+| dst | varchar | target entity |
+| weight | int | co-occurrence count within cases (edge sets: crime_head↔act, act↔act, crime_head↔district; low-weight tail trimmed) |
+
 ### A.2 Reference dimensions (reconstructed from distinct values)
 
 | Table (`etl/out/`) | Columns | Maps to ER table |
@@ -155,8 +164,9 @@ Never mixed with real analytics; never trains real models; persistent UI banner;
 | `syn_case_person` | links synthetic persons to cases |
 | `syn_offender_network` | edges: co-offending / repeat-offender / association / organized-crime clusters |
 
-Real complement (bonus, on real data): **`entity_edges`** — co-occurrence graph of
-crime-type ↔ location ↔ unit ↔ legal-section (deferred to Phase 5).
+Real complement (on real data): **`entity_edges`** — within-case co-occurrence graph of
+crime-type ↔ act ↔ district (produced in Phase 0, see §A.1); Phase 5 adds Louvain communities +
+association rules on top.
 
 ---
 

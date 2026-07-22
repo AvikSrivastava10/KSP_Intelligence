@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import itertools
 import json
 import os
 import sys
@@ -48,6 +49,9 @@ CHUNK = 200_000
 # (a total, never a sex-split feature, per the fairness guardrail).
 COUNT_COLS = ["accused_count", "arrested_count", "chargesheeted_count", "conviction_count"]
 VICTIM_COLS = ["v_male", "v_female", "v_boy", "v_girl"]
+# entity_edges: min co-occurrence weight to keep an edge (trims the free-text act tail)
+EDGE_MIN_MH_ACT = 10
+EDGE_MIN_ACT_ACT = 25
 DOW_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 
@@ -84,6 +88,9 @@ class Accumulators:
         self.act = Counter()
         self.section = Counter()            # (act, section) -> n
         self.rank = Counter()
+        # entity co-occurrence edges (REAL network, within-case) — feeds Phase 5 Module A
+        self.edge_mh_act = defaultdict(int)   # (major_head, act) -> weight
+        self.edge_act_act = defaultdict(int)  # (actA, actB) sorted -> weight
         # meta
         self.year = Counter()
         self.crimes_by_census = Counter()   # census_code_2011 -> n (for socioeconomic)
@@ -273,18 +280,26 @@ def main():
         ranks = ranks.fillna("").str.upper().str.replace(".", "", regex=False).str.replace(" ", "", regex=False)
         for rk, v in ranks[ranks != ""].value_counts().items():
             acc.rank[rk] += int(v)
-        # act/section over distinct act_section strings (weighted)
-        for as_str, v in chunk["act_section"].value_counts().items():
+        # act/section reference dims + entity co-occurrence edges, from one grouped pass
+        # over (major_head, act_section). ActSection parses are cached per distinct string.
+        for (mh, as_str), v in chunk.groupby(["major_head", "act_section"], sort=False).size().items():
             parsed = act_cache.get(as_str)
             if parsed is None:
                 fa, fs, acts, secpairs = parse_act_section(as_str)
                 parsed = (acts, secpairs)
                 act_cache[as_str] = parsed
             acts, secpairs = parsed
+            v = int(v)
             for a in acts:
-                acc.act[a] += int(v)
+                acc.act[a] += v
             for (a, s) in secpairs:
-                acc.section[(a, s)] += int(v)
+                acc.section[(a, s)] += v
+            # within-case co-occurrence: crime-type<->act and act<->act
+            uacts = sorted(set(acts))
+            for a in uacts:
+                acc.edge_mh_act[(mh, a)] += v
+            for a, b in itertools.combinations(uacts, 2):
+                acc.edge_act_act[(a, b)] += v
 
         if (ci + 1) % 3 == 0 or args.limit:
             print(f"  chunk {ci+1}: rows so far {total:,}  ({time.time()-t0:.0f}s)")
@@ -386,6 +401,25 @@ def write_outputs(out_dir, acc: Accumulators, resolver: GeoResolver, total, t0, 
     counts["dim_rank.csv"] = w("dim_rank.csv", ["rank", "count"],
                                [[k, v] for k, v in acc.rank.most_common()])
 
+    # entity_edges (REAL co-occurrence graph, Phase 5 Module A): typed edges
+    #   crime_head<->act, act<->act (within-case), crime_head<->district (from agg_district_month)
+    edges = []
+    for (mh, a), v in acc.edge_mh_act.items():
+        if v >= EDGE_MIN_MH_ACT and mh and a:
+            edges.append(["crime_head", mh, "act", a, v])
+    for (a, b), v in acc.edge_act_act.items():
+        if v >= EDGE_MIN_ACT_ACT and a and b:
+            edges.append(["act", a, "act", b, v])
+    mh_dist = defaultdict(int)
+    for (cn, _y, _m, mh), v in acc.dm.items():
+        if cn and cn != "UNKNOWN" and mh:
+            mh_dist[(mh, cn)] += v
+    for (mh, cn), v in mh_dist.items():
+        edges.append(["crime_head", mh, "district", cn, v])
+    edges.sort(key=lambda r: -r[4])
+    counts["entity_edges.csv"] = w(
+        "entity_edges.csv", ["src_type", "src", "dst_type", "dst", "weight"], edges)
+
     # socioeconomic (stretch): 2011 census join, per-capita
     socio_n = write_socioeconomic(out_dir, acc)
     if socio_n is not None:
@@ -432,7 +466,7 @@ def write_outputs(out_dir, acc: Accumulators, resolver: GeoResolver, total, t0, 
         "tables": counts,
         "data_class": {
             "real": ["agg_district_month", "agg_hotspots", "agg_unit", "agg_outcomes",
-                     "agg_case_status", "agg_socioeconomic", "dim_*"],
+                     "agg_case_status", "agg_socioeconomic", "entity_edges", "dim_*"],
             "modeled": ["agg_timeofday (estimated time-of-day, not observed)"],
             "synthetic": [],
         },

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-22T05:23:14.259452+00:00",
+  "generated_at_utc": "2026-07-22T05:59:48.949387+00:00",
   "source_file": "FIR_Details_Data.csv",
   "source_size_bytes": 572681781,
   "partial_run": false,
@@ -66,6 +66,7 @@
     "dim_act.csv": 4831,
     "dim_section.csv": 17465,
     "dim_rank.csv": 21,
+    "entity_edges.csv": 4558,
     "agg_socioeconomic.csv": 30
   },
   "data_class": {
@@ -76,6 +77,7 @@
       "agg_outcomes",
       "agg_case_status",
       "agg_socioeconomic",
+      "entity_edges",
       "dim_*"
     ],
     "modeled": [

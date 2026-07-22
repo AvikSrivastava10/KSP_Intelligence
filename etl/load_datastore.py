@@ -33,6 +33,7 @@ TABLE_MAP = {
     "agg_outcomes.csv": "agg_outcomes",
     "agg_case_status.csv": "agg_case_status",
     "agg_socioeconomic.csv": "agg_socioeconomic",
+    "entity_edges.csv": "entity_edges",
     "agg_timeofday.csv": "agg_timeofday",  # data_class = modeled
 }
 
