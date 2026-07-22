@@ -1,0 +1,19 @@
+{
+  "deployment": {
+    "name": "crime_api",
+    "stack": "node18",
+    "type": "advancedio",
+    "memory": 512,
+    "env_variables": {
+      "USE_DATASTORE": "false",
+      "USE_CACHE": "true",
+      "ALLOWED_ORIGINS": "",
+      "RATE_LIMIT_MAX": "200",
+      "RATE_LIMIT_WINDOW_MS": "60000",
+      "MAX_BODY": "256kb"
+    }
+  },
+  "execution": {
+    "main": "src/index.js"
+  }
+}

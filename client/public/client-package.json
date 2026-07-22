@@ -1,0 +1,8 @@
+{
+  "name": "kspcrimeintel",
+  "version": "1.0.0",
+  "description": "KSP Crime Intelligence & Analytical Platform — SCRB dashboards, hotspot maps, predictive intelligence",
+  "homepage": "index.html",
+  "login_redirect": "index.html",
+  "404": "404.html"
+}

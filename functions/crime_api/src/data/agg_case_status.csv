@@ -1,0 +1,515 @@
+canonical_name,status,count
+Bagalkote,Abated,600
+Bagalkote,BoundOver,1372
+Bagalkote,Compounded,427
+Bagalkote,Convicted,5931
+Bagalkote,Dis/Acq,2144
+Bagalkote,False Case,1273
+Bagalkote,Other Disposal,1510
+Bagalkote,Pending Trial,10117
+Bagalkote,Traced,1255
+Bagalkote,Transferred,234
+Bagalkote,Un Traced,141
+Bagalkote,Under Investigation,1412
+Bagalkote,Undetected,1707
+Ballari,Abated,467
+Ballari,BoundOver,2504
+Ballari,Compounded,534
+Ballari,Convicted,8055
+Ballari,Dis/Acq,3017
+Ballari,False Case,1209
+Ballari,Other Disposal,464
+Ballari,Pending Trial,7573
+Ballari,Traced,1146
+Ballari,Transferred,132
+Ballari,Un Traced,190
+Ballari,Under Investigation,1204
+Ballari,Undetected,1931
+Belagavi,Abated,1229
+Belagavi,BoundOver,3677
+Belagavi,Compounded,1135
+Belagavi,Convicted,13907
+Belagavi,Dis/Acq,6597
+Belagavi,False Case,2652
+Belagavi,Other Disposal,3560
+Belagavi,Pending Trial,16595
+Belagavi,Traced,2773
+Belagavi,Transferred,240
+Belagavi,Un Traced,240
+Belagavi,Under Investigation,3207
+Belagavi,Undetected,3757
+Belagavi City,Abated,299
+Belagavi City,BoundOver,387
+Belagavi City,Compounded,490
+Belagavi City,Convicted,4053
+Belagavi City,Dis/Acq,2122
+Belagavi City,False Case,1299
+Belagavi City,Other Disposal,2044
+Belagavi City,Pending Trial,4951
+Belagavi City,Traced,1142
+Belagavi City,Transferred,11
+Belagavi City,Un Traced,153
+Belagavi City,Under Investigation,1137
+Belagavi City,Undetected,2789
+Bengaluru City,Abated,1158
+Bengaluru City,BoundOver,9017
+Bengaluru City,Compounded,25311
+Bengaluru City,Convicted,73310
+Bengaluru City,Dis/Acq,13674
+Bengaluru City,False Case,25668
+Bengaluru City,Other Disposal,4527
+Bengaluru City,Pending Trial,105647
+Bengaluru City,Traced,36139
+Bengaluru City,Transferred,651
+Bengaluru City,Un Traced,1510
+Bengaluru City,Under Investigation,35922
+Bengaluru City,Undetected,92874
+Bengaluru Rural,Abated,374
+Bengaluru Rural,BoundOver,3361
+Bengaluru Rural,Compounded,590
+Bengaluru Rural,Convicted,6616
+Bengaluru Rural,Dis/Acq,1424
+Bengaluru Rural,False Case,3921
+Bengaluru Rural,Other Disposal,148
+Bengaluru Rural,Pending Trial,25563
+Bengaluru Rural,Traced,6271
+Bengaluru Rural,Transferred,75
+Bengaluru Rural,Un Traced,432
+Bengaluru Rural,Under Investigation,5355
+Bengaluru Rural,Undetected,9874
+Bidar,Abated,520
+Bidar,BoundOver,4102
+Bidar,Compounded,626
+Bidar,Convicted,9505
+Bidar,Dis/Acq,6708
+Bidar,False Case,1306
+Bidar,Other Disposal,753
+Bidar,Pending Trial,8710
+Bidar,Traced,960
+Bidar,Transferred,215
+Bidar,Un Traced,75
+Bidar,Under Investigation,1703
+Bidar,Undetected,2678
+CID,False Case,7
+CID,Other Disposal,1
+CID,Pending Trial,12
+CID,Under Investigation,67
+CID,Undetected,85
+Chamarajanagar,Abated,329
+Chamarajanagar,BoundOver,2874
+Chamarajanagar,Compounded,629
+Chamarajanagar,Convicted,5960
+Chamarajanagar,Dis/Acq,3364
+Chamarajanagar,False Case,591
+Chamarajanagar,Other Disposal,131
+Chamarajanagar,Pending Trial,5910
+Chamarajanagar,Traced,1281
+Chamarajanagar,Transferred,61
+Chamarajanagar,Un Traced,130
+Chamarajanagar,Under Investigation,614
+Chamarajanagar,Undetected,1169
+Chikkaballapura,Abated,357
+Chikkaballapura,BoundOver,2186
+Chikkaballapura,Compounded,360
+Chikkaballapura,Convicted,11055
+Chikkaballapura,Dis/Acq,3528
+Chikkaballapura,False Case,1237
+Chikkaballapura,Other Disposal,210
+Chikkaballapura,Pending Trial,10711
+Chikkaballapura,Traced,3062
+Chikkaballapura,Transferred,190
+Chikkaballapura,Un Traced,78
+Chikkaballapura,Under Investigation,1189
+Chikkaballapura,Undetected,2382
+Chikkamagaluru,Abated,405
+Chikkamagaluru,BoundOver,3870
+Chikkamagaluru,Compounded,475
+Chikkamagaluru,Convicted,5536
+Chikkamagaluru,Dis/Acq,5113
+Chikkamagaluru,False Case,1871
+Chikkamagaluru,Other Disposal,319
+Chikkamagaluru,Pending Trial,12230
+Chikkamagaluru,Traced,2053
+Chikkamagaluru,Transferred,211
+Chikkamagaluru,Un Traced,128
+Chikkamagaluru,Under Investigation,1698
+Chikkamagaluru,Undetected,1576
+Chitradurga,Abated,549
+Chitradurga,BoundOver,4052
+Chitradurga,Compounded,413
+Chitradurga,Convicted,11632
+Chitradurga,Dis/Acq,4529
+Chitradurga,False Case,1565
+Chitradurga,Other Disposal,200
+Chitradurga,Pending Trial,15734
+Chitradurga,Traced,3391
+Chitradurga,Transferred,152
+Chitradurga,Un Traced,181
+Chitradurga,Under Investigation,2268
+Chitradurga,Undetected,3088
+Coastal Security Police,BoundOver,14
+Coastal Security Police,Convicted,93
+Coastal Security Police,Dis/Acq,28
+Coastal Security Police,Other Disposal,3
+Coastal Security Police,Pending Trial,42
+Coastal Security Police,Un Traced,3
+Coastal Security Police,Under Investigation,25
+Coastal Security Police,Undetected,5
+Dakshina Kannada,Abated,266
+Dakshina Kannada,BoundOver,1727
+Dakshina Kannada,Compounded,254
+Dakshina Kannada,Convicted,5582
+Dakshina Kannada,Dis/Acq,1958
+Dakshina Kannada,False Case,1338
+Dakshina Kannada,Other Disposal,783
+Dakshina Kannada,Pending Trial,5739
+Dakshina Kannada,Traced,1067
+Dakshina Kannada,Transferred,97
+Dakshina Kannada,Un Traced,48
+Dakshina Kannada,Under Investigation,1275
+Dakshina Kannada,Undetected,991
+Davanagere,Abated,483
+Davanagere,BoundOver,3349
+Davanagere,Compounded,1153
+Davanagere,Convicted,9649
+Davanagere,Dis/Acq,4378
+Davanagere,False Case,2023
+Davanagere,Other Disposal,341
+Davanagere,Pending Trial,8391
+Davanagere,Traced,3556
+Davanagere,Transferred,135
+Davanagere,Un Traced,260
+Davanagere,Under Investigation,2108
+Davanagere,Undetected,3215
+Dharwad,Abated,210
+Dharwad,BoundOver,1435
+Dharwad,Compounded,105
+Dharwad,Convicted,2137
+Dharwad,Dis/Acq,858
+Dharwad,False Case,694
+Dharwad,Other Disposal,70
+Dharwad,Pending Trial,6870
+Dharwad,Traced,751
+Dharwad,Transferred,31
+Dharwad,Un Traced,125
+Dharwad,Under Investigation,514
+Dharwad,Undetected,1066
+Gadag,Abated,386
+Gadag,BoundOver,2382
+Gadag,Compounded,298
+Gadag,Convicted,6153
+Gadag,Dis/Acq,2472
+Gadag,False Case,844
+Gadag,Other Disposal,133
+Gadag,Pending Trial,3266
+Gadag,Traced,922
+Gadag,Transferred,47
+Gadag,Un Traced,85
+Gadag,Under Investigation,733
+Gadag,Undetected,781
+Hassan,Abated,630
+Hassan,BoundOver,6812
+Hassan,Compounded,953
+Hassan,Convicted,13687
+Hassan,Dis/Acq,6126
+Hassan,False Case,2330
+Hassan,Other Disposal,269
+Hassan,Pending Trial,19062
+Hassan,Traced,2803
+Hassan,Transferred,232
+Hassan,Un Traced,240
+Hassan,Under Investigation,1962
+Hassan,Undetected,3150
+Haveri,Abated,514
+Haveri,BoundOver,3309
+Haveri,Compounded,391
+Haveri,Convicted,6385
+Haveri,Dis/Acq,3460
+Haveri,False Case,1519
+Haveri,Other Disposal,525
+Haveri,Pending Trial,7497
+Haveri,Traced,1793
+Haveri,Transferred,222
+Haveri,Un Traced,183
+Haveri,Under Investigation,1971
+Haveri,Undetected,2002
+Hubballi-Dharwad City,Abated,192
+Hubballi-Dharwad City,BoundOver,1640
+Hubballi-Dharwad City,Compounded,703
+Hubballi-Dharwad City,Convicted,5422
+Hubballi-Dharwad City,Dis/Acq,2245
+Hubballi-Dharwad City,False Case,1604
+Hubballi-Dharwad City,Other Disposal,822
+Hubballi-Dharwad City,Pending Trial,5259
+Hubballi-Dharwad City,Traced,1590
+Hubballi-Dharwad City,Transferred,28
+Hubballi-Dharwad City,Un Traced,121
+Hubballi-Dharwad City,Under Investigation,1590
+Hubballi-Dharwad City,Undetected,2871
+ISD Bengaluru,Compounded,1
+ISD Bengaluru,Convicted,111
+ISD Bengaluru,Dis/Acq,2
+ISD Bengaluru,Other Disposal,2
+ISD Bengaluru,Pending Trial,19
+ISD Bengaluru,Transferred,3
+ISD Bengaluru,Under Investigation,1
+K.G.F,Abated,123
+K.G.F,BoundOver,1611
+K.G.F,Compounded,217
+K.G.F,Convicted,2056
+K.G.F,Dis/Acq,1751
+K.G.F,False Case,412
+K.G.F,Other Disposal,59
+K.G.F,Pending Trial,1617
+K.G.F,Traced,948
+K.G.F,Transferred,110
+K.G.F,Un Traced,39
+K.G.F,Under Investigation,520
+K.G.F,Undetected,793
+Kalaburagi,Abated,402
+Kalaburagi,BoundOver,3160
+Kalaburagi,Compounded,408
+Kalaburagi,Convicted,5802
+Kalaburagi,Dis/Acq,4508
+Kalaburagi,False Case,1393
+Kalaburagi,Other Disposal,701
+Kalaburagi,Pending Trial,11360
+Kalaburagi,Traced,563
+Kalaburagi,Transferred,271
+Kalaburagi,Un Traced,36
+Kalaburagi,Under Investigation,1453
+Kalaburagi,Undetected,1294
+Kalaburagi City,Abated,159
+Kalaburagi City,BoundOver,2400
+Kalaburagi City,Compounded,258
+Kalaburagi City,Convicted,4147
+Kalaburagi City,Dis/Acq,1380
+Kalaburagi City,False Case,1170
+Kalaburagi City,Other Disposal,125
+Kalaburagi City,Pending Trial,6562
+Kalaburagi City,Traced,293
+Kalaburagi City,Transferred,26
+Kalaburagi City,Un Traced,10
+Kalaburagi City,Under Investigation,1427
+Kalaburagi City,Undetected,2266
+Karnataka Railways,Abated,40
+Karnataka Railways,BoundOver,747
+Karnataka Railways,Compounded,1285
+Karnataka Railways,Convicted,404
+Karnataka Railways,Dis/Acq,240
+Karnataka Railways,False Case,168
+Karnataka Railways,Other Disposal,32
+Karnataka Railways,Pending Trial,1444
+Karnataka Railways,Traced,144
+Karnataka Railways,Transferred,68
+Karnataka Railways,Un Traced,24
+Karnataka Railways,Under Investigation,498
+Karnataka Railways,Undetected,4794
+Kodagu,Abated,228
+Kodagu,BoundOver,2759
+Kodagu,Compounded,464
+Kodagu,Convicted,3828
+Kodagu,Dis/Acq,2973
+Kodagu,False Case,1030
+Kodagu,Other Disposal,302
+Kodagu,Pending Trial,4667
+Kodagu,Traced,1143
+Kodagu,Transferred,105
+Kodagu,Un Traced,67
+Kodagu,Under Investigation,668
+Kodagu,Undetected,1013
+Kolar,Abated,193
+Kolar,BoundOver,1893
+Kolar,Compounded,359
+Kolar,Convicted,2947
+Kolar,Dis/Acq,1813
+Kolar,False Case,1344
+Kolar,Other Disposal,78
+Kolar,Pending Trial,8799
+Kolar,Traced,2364
+Kolar,Transferred,88
+Kolar,Un Traced,125
+Kolar,Under Investigation,1446
+Kolar,Undetected,2199
+Koppal,Abated,166
+Koppal,BoundOver,1350
+Koppal,Compounded,179
+Koppal,Convicted,3048
+Koppal,Dis/Acq,704
+Koppal,False Case,921
+Koppal,Other Disposal,196
+Koppal,Pending Trial,14843
+Koppal,Traced,1089
+Koppal,Transferred,124
+Koppal,Un Traced,73
+Koppal,Under Investigation,1103
+Koppal,Undetected,1130
+Mandya,Abated,720
+Mandya,BoundOver,4643
+Mandya,Compounded,1259
+Mandya,Convicted,13105
+Mandya,Dis/Acq,5060
+Mandya,False Case,2261
+Mandya,Other Disposal,329
+Mandya,Pending Trial,20700
+Mandya,Traced,4482
+Mandya,Transferred,91
+Mandya,Un Traced,370
+Mandya,Under Investigation,1428
+Mandya,Undetected,5253
+Mangaluru City,Abated,302
+Mangaluru City,BoundOver,3737
+Mangaluru City,Compounded,647
+Mangaluru City,Convicted,9292
+Mangaluru City,Dis/Acq,3005
+Mangaluru City,False Case,1781
+Mangaluru City,Other Disposal,643
+Mangaluru City,Pending Trial,6788
+Mangaluru City,Traced,1395
+Mangaluru City,Transferred,6
+Mangaluru City,Un Traced,130
+Mangaluru City,Under Investigation,1581
+Mangaluru City,Undetected,2237
+Mysuru,Abated,617
+Mysuru,BoundOver,4015
+Mysuru,Compounded,1619
+Mysuru,Convicted,10825
+Mysuru,Dis/Acq,4387
+Mysuru,False Case,1916
+Mysuru,Other Disposal,231
+Mysuru,Pending Trial,16932
+Mysuru,Traced,3851
+Mysuru,Transferred,125
+Mysuru,Un Traced,347
+Mysuru,Under Investigation,2317
+Mysuru,Undetected,3417
+Mysuru City,Abated,288
+Mysuru City,BoundOver,2299
+Mysuru City,Compounded,1549
+Mysuru City,Convicted,4629
+Mysuru City,Dis/Acq,1923
+Mysuru City,False Case,2268
+Mysuru City,Other Disposal,192
+Mysuru City,Pending Trial,8078
+Mysuru City,Traced,2855
+Mysuru City,Transferred,27
+Mysuru City,Un Traced,134
+Mysuru City,Under Investigation,2023
+Mysuru City,Undetected,4245
+Raichur,Abated,400
+Raichur,BoundOver,2192
+Raichur,Compounded,890
+Raichur,Convicted,7218
+Raichur,Dis/Acq,5286
+Raichur,False Case,1734
+Raichur,Other Disposal,1835
+Raichur,Pending Trial,13029
+Raichur,Traced,965
+Raichur,Transferred,162
+Raichur,Un Traced,77
+Raichur,Under Investigation,1205
+Raichur,Undetected,1503
+Ramanagara,Abated,202
+Ramanagara,BoundOver,3139
+Ramanagara,Compounded,385
+Ramanagara,Convicted,6281
+Ramanagara,Dis/Acq,1394
+Ramanagara,False Case,2176
+Ramanagara,Other Disposal,304
+Ramanagara,Pending Trial,19677
+Ramanagara,Traced,3555
+Ramanagara,Transferred,177
+Ramanagara,Un Traced,245
+Ramanagara,Under Investigation,2128
+Ramanagara,Undetected,4569
+Shivamogga,Abated,583
+Shivamogga,BoundOver,4996
+Shivamogga,Compounded,1556
+Shivamogga,Convicted,12187
+Shivamogga,Dis/Acq,8218
+Shivamogga,False Case,2704
+Shivamogga,Other Disposal,1397
+Shivamogga,Pending Trial,17608
+Shivamogga,Traced,4698
+Shivamogga,Transferred,194
+Shivamogga,Un Traced,263
+Shivamogga,Under Investigation,3479
+Shivamogga,Undetected,3455
+Tumakuru,Abated,750
+Tumakuru,BoundOver,390
+Tumakuru,Compounded,847
+Tumakuru,Convicted,15361
+Tumakuru,Dis/Acq,4740
+Tumakuru,False Case,2714
+Tumakuru,Other Disposal,3237
+Tumakuru,Pending Trial,21364
+Tumakuru,Traced,4172
+Tumakuru,Transferred,387
+Tumakuru,Un Traced,267
+Tumakuru,Under Investigation,2504
+Tumakuru,Undetected,4820
+Udupi,Abated,378
+Udupi,BoundOver,2167
+Udupi,Compounded,741
+Udupi,Convicted,9688
+Udupi,Dis/Acq,2064
+Udupi,False Case,1693
+Udupi,Other Disposal,797
+Udupi,Pending Trial,6717
+Udupi,Traced,1284
+Udupi,Transferred,151
+Udupi,Un Traced,62
+Udupi,Under Investigation,1352
+Udupi,Undetected,1337
+Uttara Kannada,Abated,554
+Uttara Kannada,BoundOver,3126
+Uttara Kannada,Compounded,859
+Uttara Kannada,Convicted,9477
+Uttara Kannada,Dis/Acq,3642
+Uttara Kannada,False Case,2268
+Uttara Kannada,Other Disposal,1044
+Uttara Kannada,Pending Trial,6722
+Uttara Kannada,Traced,1936
+Uttara Kannada,Transferred,126
+Uttara Kannada,Un Traced,142
+Uttara Kannada,Under Investigation,1280
+Uttara Kannada,Undetected,1514
+Vijayanagara,Abated,337
+Vijayanagara,BoundOver,3025
+Vijayanagara,Compounded,658
+Vijayanagara,Convicted,6580
+Vijayanagara,Dis/Acq,3005
+Vijayanagara,False Case,1093
+Vijayanagara,Other Disposal,267
+Vijayanagara,Pending Trial,7694
+Vijayanagara,Traced,1082
+Vijayanagara,Transferred,101
+Vijayanagara,Un Traced,97
+Vijayanagara,Under Investigation,686
+Vijayanagara,Undetected,1190
+Vijayapura,Abated,520
+Vijayapura,BoundOver,3682
+Vijayapura,Compounded,535
+Vijayapura,Convicted,8874
+Vijayapura,Dis/Acq,2736
+Vijayapura,False Case,1923
+Vijayapura,Other Disposal,449
+Vijayapura,Pending Trial,14172
+Vijayapura,Traced,1818
+Vijayapura,Transferred,210
+Vijayapura,Un Traced,128
+Vijayapura,Under Investigation,2049
+Vijayapura,Undetected,2412
+Yadgir,Abated,112
+Yadgir,BoundOver,2079
+Yadgir,Compounded,110
+Yadgir,Convicted,3132
+Yadgir,Dis/Acq,1425
+Yadgir,False Case,806
+Yadgir,Other Disposal,459
+Yadgir,Pending Trial,9653
+Yadgir,Traced,432
+Yadgir,Transferred,51
+Yadgir,Un Traced,54
+Yadgir,Under Investigation,480
+Yadgir,Undetected,718

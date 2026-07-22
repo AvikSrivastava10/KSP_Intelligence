@@ -1,0 +1,29 @@
+// API client — unwraps the { ok, data_class, result, request_id } envelope.
+// Prod (Catalyst): default base "/server/crime_api" is same-origin with the web client.
+// Local: set VITE_API_BASE=http://localhost:9000, or run `vite dev` (proxy forwards /server).
+const API_BASE = import.meta.env.VITE_API_BASE || "/server/crime_api";
+
+async function api(path) {
+  let res;
+  try {
+    res = await fetch(`${API_BASE}${path}`, { headers: { Accept: "application/json" } });
+  } catch (e) {
+    throw new Error(`Cannot reach crime_api at ${API_BASE}. Is it running?`);
+  }
+  let json;
+  try {
+    json = await res.json();
+  } catch (e) {
+    throw new Error(`Bad JSON from ${path} (HTTP ${res.status})`);
+  }
+  if (!json || json.ok !== true) {
+    throw new Error((json && json.error) || `Request failed: ${path} (HTTP ${res.status})`);
+  }
+  return { result: json.result, dataClass: json.data_class, requestId: json.request_id };
+}
+
+export const API_BASE_URL = API_BASE;
+export const fetchOverview = () => api("/overview");
+export const fetchMeta = () => api("/meta");
+export const fetchDistricts = (perCapita) => api(`/districts${perCapita ? "?per_capita=true" : ""}`);
+export const fetchDistrict = (name) => api(`/district/${encodeURIComponent(name)}`);

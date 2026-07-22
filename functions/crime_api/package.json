@@ -1,0 +1,25 @@
+{
+  "name": "crime_api",
+  "version": "1.0.0",
+  "description": "KSP Crime Intelligence API — Catalyst Advanced I/O function (Node + Express). Thin serving layer over precomputed tables (Data Store -> CSV fallback). No ML at request time.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --runInBand"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^7.1.0",
+    "zcatalyst-sdk-node": "^3.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}

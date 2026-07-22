@@ -1,0 +1,465 @@
+{
+  "note": "Create these tables in the Catalyst console (Data Store) or via CSV-import, then run `python etl/load_datastore.py --load`. Column types per schema.md \u00a7A.",
+  "reserved_name_caveat": "Columns count/year/month/rank are valid user columns; the API reads via SELECT * and never references them directly.",
+  "tables": [
+    {
+      "table_name": "dim_district",
+      "data_class": "real",
+      "row_count": 41,
+      "columns": [
+        {
+          "column_name": "canonical_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "kgis_code",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "lgd_code",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "census_code_2011",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "is_geographic",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "parent_district",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "dim_crime_head",
+      "data_class": "real",
+      "row_count": 107,
+      "columns": [
+        {
+          "column_name": "major_head",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "dim_crime_subhead",
+      "data_class": "real",
+      "row_count": 626,
+      "columns": [
+        {
+          "column_name": "major_head",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "sub_head",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "dim_case_status",
+      "data_class": "real",
+      "row_count": 13,
+      "columns": [
+        {
+          "column_name": "status",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "dim_gravity",
+      "data_class": "real",
+      "row_count": 2,
+      "columns": [
+        {
+          "column_name": "gravity",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "dim_complaint_mode",
+      "data_class": "real",
+      "row_count": 10,
+      "columns": [
+        {
+          "column_name": "complaint_mode",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "dim_act",
+      "data_class": "real",
+      "row_count": 4831,
+      "columns": [
+        {
+          "column_name": "act",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "dim_section",
+      "data_class": "real",
+      "row_count": 17465,
+      "columns": [
+        {
+          "column_name": "act",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "section",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "dim_rank",
+      "data_class": "real",
+      "row_count": 21,
+      "columns": [
+        {
+          "column_name": "rank",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "agg_district_month",
+      "data_class": "real",
+      "row_count": 124314,
+      "columns": [
+        {
+          "column_name": "canonical_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "year",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "month",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "major_head",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "agg_hotspots",
+      "data_class": "real",
+      "row_count": 142048,
+      "columns": [
+        {
+          "column_name": "lat",
+          "data_type": "double"
+        },
+        {
+          "column_name": "lng",
+          "data_type": "double"
+        },
+        {
+          "column_name": "geo_precision",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "year",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "agg_unit",
+      "data_class": "real",
+      "row_count": 1074,
+      "columns": [
+        {
+          "column_name": "unit_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "canonical_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "parent_district",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "kgis_code",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "n_with_coord",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "mean_lat",
+          "data_type": "double"
+        },
+        {
+          "column_name": "mean_lng",
+          "data_type": "double"
+        }
+      ]
+    },
+    {
+      "table_name": "agg_outcomes",
+      "data_class": "real",
+      "row_count": 41,
+      "columns": [
+        {
+          "column_name": "canonical_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "total_cases",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "heinous_cases",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "victims",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "accused",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "arrested",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "chargesheeted",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "convicted",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "arrest_rate",
+          "data_type": "double"
+        },
+        {
+          "column_name": "chargesheet_rate",
+          "data_type": "double"
+        },
+        {
+          "column_name": "conviction_rate",
+          "data_type": "double"
+        },
+        {
+          "column_name": "detection_rate",
+          "data_type": "double"
+        }
+      ]
+    },
+    {
+      "table_name": "agg_case_status",
+      "data_class": "real",
+      "row_count": 514,
+      "columns": [
+        {
+          "column_name": "canonical_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "status",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "agg_socioeconomic",
+      "data_class": "real",
+      "row_count": 30,
+      "columns": [
+        {
+          "column_name": "census_code_2011",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "district_2011_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "population_2011",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "total_crimes_all_years",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "crimes_per_100k",
+          "data_type": "double"
+        },
+        {
+          "column_name": "literacy_rate",
+          "data_type": "double"
+        },
+        {
+          "column_name": "sc_share",
+          "data_type": "double"
+        },
+        {
+          "column_name": "st_share",
+          "data_type": "double"
+        },
+        {
+          "column_name": "sex_ratio_f_per_1000m",
+          "data_type": "double"
+        }
+      ]
+    },
+    {
+      "table_name": "agg_timeofday",
+      "data_class": "modeled",
+      "row_count": 3128,
+      "columns": [
+        {
+          "column_name": "canonical_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "major_head",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "modeled_time_of_day",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "method",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "entity_edges",
+      "data_class": "real",
+      "row_count": 4558,
+      "columns": [
+        {
+          "column_name": "src_type",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "src",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "dst_type",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "dst",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "weight",
+          "data_type": "bigint"
+        }
+      ]
+    }
+  ]
+}
