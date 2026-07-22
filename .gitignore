@@ -80,3 +80,6 @@ datasets/
 # --- Scratch ---
 _scratch/
 tmp/
+
+# --- Local-only working docs (not committed) ---
+Plans/phase_wise_log.md
