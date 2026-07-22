@@ -1,0 +1,29 @@
+# KSP platform — Python dependencies for the offline pipeline (etl/ + ml/).
+# Pin exact versions after the first successful install (pip freeze) for reproducibility.
+
+# --- Core data ---
+pandas
+duckdb
+
+# --- Geospatial (pyshp/pyproj/shapely already used for boundary prep) ---
+pyshp
+pyproj
+shapely
+rapidfuzz          # fuzzy district/place/station name matching
+lxml               # parse LGD SpreadsheetML .xls files
+
+# --- Schema / docs ---
+pdfplumber         # read the ER-diagram PDF
+
+# --- Models (Phase 3+) ---
+scikit-learn       # DBSCAN, KDE, IsolationForest, KMeans
+prophet            # forecasting (primary)
+statsmodels        # SARIMA / STL (forecasting fallback)
+lightgbm           # risk scoring + case-outcome
+hdbscan            # MO clustering
+networkx           # entity graph
+python-louvain     # community detection
+mlxtend            # FP-Growth / association rules
+
+# --- Synthetic layer (Phase 5) ---
+Faker

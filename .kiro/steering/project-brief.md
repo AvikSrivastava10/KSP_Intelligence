@@ -1,0 +1,216 @@
+# KSP Crime Intelligence Platform — Project Brief & Working Memory
+
+> **Purpose:** single source of truth for this project. Captures the goal, all decisions,
+> the data situation, constraints, the model plan, learnings, and the live backlog so
+> nothing gets lost between sessions. **Keep this updated as things change.**
+>
+> **Last updated:** 2026-07-17
+> **Status:** Planning / pre-build (data gathering in progress)
+
+---
+
+## 1. Project overview
+
+- **What:** An AI-driven Crime Intelligence & Analytical Platform for the **Karnataka State Police (KSP) / State Crime Records Bureau (SCRB)**.
+- **Why:** Replace siloed, Excel-based crime reporting with interactive dashboards, geospatial hotspot maps, network/link analysis, and AI/ML prediction — moving SCRB from reactive to proactive.
+- **Context:** Hack2Skill **Datathon 2026** challenge.
+- **Deployment target:** **Zoho Catalyst** (confirmed).
+- **Quality bar (user's words):** precise, well-planned, no mistakes, no unverified/fabricated data.
+
+### The 6 required capabilities
+1. Advanced Visualization (district drill-down maps, spatiotemporal hotspots, emerging-trend alerts)
+2. Criminological Network & Link Analysis (relationship mapping, repeat-offender tracking, association detection)
+3. Sociological & AI Predictive Dashboards (socio-economic correlation, risk scoring, anomaly detection)
+4. Pattern & Trend Discovery (statistical spatial/temporal hotspots)
+5. Network & Behavioral Analysis (organized-crime networks, recurring MO)
+6. AI/ML-Driven Intelligence (hidden correlations, anomalies, predict emerging risks)
+
+---
+
+## 2. Tech stack decisions
+
+| Area | Decision | Status |
+|---|---|---|
+| Deployment | Zoho Catalyst | ✅ confirmed |
+| ETL / ML | Python | ✅ (stdlib streaming for big file; sklearn/Prophet etc. for models) |
+| Frontend | **React 18 + Vite** · TanStack Query · Zustand · React-Leaflet · **ECharts** · react-force-graph · Tailwind+shadcn/ui | ✅ confirmed |
+| Backend functions | **Node + Express** (Catalyst Advanced I/O) · zcatalyst-sdk-node · zod · helmet | ✅ confirmed (Node; Python does ML offline) |
+| ETL / ML libs | pandas+**DuckDB** · geopandas/shapely/pyproj · scikit-learn · **Prophet**+statsmodels · **LightGBM** · hdbscan · NetworkX+louvain+mlxtend · Faker | ✅ confirmed |
+| DB | Catalyst Data Store (ZCQL) + CSV fallback | ⏳ planned |
+
+---
+
+## 3. Data inventory (what we actually have)
+
+Located in `datasets/`.
+
+### 3.1 FIR_Details_Data.csv — THE backbone (real, incident-level)
+- **1,674,734 rows**, **2016–2024** (2024 partial ~42k), **41 units** (37 districts/city-commissionerates + 4 special: CID, Coastal Security, ISD Bengaluru, Karnataka Railways).
+- Source: Kaggle `vanshangaria/fir-details-karnataka-police` (self-sourced, NOT given by KSP).
+- **546 MB. NEVER open in Excel/Sheets** — it truncates at 1,048,576 rows (this already happened once and cost 626,159 rows / half the districts; re-downloaded full). Use pandas/DuckDB only.
+- **34 columns:** District_Name, UnitName, FIR_YEAR, FIR_MONTH, Offence_Duration, FIR_Day, FIR Type (=gravity: Heinous/Non-Heinous), FIR_Stage (=case status), Complaint_Mode, CrimeGroup_Name (major head), CrimeHead_Name (sub head), Latitude, Longitude, ActSection (free text), IOName, KGID, Internal_IO, Place of Offence, Distance from PS, Beat_Name, Village_Area_Name, Male, Female, Boy, Girl, Age 0, VICTIM COUNT, Accused Count, Arrested Male, Arrested Female, "Arrested Count\tNo." (tab in header), Accused_ChargeSheeted Count, Conviction Count, Unit_ID.
+- **Coordinates only ~30.3% filled** (508k rows).
+- Person data is **aggregate counts only** (no identities) — these counts are the de-identified projection of the source Victim/Accused tables.
+- Quirks: UTF-8 BOM; tab in one header; leading spaces / casing in categories; free-text distance; district name variants (Vijayapur vs Vijayapura, Mysuru City/Dist).
+
+### 3.2 CRIME_REVIEW_2021_TO_2024_KARNATAKA.csv
+- 30,956 rows. **State-level monthly** counts by ACT (IPC/SLL) → MAJOR HEAD (crime type) → **MINOR HEAD (motive)** + 4 comparison columns (current/prev month, same month last yr, YTD) + Month + Year.
+- **Unique value: motive dimension** (absent from FIR and from the ER schema). State-level only, no district.
+
+### 3.3 ka-district-wise-2025.csv
+- 47 rows. **2025** district totals: IPC/BNS Crimes vs SLL Crimes, grouped by Range/Commissionerate (header rows blank).
+- **Unique value: 2025 recency** (extends past FIR's 2016–2024) + validation cross-check.
+
+### 3.4 karnataka_model_ready.csv — ⛔ DISCARD (synthetic)
+- 152 rows (38 districts × 2020–2023). **Proven fabricated:** 2022 = exactly 2×2020 and 2023 = exactly 2×2021 for all 38 districts; cyber/other crime = 0 in every odd year. Do not use.
+
+### 3.5 Police_FIR_ER_Diagram.pdf — official KSP schema (the only KSP-provided artifact)
+- ~27-table normalized ER schema (Word 2010 export, 2026-06-10, "Confidential").
+- **Contains NO data / no download link / no source** — it's a database DESIGN document = the **target schema / contract** for our Catalyst Data Store.
+- Reveals the source system DOES have (but our CSV lacks): person tables (Complainant/Victim/Accused w/ name, age, gender, **caste/religion/occupation**), **BriefFacts** narrative text, **IncidentFromDate DATETIME** (time-of-day), Court, Chargesheet, full reference tables, `Inv_OccuranceTime`.
+- Note: even the full schema has **no cross-case person key** (AccusedMasterID is per-case; PersonID is A1/A2 within-case) — so repeat-offender tracking would need fuzzy matching even with full access.
+
+---
+
+## 4. Hard constraints (do not fight these)
+
+1. **No person-level data — ever.** Victim/Accused/Complainant identities are confidential under Indian law. Not obtainable by any team. Only aggregate counts exist in our data.
+2. **No time-of-day** in the CSV (only Y/M/D). Source has it (`IncidentFromDate`) — see Bucket 3.
+3. **No narrative text** in the CSV. Source has `BriefFacts` — see Bucket 3.
+4. **~70% of rows lack coordinates** — needs geocoding/centroid fallback.
+5. **2024 is partial** — exclude from YoY/forecast training baselines.
+
+---
+
+## 5. Capability feasibility (given the constraints)
+
+- ✅ **Fully feasible:** district drill-down maps, spatial hotspots, emerging-trend/spike alerts, forecasting, anomaly detection, risk scoring, MO/pattern clustering, case-outcome analytics, socio-economic correlation.
+- 🔄 **Reframe (entity-level, not persons):** "network & link analysis" → co-occurrence graph of crime-type ↔ location ↔ unit ↔ legal-section. "Association detection" → association-rule mining on incident attributes.
+- ❌ **Descope (state why — legal/data limits):** repeat-offender tracking, suspect↔victim person networks, time-of-day hotspots (unless time obtained), NLP/narrative MO (no text).
+
+---
+
+## 6. Model plan — 6 models + 2 modules
+
+| # | Model | Technique | Powers |
+|---|---|---|---|
+| 1 | Spatiotemporal hotspot | KDE + DBSCAN/ST-DBSCAN | hotspots, spatial clusters |
+| 2 | Forecasting + spike alerts | Prophet / SARIMA per district×crime-type | trends, emerging alerts |
+| 3 | Risk scoring | gradient-boosted classifier/regressor | predictive risk dashboards |
+| 4 | Anomaly detection | Isolation Forest / statistical | anomaly call-outs |
+| 5 | MO / incident-profile clustering | HDBSCAN/K-means | pattern & MO discovery |
+| 6 | Case-outcome / detection-rate | supervised on FIR_Stage | "hidden correlations" (our differentiator) |
+| + | Graph co-occurrence & association | NetworkX + Louvain + Apriori/FP-Growth | entity link analysis |
+| + | Socio-economic correlation | Census join + correlation/regression | "why behind the where" |
+| (+) | **Privacy/anonymization layer** | Presidio-style pseudonymization (from P4) | "plug in SCRB person data safely" — pitch differentiator |
+
+---
+
+## 7. Gap-coverage strategy (4 buckets)
+
+- **Bucket 1 — Reconstruct (free, from existing data):** surrogate `CaseMasterID`; parse `ActSection` → Act/Section tables; build CrimeHead/District/Unit/Status/Gravity reference tables; derive Employee/Rank from `IOName`+`KGID`; temporal features (day-of-week/month/season).
+- **Bucket 2 — Enrich (real external data):** geocode missing coords (GeoNames/OSM + PS centroid fallback); Census/SHRUG socio-economic join; district GeoJSON; police-station list.
+- **Bucket 3 — Request from organizers (non-PII, exists in source):** time-of-day (`IncidentFromDate`), `BriefFacts` narrative.
+- **Bucket 4 — Descope or clearly-labelled demo:** person-level features. Optional: synthetic person layer for network-graph DEMO only, generated to match real aggregate counts, always labelled, never used for analytics/training. **DECISION PENDING (user wary of synthetic).**
+
+**Guardrail:** never fabricate data and present it as real.
+
+---
+
+## 8. External data requirements — `datasets/external/`
+
+Filing scheme: `boundaries/ · census/ · geonames/ · police_stations/ · lgd/`
+
+| Item | Purpose | Source | Status |
+|---|---|---|---|
+| District boundaries — TWO sets | maps/choropleth | DataMeet 2011 + KGIS 2021 | ✅ **2011 DataMeet** in `external/boundaries/india_districts_2011_datameet/` (641 India/30 KA, **WGS84 lat/long**, has census codes → joins Census PCA). ✅ **2021 KGIS** in `external/District/` (**31 KA districts incl. Vijayanagara + Bengaluru South**, high-res, fields KGISDistri + LGD_Distri → aligns w/ KGIS police KML + LGD files). ⚠️ **2021 set is UTM Zone 43N — MUST reproject to EPSG:4326 (lat/long)** before web use. ✅ DONE: reprojected → `boundaries/karnataka_districts_2021_kgis.geojson` (full-res 8.9MB, source of truth) + `.simplified.geojson` (0.21MB, 97% fewer vertices — the web map layer). Raw shapefile kept at `external/District/`. Name variants to normalize (Kalaburgi/Bagalkote/Kolara). |
+| Census 2011 PCA + KA population | socio-economic correlation + per-capita | data.gov.in (DDW PCA) | ✅ **in `external/census/`** — `DDW_PCA0000_2011_Indiastatedist.csv` (all-India state+district, 94 cols, Level=India/STATE/DISTRICT, TRU=Total/Rural/Urban; has pop, literacy, SC/ST, sex ratio, workers) + `DistricWisePoplnTWD.csv` (KA-only pop + SC/ST). Joins to boundaries via 2011 census codes. 2011 vintage (30 KA districts). Name standardization needed (Bangalore→Bengaluru etc.). |
+| GeoNames `IN` dump | geocode missing coords | download.geonames.org | ✅ **in `external/geonames/`** — `IN.txt` (659,977 places; KA = admin1 `19`, ~39k places) + readme. For fuzzy geocoding Village/Place names. |
+| Police-station list (+coords) | unit standardization, PS-centroid fallback, station-level maps | KGIS | ✅ **in `external/police_stations/` (KML)** — KGIS `ka_ps_locs`: **921 stations** with `POL_STAName` + coords + KGIS codes. Pin FIRs to station coords via UnitName match. |
+| LGD district/taluk/village codes | canonical joins, village geocoding | lgdirectory.gov.in | ✅ **in `external/lgd/`** — districts/subdistricts/villages as **SpreadsheetML XML** (not binary xls — parse via ElementTree/lxml). Villages file 34MB = all KA villages. |
+| IPC↔BNS crosswalk | legal dimension, 2024 transition | public | ✅ **in `external/ipc_bns_crosswalk.csv`** — official BNS 2023 ↔ IPC 1860 corresponding-section table (cols: PDF_Page, BNS_2023, IPC_1860, Status[New/Change/Deleted], Cross_Check). Needs cleaning (drop chapter/definition header rows; parse section numbers from text cells). Bridges FIR IPC (2016–24) ↔ 2025 BNS file. |
+| Karnataka holiday calendar | explain temporal spikes | `holidays` pkg | ⏳ optional |
+
+---
+
+## 9. Learnings from the 4 reference projects (`external_projects/_extracted/`)
+
+| Project | Take (best thing) | Leave / build better |
+|---|---|---|
+| **P1 Rakshakanetra** (Streamlit, Boston data) | Chart patterns: temporal heatmap + peak-callout (adapt to Day×Month), hotspot heat layer, cached filters | Weak RF model; Mongo/Boston layer; Streamlit (we go React) |
+| **P2 karnataka-crime-intelligence-platform** (full Catalyst app — our exact challenge) | **Architecture skeleton** + `etl/fir_incidents.py` streaming→compact-tables (fuzzy headers, KA bbox, grid aggregation); {ok,result} API + security + cache + DataStore/CSV fallback; 8-workspace IA; honest real-vs-synthetic separation | Shallow analytics (3-mo linear forecast, z-score hotspots/anomalies, kNN risk); synthetic hourly/network; no MO clustering; no outcome model |
+| **P3 police_rescue** (Flask) | "Nearest cluster → deployment plan with actionable suggestions" (proactive resource deployment) | LR on age+**sex**+city (fairness red flag); baked-in pkls; static HTML maps; hardcoded creds |
+| **P4 KSP_24** (2024 datathon WINNER, "Data Privacy") | **PII anonymization engine** (reversible consistent placeholders, hashing, de-anon map) + FIR/Crime-No regex + OCR → our privacy differentiator | Azure AI (use Catalyst Zia); heavy custom NER (we lack narrative text) |
+
+**Strategy:** P2 = architectural skeleton, P4 = privacy differentiator, P1/P3 = specific features, **our ML depth = where we out-build all four.**
+
+---
+
+## 10. Target architecture (from P2 + our improvements)
+
+```
+React+Vite SPA (Catalyst Web Hosting)
+   → API Gateway → crime_api (Advanced I/O Function)
+        → Catalyst Data Store (ZCQL)  ── CSV fallback (never hard-fail)
+   ingest_cron (Cron) · event_handler (Signals) · Pipelines (CI/CD)
+ETL (Python): stream FIR 546MB → compact API-ready tables
+DataStore schema modelled on the official ER diagram (subset we can populate)
+```
+
+---
+
+## 11. Fairness / ethics guardrails
+
+- **Never** use protected attributes (caste, religion, sex, occupation) as model features.
+- Socio-economic correlation stays **aggregate/area-level**, not individual profiling.
+- Predictive-policing carries feedback-loop bias risk → include a fairness/data-quality audit.
+- Any synthetic data must be **clearly labelled** and never presented as real.
+- Special/non-geographic units (CID, Coastal Security, ISD, Railways) bucketed separately from district maps.
+
+---
+
+## 12. BACKLOG — outstanding tasks & open decisions
+
+### Immediate next steps
+- [x] Reprojected 2021 KGIS districts → WGS84 GeoJSON in `boundaries/` (full-res 8.9MB + simplified 0.21MB web layer). Verified: bbox matches Karnataka extent.
+- [ ] Build a canonical district dimension (name + census code + LGD code + KGIS code) as the common join key across FIR/census/boundaries/stations.
+- [ ] Build the **data cleaning + ingestion pipeline** (Bucket 1 reconstruction + Tier-3 cleanups + 2024 partial flag + district-name standardization).
+- [ ] Design the **Catalyst Data Store schema** from the ER diagram (populated vs designed-only tables; surrogate key; ActSection→Act/Section split).
+- [ ] Adapt P2's `fir_incidents.py` streaming ETL to our improved pipeline.
+
+### Pending external data (user gathering)
+- [x] Core external data COMPLETE: boundaries ✅ · census ✅ · GeoNames ✅ · police stations ✅ · LGD ✅.
+- [x] IPC↔BNS crosswalk ✅ · 2021 KGIS district boundaries ✅ (both added).
+- [ ] Optional remaining: taluk/sub-district polygons; holidays (`holidays` pkg — no file needed).
+
+### Open decisions
+- [x] **Bucket 4 → YES:** build a **clearly-labelled synthetic** person/relationship layer (suspects, victims, co-offending, repeat offenders, networks) — matched to real aggregate counts, separate data plane, never used for real analytics/training, always UI-labelled.
+- [x] **Time-of-day → CONSTRUCT:** modeled per-crime-type profile (real day/night signal from `CrimeHead_Name` + criminological priors), labelled "estimated, not observed". (No longer blocking on an organizer request.)
+- [x] **Tech stack LOCKED:** Node+Express API · Python ML (offline) · React+Vite+ECharts+React-Leaflet frontend · Catalyst Data Store+CSV fallback. (Full framework list in §2 and `Plans/`.)
+- [ ] Green light to start scaffolding the Catalyst project skeleton (Phase 0 = data foundation).
+
+### Housekeeping
+- [x] `external_projects/_extracted/` deleted (fully mined; learnings in §9; re-extractable from the 4 zips). Empty `external/IN/` leftover also removed.
+
+---
+
+## 13. Decisions log
+
+- **2026-07-17** — Datathon uses self-sourced Kaggle FIR data; KSP provided only the ER diagram (schema, no data). ER diagram = target Data Store schema.
+- **2026-07-17** — `karnataka_model_ready.csv` confirmed synthetic → discarded.
+- **2026-07-17** — FIR file re-downloaded to full 1,674,734 rows after Excel truncation; rule: never open big CSVs in Excel.
+- **2026-07-17** — Person-level analysis descoped (Indian confidentiality law); network capability reframed to entity co-occurrence; person-network to be demoed only via labelled synthetic if approved.
+- **2026-07-17** — Model portfolio set at 6 models + 2 modules (+ optional privacy layer).
+- **2026-07-17** — Reference projects analyzed; P2 architecture + P4 anonymization adopted as key learnings.
+- **2026-07-17** — DataMeet district boundaries downloaded, verified, organized into `external/boundaries/`.
+- **2026-07-17** — Census 2011 socio-economic data acquired (DDW PCA all-India state+district + KA district population/SC-ST), filed in `external/census/`; joins to district boundaries via 2011 census codes.
+- **2026-07-17** — Acquired GeoNames IN (659,977 places, KA=admin1 19), KGIS police-station KML (921 stations w/ names+coords), and LGD Karnataka district/subdistrict/village files (SpreadsheetML). **Core external data now complete** (boundaries, census, geocoding, stations, LGD). Police KML enables pinning FIRs to real station coords — best fix for the 70% missing-coordinates gap.
+- **2026-07-17** — Added IPC↔BNS crosswalk (`external/ipc_bns_crosswalk.csv`, official corresponding-section table) and 2021 KGIS Karnataka district boundaries (`external/District/`, 31 districts incl. Vijayanagara). KGIS set is UTM Zone 43N → must reproject to EPSG:4326 for web maps; will become primary map layer. KGIS boundaries + KGIS police KML + LGD codes form a coherent joinable geospatial set.
+- **2026-07-17** — Reprojected 2021 KGIS district shapefile UTM43N→WGS84 and exported GeoJSON (full-res 8.9MB + simplified 0.21MB, 97.4% vertex reduction) into `external/boundaries/`. Reprojection verified (lon/lat bbox 74.09–78.59E, 11.60–18.48N = Karnataka). Simplified file is the web map layer; per-feature simplify may leave hairline shared-border gaps at deep zoom (use TopoJSON later if pixel-perfect borders needed).
+- **2026-07-17** — Cleanup: deleted `external_projects/_extracted/` (~100MB, fully mined, re-extractable from zips) and the empty `external/IN/` leftover. Kept the 4 reference zips (P2 = build skeleton, P4 = privacy reference). All real data + brief untouched.
+- **2026-07-17** — Two decisions locked: (A) **time-of-day will be CONSTRUCTED** as a clearly-labelled modeled per-crime-type profile (real day/night signal from CrimeHead + criminological priors) since it can't be recovered; (B) **person-relationship networks will use clearly-labelled SYNTHETIC data** (Bucket 4 approved) matched to real aggregate counts, kept in a separate data plane, never used for real analytics/training. Both surfaced in the Plans docs. Filled the 8 `Plans/*.md` planning documents.
+- **2026-07-17** — Tech stack finalized. **Backend = Node + Express** on Catalyst Advanced I/O (thin serving layer; models run offline in Python). **Python ML/ETL** = pandas+DuckDB, geopandas/shapely/pyproj, scikit-learn, Prophet(+statsmodels), LightGBM, hdbscan, NetworkX+louvain+mlxtend, Faker (synthetic). **Frontend** = React 18+Vite, TanStack Query, Zustand, React-Leaflet(+leaflet.heat), Apache ECharts, react-force-graph, Tailwind+shadcn/ui, TanStack Table. Geocoding via local GeoNames+station gazetteer + rapidfuzz (no cloud API). Deliberately avoiding DL/GNN/SDV/cloud-AI for reliability under time. Plans docs updated.
+- **2026-07-17** — Received the official Catalyst services↔capability table (deployment on Catalyst mandatory; using a 3rd-party alt where a Catalyst service exists may affect validity). Adoption decided (~17 services): CORE = Functions(Node API), Web Client Hosting, Data Store(+full-text search), API Gateway, Cache, Cron, Signals+Event, Authentication, Pipelines. ADOPTED = **Zia AutoML** (tabular models: risk + case-outcome, replacing LightGBM for those two), **AppSail Docker/Python** (host custom ETL + specialized models on Catalyst), **Mail+Push** (emerging-trend alerts), **SmartBrowz** (PDF reports, replacing jsPDF), **Stratus** (object storage). WOW = **QuickML LLM+RAG** (Ask-Intelligence assistant), **Zia OCR** (scanned FIRs), **Zia Voice+Translation** (voice + EN↔Kannada). PARKED (future_Ideas) = Circuits, Domain Mappings, NoSQL. SKIP = Connections. Custom Python (KDE/DBSCAN, Prophet, HDBSCAN, NetworkX, association rules) justified: no Catalyst equivalent → hosted on AppSail. Frontend viz libs (ECharts/Leaflet/force-graph) have no Catalyst equivalent. Docs updated: Complete_architecture §3, Models §0+#3+#6, Backend §1b, Frontend report-export.
+- **2026-07-17** — **Reversed the heavy Catalyst-services adoption** (user priority: minimize dependencies, build ourselves unless a service is clearly best; more services = more time/risk). **Core Catalyst services now just 3:** Functions (Node API), Web Client Hosting, Data Store. We build the rest ourselves: all models + ETL as an **offline Python build step** (incl. tabular risk/case-outcome via **LightGBM**, NOT Zia AutoML); alerts = in-app visual; report = client-side; static assets bundled; no AppSail/Mail/Push/SmartBrowz/Stratus/Cron/Signals/QuickML in core. Optional easy adds: Auth, API Gateway, Cache, Pipelines. Everything dropped is parked in `future_Ideas.md`. Accepted the stated "third-party may affect validity" tradeoff for speed/control; Zia AutoML (tabular) noted as the one service to reconsider if hedging. Docs updated (Complete_architecture §3, Backend §1/§1b, Models §0/#3/#6, Frontend report, future_Ideas).
+- **2026-07-17** — Scaffolded the monorepo folder architecture: `etl/` (+out/, common/), `ml/` (+out/), `functions/crime_api/src/{routes,lib,data}`, `client/src/{api,components,workspaces,state,styles}` + public/, plus root `README.md`, `.gitignore`, `requirements.txt`. Each app folder has a README pointing to its Plans spec. Empty subfolders hold `.gitkeep`. Phase 0 session fills `etl/`; Phase 1 fills `functions/crime_api` + `client`. (Folder layout mirrored into `Plans/context.md` §10.)
+- **2026-07-17** — Repo is **code-only**: entire `datasets/` and `external_projects/` are gitignored (data kept local; sourcing documented in §8). Committed = code (etl/ ml/ functions/ client/), Plans/, .kiro/steering, requirements.txt.

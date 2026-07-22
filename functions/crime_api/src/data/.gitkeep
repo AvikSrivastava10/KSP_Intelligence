@@ -1,0 +1,1 @@
+# bundled CSV fallback = copies of etl/out + ml/out (so the API never hard-fails)

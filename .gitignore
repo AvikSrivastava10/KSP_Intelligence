@@ -1,0 +1,82 @@
+# =====================================================================
+#  KSP Crime Intelligence Platform — .gitignore
+# =====================================================================
+
+# --- Reference material (not ours; bulky; studied, learnings captured in Plans/) ---
+external_projects/
+
+# --- Node / frontend deps & build ---
+node_modules/
+dist/
+build/
+.vite/
+*.local
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# --- Test / coverage / lint caches ---
+coverage/
+.nyc_output/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.cache/
+
+# --- Env / secrets (never commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+credentials.json
+secrets.json
+client-secret*.json
+service-account*.json
+
+# --- Zoho Catalyst artifacts ---
+.catalyst/
+catalyst-cli.log
+**/.catalyst/
+
+# --- Logs ---
+*.log
+logs/
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
+
+# --- ML model artifacts / heavy intermediates (regenerable) ---
+*.pkl
+*.joblib
+*.h5
+*.onnx
+ml/out/*.parquet
+etl/out/*.parquet
+
+# --- Data: code-only repo. ALL datasets kept local, NOT committed. ---
+# Sourcing + provenance documented in .kiro/steering/project-brief.md §8 and Plans/context.md §3.
+datasets/
+
+# --- Scratch ---
+_scratch/
+tmp/
