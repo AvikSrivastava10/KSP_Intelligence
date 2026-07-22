@@ -4,8 +4,8 @@
 > the data situation, constraints, the model plan, learnings, and the live backlog so
 > nothing gets lost between sessions. **Keep this updated as things change.**
 >
-> **Last updated:** 2026-07-17
-> **Status:** Planning / pre-build (data gathering in progress)
+> **Last updated:** 2026-07-22
+> **Status:** Phase 0 (data foundation) COMPLETE — ETL runs end-to-end, reconciles to 1,674,734 rows. Next: Phase 1 (Catalyst scaffold + Data Store load + API + Dashboard).
 
 ---
 
@@ -173,10 +173,11 @@ DataStore schema modelled on the official ER diagram (subset we can populate)
 
 ### Immediate next steps
 - [x] Reprojected 2021 KGIS districts → WGS84 GeoJSON in `boundaries/` (full-res 8.9MB + simplified 0.21MB web layer). Verified: bbox matches Karnataka extent.
-- [ ] Build a canonical district dimension (name + census code + LGD code + KGIS code) as the common join key across FIR/census/boundaries/stations.
-- [ ] Build the **data cleaning + ingestion pipeline** (Bucket 1 reconstruction + Tier-3 cleanups + 2024 partial flag + district-name standardization).
-- [ ] Design the **Catalyst Data Store schema** from the ER diagram (populated vs designed-only tables; surrogate key; ActSection→Act/Section split).
-- [ ] Adapt P2's `fir_incidents.py` streaming ETL to our improved pipeline.
+- [x] **Canonical district dimension** built → `etl/out/dim_district.csv` (41 FIR units → 31 KGIS polygons; 4 non-geographic units flagged; commissionerates → parent). Cross-validated vs KGIS/census/LGD (0 errors). Code: `etl/common/districts.py` + `etl/build_dim_district.py`.
+- [x] **Data cleaning + ingestion pipeline** built → `etl/ingest_fir.py` (streaming, reconciles to 1,674,734; BOM/tab fixes, surrogate `case_id`, `ActSection`→act/section, reference dims, rank from `IOName`, transfer-status collapse, geocoding w/ `geo_precision`, modeled time-of-day, temporal features, `is_2024_partial`).
+- [x] **Catalyst Data Store schema** designed → `etl/schema.md` (modelled on the ER diagram: REAL / MODELED / SYNTHETIC / designed-only planes) + `etl/load_datastore.py` dry-run stub.
+- [x] Adapted P2's `fir_incidents.py` streaming pattern into our deeper `etl/ingest_fir.py`.
+- [ ] **Phase 1 (next session):** Catalyst project scaffold + Data Store load (materialize case-level `case_master`) + `crime_api` (Node/Express) + React Dashboard.
 
 ### Pending external data (user gathering)
 - [x] Core external data COMPLETE: boundaries ✅ · census ✅ · GeoNames ✅ · police stations ✅ · LGD ✅.
@@ -187,7 +188,7 @@ DataStore schema modelled on the official ER diagram (subset we can populate)
 - [x] **Bucket 4 → YES:** build a **clearly-labelled synthetic** person/relationship layer (suspects, victims, co-offending, repeat offenders, networks) — matched to real aggregate counts, separate data plane, never used for real analytics/training, always UI-labelled.
 - [x] **Time-of-day → CONSTRUCT:** modeled per-crime-type profile (real day/night signal from `CrimeHead_Name` + criminological priors), labelled "estimated, not observed". (No longer blocking on an organizer request.)
 - [x] **Tech stack LOCKED:** Node+Express API · Python ML (offline) · React+Vite+ECharts+React-Leaflet frontend · Catalyst Data Store+CSV fallback. (Full framework list in §2 and `Plans/`.)
-- [ ] Green light to start scaffolding the Catalyst project skeleton (Phase 0 = data foundation).
+- [x] **Phase 0 (data foundation) COMPLETE** — green light to scaffold the Catalyst project skeleton in Phase 1.
 
 ### Housekeeping
 - [x] `external_projects/_extracted/` deleted (fully mined; learnings in §9; re-extractable from the 4 zips). Empty `external/IN/` leftover also removed.
@@ -214,3 +215,12 @@ DataStore schema modelled on the official ER diagram (subset we can populate)
 - **2026-07-17** — **Reversed the heavy Catalyst-services adoption** (user priority: minimize dependencies, build ourselves unless a service is clearly best; more services = more time/risk). **Core Catalyst services now just 3:** Functions (Node API), Web Client Hosting, Data Store. We build the rest ourselves: all models + ETL as an **offline Python build step** (incl. tabular risk/case-outcome via **LightGBM**, NOT Zia AutoML); alerts = in-app visual; report = client-side; static assets bundled; no AppSail/Mail/Push/SmartBrowz/Stratus/Cron/Signals/QuickML in core. Optional easy adds: Auth, API Gateway, Cache, Pipelines. Everything dropped is parked in `future_Ideas.md`. Accepted the stated "third-party may affect validity" tradeoff for speed/control; Zia AutoML (tabular) noted as the one service to reconsider if hedging. Docs updated (Complete_architecture §3, Backend §1/§1b, Models §0/#3/#6, Frontend report, future_Ideas).
 - **2026-07-17** — Scaffolded the monorepo folder architecture: `etl/` (+out/, common/), `ml/` (+out/), `functions/crime_api/src/{routes,lib,data}`, `client/src/{api,components,workspaces,state,styles}` + public/, plus root `README.md`, `.gitignore`, `requirements.txt`. Each app folder has a README pointing to its Plans spec. Empty subfolders hold `.gitkeep`. Phase 0 session fills `etl/`; Phase 1 fills `functions/crime_api` + `client`. (Folder layout mirrored into `Plans/context.md` §10.)
 - **2026-07-17** — Repo is **code-only**: entire `datasets/` and `external_projects/` are gitignored (data kept local; sourcing documented in §8). Committed = code (etl/ ml/ functions/ client/), Plans/, .kiro/steering, requirements.txt.
+- **2026-07-22** — **PHASE 0 (data foundation) COMPLETE.** Built the offline Python ETL in `etl/` (helpers in `etl/common/`, outputs in `etl/out/`), runs end-to-end in ~40s and **reconciles exactly to 1,674,734 rows**. Key outcomes:
+  - **Canonical district dimension** (`dim_district.csv`, 41 rows): hand-verified override map (`etl/common/districts.py`) mapping the 41 FIR units → 31 KGIS polygons; 4 non-geographic units (CID, Coastal Security, ISD, Karnataka Railways) flagged `is_geographic=false`; city commissionerates → parent district (share KGIS/census/LGD codes). Cross-validated vs 2021 KGIS + 2011 census SHP + LGD table (0 errors; expected fuzzy warnings: Ramanagara↔"Bengaluru South" 2024 rename, Kalaburagi↔"Gulbarga" 2011 name). LGD lgd↔census2011 pairing verified clean.
+  - **Streaming ingest** (`ingest_fir.py`): chunked (never Excel), UTF-8-BOM + tab-header (`Arrested Count\tNo.`) fixes, categorical trim, deterministic surrogate `case_id`, `ActSection`→`dim_act`(4831)/`dim_section`(17465), reference dims (`dim_crime_head` 107, `dim_crime_subhead` 626, `dim_case_status` 13 with the ~300 `Transfered :UI(...)` variants collapsed → `Transferred`, `dim_gravity` 2, `dim_rank` 21 from `IOName` suffix, `dim_complaint_mode` 10).
+  - **Geocoding** (multi-tier, tagged `geo_precision`): real point 29.92% → **99.54% after** (point 501,075 / KGIS-station 1,014,580 / GeoNames place 20,276 / district-centroid 131,146 / none 7,657 = the non-geographic specials). 875/1071 distinct units matched to KGIS station coords (name + district-census disambiguation + rapidfuzz).
+  - **Modeled time-of-day** (`agg_timeofday.csv`, `data_class=modeled`): real day/night signal is in **`CrimeGroup_Name`** (`BURGLARY - NIGHT/DAY`) → `category_encoded`; else `criminological_prior`; else `default_distributed`. Illustrative only; never trains models.
+  - **Aggregates:** `agg_district_month` (124,314 — forecasting base), `agg_hotspots` (142,048 — grid `(lat,lng,precision,year)`, kept compact ~3.5MB; per-cell category dropped, coarse category trend lives in `agg_district_month`), `agg_unit` (1,074 stations + mean coords), `agg_outcomes` (41 districts, rates), `agg_case_status` (514), `agg_socioeconomic` (30 — 2011 Census per-capita join; Vijayanagara folds into Ballari 565; specials excluded), `meta.json` (full provenance).
+  - **Data-quality finds:** raw `VICTIM COUNT` column is **dead** (sum≈464 statewide) → `victims` computed from Male+Female+Boy+Girl (real; e.g. RAPE≈1.0, MURDER≈1.15/case) as a **total** (sex never a model feature — guardrail respected). Real points validated to KA bbox (501,075 vs 508,066 raw-filled; ~7k invalid/out-of-state dropped). Outcome rates can exceed 1 for the 4 specials (inconsistent source count cols) — kept raw/honest.
+  - **Schema:** `etl/schema.md` defines the Catalyst Data Store on the official ER diagram (REAL populated / MODELED / SYNTHETIC-plane / designed-only person+narrative+time tables) + `load_datastore.py` dry-run stub. Case-level `case_master` materialization deferred to Phase 1.
+  - Committed on `main` (code + `etl/out/` CSV/json per `.gitignore`, which excludes only parquet in out/). `Plans/future_Ideas.md` left untouched (user-owned).
