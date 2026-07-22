@@ -1,0 +1,87 @@
+{
+  "generated_at_utc": "2026-07-22T05:23:14.259452+00:00",
+  "source_file": "FIR_Details_Data.csv",
+  "source_size_bytes": 572681781,
+  "partial_run": false,
+  "total_rows_processed": 1674734,
+  "expected_rows": 1674734,
+  "row_count_reconciles": true,
+  "per_year_counts": {
+    "2016": 227717,
+    "2017": 246839,
+    "2018": 219447,
+    "2019": 175486,
+    "2020": 160547,
+    "2021": 175857,
+    "2022": 195170,
+    "2023": 231326,
+    "2024": 42345
+  },
+  "note_2024_partial": "2024 is a partial year; exclude from YoY/forecast training baselines.",
+  "coordinate_coverage": {
+    "before_geocoding_real_points": 501075,
+    "before_pct": 29.92,
+    "after_geocoding_with_coord": 1667077,
+    "after_pct": 99.54,
+    "by_precision": {
+      "point": 501075,
+      "station": 1014580,
+      "place": 20276,
+      "district": 131146,
+      "none": 7657
+    }
+  },
+  "geocoding": {
+    "distinct_units_seen": 1071,
+    "units_matched_to_station": 875,
+    "police_stations_loaded": 921,
+    "geoname_place_names_loaded": 24907
+  },
+  "districts": {
+    "fir_units_total": 41,
+    "geographic": 37,
+    "non_geographic": 4,
+    "unknown_district_rows": {}
+  },
+  "reference_dim_sizes": {
+    "major_heads": 107,
+    "sub_heads": 626,
+    "case_statuses": 13,
+    "acts": 4831,
+    "sections": 17465,
+    "ranks": 21
+  },
+  "tables": {
+    "agg_district_month.csv": 124314,
+    "agg_hotspots.csv": 142048,
+    "agg_unit.csv": 1074,
+    "agg_outcomes.csv": 41,
+    "agg_case_status.csv": 514,
+    "agg_timeofday.csv": 3128,
+    "dim_crime_head.csv": 107,
+    "dim_crime_subhead.csv": 626,
+    "dim_case_status.csv": 13,
+    "dim_gravity.csv": 2,
+    "dim_complaint_mode.csv": 10,
+    "dim_act.csv": 4831,
+    "dim_section.csv": 17465,
+    "dim_rank.csv": 21,
+    "agg_socioeconomic.csv": 30
+  },
+  "data_class": {
+    "real": [
+      "agg_district_month",
+      "agg_hotspots",
+      "agg_unit",
+      "agg_outcomes",
+      "agg_case_status",
+      "agg_socioeconomic",
+      "dim_*"
+    ],
+    "modeled": [
+      "agg_timeofday (estimated time-of-day, not observed)"
+    ],
+    "synthetic": []
+  },
+  "guardrails": "No protected attributes (caste/religion/sex/occupation) used as features. Modeled time-of-day is illustrative only and never used to train models."
+}

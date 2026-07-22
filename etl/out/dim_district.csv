@@ -1,0 +1,42 @@
+canonical_name,kgis_code,lgd_code,census_code_2011,is_geographic,parent_district
+Bengaluru City,20,525,572,true,Bengaluru Urban
+Bengaluru Rural,21,526,583,true,Bengaluru Rural
+Tumakuru,18,548,571,true,Tumakuru
+Shivamogga,15,547,568,true,Shivamogga
+Mandya,22,544,573,true,Mandya
+Belagavi,01,527,555,true,Belagavi
+Belagavi City,01,527,555,true,Belagavi
+Hassan,23,539,574,true,Hassan
+Mysuru,26,545,577,true,Mysuru
+Mysuru City,26,545,577,true,Mysuru
+Chitradurga,13,533,566,true,Chitradurga
+Ramanagara,29,631,584,true,Ramanagara
+Vijayapura,03,530,557,true,Vijayapura
+Davanagere,14,535,567,true,Davanagere
+Bidar,05,529,558,true,Bidar
+Chikkaballapura,28,630,582,true,Chikkaballapura
+Raichur,06,546,559,true,Raichur
+Chikkamagaluru,17,532,570,true,Chikkamagaluru
+Uttara Kannada,10,550,563,true,Uttara Kannada
+Mangaluru City,24,534,575,true,Dakshina Kannada
+Dakshina Kannada,24,534,575,true,Dakshina Kannada
+Kalaburagi,04,538,579,true,Kalaburagi
+Kalaburagi City,04,538,579,true,Kalaburagi
+Haveri,11,540,564,true,Haveri
+Udupi,16,549,569,true,Udupi
+Ballari,12,528,565,true,Ballari
+Bagalkote,02,524,556,true,Bagalkote
+Vijayanagara,31,738,,true,Vijayanagara
+Koppal,07,543,560,true,Koppal
+Hubballi-Dharwad City,09,536,562,true,Dharwad
+Dharwad,09,536,562,true,Dharwad
+Kolar,19,542,581,true,Kolar
+K.G.F,19,542,581,true,Kolar
+Chamarajanagar,27,531,578,true,Chamarajanagar
+Yadgir,30,635,580,true,Yadgir
+Kodagu,25,541,576,true,Kodagu
+Gadag,08,537,561,true,Gadag
+Karnataka Railways,,,,false,
+Coastal Security Police,,,,false,
+CID,,,,false,
+ISD Bengaluru,,,,false,
