@@ -9,10 +9,10 @@ export default function HeatLayer({ points }) {
   useEffect(() => {
     if (!points || !points.length) return undefined;
     const layer = L.heatLayer(points, {
-      radius: 18,
-      blur: 22,
-      maxZoom: 13,
-      minOpacity: 0.28,
+      radius: 11,
+      blur: 12,
+      maxZoom: 12,
+      minOpacity: 0.2,
       max: 1.0,
       gradient: { 0.2: "#2563eb", 0.4: "#22c55e", 0.6: "#eab308", 0.8: "#f97316", 1.0: "#dc2626" },
     });

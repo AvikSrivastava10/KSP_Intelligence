@@ -17,11 +17,15 @@ Run:  python ml/hotspots.py
 """
 from __future__ import annotations
 
+import json
 import os
 import time
 
 import numpy as np
 import pandas as pd
+from shapely.geometry import Point, shape
+from shapely.ops import unary_union
+from shapely.prepared import prep
 from sklearn.cluster import DBSCAN
 from sklearn.metrics import silhouette_score
 from sklearn.neighbors import BallTree
@@ -31,10 +35,13 @@ KEEP_PRECISION = {"point", "station", "place"}   # excludes district-centroid + 
 BW_KM = 2.0          # KDE Gaussian bandwidth
 EPS_KM = 3.0         # DBSCAN neighbourhood radius
 MIN_WEIGHT = 400     # DBSCAN min_samples (weighted): incidents needed for a core area
+LAND_BUFFER_DEG = 0.03   # ~3 km tolerance so legit coastal/border cells survive the land clip
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 IN_DIR = os.path.join(ROOT, "etl", "out")
 OUT_DIR = os.path.join(ROOT, "ml", "out")
+KGIS_GEOJSON = os.path.join(ROOT, "datasets", "external", "boundaries",
+                            "karnataka_districts_2021_kgis.geojson")
 
 
 def haversine_km(lat1, lon1, lat2, lon2):
@@ -43,6 +50,38 @@ def haversine_km(lat1, lon1, lat2, lon2):
     dlon = np.radians(lon2 - lon1)
     a = np.sin(dlat / 2) ** 2 + np.cos(r1) * np.cos(r2) * np.sin(dlon / 2) ** 2
     return 2 * EARTH_KM * np.arcsin(np.sqrt(a))
+
+
+def _karnataka_land():
+    """Prepared Karnataka landmass polygon (union of KGIS districts, buffered ~3 km).
+
+    Phase-0 geocoding validates points only against a loose KA bounding box
+    (KA_LON=(73.8, 78.9)), so some real/geocoded coordinates land in the Arabian
+    Sea or neighbouring states and then bleed across the heat layer. Clipping the
+    hotspot cells to the actual state polygon removes those without touching the
+    Phase-0 outputs. The small outward buffer keeps genuine coastal/border cells.
+    """
+    with open(KGIS_GEOJSON, encoding="utf-8") as f:
+        gj = json.load(f)
+    union = unary_union([shape(ft["geometry"]) for ft in gj["features"]])
+    if LAND_BUFFER_DEG:
+        union = union.buffer(LAND_BUFFER_DEG)
+    return prep(union)
+
+
+def clip_to_land(df):
+    """Drop cells whose (lat, lng) fall outside the Karnataka landmass."""
+    land = _karnataka_land()
+    uniq = df[["lat", "lng"]].drop_duplicates().copy()
+    uniq["on_land"] = [land.contains(Point(float(lng), float(lat)))
+                       for lat, lng in zip(uniq["lat"], uniq["lng"])]
+    df = df.merge(uniq, on=["lat", "lng"], how="left")
+    off = df[~df["on_land"]]
+    if len(off):
+        print(f"[hotspots] LAND CLIP: removed {len(off):,} offshore/out-of-state cell-rows "
+              f"({int(off['count'].sum()):,} incidents; "
+              f"{uniq['on_land'].eq(False).sum():,} unique cells) — Arabian Sea / neighbouring states")
+    return df[df["on_land"]].drop(columns="on_land").copy()
 
 
 def main():
@@ -57,6 +96,9 @@ def main():
     print(f"[hotspots] loaded {before:,} grid rows; kept {len(df):,} "
           f"(point/station/place); EXCLUDED {excluded:,} district-centroid/none rows")
     assert not (df["geo_precision"] == "district").any(), "district-centroid leaked into point layer!"
+
+    # ---- LAND CLIP: keep only cells inside the Karnataka polygon ----
+    df = clip_to_land(df)
 
     # ---- aggregate over years per cell (for density + clustering) ----
     agg = df.groupby(["lat", "lng"], as_index=False).agg(count=("count", "sum"))

@@ -70,7 +70,7 @@ export default function HotspotMap() {
     let maxC = 0;
     for (const c of cells) if (c.count > maxC) maxC = c.count; // avoid Math.max(...bigArray) spread
     const denom = Math.log1p(maxC) || 1;
-    return cells.map((c) => [c.lat, c.lng, Math.max(0.06, Math.log1p(c.count) / denom)]);
+    return cells.map((c) => [c.lat, c.lng, Math.max(0.03, Math.log1p(c.count) / denom)]);
   }, [cells]);
 
   const clusters = clustersQ.data?.result?.clusters || [];
