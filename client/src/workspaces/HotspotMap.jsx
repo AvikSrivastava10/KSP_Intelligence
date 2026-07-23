@@ -137,7 +137,7 @@ export default function HotspotMap() {
           <div className="relative h-[620px]">
             {layers.heat && !hotspotsQ.isFetching && !hotspotsQ.error && heatPoints.length === 0 && (
               <div className="pointer-events-none absolute left-1/2 top-4 z-[1000] -translate-x-1/2 rounded-full border border-slate-300 bg-white/95 px-4 py-1.5 text-xs text-slate-600 shadow">
-                No hotspot cells for this filter — try another year or precision.
+                No hotspot cells match the current filter.
               </div>
             )}
             <MapContainer center={[15.0, 76.2]} zoom={7} minZoom={5} style={{ height: "100%", width: "100%" }} scrollWheelZoom zoomControl>
@@ -215,7 +215,7 @@ export default function HotspotMap() {
                 /> {p.label}
               </label>
             ))}
-            <p className="mt-1 text-[10px] leading-snug text-slate-400">Narrows the heat layer. At least one type stays selected.</p>
+            <p className="mt-1 text-[10px] leading-snug text-slate-400">Filters the heat layer by coordinate precision.</p>
           </div>
 
           {/* Legend */}
@@ -238,8 +238,7 @@ export default function HotspotMap() {
           <div className="glass rounded-2xl p-4">
             <div className="text-sm font-semibold text-slate-900">{selected ? selected.district : "Statewide"}</div>
             <div className="mt-1 text-xs text-slate-500">
-              {selected ? "Click a station marker for its counts. " : "Click a district to zoom + load its stations. "}
-              {layers.stations ? `${stations.length} stations shown${!selected ? " (top 300)" : ""}.` : "Enable the station layer to see stations."}
+              {layers.stations ? `${stations.length} stations shown${!selected ? " (top 300 by volume)" : ""}.` : "Station layer is off."}
             </div>
             {selected && (
               <button onClick={() => setSelected(null)} className="mt-2 rounded-lg bg-slate-900/[0.05] px-2 py-1 text-xs text-slate-600 hover:bg-slate-900/10">

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FileStack, Landmark, CalendarRange, Gavel, ShieldCheck, LocateFixed, ChevronDown, Sparkles } from "lucide-react";
+import { FileStack, Landmark, CalendarRange, Gavel, ShieldCheck, LocateFixed, Sparkles } from "lucide-react";
 import { fetchOverview, fetchDistricts } from "../api/client.js";
 import { useFilters } from "../state/store.js";
 import KpiCard from "../components/KpiCard.jsx";
@@ -40,7 +40,7 @@ export default function Dashboard() {
   return (
     <div className="mx-auto max-w-[1500px] space-y-10 pb-10">
       {/* ---------- Hero ---------- */}
-      <Reveal as="section" className="glass-strong relative overflow-hidden rounded-4xl px-6 py-10 md:px-10 md:py-14">
+      <Reveal as="section" className="glass-strong !border-0 relative overflow-hidden rounded-4xl px-6 py-10 md:px-10 md:py-14">
         <div className="pointer-events-none absolute -right-10 -top-10 h-56 w-56 rounded-full bg-indigo-400/15 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-16 left-1/3 h-56 w-56 rounded-full bg-sky-400/15 blur-3xl" />
         <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center">
@@ -60,9 +60,6 @@ export default function Dashboard() {
               Karnataka, cleaned, geocoded, and analysed for the State Crime Records Bureau.
             </p>
           </div>
-        </div>
-        <div className="mt-8 flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-slate-500">
-          <ChevronDown size={14} className="animate-bounce text-indigo-500" /> Scroll to explore
         </div>
       </Reveal>
 
@@ -98,7 +95,7 @@ export default function Dashboard() {
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-900/8 px-4 py-3">
             <div>
               <div className="text-sm font-semibold text-slate-900">District choropleth</div>
-              <div className="text-[11px] text-slate-500">Joined to boundaries on kgis_code · click to drill down</div>
+              <div className="text-[11px] text-slate-500">Joined to boundaries on kgis_code</div>
             </div>
             <div className="neo-inset flex gap-1 rounded-xl p-1">
               <button

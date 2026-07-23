@@ -31,9 +31,9 @@ export default function DrillDownPanel() {
           <div className="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-indigo-50 text-indigo-600">
             <MapPin size={22} />
           </div>
-          <div className="text-sm font-medium text-slate-700">Select a district</div>
+          <div className="text-sm font-medium text-slate-700">No district selected</div>
           <div className="mx-auto mt-1 max-w-[220px] text-xs text-slate-500">
-            Click any district on the map to reveal its monthly trend, crime mix, and case outcomes.
+            District-level monthly trend, crime mix, and case outcomes appear here.
           </div>
         </div>
       </div>

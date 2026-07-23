@@ -28,8 +28,8 @@ body {
   z-index: -2;
   background-size: cover;
   background-position: center 20%;
-  filter: grayscale(35%) brightness(1.06) blur(2px);
-  transform: scale(1.06);
+  filter: grayscale(28%) brightness(1.04) blur(1.5px);
+  transform: scale(1.05);
 }
 .app-scrim {
   position: fixed;
@@ -38,7 +38,7 @@ body {
   background:
     radial-gradient(1100px 560px at 12% -5%, rgba(99, 102, 241, 0.06), transparent 60%),
     radial-gradient(900px 520px at 105% 108%, rgba(2, 132, 199, 0.05), transparent 55%),
-    linear-gradient(180deg, rgba(238, 241, 246, 0.9) 0%, rgba(238, 241, 246, 0.94) 55%, rgba(238, 241, 246, 0.97) 100%);
+    linear-gradient(180deg, rgba(238, 241, 246, 0.85) 0%, rgba(238, 241, 246, 0.89) 55%, rgba(238, 241, 246, 0.92) 100%);
 }
 
 /* ---- Glassmorphism (white frosted cards) ---- */
