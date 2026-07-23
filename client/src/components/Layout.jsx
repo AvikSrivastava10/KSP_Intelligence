@@ -22,8 +22,8 @@ function Emblem({ size = "h-10 w-10" }) {
 
 export default function Layout({ children }) {
   return (
-    <div className="relative flex min-h-screen text-slate-100">
-      {/* Faint KSP marching backdrop */}
+    <div className="relative flex min-h-screen text-slate-900">
+      {/* Faint KSP marching watermark */}
       <div className="app-bg" style={{ backgroundImage: `url(${asset("ksp-marching.jpg")})` }} aria-hidden="true" />
       <div className="app-scrim" aria-hidden="true" />
 
@@ -32,13 +32,13 @@ export default function Layout({ children }) {
         <div className="flex items-center gap-3 px-1 py-2">
           <Emblem />
           <div className="leading-tight">
-            <div className="text-[13px] font-bold tracking-wide text-white">Karnataka State Police</div>
-            <div className="text-[11px] text-ksp-gold/80">Crime Intelligence · SCRB</div>
+            <div className="text-[13px] font-bold tracking-wide text-slate-900">Karnataka State Police</div>
+            <div className="text-[11px] font-medium text-indigo-600">Crime Intelligence · SCRB</div>
           </div>
         </div>
 
-        <div className="my-4 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
-        <div className="px-2 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">Workspaces</div>
+        <div className="my-4 h-px bg-gradient-to-r from-transparent via-slate-900/10 to-transparent" />
+        <div className="px-2 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">Workspaces</div>
 
         <nav className="space-y-1.5">
           {NAV.map((n) => (
@@ -51,9 +51,9 @@ export default function Layout({ children }) {
                   "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-300",
                   n.enabled
                     ? isActive
-                      ? "neo text-ksp-gold shadow-glow"
-                      : "text-slate-300 hover:bg-white/5 hover:text-white"
-                    : "pointer-events-none text-slate-600",
+                      ? "bg-slate-900 text-white shadow-glow"
+                      : "text-slate-600 hover:bg-slate-900/[0.05] hover:text-slate-900"
+                    : "pointer-events-none text-slate-400/70",
                 ].join(" ")
               }
             >
@@ -62,13 +62,13 @@ export default function Layout({ children }) {
                   <span
                     className={[
                       "grid h-8 w-8 place-items-center rounded-lg transition-colors",
-                      n.enabled && isActive ? "bg-ksp-saffron/15 text-ksp-gold" : "bg-white/5 text-slate-400 group-hover:text-white",
+                      n.enabled && isActive ? "bg-white/15 text-white" : "bg-slate-900/[0.05] text-slate-500 group-hover:text-slate-900",
                     ].join(" ")}
                   >
                     <n.icon size={16} />
                   </span>
                   <span className="flex-1">{n.label}</span>
-                  {!n.enabled && <span className="rounded-full bg-white/5 px-1.5 py-0.5 text-[9px] text-slate-500">soon</span>}
+                  {!n.enabled && <span className="rounded-full bg-slate-900/[0.06] px-1.5 py-0.5 text-[9px] text-slate-400">soon</span>}
                 </>
               )}
             </NavLink>
@@ -76,9 +76,9 @@ export default function Layout({ children }) {
         </nav>
 
         <div className="mt-auto">
-          <div className="glass rounded-2xl p-3 text-[11px] leading-relaxed text-slate-400">
-            <div className="mb-1 flex items-center gap-1.5 font-semibold text-slate-200">
-              <ShieldCheck size={13} className="text-zinc-300" /> Phase 1 · live
+          <div className="glass rounded-2xl p-3 text-[11px] leading-relaxed text-slate-500">
+            <div className="mb-1 flex items-center gap-1.5 font-semibold text-slate-700">
+              <ShieldCheck size={13} className="text-emerald-500" /> Phase 1 · live
             </div>
             Statewide dashboard on real FIR data. Hotspots, forecasts, risk & network land in later phases.
           </div>
@@ -94,17 +94,17 @@ export default function Layout({ children }) {
               <Emblem size="h-9 w-9" />
             </div>
             <div>
-              <div className="text-sm font-semibold text-white">Crime Intelligence &amp; Analytical Platform</div>
-              <div className="text-[11px] text-slate-400">Karnataka State Crime Records Bureau</div>
+              <div className="text-sm font-semibold text-slate-900">Crime Intelligence &amp; Analytical Platform</div>
+              <div className="text-[11px] text-slate-500">Karnataka State Crime Records Bureau</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="hidden items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-zinc-200 sm:inline-flex">
-              <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-white" /> Live
+            <span className="hidden items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-50 px-2.5 py-1 text-[11px] font-medium text-emerald-700 sm:inline-flex">
+              <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-emerald-500" /> Live
             </span>
-            <span className="hidden text-[11px] text-slate-500 md:inline">Hack2Skill Datathon 2026</span>
+            <span className="hidden text-[11px] text-slate-400 md:inline">Hack2Skill Datathon 2026</span>
             <div className="md:hidden">
-              <span className="text-[11px] text-slate-400">SCRB</span>
+              <span className="text-[11px] text-slate-500">SCRB</span>
             </div>
           </div>
         </header>

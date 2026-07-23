@@ -4,26 +4,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Monochrome (black & white) accent scale — kept under the `ksp` keys so all
-        // existing text-ksp-*/bg-ksp-* usages resolve to grayscale without edits.
-        ksp: {
-          saffron: "#C7C7CE",
-          gold: "#EDEDF0",
-          red: "#A1A1AA",
-          navy: "#0A0A0B",
-          khaki: "#9A9AA2",
-        },
+        ksp: { saffron: "#f97316", gold: "#d97706", red: "#dc2626", navy: "#0f172a", khaki: "#a16207" },
       },
       fontFamily: {
         sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif"],
       },
       borderRadius: { "4xl": "2rem" },
       boxShadow: {
-        glass: "0 8px 32px rgba(0,0,0,0.37), inset 0 1px 0 rgba(255,255,255,0.06)",
-        "glass-lg": "0 24px 70px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08)",
-        neo: "6px 6px 16px rgba(0,0,0,0.55), -6px -6px 16px rgba(255,255,255,0.035)",
-        "neo-inset": "inset 4px 4px 10px rgba(0,0,0,0.55), inset -4px -4px 10px rgba(255,255,255,0.035)",
-        glow: "0 0 0 1px rgba(255,255,255,0.22), 0 10px 34px rgba(255,255,255,0.10)",
+        glass: "0 1px 2px rgba(15,23,42,0.04), 0 10px 30px rgba(15,23,42,0.07)",
+        "glass-lg": "0 12px 44px rgba(15,23,42,0.12)",
+        neo: "5px 5px 12px rgba(174,179,190,0.55), -5px -5px 12px rgba(255,255,255,0.9)",
+        "neo-inset": "inset 4px 4px 9px rgba(174,179,190,0.5), inset -4px -4px 9px rgba(255,255,255,0.9)",
+        glow: "0 0 0 1px rgba(99,102,241,0.35), 0 10px 30px rgba(99,102,241,0.18)",
       },
       keyframes: {
         fadeUp: { "0%": { opacity: 0, transform: "translateY(24px)" }, "100%": { opacity: 1, transform: "translateY(0)" } },

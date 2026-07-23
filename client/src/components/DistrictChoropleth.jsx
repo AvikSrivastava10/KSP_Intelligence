@@ -2,9 +2,9 @@ import { useMemo } from "react";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { useFilters } from "../state/store.js";
 
-// Grayscale heat: dark (low) -> white (high). Reads clearly on the dark basemap.
-const PALETTE = ["#2a2a2e", "#3d3d42", "#525259", "#6b6b73", "#8a8a92", "#adadb4", "#d0d0d5", "#f5f5f7"];
-const NO_DATA = "#1f1f22";
+// Sequential crime-intensity heat (light yellow = low -> deep red = high) on a light basemap.
+const PALETTE = ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"];
+const NO_DATA = "#e5e7eb";
 
 function makeScale(values) {
   const sorted = values.filter((v) => v != null && !Number.isNaN(v)).sort((a, b) => a - b);
@@ -41,8 +41,8 @@ export default function DistrictChoropleth({ districts, metric, geojson }) {
     return {
       fillColor: scale(valueOf(d, metric)),
       weight: isSel ? 3 : 1,
-      color: isSel ? "#ffffff" : "rgba(8,8,10,0.85)",
-      fillOpacity: isSel ? 0.92 : 0.8,
+      color: isSel ? "#4f46e5" : "#ffffff",
+      fillOpacity: isSel ? 0.95 : 0.85,
     };
   };
 
@@ -54,10 +54,10 @@ export default function DistrictChoropleth({ districts, metric, geojson }) {
     else if (metric === "crimes_per_100k")
       line = d.crimes_per_100k != null ? `${d.crimes_per_100k.toLocaleString()} / 100k` : "per-capita N/A";
     else line = `${d.total_cases.toLocaleString()} FIRs`;
-    layer.bindTooltip(`<b style="color:#ffffff">${name}</b><br/>${line}`, { sticky: true, className: "ksp-tip" });
+    layer.bindTooltip(`<b style="color:#4f46e5">${name}</b><br/>${line}`, { sticky: true, className: "ksp-tip" });
     layer.on({
       click: () => d && selectDistrict(d.district),
-      mouseover: (e) => e.target.setStyle({ weight: 2.5, color: "#ffffff", fillOpacity: 0.95 }),
+      mouseover: (e) => e.target.setStyle({ weight: 2.5, color: "#4f46e5", fillOpacity: 0.98 }),
       mouseout: (e) => e.target.setStyle(baseStyle(feature)),
     });
   };
@@ -74,7 +74,7 @@ export default function DistrictChoropleth({ districts, metric, geojson }) {
       zoomControl
     >
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         attribution='&copy; OpenStreetMap &copy; CARTO'
       />
       {geojson && <GeoJSON key={geoKey} data={geojson} style={baseStyle} onEachFeature={onEachFeature} />}
