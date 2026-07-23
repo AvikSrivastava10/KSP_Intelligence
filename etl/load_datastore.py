@@ -73,13 +73,23 @@ SCHEMA = {
     "agg_timeofday": [("canonical_name", V), ("major_head", V), ("modeled_time_of_day", V),
                       ("method", V), ("count", B)],  # data_class = modeled
     "entity_edges": [("src_type", V), ("src", V), ("dst_type", V), ("dst", V), ("weight", B)],
+    # Phase 2 — geospatial hotspots (real; district-centroid points excluded upstream)
+    "hotspot_cells": [("lat", D), ("lng", D), ("count", B), ("density", D),
+                      ("cluster_id", B), ("geo_precision", V), ("year", B)],
+    "hotspot_clusters": [("cluster_id", B), ("centroid_lat", D), ("centroid_lng", D),
+                         ("n_points", B), ("total_count", B), ("canonical_name", V),
+                         ("radius_km", D), ("top_category", V), ("deployment_note", V)],
 }
 VARCHAR_MAX = 255  # every string column here is well under 255 chars
 MODELED = {"agg_timeofday"}
 
 
 def csv_path(table):
-    return os.path.join(paths.OUT_DIR, f"{table}.csv")
+    p = os.path.join(paths.OUT_DIR, f"{table}.csv")
+    if os.path.exists(p):
+        return p
+    ml = os.path.join(paths.REPO_ROOT, "ml", "out", f"{table}.csv")  # Phase 2 model outputs
+    return ml if os.path.exists(ml) else p
 
 
 def read_rows(table):

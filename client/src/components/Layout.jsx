@@ -5,7 +5,7 @@ const asset = (p) => `${import.meta.env.BASE_URL}${p}`;
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, enabled: true },
-  { to: "/hotspots", label: "Hotspot Map", icon: Map, enabled: false },
+  { to: "/hotspots", label: "Hotspot Map", icon: Map, enabled: true },
   { to: "/trends", label: "Trends & Forecast", icon: TrendingUp, enabled: false },
   { to: "/risk", label: "Risk & Vulnerability", icon: ShieldAlert, enabled: false },
   { to: "/network", label: "Network & Link", icon: Network, enabled: false },

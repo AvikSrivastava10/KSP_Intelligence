@@ -460,6 +460,88 @@
           "data_type": "bigint"
         }
       ]
+    },
+    {
+      "table_name": "hotspot_cells",
+      "data_class": "real",
+      "row_count": null,
+      "columns": [
+        {
+          "column_name": "lat",
+          "data_type": "double"
+        },
+        {
+          "column_name": "lng",
+          "data_type": "double"
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "density",
+          "data_type": "double"
+        },
+        {
+          "column_name": "cluster_id",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "geo_precision",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "year",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "hotspot_clusters",
+      "data_class": "real",
+      "row_count": null,
+      "columns": [
+        {
+          "column_name": "cluster_id",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "centroid_lat",
+          "data_type": "double"
+        },
+        {
+          "column_name": "centroid_lng",
+          "data_type": "double"
+        },
+        {
+          "column_name": "n_points",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "total_count",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "canonical_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "radius_km",
+          "data_type": "double"
+        },
+        {
+          "column_name": "top_category",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "deployment_note",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
     }
   ]
 }
