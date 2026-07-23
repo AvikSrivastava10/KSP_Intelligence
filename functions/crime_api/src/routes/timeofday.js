@@ -1,6 +1,6 @@
 "use strict";
 const { getTable } = require("../lib/store");
-const { loadDistrictIndex, num } = require("../lib/districts");
+const { loadDistrictIndex, num, safeDecode } = require("../lib/districts");
 
 // Bucket display order (Phase 0 emits: Night, Daytime, Morning, Afternoon, Evening, Distributed)
 const ORDER = ["Night", "Morning", "Daytime", "Afternoon", "Evening", "Distributed"];
@@ -15,8 +15,8 @@ const NOTE =
 module.exports = (router, asyncH) => {
   router.get("/timeofday", asyncH(async (req, res) => {
     const rows = await getTable("agg_timeofday", req.ctx);
-    const d = req.query.district ? decodeURIComponent(req.query.district) : null;
-    const cat = req.query.category ? decodeURIComponent(req.query.category) : null;
+    const d = safeDecode(req.query.district);
+    const cat = safeDecode(req.query.category);
 
     let memberSet = null;
     if (d) {

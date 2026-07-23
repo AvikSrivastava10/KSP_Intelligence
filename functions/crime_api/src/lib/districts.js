@@ -27,4 +27,14 @@ async function loadDistrictIndex(ctx) {
   return { rows, geo, membersByParent, kgisByParent, censusByParent, parentByCanonical };
 }
 
-module.exports = { loadDistrictIndex, num, rate };
+// Safe URI decode — malformed input (e.g. a stray %) returns the raw string instead of throwing.
+const safeDecode = (s) => {
+  if (s == null) return null;
+  try {
+    return decodeURIComponent(String(s));
+  } catch (e) {
+    return String(s);
+  }
+};
+
+module.exports = { loadDistrictIndex, num, rate, safeDecode };

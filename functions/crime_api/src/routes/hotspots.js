@@ -1,6 +1,6 @@
 "use strict";
 const { getTable } = require("../lib/store");
-const { loadDistrictIndex, num } = require("../lib/districts");
+const { loadDistrictIndex, num, safeDecode } = require("../lib/districts");
 
 const HEAT_CAP = 25000; // cap cells returned for browser heat-layer performance
 
@@ -48,7 +48,7 @@ module.exports = (router, asyncH) => {
 
   router.get("/hotspots/clusters", asyncH(async (req, res) => {
     const rows = await getTable("hotspot_clusters", req.ctx);
-    const limit = Math.min(parseInt(req.query.limit, 10) || 60, 500);
+    const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 60, 1), 500);
     const clusters = rows
       .map((r) => ({
         cluster_id: num(r.cluster_id),
@@ -67,7 +67,7 @@ module.exports = (router, asyncH) => {
 
   router.get("/stations", asyncH(async (req, res) => {
     const rows = await getTable("agg_unit", req.ctx);
-    const d = req.query.district ? decodeURIComponent(req.query.district) : null;
+    const d = safeDecode(req.query.district);
     let memberSet = null;
     if (d) {
       const idx = await loadDistrictIndex(req.ctx);

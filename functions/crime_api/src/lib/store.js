@@ -43,13 +43,18 @@ async function readDatastoreTable(name, app) {
   return out;
 }
 
+// Large tables (tens of thousands of rows) are always served from the bundled CSV — paging
+// them via ZCQL 300-at-a-time would mean hundreds of queries per request. Small dimension/
+// aggregate tables can still use the Data Store when USE_DATASTORE=true.
+const CSV_ONLY = new Set(["hotspot_cells", "agg_hotspots", "agg_district_month"]);
+
 /**
  * Get a table as an array of plain row objects.
  * @param {string} name table/file base name (no extension)
  * @param {{app: any}} ctx per-request context; ctx.app is the Catalyst instance or null
  */
 async function getTable(name, ctx) {
-  if (USE_DATASTORE && ctx && ctx.app) {
+  if (USE_DATASTORE && ctx && ctx.app && !CSV_ONLY.has(name)) {
     try {
       const rows = await readDatastoreTable(name, ctx.app);
       if (rows && rows.length) return rows;

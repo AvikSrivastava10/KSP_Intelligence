@@ -44,7 +44,9 @@ export default function HotspotMap() {
 
   const precParam = useMemo(() => {
     const on = Object.entries(prec).filter(([, v]) => v).map(([k]) => k);
-    return on.length === 3 ? "" : on.join(",");
+    if (on.length === 3) return ""; // all selected -> no filter
+    if (on.length === 0) return "__none__"; // none selected -> match nothing (empty heat)
+    return on.join(",");
   }, [prec]);
 
   const districtsQ = useQuery({ queryKey: ["districts", false], queryFn: () => fetchDistricts(false) });
@@ -65,7 +67,8 @@ export default function HotspotMap() {
   const cells = hotspotsQ.data?.result?.cells || [];
   const heatPoints = useMemo(() => {
     if (!cells.length) return [];
-    const maxC = Math.max(...cells.map((c) => c.count));
+    let maxC = 0;
+    for (const c of cells) if (c.count > maxC) maxC = c.count; // avoid Math.max(...bigArray) spread
     const denom = Math.log1p(maxC) || 1;
     return cells.map((c) => [c.lat, c.lng, Math.max(0.06, Math.log1p(c.count) / denom)]);
   }, [cells]);
@@ -76,6 +79,12 @@ export default function HotspotMap() {
     return selected ? s : s.slice(0, 300); // cap statewide station render
   }, [stationsQ.data, selected]);
 
+  // Drill-down: selecting a district loads its stations (auto-enables the station layer).
+  const selectDistrict = (d) => {
+    setSelected({ district: d.district, lat: d.mean_lat, lng: d.mean_lng });
+    setLayers((s) => (s.stations ? s : { ...s, stations: true }));
+  };
+
   const choroStyle = (f) => {
     const d = byKgis[pad2(f.properties.kgis_code)];
     const isSel = d && selected && selected.district === d.district;
@@ -85,7 +94,7 @@ export default function HotspotMap() {
     const d = byKgis[pad2(f.properties.kgis_code)];
     const name = (d && d.district) || f.properties.district;
     layer.bindTooltip(`<b style="color:#4f46e5">${name}</b>${d ? `<br/>${d.total_cases.toLocaleString()} FIRs` : ""}`, { sticky: true, className: "ksp-tip" });
-    layer.on({ click: () => d && setSelected({ district: d.district, lat: d.mean_lat, lng: d.mean_lng }) });
+    layer.on({ click: () => d && selectDistrict(d) });
   };
 
   const tod = todQ.data?.result;
@@ -113,6 +122,12 @@ export default function HotspotMap() {
           </select>
         </label>
       </div>
+
+      {(hotspotsQ.error || clustersQ.error || districtsQ.error) && (
+        <div className="glass rounded-2xl border border-rose-300 p-3 text-sm text-rose-600">
+          Could not load map data from crime_api — is the API running?
+        </div>
+      )}
 
       <div className="grid gap-4 lg:grid-cols-4">
         {/* Map */}

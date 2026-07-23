@@ -162,7 +162,10 @@ def top_category_by_parent():
     dim = pd.read_csv(os.path.join(IN_DIR, "dim_district.csv"))
     canon_to_parent = {}
     for _, r in dim.iterrows():
-        canon_to_parent[str(r["canonical_name"])] = str(r["parent_district"] or r["canonical_name"])
+        parent = r["parent_district"]
+        if not isinstance(parent, str) or not parent.strip():  # NaN/empty for non-geographic units
+            parent = r["canonical_name"]
+        canon_to_parent[str(r["canonical_name"])] = str(parent)
     dm = pd.read_csv(os.path.join(IN_DIR, "agg_district_month.csv"))
     dm["parent"] = dm["canonical_name"].map(lambda c: canon_to_parent.get(str(c), str(c)))
     g = dm.groupby(["parent", "major_head"], as_index=False)["count"].sum()
