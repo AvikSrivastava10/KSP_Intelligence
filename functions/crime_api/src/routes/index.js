@@ -16,6 +16,7 @@ function buildRouter() {
   require("./districts")(router, asyncH);
   require("./hotspots")(router, asyncH);
   require("./timeofday")(router, asyncH);
+  require("./predict")(router, asyncH);
 
   return router;
 }

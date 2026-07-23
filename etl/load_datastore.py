@@ -79,6 +79,16 @@ SCHEMA = {
     "hotspot_clusters": [("cluster_id", B), ("centroid_lat", D), ("centroid_lng", D),
                          ("n_points", B), ("total_count", B), ("canonical_name", V),
                          ("radius_km", D), ("top_category", V), ("deployment_note", V)],
+    # Phase 3 — predictive (forecasts/alerts/risk/anomalies; predictions derived from real data)
+    "forecasts": [("level", V), ("key", V), ("category", V), ("year", B), ("month", B),
+                  ("y_actual", D), ("yhat", D), ("yhat_lower", D), ("yhat_upper", D),
+                  ("is_forecast", B), ("method", V)],
+    "alerts": [("canonical_name", V), ("kgis_code", V), ("category", V), ("period", V),
+               ("actual", B), ("baseline", D), ("deviation_pct", D), ("severity", V), ("reason", V)],
+    "risk_scores": [("canonical_name", V), ("kgis_code", V), ("population", B),
+                    ("predicted_next", B), ("risk_score", D), ("risk_tier", V), ("top_drivers", V)],
+    "anomalies": [("canonical_name", V), ("kgis_code", V), ("year", B), ("month", B),
+                  ("category", V), ("count", B), ("expected", D), ("anomaly_score", D), ("reason", V)],
 }
 VARCHAR_MAX = 255  # every string column here is well under 255 chars
 MODELED = {"agg_timeofday"}

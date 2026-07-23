@@ -464,7 +464,7 @@
     {
       "table_name": "hotspot_cells",
       "data_class": "real",
-      "row_count": null,
+      "row_count": 140142,
       "columns": [
         {
           "column_name": "lat",
@@ -500,7 +500,7 @@
     {
       "table_name": "hotspot_clusters",
       "data_class": "real",
-      "row_count": null,
+      "row_count": 467,
       "columns": [
         {
           "column_name": "cluster_id",
@@ -538,6 +538,196 @@
         },
         {
           "column_name": "deployment_note",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "forecasts",
+      "data_class": "real",
+      "row_count": 21491,
+      "columns": [
+        {
+          "column_name": "level",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "key",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "category",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "year",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "month",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "y_actual",
+          "data_type": "double"
+        },
+        {
+          "column_name": "yhat",
+          "data_type": "double"
+        },
+        {
+          "column_name": "yhat_lower",
+          "data_type": "double"
+        },
+        {
+          "column_name": "yhat_upper",
+          "data_type": "double"
+        },
+        {
+          "column_name": "is_forecast",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "method",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "alerts",
+      "data_class": "real",
+      "row_count": 121,
+      "columns": [
+        {
+          "column_name": "canonical_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "kgis_code",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "category",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "period",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "actual",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "baseline",
+          "data_type": "double"
+        },
+        {
+          "column_name": "deviation_pct",
+          "data_type": "double"
+        },
+        {
+          "column_name": "severity",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "reason",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "risk_scores",
+      "data_class": "real",
+      "row_count": 31,
+      "columns": [
+        {
+          "column_name": "canonical_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "kgis_code",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "population",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "predicted_next",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "risk_score",
+          "data_type": "double"
+        },
+        {
+          "column_name": "risk_tier",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "top_drivers",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "anomalies",
+      "data_class": "real",
+      "row_count": 134,
+      "columns": [
+        {
+          "column_name": "canonical_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "kgis_code",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "year",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "month",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "category",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "expected",
+          "data_type": "double"
+        },
+        {
+          "column_name": "anomaly_score",
+          "data_type": "double"
+        },
+        {
+          "column_name": "reason",
           "data_type": "varchar",
           "max_length": 255
         }

@@ -45,3 +45,24 @@ export const fetchTimeofday = (district, category) => {
   const qs = q.toString();
   return api(`/timeofday${qs ? `?${qs}` : ""}`);
 };
+
+// --- Phase 3: predictive ---
+export const fetchForecast = (level = "state", key, category) => {
+  const q = new URLSearchParams({ level });
+  if (key) q.set("key", key);
+  if (category) q.set("category", category);
+  return api(`/forecast?${q.toString()}`);
+};
+export const fetchForecastOptions = () => api("/forecast/options");
+export const fetchAlerts = (severity) => api(`/alerts${severity ? `?severity=${severity}` : ""}`);
+export const fetchRisk = () => api("/risk");
+export const fetchRiskById = (id) => api(`/risk/${encodeURIComponent(id)}`);
+export const fetchAnomalies = ({ district, category, year, limit } = {}) => {
+  const q = new URLSearchParams();
+  if (district) q.set("district", district);
+  if (category) q.set("category", category);
+  if (year) q.set("year", year);
+  if (limit) q.set("limit", limit);
+  const qs = q.toString();
+  return api(`/anomalies${qs ? `?${qs}` : ""}`);
+};

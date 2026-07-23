@@ -1,0 +1,122 @@
+canonical_name,kgis_code,category,period,actual,baseline,deviation_pct,severity,reason
+Kodagu,25,MISSING PERSON,2023,186,133.0,39.8,amber,Missing Person in Kodagu: 186 FIRs in 2023 vs 133 avg over 2021-2022 (+40%).
+Tumakuru,18,THEFT,2023,778,558.5,39.3,amber,Theft in Tumakuru: 778 FIRs in 2023 vs 558 avg over 2021-2022 (+39%).
+Ballari,12,CASES OF HURT,2023,181,130.0,39.2,amber,Cases Of Hurt in Ballari: 181 FIRs in 2023 vs 130 avg over 2021-2022 (+39%).
+Chikkaballapura,28,MOTOR VEHICLE ACCIDENTS NON-FATAL,2023,615,443.0,38.8,amber,Motor Vehicle Accidents Non-Fatal in Chikkaballapura: 615 FIRs in 2023 vs 443 avg over 2021-2022 (+39%).
+Vijayanagara,31,Karnataka State Local Act,2023,385,278.0,38.5,amber,Karnataka State Local Act in Vijayanagara: 385 FIRs in 2023 vs 278 avg over 2021-2022 (+38%).
+Bengaluru Rural,21,KIDNAPPING AND ABDUCTION,2023,275,200.0,37.5,amber,Kidnapping And Abduction in Bengaluru Rural: 275 FIRs in 2023 vs 200 avg over 2021-2022 (+38%).
+Bengaluru Urban,20,CRUELTY BY HUSBAND,2023,674,491.0,37.3,amber,Cruelty By Husband in Bengaluru Urban: 674 FIRs in 2023 vs 491 avg over 2021-2022 (+37%).
+Chikkamagaluru,17,THEFT,2023,298,217.5,37.0,amber,Theft in Chikkamagaluru: 298 FIRs in 2023 vs 218 avg over 2021-2022 (+37%).
+Bengaluru Rural,21,MISSING PERSON,2023,1229,901.0,36.4,amber,"Missing Person in Bengaluru Rural: 1,229 FIRs in 2023 vs 901 avg over 2021-2022 (+36%)."
+Ballari,12,THEFT,2023,413,304.0,35.9,amber,Theft in Ballari: 413 FIRs in 2023 vs 304 avg over 2021-2022 (+36%).
+Chitradurga,13,RIOTS,2023,244,179.5,35.9,amber,Riots in Chitradurga: 244 FIRs in 2023 vs 180 avg over 2021-2022 (+36%).
+Vijayapura,03,CASES OF HURT,2023,365,270.0,35.2,amber,Cases Of Hurt in Vijayapura: 365 FIRs in 2023 vs 270 avg over 2021-2022 (+35%).
+Bengaluru Urban,20,KIDNAPPING AND ABDUCTION,2023,1146,848.5,35.1,amber,"Kidnapping And Abduction in Bengaluru Urban: 1,146 FIRs in 2023 vs 848 avg over 2021-2022 (+35%)."
+Davanagere,14,CASES OF HURT,2023,359,266.5,34.7,amber,Cases Of Hurt in Davanagere: 359 FIRs in 2023 vs 266 avg over 2021-2022 (+35%).
+Chamarajanagar,27,MISSING PERSON,2023,273,205.0,33.2,amber,Missing Person in Chamarajanagar: 273 FIRs in 2023 vs 205 avg over 2021-2022 (+33%).
+Kodagu,25,MOTOR VEHICLE ACCIDENTS NON-FATAL,2023,462,347.5,32.9,amber,Motor Vehicle Accidents Non-Fatal in Kodagu: 462 FIRs in 2023 vs 348 avg over 2021-2022 (+33%).
+Hassan,23,THEFT,2023,478,360.0,32.8,amber,Theft in Hassan: 478 FIRs in 2023 vs 360 avg over 2021-2022 (+33%).
+Bengaluru Urban,20,MISSING PERSON,2023,5477,4131.5,32.6,amber,"Missing Person in Bengaluru Urban: 5,477 FIRs in 2023 vs 4,132 avg over 2021-2022 (+33%)."
+Ramanagara,29,MOTOR VEHICLE ACCIDENTS NON-FATAL,2023,1229,927.0,32.6,amber,"Motor Vehicle Accidents Non-Fatal in Ramanagara: 1,229 FIRs in 2023 vs 927 avg over 2021-2022 (+33%)."
+Bengaluru Urban,20,CHEATING,2023,3372,2565.5,31.4,amber,"Cheating in Bengaluru Urban: 3,372 FIRs in 2023 vs 2,566 avg over 2021-2022 (+31%)."
+Kalaburagi,04,THEFT,2023,813,618.5,31.4,amber,Theft in Kalaburagi: 813 FIRs in 2023 vs 618 avg over 2021-2022 (+31%).
+Belagavi,01,MISSING PERSON,2023,864,658.0,31.3,amber,Missing Person in Belagavi: 864 FIRs in 2023 vs 658 avg over 2021-2022 (+31%).
+Uttara Kannada,10,CASES OF HURT,2023,343,262.5,30.7,amber,Cases Of Hurt in Uttara Kannada: 343 FIRs in 2023 vs 262 avg over 2021-2022 (+31%).
+Raichur,06,THEFT,2023,544,416.5,30.6,amber,Theft in Raichur: 544 FIRs in 2023 vs 416 avg over 2021-2022 (+31%).
+Bengaluru Urban,20,BURGLARY - NIGHT,2023,872,671.5,29.9,amber,Burglary - Night in Bengaluru Urban: 872 FIRs in 2023 vs 672 avg over 2021-2022 (+30%).
+Tumakuru,18,MISSING PERSON,2023,881,679.5,29.7,amber,Missing Person in Tumakuru: 881 FIRs in 2023 vs 680 avg over 2021-2022 (+30%).
+Davanagere,14,THEFT,2023,700,540.5,29.5,amber,Theft in Davanagere: 700 FIRs in 2023 vs 540 avg over 2021-2022 (+30%).
+Haveri,11,CASES OF HURT,2023,300,232.0,29.3,amber,Cases Of Hurt in Haveri: 300 FIRs in 2023 vs 232 avg over 2021-2022 (+29%).
+Dakshina Kannada,24,THEFT,2023,313,243.0,28.8,amber,Theft in Dakshina Kannada: 313 FIRs in 2023 vs 243 avg over 2021-2022 (+29%).
+Bengaluru Rural,21,MOTOR VEHICLE ACCIDENTS NON-FATAL,2023,1760,1367.5,28.7,amber,"Motor Vehicle Accidents Non-Fatal in Bengaluru Rural: 1,760 FIRs in 2023 vs 1,368 avg over 2021-2022 (+29%)."
+Bengaluru Urban,20,POCSO,2023,546,424.5,28.6,amber,Pocso in Bengaluru Urban: 546 FIRs in 2023 vs 424 avg over 2021-2022 (+29%).
+Mysuru,26,MOTOR VEHICLE ACCIDENTS NON-FATAL,2023,2057,1601.5,28.4,amber,"Motor Vehicle Accidents Non-Fatal in Mysuru: 2,057 FIRs in 2023 vs 1,602 avg over 2021-2022 (+28%)."
+Chikkamagaluru,17,MOTOR VEHICLE ACCIDENTS FATAL,2023,257,200.5,28.2,amber,Motor Vehicle Accidents Fatal in Chikkamagaluru: 257 FIRs in 2023 vs 200 avg over 2021-2022 (+28%).
+Kolar,19,MOTOR VEHICLE ACCIDENTS FATAL,2023,312,244.0,27.9,amber,Motor Vehicle Accidents Fatal in Kolar: 312 FIRs in 2023 vs 244 avg over 2021-2022 (+28%).
+Chitradurga,13,CASES OF HURT,2023,620,485.0,27.8,amber,Cases Of Hurt in Chitradurga: 620 FIRs in 2023 vs 485 avg over 2021-2022 (+28%).
+Tumakuru,18,CASES OF HURT,2023,816,644.0,26.7,amber,Cases Of Hurt in Tumakuru: 816 FIRs in 2023 vs 644 avg over 2021-2022 (+27%).
+Chitradurga,13,KARNATAKA POLICE ACT 1963,2023,581,461.5,25.9,amber,Karnataka Police Act 1963 in Chitradurga: 581 FIRs in 2023 vs 462 avg over 2021-2022 (+26%).
+Tumakuru,18,MOTOR VEHICLE ACCIDENTS NON-FATAL,2023,1851,1473.0,25.7,amber,"Motor Vehicle Accidents Non-Fatal in Tumakuru: 1,851 FIRs in 2023 vs 1,473 avg over 2021-2022 (+26%)."
+Bengaluru Urban,20,MOTOR VEHICLE ACCIDENTS FATAL,2023,861,685.5,25.6,amber,Motor Vehicle Accidents Fatal in Bengaluru Urban: 861 FIRs in 2023 vs 686 avg over 2021-2022 (+26%).
+Gadag,08,Karnataka State Local Act,2023,270,215.5,25.3,amber,Karnataka State Local Act in Gadag: 270 FIRs in 2023 vs 216 avg over 2021-2022 (+25%).
+Chamarajanagar,27,MOTOR VEHICLE ACCIDENTS NON-FATAL,2023,452,362.0,24.9,amber,Motor Vehicle Accidents Non-Fatal in Chamarajanagar: 452 FIRs in 2023 vs 362 avg over 2021-2022 (+25%).
+Bagalkote,02,KARNATAKA POLICE ACT 1963,2023,455,365.0,24.7,amber,Karnataka Police Act 1963 in Bagalkote: 455 FIRs in 2023 vs 365 avg over 2021-2022 (+25%).
+Chitradurga,13,MISSING PERSON,2023,740,596.5,24.1,amber,Missing Person in Chitradurga: 740 FIRs in 2023 vs 596 avg over 2021-2022 (+24%).
+Ramanagara,29,MOTOR VEHICLE ACCIDENTS FATAL,2023,381,307.0,24.1,amber,Motor Vehicle Accidents Fatal in Ramanagara: 381 FIRs in 2023 vs 307 avg over 2021-2022 (+24%).
+Chikkamagaluru,17,CASES OF HURT,2023,582,470.0,23.8,amber,Cases Of Hurt in Chikkamagaluru: 582 FIRs in 2023 vs 470 avg over 2021-2022 (+24%).
+Hassan,23,MISSING PERSON,2023,454,368.5,23.2,amber,Missing Person in Hassan: 454 FIRs in 2023 vs 368 avg over 2021-2022 (+23%).
+Uttara Kannada,10,MISSING PERSON,2023,374,303.5,23.2,amber,Missing Person in Uttara Kannada: 374 FIRs in 2023 vs 304 avg over 2021-2022 (+23%).
+Chikkaballapura,28,MOTOR VEHICLE ACCIDENTS FATAL,2023,309,251.0,23.1,amber,Motor Vehicle Accidents Fatal in Chikkaballapura: 309 FIRs in 2023 vs 251 avg over 2021-2022 (+23%).
+Kolar,19,MOTOR VEHICLE ACCIDENTS NON-FATAL,2023,637,518.0,23.0,amber,Motor Vehicle Accidents Non-Fatal in Kolar: 637 FIRs in 2023 vs 518 avg over 2021-2022 (+23%).
+Kolar,19,THEFT,2023,464,380.0,22.1,amber,Theft in Kolar: 464 FIRs in 2023 vs 380 avg over 2021-2022 (+22%).
+Bengaluru Rural,21,MOTOR VEHICLE ACCIDENTS FATAL,2023,648,536.5,20.8,amber,Motor Vehicle Accidents Fatal in Bengaluru Rural: 648 FIRs in 2023 vs 536 avg over 2021-2022 (+21%).
+Chikkaballapura,28,MISSING PERSON,2023,563,467.0,20.6,amber,Missing Person in Chikkaballapura: 563 FIRs in 2023 vs 467 avg over 2021-2022 (+21%).
+Bengaluru Urban,20,Karnataka State Local Act,2023,954,792.0,20.5,amber,Karnataka State Local Act in Bengaluru Urban: 954 FIRs in 2023 vs 792 avg over 2021-2022 (+20%).
+Bengaluru Urban,20,"COTPA, CIGARETTES AND OTHER TOBACCO PRODUCTS",2023,1286,103.0,1148.5,red,"Cotpa, Cigarettes And Other Tobacco Products in Bengaluru Urban: 1,286 FIRs in 2023 vs 103 avg over 2021-2022 (+1149%)."
+Bengaluru Rural,21,CYBER CRIME,2023,743,160.0,364.4,red,Cyber Crime in Bengaluru Rural: 743 FIRs in 2023 vs 160 avg over 2021-2022 (+364%).
+Bengaluru Urban,20,PUBLIC SAFETY,2023,8516,2347.5,262.8,red,"Public Safety in Bengaluru Urban: 8,516 FIRs in 2023 vs 2,348 avg over 2021-2022 (+263%)."
+Yadgir,30,Karnataka State Local Act,2023,290,105.5,174.9,red,Karnataka State Local Act in Yadgir: 290 FIRs in 2023 vs 106 avg over 2021-2022 (+175%).
+Bengaluru Urban,20,NEGLIGENT ACT,2023,868,339.5,155.7,red,Negligent Act in Bengaluru Urban: 868 FIRs in 2023 vs 340 avg over 2021-2022 (+156%).
+Bengaluru Rural,21,NARCOTIC DRUGS & PSHYCOTROPIC SUBSTANCES,2023,246,99.5,147.2,red,Narcotic Drugs & Pshycotropic Substances in Bengaluru Rural: 246 FIRs in 2023 vs 100 avg over 2021-2022 (+147%).
+Kalaburagi,04,Karnataka State Local Act,2023,467,198.0,135.9,red,Karnataka State Local Act in Kalaburagi: 467 FIRs in 2023 vs 198 avg over 2021-2022 (+136%).
+Dakshina Kannada,24,CYBER CRIME,2023,288,123.5,133.2,red,Cyber Crime in Dakshina Kannada: 288 FIRs in 2023 vs 124 avg over 2021-2022 (+133%).
+Bengaluru Urban,20,CYBER CRIME,2023,17420,8086.5,115.4,red,"Cyber Crime in Bengaluru Urban: 17,420 FIRs in 2023 vs 8,086 avg over 2021-2022 (+115%)."
+Dakshina Kannada,24,KARNATAKA POLICE ACT 1963,2023,216,103.0,109.7,red,Karnataka Police Act 1963 in Dakshina Kannada: 216 FIRs in 2023 vs 103 avg over 2021-2022 (+110%).
+Bengaluru Rural,21,CRIMINAL TRESPASS,2023,234,113.0,107.1,red,Criminal Trespass in Bengaluru Rural: 234 FIRs in 2023 vs 113 avg over 2021-2022 (+107%).
+Dakshina Kannada,24,NARCOTIC DRUGS & PSHYCOTROPIC SUBSTANCES,2023,774,379.5,104.0,red,Narcotic Drugs & Pshycotropic Substances in Dakshina Kannada: 774 FIRs in 2023 vs 380 avg over 2021-2022 (+104%).
+Dharwad,09,CYBER CRIME,2023,503,260.5,93.1,red,Cyber Crime in Dharwad: 503 FIRs in 2023 vs 260 avg over 2021-2022 (+93%).
+Kolar,19,CYBER CRIME,2023,182,95.0,91.6,red,Cyber Crime in Kolar: 182 FIRs in 2023 vs 95 avg over 2021-2022 (+92%).
+Kolar,19,POCSO,2023,164,86.5,89.6,red,Pocso in Kolar: 164 FIRs in 2023 vs 86 avg over 2021-2022 (+90%).
+Udupi,16,KARNATAKA POLICE ACT 1963,2023,214,117.0,82.9,red,Karnataka Police Act 1963 in Udupi: 214 FIRs in 2023 vs 117 avg over 2021-2022 (+83%).
+Bengaluru Urban,20,MOLESTATION,2023,1116,635.0,75.7,red,"Molestation in Bengaluru Urban: 1,116 FIRs in 2023 vs 635 avg over 2021-2022 (+76%)."
+Belagavi,01,CYBER CRIME,2023,165,94.0,75.5,red,Cyber Crime in Belagavi: 165 FIRs in 2023 vs 94 avg over 2021-2022 (+76%).
+Bagalkote,02,Karnataka State Local Act,2023,237,138.0,71.7,red,Karnataka State Local Act in Bagalkote: 237 FIRs in 2023 vs 138 avg over 2021-2022 (+72%).
+Tumakuru,18,CYBER CRIME,2023,245,143.0,71.3,red,Cyber Crime in Tumakuru: 245 FIRs in 2023 vs 143 avg over 2021-2022 (+71%).
+Bidar,05,KARNATAKA POLICE ACT 1963,2023,653,381.5,71.2,red,Karnataka Police Act 1963 in Bidar: 653 FIRs in 2023 vs 382 avg over 2021-2022 (+71%).
+Belagavi,01,Karnataka State Local Act,2023,675,394.5,71.1,red,Karnataka State Local Act in Belagavi: 675 FIRs in 2023 vs 394 avg over 2021-2022 (+71%).
+Tumakuru,18,POCSO,2023,170,100.5,69.2,red,Pocso in Tumakuru: 170 FIRs in 2023 vs 100 avg over 2021-2022 (+69%).
+Bengaluru Urban,20,BURGLARY - DAY,2023,261,155.0,68.4,red,Burglary - Day in Bengaluru Urban: 261 FIRs in 2023 vs 155 avg over 2021-2022 (+68%).
+Bidar,05,MISSING PERSON,2023,250,150.0,66.7,red,Missing Person in Bidar: 250 FIRs in 2023 vs 150 avg over 2021-2022 (+67%).
+Udupi,16,NARCOTIC DRUGS & PSHYCOTROPIC SUBSTANCES,2023,270,162.0,66.7,red,Narcotic Drugs & Pshycotropic Substances in Udupi: 270 FIRs in 2023 vs 162 avg over 2021-2022 (+67%).
+Raichur,06,Karnataka State Local Act,2023,349,212.0,64.6,red,Karnataka State Local Act in Raichur: 349 FIRs in 2023 vs 212 avg over 2021-2022 (+65%).
+Bengaluru Urban,20,CASES OF HURT,2023,3570,2199.5,62.3,red,"Cases Of Hurt in Bengaluru Urban: 3,570 FIRs in 2023 vs 2,200 avg over 2021-2022 (+62%)."
+Gadag,08,THEFT,2023,200,124.0,61.3,red,Theft in Gadag: 200 FIRs in 2023 vs 124 avg over 2021-2022 (+61%).
+Bengaluru Urban,20,KARNATAKA POLICE ACT 1963,2023,1074,674.5,59.2,red,"Karnataka Police Act 1963 in Bengaluru Urban: 1,074 FIRs in 2023 vs 674 avg over 2021-2022 (+59%)."
+Kolar,19,Karnataka State Local Act,2023,333,209.5,58.9,red,Karnataka State Local Act in Kolar: 333 FIRs in 2023 vs 210 avg over 2021-2022 (+59%).
+Bengaluru Urban,20,CRIMINAL TRESPASS,2023,582,367.5,58.4,red,Criminal Trespass in Bengaluru Urban: 582 FIRs in 2023 vs 368 avg over 2021-2022 (+58%).
+Dharwad,09,MISSING PERSON,2023,626,397.0,57.7,red,Missing Person in Dharwad: 626 FIRs in 2023 vs 397 avg over 2021-2022 (+58%).
+Yadgir,30,THEFT,2023,216,138.5,56.0,red,Theft in Yadgir: 216 FIRs in 2023 vs 138 avg over 2021-2022 (+56%).
+Davanagere,14,BURGLARY - NIGHT,2023,208,134.5,54.6,red,Burglary - Night in Davanagere: 208 FIRs in 2023 vs 134 avg over 2021-2022 (+55%).
+Chikkamagaluru,17,NARCOTIC DRUGS & PSHYCOTROPIC SUBSTANCES,2023,221,143.0,54.5,red,Narcotic Drugs & Pshycotropic Substances in Chikkamagaluru: 221 FIRs in 2023 vs 143 avg over 2021-2022 (+55%).
+Bengaluru Urban,20,THEFT,2023,10482,6813.0,53.9,red,"Theft in Bengaluru Urban: 10,482 FIRs in 2023 vs 6,813 avg over 2021-2022 (+54%)."
+Belagavi,01,KIDNAPPING AND ABDUCTION,2023,173,112.5,53.8,red,Kidnapping And Abduction in Belagavi: 173 FIRs in 2023 vs 112 avg over 2021-2022 (+54%).
+Chamarajanagar,27,CASES OF HURT,2023,330,214.5,53.8,red,Cases Of Hurt in Chamarajanagar: 330 FIRs in 2023 vs 214 avg over 2021-2022 (+54%).
+Bengaluru Urban,20,RIOTS,2023,160,104.5,53.1,red,Riots in Bengaluru Urban: 160 FIRs in 2023 vs 104 avg over 2021-2022 (+53%).
+Bengaluru Urban,20,SCHEDULED CASTE AND THE SCHEDULED TRIBES,2023,237,156.0,51.9,red,Scheduled Caste And The Scheduled Tribes in Bengaluru Urban: 237 FIRs in 2023 vs 156 avg over 2021-2022 (+52%).
+Bengaluru Rural,21,MOLESTATION,2023,193,128.0,50.8,red,Molestation in Bengaluru Rural: 193 FIRs in 2023 vs 128 avg over 2021-2022 (+51%).
+Mysuru,26,CRIMES RELATED TO WOMEN,2023,182,121.0,50.4,red,Crimes Related To Women in Mysuru: 182 FIRs in 2023 vs 121 avg over 2021-2022 (+50%).
+Bengaluru Urban,20,CRIMINAL INTIMIDATION,2023,468,312.0,50.0,red,Criminal Intimidation in Bengaluru Urban: 468 FIRs in 2023 vs 312 avg over 2021-2022 (+50%).
+Tumakuru,18,MOLESTATION,2023,313,209.5,49.4,red,Molestation in Tumakuru: 313 FIRs in 2023 vs 210 avg over 2021-2022 (+49%).
+Chitradurga,13,Karnataka State Local Act,2023,564,378.0,49.2,red,Karnataka State Local Act in Chitradurga: 564 FIRs in 2023 vs 378 avg over 2021-2022 (+49%).
+Haveri,11,THEFT,2023,417,281.0,48.4,red,Theft in Haveri: 417 FIRs in 2023 vs 281 avg over 2021-2022 (+48%).
+Bengaluru Rural,21,CHEATING,2023,472,319.0,48.0,red,Cheating in Bengaluru Rural: 472 FIRs in 2023 vs 319 avg over 2021-2022 (+48%).
+Chitradurga,13,THEFT,2023,430,293.5,46.5,red,Theft in Chitradurga: 430 FIRs in 2023 vs 294 avg over 2021-2022 (+47%).
+Shivamogga,15,NARCOTIC DRUGS & PSHYCOTROPIC SUBSTANCES,2023,251,171.5,46.4,red,Narcotic Drugs & Pshycotropic Substances in Shivamogga: 251 FIRs in 2023 vs 172 avg over 2021-2022 (+46%).
+Dakshina Kannada,24,CHEATING,2023,209,143.0,46.2,red,Cheating in Dakshina Kannada: 209 FIRs in 2023 vs 143 avg over 2021-2022 (+46%).
+Haveri,11,BURGLARY - NIGHT,2023,161,110.5,45.7,red,Burglary - Night in Haveri: 161 FIRs in 2023 vs 110 avg over 2021-2022 (+46%).
+Kolar,19,KARNATAKA POLICE ACT 1963,2023,204,140.5,45.2,red,Karnataka Police Act 1963 in Kolar: 204 FIRs in 2023 vs 140 avg over 2021-2022 (+45%).
+Bengaluru Rural,21,THEFT,2023,1596,1102.5,44.8,red,"Theft in Bengaluru Rural: 1,596 FIRs in 2023 vs 1,102 avg over 2021-2022 (+45%)."
+Bengaluru Urban,20,ATTEMPT TO MURDER,2023,536,370.5,44.7,red,Attempt To Murder in Bengaluru Urban: 536 FIRs in 2023 vs 370 avg over 2021-2022 (+45%).
+Kolar,19,MISSING PERSON,2023,791,549.0,44.1,red,Missing Person in Kolar: 791 FIRs in 2023 vs 549 avg over 2021-2022 (+44%).
+Haveri,11,MISSING PERSON,2023,468,326.5,43.3,red,Missing Person in Haveri: 468 FIRs in 2023 vs 326 avg over 2021-2022 (+43%).
+Bengaluru Rural,21,CASES OF HURT,2023,622,436.5,42.5,red,Cases Of Hurt in Bengaluru Rural: 622 FIRs in 2023 vs 436 avg over 2021-2022 (+42%).
+Vijayapura,03,MISSING PERSON,2023,438,307.5,42.4,red,Missing Person in Vijayapura: 438 FIRs in 2023 vs 308 avg over 2021-2022 (+42%).
+Uttara Kannada,10,THEFT,2023,200,140.5,42.3,red,Theft in Uttara Kannada: 200 FIRs in 2023 vs 140 avg over 2021-2022 (+42%).
+Bengaluru Rural,21,BURGLARY - NIGHT,2023,289,203.5,42.0,red,Burglary - Night in Bengaluru Rural: 289 FIRs in 2023 vs 204 avg over 2021-2022 (+42%).
+Davanagere,14,MISSING PERSON,2023,863,608.0,41.9,red,Missing Person in Davanagere: 863 FIRs in 2023 vs 608 avg over 2021-2022 (+42%).
+Bengaluru Urban,20,ROBBERY,2023,810,572.5,41.5,red,Robbery in Bengaluru Urban: 810 FIRs in 2023 vs 572 avg over 2021-2022 (+41%).
+Bengaluru Rural,21,KARNATAKA POLICE ACT 1963,2023,207,146.5,41.3,red,Karnataka Police Act 1963 in Bengaluru Rural: 207 FIRs in 2023 vs 146 avg over 2021-2022 (+41%).
+Bengaluru Urban,20,MOTOR VEHICLE ACCIDENTS NON-FATAL,2023,4002,2832.0,41.3,red,"Motor Vehicle Accidents Non-Fatal in Bengaluru Urban: 4,002 FIRs in 2023 vs 2,832 avg over 2021-2022 (+41%)."
+Bengaluru Rural,21,Karnataka State Local Act,2023,324,230.0,40.9,red,Karnataka State Local Act in Bengaluru Rural: 324 FIRs in 2023 vs 230 avg over 2021-2022 (+41%).
+Kodagu,25,Karnataka State Local Act,2023,190,135.5,40.2,red,Karnataka State Local Act in Kodagu: 190 FIRs in 2023 vs 136 avg over 2021-2022 (+40%).
+Raichur,06,MISSING PERSON,2023,284,202.5,40.2,red,Missing Person in Raichur: 284 FIRs in 2023 vs 202 avg over 2021-2022 (+40%).
