@@ -59,6 +59,13 @@ describe("crime_api Phase 2 geospatial (CSV fallback)", () => {
     expect(precs.has("none")).toBe(false);
   });
 
+  test("GET /hotspots?precision=point -> filter returns only that precision", async () => {
+    const r = await request(app).get("/hotspots?year=2023&precision=point");
+    expect(r.body.ok).toBe(true);
+    expect(r.body.result.cells.length).toBeGreaterThan(0);
+    expect(r.body.result.cells.every((c) => c.geo_precision === "point")).toBe(true);
+  });
+
   test("GET /hotspots/clusters -> clusters with deployment notes", async () => {
     const r = await request(app).get("/hotspots/clusters?limit=10");
     expect(r.body.ok).toBe(true);

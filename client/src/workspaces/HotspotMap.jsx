@@ -44,8 +44,10 @@ export default function HotspotMap() {
 
   const precParam = useMemo(() => {
     const on = Object.entries(prec).filter(([, v]) => v).map(([k]) => k);
-    if (on.length === 3) return ""; // all selected -> no filter
-    if (on.length === 0) return "__none__"; // none selected -> match nothing (empty heat)
+    // none OR all selected -> no server-side filter (show every real precision). We keep >=1
+    // box checked in the UI, so "all off" shouldn't occur; guarding it here means the heat layer
+    // can never be silently blanked by the filter while the layer toggle is on.
+    if (on.length === 0 || on.length === 3) return "";
     return on.join(",");
   }, [prec]);
 
@@ -132,7 +134,12 @@ export default function HotspotMap() {
       <div className="grid gap-4 lg:grid-cols-4">
         {/* Map */}
         <Reveal className="glass overflow-hidden rounded-3xl lg:col-span-3">
-          <div className="h-[620px]">
+          <div className="relative h-[620px]">
+            {layers.heat && !hotspotsQ.isFetching && !hotspotsQ.error && heatPoints.length === 0 && (
+              <div className="pointer-events-none absolute left-1/2 top-4 z-[1000] -translate-x-1/2 rounded-full border border-slate-300 bg-white/95 px-4 py-1.5 text-xs text-slate-600 shadow">
+                No hotspot cells for this filter — try another year or precision.
+              </div>
+            )}
             <MapContainer center={[15.0, 76.2]} zoom={7} minZoom={5} style={{ height: "100%", width: "100%" }} scrollWheelZoom zoomControl>
               <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" attribution="&copy; OpenStreetMap &copy; CARTO" />
               {layers.choropleth && geoQ.data && districts.length > 0 && (
@@ -196,9 +203,19 @@ export default function HotspotMap() {
               { k: "place", label: "place · geocoded" },
             ].map((p) => (
               <label key={p.k} className="flex cursor-pointer items-center gap-2 py-0.5 text-xs text-slate-600">
-                <input type="checkbox" checked={prec[p.k]} onChange={(e) => setPrec((s) => ({ ...s, [p.k]: e.target.checked }))} /> {p.label}
+                <input
+                  type="checkbox"
+                  checked={prec[p.k]}
+                  onChange={(e) =>
+                    setPrec((s) => {
+                      const next = { ...s, [p.k]: e.target.checked };
+                      return Object.values(next).some(Boolean) ? next : s; // always keep >=1 selected
+                    })
+                  }
+                /> {p.label}
               </label>
             ))}
+            <p className="mt-1 text-[10px] leading-snug text-slate-400">Narrows the heat layer. At least one type stays selected.</p>
           </div>
 
           {/* Legend */}
