@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { useQuery } from "@tanstack/react-query";
 import ReactECharts from "echarts-for-react";
-import { TrendingUp, AlertTriangle, Building2, Layers3 } from "lucide-react";
+import { TrendingUp, AlertTriangle, Layers3 } from "lucide-react";
 import DataClassBadge from "../components/DataClassBadge.jsx";
 import Reveal from "../components/Reveal.jsx";
 import { fetchForecast, fetchForecastOptions, fetchAlerts } from "../api/client.js";
@@ -27,6 +27,12 @@ export default function TrendsForecast() {
 
   const districts = optionsQ.data?.result?.districts || [];
   const categories = optionsQ.data?.result?.categories || [];
+
+  // Keep the selector in sync if options arrive after a tab switch (so the dropdown matches the chart).
+  useEffect(() => {
+    if (scope.level === "district" && !scope.key && districts.length) setScope((s) => ({ ...s, key: districts[0] }));
+    if (scope.level === "category" && !scope.category && categories.length) setScope((s) => ({ ...s, category: categories[0] }));
+  }, [scope.level, scope.key, scope.category, districts, categories]);
   const points = fcQ.data?.result?.points || [];
   const allAlerts = alertsQ.data?.result?.alerts || [];
   const alerts = useMemo(
@@ -52,13 +58,11 @@ export default function TrendsForecast() {
     const split = points.findIndex((p) => p.is_forecast === 1);
     const actual = points.map((p) => (p.is_forecast === 0 ? p.y_actual : null));
     const yhat = points.map((p) => (p.is_forecast === 1 ? p.yhat : null));
-    const lower = points.map((p) => (p.is_forecast === 1 ? p.yhat_lower : null));
-    const band = points.map((p) => (p.is_forecast === 1 ? Math.max(0, p.yhat_upper - p.yhat_lower) : null));
-    if (split > 0) {
-      const j = split - 1;
-      const lastActual = points[j].y_actual;
-      yhat[j] = lastActual; lower[j] = lastActual; band[j] = 0; // connect dashed line + band to history
-    }
+    // CI band is defined at EVERY point (0-height over history -> invisible) so the stacked
+    // area never has null gaps: base = ci-lower, height = band, top = ci-upper.
+    const lower = points.map((p) => (p.is_forecast === 1 ? p.yhat_lower : p.y_actual));
+    const band = points.map((p) => (p.is_forecast === 1 ? Math.max(0, p.yhat_upper - p.yhat_lower) : 0));
+    if (split > 0) yhat[split - 1] = points[split - 1].y_actual; // connect dashed line to last actual
     return {
       grid: { left: 56, right: 18, top: 24, bottom: 40 },
       tooltip: { trigger: "axis", backgroundColor: "rgba(255,255,255,0.97)", borderColor: "rgba(15,23,42,0.12)", textStyle: { color: "#0f172a" } },

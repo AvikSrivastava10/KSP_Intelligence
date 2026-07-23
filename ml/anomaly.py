@@ -34,6 +34,7 @@ MAX_YEAR = 2023            # exclude partial 2024
 TOP_CATS_PER_DISTRICT = 10
 MIN_EXPECTED = 5.0         # ignore near-zero-volume points (noise)
 Z_RULE = 3.5               # statistical flag threshold
+RATIO_RULE = 2.5           # multiplicative-spike rule (count >= 2.5x expected)
 CONTAM = 0.01              # IsolationForest contamination
 
 
@@ -67,10 +68,13 @@ def detect(pts):
     raw = -iso.score_samples(X)  # higher = more anomalous
     score = (raw - raw.min()) / (raw.max() - raw.min() + 1e-9)
     iso_flag = iso.predict(X) == -1
+    ratio = feats["count"] / feats["expected"].clip(lower=1.0)
     eligible = feats["expected"] >= MIN_EXPECTED
     # Spike-focused: unusual INCREASES are the actionable call-outs. Low-side outliers are
     # dominated by data gaps / COVID-period dips, so they are excluded to keep signals clean.
-    flagged = eligible & (feats["resid"] > 0) & (iso_flag | (feats["z"] >= Z_RULE))
+    # A point is flagged if the forest isolates it, OR its residual z is high, OR it is a clear
+    # multiplicative spike (>= RATIO_RULE x its seasonal expectation).
+    flagged = eligible & (feats["resid"] > 0) & (iso_flag | (feats["z"] >= Z_RULE) | (ratio >= RATIO_RULE))
     return feats.assign(anomaly_score=np.round(score, 4)), flagged
 
 

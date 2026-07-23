@@ -24,15 +24,27 @@ module.exports = (router, asyncH) => {
     const key = safeDecode(req.query.key);
     const category = safeDecode(req.query.category);
 
+    // Always resolve to exactly ONE series (defaulting to the first available key/category if
+    // none is supplied) so the chart never receives multiple overlapping series.
     let want = rows.filter((r) => r.level === level);
+    let effKey = key, effCat = category;
     if (level === "state") {
       want = want.filter((r) => r.category === "ALL");
+      effKey = "Karnataka"; effCat = "ALL";
     } else if (level === "district") {
-      want = want.filter((r) => r.category === "ALL" && (!key || r.key === key));
+      const pool = want.filter((r) => r.category === "ALL");
+      effKey = key || (pool[0] && pool[0].key) || null;
+      want = pool.filter((r) => r.key === effKey);
+      effCat = "ALL";
     } else if (level === "category") {
-      want = want.filter((r) => !category || r.category === category);
+      effCat = category || (want[0] && want[0].category) || null;
+      want = want.filter((r) => r.category === effCat);
+      effKey = "Karnataka";
     } else {
-      want = want.filter((r) => (!key || r.key === key) && (!category || r.category === category));
+      effKey = key || (want[0] && want[0].key) || null;
+      const pool = want.filter((r) => r.key === effKey);
+      effCat = category || (pool[0] && pool[0].category) || null;
+      want = pool.filter((r) => r.category === effCat);
     }
 
     const points = want
@@ -47,9 +59,8 @@ module.exports = (router, asyncH) => {
       .sort((a, b) => a.year - b.year || a.month - b.month);
     const method = (want.find((r) => num(r.is_forecast) === 1) || {}).method || null;
 
-    const resolvedKey = level === "state" || level === "category" ? "Karnataka" : (key || null);
     res.sendOk({
-      level, key: resolvedKey, category: level === "state" || level === "district" ? "ALL" : (category || null),
+      level, key: effKey, category: effCat,
       method, horizon_months: points.filter((p) => p.is_forecast === 1).length, points,
       note: "Projection from historical FIR data (Holt-Winters); shaded band = 95% confidence interval.",
     }, "real");

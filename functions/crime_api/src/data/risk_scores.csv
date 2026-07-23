@@ -1,32 +1,32 @@
 canonical_name,kgis_code,population,predicted_next,risk_score,risk_tier,top_drivers
 Bengaluru Urban,20,9621551,16909,100.0,Critical,traffic-incident load; sustained high volume; high recent volume
-Bengaluru Rural,21,990923,2606,55.2,Critical,property-crime concentration; rising multi-year trend; sustained high volume
-Tumakuru,18,2678980,2241,51.6,Critical,rising multi-year trend; sustained high volume; large population base
-Mysuru,26,3001127,2124,50.3,Critical,sustained high volume; large population base; sharp year-on-year growth
-Belagavi,01,4779661,1674,44.6,Critical,sustained high volume; large population base; high per-capita crime rate
-Mandya,22,1805769,1560,42.9,Critical,sustained high volume; high per-capita crime rate
-Ramanagara,29,1082636,1540,42.6,High,high per-capita crime rate; high recent volume; seasonal volatility
-Hassan,23,1776421,1454,41.2,High,sustained high volume; seasonal volatility
-Shivamogga,15,1752753,1415,40.6,High,sustained high volume
-Kalaburagi,04,2566326,1300,38.5,High,property-crime concentration; high per-capita crime rate
-Chitradurga,13,1659456,1281,38.2,High,mixed factors
-Vijayapura,03,2177331,1277,38.1,High,high per-capita crime rate
-Uttara Kannada,10,1437169,1231,37.2,Moderate,sharp year-on-year growth; high per-capita crime rate
-Dakshina Kannada,24,2089649,1154,35.7,Moderate,high recent volume; high per-capita crime rate; elevated prior-year volume
-Haveri,11,1597668,1007,32.4,Moderate,seasonal volatility; high per-capita crime rate
-Raichur,06,1928812,960,31.3,Moderate,rising cybercrime mix
-Chikkamagaluru,17,1137961,915,30.1,Moderate,mixed factors
-Bidar,05,1703300,896,29.6,Moderate,rising cybercrime mix; high per-capita crime rate
-Vijayanagara,31,,878,29.1,Moderate,rising cybercrime mix; high per-capita crime rate
-Ballari,12,2452595,875,29.1,Moderate,high per-capita crime rate; large population base
-Bagalkote,02,1889752,863,28.7,Low,high per-capita crime rate; rising cybercrime mix; seasonal volatility
-Davanagere,14,1945497,849,28.3,Low,high per-capita crime rate; rising cybercrime mix; high recent volume
-Koppal,07,1389920,828,27.7,Low,high per-capita crime rate; rising cybercrime mix
-Chamarajanagar,27,1020791,806,27.1,Low,rising cybercrime mix; high per-capita crime rate
-Dharwad,09,1847023,770,26.0,Low,sharp year-on-year growth; seasonal volatility; high per-capita crime rate
-Chikkaballapura,28,1255104,767,25.9,Low,high per-capita crime rate; sharp year-on-year growth; elevated prior-year volume
-Kolar,19,1536401,750,25.4,Low,rising cybercrime mix; high per-capita crime rate; high recent volume
-Udupi,16,1177361,471,14.2,Low,rising cybercrime mix; high per-capita crime rate; sharp year-on-year growth
-Yadgir,30,1174271,316,4.7,Low,high per-capita crime rate; rising cybercrime mix
-Kodagu,25,554519,268,0.8,Low,rising cybercrime mix; high per-capita crime rate; violent-crime concentration
-Gadag,08,1064570,260,0.0,Low,high per-capita crime rate
+Bengaluru Rural,21,990923,2606,58.8,Critical,property-crime concentration; rising multi-year trend; sustained high volume
+Tumakuru,18,2678980,2241,55.5,Critical,rising multi-year trend; sustained high volume; large population base
+Mysuru,26,3001127,2124,54.3,Critical,sustained high volume; large population base; sharp year-on-year growth
+Belagavi,01,4779661,1674,49.0,Critical,sustained high volume; large population base; high per-capita crime rate
+Mandya,22,1805769,1560,47.5,Critical,sustained high volume; high per-capita crime rate
+Ramanagara,29,1082636,1540,47.2,High,high per-capita crime rate; high recent volume; seasonal volatility
+Hassan,23,1776421,1454,45.9,High,sustained high volume; seasonal volatility
+Shivamogga,15,1752753,1415,45.3,High,sustained high volume
+Kalaburagi,04,2566326,1300,43.5,High,property-crime concentration; high per-capita crime rate
+Vijayapura,03,2177331,1277,43.1,High,high per-capita crime rate
+Chitradurga,13,1659456,1281,43.1,High,mixed factors
+Uttara Kannada,10,1437169,1231,42.2,Moderate,sharp year-on-year growth; high per-capita crime rate
+Dakshina Kannada,24,2089649,1154,40.8,Moderate,high recent volume; high per-capita crime rate; elevated prior-year volume
+Haveri,11,1597668,1007,37.8,Moderate,seasonal volatility; high per-capita crime rate
+Raichur,06,1928812,960,36.8,Moderate,rising cybercrime mix
+Chikkamagaluru,17,1137961,915,35.7,Moderate,mixed factors
+Bidar,05,1703300,896,35.2,Moderate,rising cybercrime mix; high per-capita crime rate
+Vijayanagara,31,,878,34.8,Moderate,rising cybercrime mix; high per-capita crime rate
+Ballari,12,2452595,875,34.7,Moderate,high per-capita crime rate; large population base
+Bagalkote,02,1889752,863,34.4,Low,high per-capita crime rate; rising cybercrime mix; seasonal volatility
+Davanagere,14,1945497,849,34.1,Low,high per-capita crime rate; rising cybercrime mix; high recent volume
+Koppal,07,1389920,828,33.5,Low,high per-capita crime rate; rising cybercrime mix
+Chamarajanagar,27,1020791,806,32.9,Low,rising cybercrime mix; high per-capita crime rate
+Dharwad,09,1847023,770,31.9,Low,sharp year-on-year growth; seasonal volatility; high per-capita crime rate
+Chikkaballapura,28,1255104,767,31.8,Low,high per-capita crime rate; sharp year-on-year growth; elevated prior-year volume
+Kolar,19,1536401,750,31.3,Low,rising cybercrime mix; high per-capita crime rate; high recent volume
+Udupi,16,1177361,471,21.1,Low,rising cybercrime mix; high per-capita crime rate; sharp year-on-year growth
+Yadgir,30,1174271,316,12.3,Low,high per-capita crime rate; rising cybercrime mix
+Kodagu,25,554519,268,8.7,Low,rising cybercrime mix; high per-capita crime rate; violent-crime concentration
+Gadag,08,1064570,260,8.0,Low,high per-capita crime rate

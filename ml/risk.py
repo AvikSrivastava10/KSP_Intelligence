@@ -152,8 +152,9 @@ def main():
     pred24 = np.clip(m.predict(X24), 0, None)
     contrib = m.booster_.predict(X24, pred_contrib=True)  # (n, n_feat+1) SHAP-like
 
+    # log-scaled relative index in [8, 100] (8 floor so the lowest district reads as low, not empty)
     lo, hi = np.log1p(pred24.min()), np.log1p(pred24.max())
-    score = 100 * (np.log1p(pred24) - lo) / (hi - lo) if hi > lo else np.full(len(pred24), 50.0)
+    score = 8 + 92 * (np.log1p(pred24) - lo) / (hi - lo) if hi > lo else np.full(len(pred24), 54.0)
 
     out = []
     for i, (_, r) in enumerate(predict_rows.iterrows()):

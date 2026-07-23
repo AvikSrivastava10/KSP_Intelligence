@@ -119,6 +119,16 @@ describe("crime_api Phase 3 predictive (CSV fallback)", () => {
     expect(r.body.result.points.filter((p) => p.is_forecast === 1).length).toBe(12);
   });
 
+  test("GET /forecast?level=district with NO key -> resolves to a single series (12 fc pts)", async () => {
+    const r = await request(app).get("/forecast?level=district");
+    expect(r.body.ok).toBe(true);
+    expect(r.body.result.key).toBeTruthy(); // defaulted to first district
+    expect(r.body.result.points.filter((p) => p.is_forecast === 1).length).toBe(12);
+    // exactly one series -> at most one row per (year,month)
+    const ym = r.body.result.points.map((p) => `${p.year}-${p.month}`);
+    expect(new Set(ym).size).toBe(ym.length);
+  });
+
   test("GET /alerts -> red-zones sorted, red before amber", async () => {
     const r = await request(app).get("/alerts");
     expect(r.body.ok).toBe(true);
