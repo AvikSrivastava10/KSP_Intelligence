@@ -14,23 +14,151 @@ body,
 
 body {
   margin: 0;
-  background: #020617;
-  color: #e2e8f0;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #070b18;
+  color: #e5e9f0;
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
+/* ---- Faint Karnataka State Police backdrop (marching photo, heavily dimmed) ---- */
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-size: cover;
+  background-position: center 20%;
+  filter: blur(3px) brightness(0.5) saturate(115%);
+  transform: scale(1.06); /* hide blur edges */
+}
+.app-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1100px 560px at 12% -5%, rgba(231, 178, 75, 0.10), transparent 60%),
+    radial-gradient(900px 520px at 105% 108%, rgba(23, 44, 96, 0.34), transparent 55%),
+    linear-gradient(180deg, rgba(7, 11, 24, 0.84) 0%, rgba(7, 11, 24, 0.93) 55%, rgba(7, 11, 24, 0.96) 100%);
+}
+
+/* ---- Glassmorphism ---- */
+.glass {
+  background: rgba(17, 24, 42, 0.55);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.glass-soft {
+  background: rgba(20, 27, 46, 0.42);
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.glass-strong {
+  background: rgba(10, 15, 30, 0.72);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.glass-hover {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s, border-color 0.35s;
+}
+.glass-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgba(231, 178, 75, 0.28);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(231, 178, 75, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ---- Neomorphism (opaque soft controls) ---- */
+.neo {
+  background: linear-gradient(145deg, #131a2e, #0b1122);
+  box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.55), -6px -6px 16px rgba(255, 255, 255, 0.035);
+}
+.neo-inset {
+  background: #0b1020;
+  box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.6), inset -4px -4px 10px rgba(255, 255, 255, 0.03);
+}
+
+/* Emblem chip — keeps the KSP logo legible whether its bg is white or transparent */
+.emblem-chip {
+  background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.96), rgba(232, 236, 245, 0.9));
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+/* ---- Scroll reveal (scrollytelling) ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Gold gradient text accent */
+.text-gradient-gold {
+  background: linear-gradient(92deg, #f6d488, #e7b24b 45%, #f98125);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- Custom scrollbar ---- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.13);
+  border-radius: 9px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(231, 178, 75, 0.45);
+  background-clip: padding-box;
+}
+
+/* ---- Leaflet dark blend + themed tooltip ---- */
 .leaflet-container {
-  background: #0b1220;
+  background: transparent;
   font-family: inherit;
 }
-
-.leaflet-tooltip {
-  background: #0f172a;
-  border: 1px solid #334155;
-  color: #e2e8f0;
-  box-shadow: none;
+.leaflet-tooltip.ksp-tip {
+  background: rgba(10, 15, 30, 0.92);
+  border: 1px solid rgba(231, 178, 75, 0.32);
+  color: #e5e9f0;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+  border-radius: 10px;
+  padding: 8px 11px;
+  font-size: 12px;
 }
-
-.leaflet-tooltip-top:before {
-  border-top-color: #334155;
+.leaflet-tooltip.ksp-tip::before {
+  display: none;
+}
+.leaflet-control-zoom a {
+  background: rgba(10, 15, 30, 0.8) !important;
+  color: #e5e9f0 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+.leaflet-control-attribution {
+  background: rgba(10, 15, 30, 0.6) !important;
+  color: #94a3b8 !important;
+}
+.leaflet-control-attribution a {
+  color: #cbd5e1 !important;
 }
