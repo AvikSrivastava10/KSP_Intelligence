@@ -14,7 +14,7 @@ function useGeoJSON() {
   return useQuery({
     queryKey: ["geojson"],
     queryFn: async () => {
-      const r = await fetch("/karnataka_districts.geojson");
+      const r = await fetch(`${import.meta.env.BASE_URL}karnataka_districts.geojson`);
       if (!r.ok) throw new Error("Failed to load district boundaries");
       return r.json();
     },

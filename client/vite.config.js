@@ -2,8 +2,11 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 // Dev: proxy /server -> local crime_api (mounts router at /server/crime_api).
-// Prod (Catalyst): client + function share the app domain, so /server/crime_api is same-origin.
-export default defineConfig({
+// Prod (Catalyst): the web client is hosted under /app/, so built assets must be
+// base-prefixed with /app/. The function stays at the domain root (/server/crime_api),
+// so the API base (absolute path) is unaffected. Dev keeps base "/" for simplicity.
+export default defineConfig(({ command }) => ({
+  base: command === "build" ? "/app/" : "/",
   plugins: [react()],
   server: {
     port: 5173,
@@ -12,4 +15,4 @@ export default defineConfig({
     },
   },
   build: { outDir: "dist", chunkSizeWarningLimit: 1500 },
-});
+}));
