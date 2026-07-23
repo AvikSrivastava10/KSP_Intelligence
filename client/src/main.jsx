@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
@@ -15,9 +15,11 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/+$/, "")}>
+      {/* HashRouter: routes live in the URL hash so Catalyst only ever serves
+          /app/index.html — hard refresh + deep links work without SPA rewrites. */}
+      <HashRouter>
         <App />
-      </BrowserRouter>
+      </HashRouter>
     </QueryClientProvider>
   </React.StrictMode>
 );
