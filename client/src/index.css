@@ -30,7 +30,7 @@ body {
   background-position: center 20%;
   filter: grayscale(28%) brightness(1.04) blur(1.5px);
   transform: scale(1.05);
-  opacity: 0.8; /* image 20% fainter (blends into the #eef1f6 page behind it) */
+  opacity: 0.56; /* image fainter (blends into the #eef1f6 page behind it) */
 }
 .app-scrim {
   position: fixed;
