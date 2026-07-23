@@ -78,7 +78,7 @@ export default function Layout({ children }) {
         <div className="mt-auto">
           <div className="glass rounded-2xl p-3 text-[11px] leading-relaxed text-slate-400">
             <div className="mb-1 flex items-center gap-1.5 font-semibold text-slate-200">
-              <ShieldCheck size={13} className="text-emerald-400" /> Phase 1 · live
+              <ShieldCheck size={13} className="text-zinc-300" /> Phase 1 · live
             </div>
             Statewide dashboard on real FIR data. Hotspots, forecasts, risk & network land in later phases.
           </div>
@@ -99,8 +99,8 @@ export default function Layout({ children }) {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="hidden items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-medium text-emerald-300 sm:inline-flex">
-              <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-emerald-400" /> Live
+            <span className="hidden items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-zinc-200 sm:inline-flex">
+              <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-white" /> Live
             </span>
             <span className="hidden text-[11px] text-slate-500 md:inline">Hack2Skill Datathon 2026</span>
             <div className="md:hidden">

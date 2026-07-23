@@ -2,9 +2,9 @@ import { useMemo } from "react";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { useFilters } from "../state/store.js";
 
-// Cool (low) -> KSP gold/saffron -> red (high). Reads well on the dark basemap.
-const PALETTE = ["#243b55", "#375a7f", "#4b7bab", "#e7b24b", "#f2a03d", "#f98125", "#e5533c", "#c43b2e"];
-const NO_DATA = "#2b3345";
+// Grayscale heat: dark (low) -> white (high). Reads clearly on the dark basemap.
+const PALETTE = ["#2a2a2e", "#3d3d42", "#525259", "#6b6b73", "#8a8a92", "#adadb4", "#d0d0d5", "#f5f5f7"];
+const NO_DATA = "#1f1f22";
 
 function makeScale(values) {
   const sorted = values.filter((v) => v != null && !Number.isNaN(v)).sort((a, b) => a - b);
@@ -41,7 +41,7 @@ export default function DistrictChoropleth({ districts, metric, geojson }) {
     return {
       fillColor: scale(valueOf(d, metric)),
       weight: isSel ? 3 : 1,
-      color: isSel ? "#f6d488" : "rgba(8,12,24,0.85)",
+      color: isSel ? "#ffffff" : "rgba(8,8,10,0.85)",
       fillOpacity: isSel ? 0.92 : 0.8,
     };
   };
@@ -54,10 +54,10 @@ export default function DistrictChoropleth({ districts, metric, geojson }) {
     else if (metric === "crimes_per_100k")
       line = d.crimes_per_100k != null ? `${d.crimes_per_100k.toLocaleString()} / 100k` : "per-capita N/A";
     else line = `${d.total_cases.toLocaleString()} FIRs`;
-    layer.bindTooltip(`<b style="color:#f6d488">${name}</b><br/>${line}`, { sticky: true, className: "ksp-tip" });
+    layer.bindTooltip(`<b style="color:#ffffff">${name}</b><br/>${line}`, { sticky: true, className: "ksp-tip" });
     layer.on({
       click: () => d && selectDistrict(d.district),
-      mouseover: (e) => e.target.setStyle({ weight: 2.5, color: "#f6d488", fillOpacity: 0.95 }),
+      mouseover: (e) => e.target.setStyle({ weight: 2.5, color: "#ffffff", fillOpacity: 0.95 }),
       mouseout: (e) => e.target.setStyle(baseStyle(feature)),
     });
   };

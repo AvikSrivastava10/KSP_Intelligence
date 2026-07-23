@@ -42,7 +42,7 @@ export default function Dashboard() {
       {/* ---------- Hero ---------- */}
       <Reveal as="section" className="relative overflow-hidden rounded-4xl border border-white/10 px-6 py-10 md:px-10 md:py-14 glass-strong">
         <div className="pointer-events-none absolute -right-10 -top-10 h-56 w-56 rounded-full bg-ksp-saffron/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-16 left-1/3 h-56 w-56 rounded-full bg-sky-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 left-1/3 h-56 w-56 rounded-full bg-white/5 blur-3xl" />
         <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center">
           <div className="emblem-chip grid h-24 w-24 shrink-0 animate-floaty place-items-center rounded-3xl p-2">
             <img src={asset("ksp-logo.png")} alt="Karnataka State Police" className="h-full w-full object-contain" />
@@ -128,7 +128,7 @@ export default function Dashboard() {
             <span>{perCapita ? "Crimes per 100k (Census 2011)" : "Total FIRs 2016–2024"}</span>
             <span className="flex items-center gap-2">
               Low
-              <span className="h-2 w-28 rounded-full" style={{ background: "linear-gradient(90deg,#243b55,#4b7bab,#e7b24b,#f98125,#c43b2e)" }} />
+              <span className="h-2 w-28 rounded-full" style={{ background: "linear-gradient(90deg,#2a2a2e,#57575e,#8a8a92,#c4c4cc,#f5f5f7)" }} />
               High
             </span>
           </div>
@@ -146,7 +146,7 @@ export default function Dashboard() {
             <div className="text-sm font-semibold text-white">Yearly FIR volume</div>
             <div className="text-[11px] text-slate-400">Statewide, all crime heads</div>
           </div>
-          <span className="rounded-full border border-amber-400/25 bg-amber-400/10 px-2.5 py-0.5 text-[11px] text-amber-300">2024 partial</span>
+          <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[11px] text-zinc-300">2024 partial</span>
         </div>
         {o && <YearlyTrend perYear={o.per_year} />}
       </Reveal>

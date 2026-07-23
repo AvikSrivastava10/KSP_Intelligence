@@ -45,7 +45,7 @@ export default function DrillDownPanel() {
   const monthly = r.monthly || [];
   const monthlyOption = {
     grid: { left: 44, right: 12, top: 14, bottom: 22 },
-    tooltip: { trigger: "axis", backgroundColor: "rgba(10,15,30,0.92)", borderColor: "rgba(231,178,75,0.3)", textStyle: { color: "#e5e9f0" } },
+    tooltip: { trigger: "axis", backgroundColor: "rgba(10,10,12,0.92)", borderColor: "rgba(255,255,255,0.3)", textStyle: { color: "#e5e5e8" } },
     xAxis: {
       type: "category",
       data: monthly.map((m) => m.ym),
@@ -57,8 +57,8 @@ export default function DrillDownPanel() {
     series: [
       {
         type: "line", data: monthly.map((m) => m.count), smooth: true, showSymbol: false,
-        lineStyle: { color: "#38bdf8", width: 2 },
-        areaStyle: { color: { type: "linear", x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: "rgba(56,189,248,0.28)" }, { offset: 1, color: "rgba(56,189,248,0.02)" }] } },
+        lineStyle: { color: "#d4d4d8", width: 2 },
+        areaStyle: { color: { type: "linear", x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: "rgba(255,255,255,0.24)" }, { offset: 1, color: "rgba(255,255,255,0.02)" }] } },
       },
     ],
   };
@@ -66,13 +66,13 @@ export default function DrillDownPanel() {
   const cats = (r.categories || []).slice(0, 8).reverse();
   const catOption = {
     grid: { left: 8, right: 26, top: 6, bottom: 6, containLabel: true },
-    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, backgroundColor: "rgba(10,15,30,0.92)", borderColor: "rgba(231,178,75,0.3)", textStyle: { color: "#e5e9f0" } },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, backgroundColor: "rgba(10,10,12,0.92)", borderColor: "rgba(255,255,255,0.3)", textStyle: { color: "#e5e5e8" } },
     xAxis: { type: "value", axisLabel: { color: "#64748b", fontSize: 10 }, splitLine: { lineStyle: { color: "rgba(148,163,184,0.1)" } } },
     yAxis: { type: "category", data: cats.map((c) => c.major_head), axisLabel: { color: "#cbd5e1", width: 128, overflow: "truncate", fontSize: 10 }, axisTick: { show: false }, axisLine: { show: false } },
     series: [
       {
         type: "bar", data: cats.map((c) => c.count), barWidth: "58%",
-        itemStyle: { borderRadius: [0, 4, 4, 0], color: { type: "linear", x: 0, y: 0, x2: 1, y2: 0, colorStops: [{ offset: 0, color: "#e7b24b" }, { offset: 1, color: "#f98125" }] } },
+        itemStyle: { borderRadius: [0, 4, 4, 0], color: { type: "linear", x: 0, y: 0, x2: 1, y2: 0, colorStops: [{ offset: 0, color: "#71717a" }, { offset: 1, color: "#e4e4e7" }] } },
       },
     ],
   };

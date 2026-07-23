@@ -4,13 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Karnataka State Police identity — drawn from the emblem + marching uniforms
+        // Monochrome (black & white) accent scale — kept under the `ksp` keys so all
+        // existing text-ksp-*/bg-ksp-* usages resolve to grayscale without edits.
         ksp: {
-          saffron: "#F98125",
-          gold: "#E7B24B",
-          red: "#C43B2E",
-          navy: "#0A1024",
-          khaki: "#CBB98C",
+          saffron: "#C7C7CE",
+          gold: "#EDEDF0",
+          red: "#A1A1AA",
+          navy: "#0A0A0B",
+          khaki: "#9A9AA2",
         },
       },
       fontFamily: {
@@ -22,7 +23,7 @@ export default {
         "glass-lg": "0 24px 70px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08)",
         neo: "6px 6px 16px rgba(0,0,0,0.55), -6px -6px 16px rgba(255,255,255,0.035)",
         "neo-inset": "inset 4px 4px 10px rgba(0,0,0,0.55), inset -4px -4px 10px rgba(255,255,255,0.035)",
-        glow: "0 0 0 1px rgba(231,178,75,0.30), 0 10px 34px rgba(231,178,75,0.16)",
+        glow: "0 0 0 1px rgba(255,255,255,0.22), 0 10px 34px rgba(255,255,255,0.10)",
       },
       keyframes: {
         fadeUp: { "0%": { opacity: 0, transform: "translateY(24px)" }, "100%": { opacity: 1, transform: "translateY(0)" } },

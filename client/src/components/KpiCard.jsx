@@ -1,11 +1,11 @@
 // Accent maps use literal class strings so Tailwind's JIT keeps them.
 const ACCENT = {
-  gold: "text-ksp-gold",
-  saffron: "text-ksp-saffron",
-  sky: "text-sky-300",
-  emerald: "text-emerald-300",
-  violet: "text-violet-300",
-  rose: "text-rose-300",
+  gold: "text-white",
+  saffron: "text-zinc-200",
+  sky: "text-zinc-100",
+  emerald: "text-zinc-100",
+  violet: "text-zinc-200",
+  rose: "text-zinc-200",
 };
 
 export default function KpiCard({ label, value, sub, icon: Icon, accent = "sky" }) {
