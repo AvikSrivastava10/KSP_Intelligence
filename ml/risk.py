@@ -33,12 +33,16 @@ data_class=real. Re-runnable.  Run: python ml/risk.py
 from __future__ import annotations
 
 import os
+import sys
 import warnings
 
 import numpy as np
 import pandas as pd
 from lightgbm import LGBMRegressor
 from scipy.stats import spearmanr
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from model_store import save_model  # noqa: E402
 
 warnings.filterwarnings("ignore")
 
@@ -221,6 +225,15 @@ def main():
     res = res[["canonical_name", "kgis_code", "population", "predicted_next",
                "risk_score", "risk_tier", "top_drivers"]]
     res.to_csv(os.path.join(OUT_DIR, "risk_scores.csv"), index=False)
+
+    # serialize for offline inference on new district-years (see ml/predict.py).
+    # NOTE the contract: this model predicts a GROWTH RATIO — multiply by lag1 for a volume.
+    save_model("district_risk", m, task="regression: next-year growth ratio (x lag1 = volume)",
+               features=FEATURES, training_rows=int(len(labelled)),
+               metrics={"spearman_holdout_2023": round(float(rho), 3), "mae": round(mae, 1),
+                        "baseline_persistence_mae": round(base_mae, 1)},
+               notes="predict() returns a GROWTH RATIO clipped to "
+                     f"{RATIO_CLIP}; predicted_volume = ratio * lag1.")
 
     tiers = res["risk_tier"].value_counts().to_dict()
     print(f"[risk] scored {len(res)} districts for {PREDICT_YEAR}; tiers={tiers}")
