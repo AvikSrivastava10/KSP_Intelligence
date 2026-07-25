@@ -163,3 +163,54 @@ body {
 .leaflet-control-attribution a {
   color: #334155 !important;
 }
+
+/* ==========================================================================
+   PRINT / REPORT EXPORT
+   "Export briefing" calls window.print(); the browser's Print-to-PDF produces the
+   artefact. Deliberately no jsPDF/html2canvas — the project minimises dependencies,
+   and native print keeps text selectable and accessible rather than rasterised.
+   ========================================================================== */
+@media print {
+  @page { size: A4; margin: 14mm 12mm; }
+
+  /* chrome that must not appear on paper */
+  aside, header, .no-print, .leaflet-control-container { display: none !important; }
+  .app-bg, .app-scrim { display: none !important; }
+
+  html, body, #root { background: #fff !important; }
+  main { overflow: visible !important; padding: 0 !important; }
+
+  /* flatten the glass/neumorphic treatment — shadows and blur waste toner and
+     render unpredictably across print drivers */
+  .glass, .glass-strong, .neo, .neo-inset {
+    background: #fff !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+
+  /* keep panels and table rows intact across page breaks */
+  .glass, .glass-strong, table, tr, .rounded-3xl, .rounded-2xl {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  h1, h2 { break-after: avoid; page-break-after: avoid; }
+
+  /* Reveal() animates from opacity:0 — force visible or panels print blank */
+  [class*="opacity-0"], [style*="opacity: 0"] { opacity: 1 !important; transform: none !important; }
+  * { animation: none !important; transition: none !important; }
+
+  a[href]::after { content: ""; }  /* suppress URL expansion */
+
+  body::after {
+    content: "Karnataka State Police · State Crime Records Bureau — Crime Intelligence Platform. "
+             "Figures derived from 1,674,734 real FIRs (2016–2024; 2024 partial). "
+             "Predictions are statistical projections, not determinations.";
+    display: block;
+    margin-top: 10mm;
+    padding-top: 3mm;
+    border-top: 1px solid #cbd5e1;
+    font-size: 8pt;
+    color: #475569;
+  }
+}

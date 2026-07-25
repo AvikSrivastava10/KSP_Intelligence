@@ -237,7 +237,11 @@ export default function TrendsForecast() {
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
-                    <span className="h-2 w-2 rounded-full" style={{ background: SEV[a.severity] }} />
+                    {/* red zones pulse (per the brief's "red-zone pulsing" indicator); amber stays static */}
+                    <span
+                      className={`h-2 w-2 rounded-full ${a.severity === "red" ? "animate-pulse-glow" : ""}`}
+                      style={{ background: SEV[a.severity] }}
+                    />
                     {a.category}
                   </span>
                   <span className="text-xs font-bold" style={{ color: SEV[a.severity] }}>+{a.deviation_pct}%</span>
