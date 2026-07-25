@@ -37,6 +37,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sys
 import time
 import warnings
 from datetime import datetime, timezone
@@ -46,6 +47,9 @@ import pandas as pd
 from lightgbm import LGBMClassifier
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from sklearn.model_selection import StratifiedKFold, train_test_split
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from model_store import save_model  # noqa: E402
 
 warnings.filterwarnings("ignore")
 
@@ -75,17 +79,25 @@ LEAK_THRESHOLD = 0.95  # any headline above this on filing-time features => susp
 
 def bucket_topn(s: pd.Series, n: int) -> pd.Series:
     keep = set(s.value_counts().nlargest(n).index)
-    return s.where(s.isin(keep), "OTHER")
+    return s.where(s.isin(keep), "OTHER"), keep
 
 
 def prep(df):
+    """Apply preprocessing AND return the contract needed to reproduce it at inference time.
+
+    The kept top-N sets and the resulting category level order are what make a saved model usable
+    on new data — re-deriving them from new data would silently change the encoding.
+    """
+    topn_keep, category_levels = {}, {}
     for c, n in TOPN.items():
-        df[c] = bucket_topn(df[c].astype(str), n)
+        df[c], keep = bucket_topn(df[c].astype(str), n)
+        topn_keep[c] = sorted(keep)
     for c in CAT_COLS:
         df[c] = df[c].astype("category")
+        category_levels[c] = list(df[c].cat.categories)
     for c in NUM_COLS:
         df[c] = pd.to_numeric(df[c], errors="coerce").fillna(0)
-    return df
+    return df, topn_keep, category_levels
 
 
 def main():
@@ -104,7 +116,7 @@ def main():
     present_bad = (LEAKAGE_COLS | SEX_COLS) & set(df.columns)
     assert not present_bad, f"LEAKAGE/FAIRNESS guard failed: {present_bad} present in features!"
     assert "modeled_time_of_day" not in FEATURES, "modeled time-of-day must not be a feature"
-    df = prep(df)
+    df, TOPN_KEEP, CAT_LEVELS = prep(df)
     X = df[FEATURES]
 
     params = dict(n_estimators=300, learning_rate=0.05, num_leaves=63, min_child_samples=100,
@@ -230,6 +242,22 @@ def main():
     }
     with open(os.path.join(OUT_DIR, "outcome_metrics.json"), "w", encoding="utf-8") as f:
         json.dump(metrics, f, indent=2)
+
+    # ---- serialize both models for offline inference on NEW cases (see ml/predict.py) ----
+    contract = dict(features=FEATURES, categorical_features=CAT_COLS,
+                    category_levels=CAT_LEVELS, topn_keep=TOPN_KEEP)
+    save_model("case_outcome_binary", mb, task="binary: detected vs undetected",
+               training_rows=int(len(dfb)),
+               metrics={"auc_mean": round(auc_mean, 4), "accuracy": round(acc_mean, 4),
+                        "baseline_accuracy": round(float(base_acc_bin), 4)},
+               notes="predict_proba()[:,1] = P(detected). Label mapping in outcome_metrics.json.",
+               **contract)
+    save_model("case_outcome_multiclass", mc, task="multi-class: fir_stage (13 classes)",
+               training_rows=int(len(Xtr)),
+               metrics={"accuracy": round(acc, 4), "macro_f1": round(mf1, 4),
+                        "baseline_accuracy": round(base_acc, 4)},
+               notes="predict() returns the FIR_Stage label.",
+               **contract)
 
     print("\n--- MODEL CARD: case-outcome ---")
     print(f"  multiclass  acc {acc:.3f} (base {base_acc:.3f}) | macroF1 {mf1:.3f} (base {base_mf1:.3f})")
