@@ -689,7 +689,7 @@
     {
       "table_name": "anomalies",
       "data_class": "real",
-      "row_count": 134,
+      "row_count": 415,
       "columns": [
         {
           "column_name": "canonical_name",
@@ -730,6 +730,178 @@
           "column_name": "reason",
           "data_type": "varchar",
           "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "mo_clusters",
+      "data_class": "real",
+      "row_count": 43,
+      "columns": [
+        {
+          "column_name": "cluster_id",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "size",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "share_pct",
+          "data_type": "double"
+        },
+        {
+          "column_name": "top_crime_head",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "head_purity",
+          "data_type": "double"
+        },
+        {
+          "column_name": "top_crime_subhead",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "top_section",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "top_districts",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "heinous_share",
+          "data_type": "double"
+        },
+        {
+          "column_name": "season_profile",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "time_profile",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "mo_description",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "mo_assignments",
+      "data_class": "real",
+      "row_count": 311,
+      "columns": [
+        {
+          "column_name": "crime_subhead",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "cluster_id",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "n",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "agg_temporal",
+      "data_class": "real",
+      "row_count": 2854,
+      "columns": [
+        {
+          "column_name": "district",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "dow",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "month",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "season",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "outcomes_by_district",
+      "data_class": "real",
+      "row_count": 35,
+      "columns": [
+        {
+          "column_name": "district",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "kgis_code",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "cases",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "detected",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "undetected",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "detection_rate",
+          "data_type": "double"
+        },
+        {
+          "column_name": "convicted",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "conviction_rate",
+          "data_type": "double"
+        }
+      ]
+    },
+    {
+      "table_name": "outcome_drivers",
+      "data_class": "real",
+      "row_count": 14,
+      "columns": [
+        {
+          "column_name": "feature",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "importance_detection_pct",
+          "data_type": "double"
+        },
+        {
+          "column_name": "importance_multiclass_pct",
+          "data_type": "double"
         }
       ]
     }

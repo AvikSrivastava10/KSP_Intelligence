@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Map, TrendingUp, ShieldAlert, Network, Clock, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Map, TrendingUp, ShieldAlert, Fingerprint, Network, ShieldCheck } from "lucide-react";
 
 const asset = (p) => `${import.meta.env.BASE_URL}${p}`;
 
@@ -8,8 +8,8 @@ const NAV = [
   { to: "/hotspots", label: "Hotspot Map", icon: Map, enabled: true },
   { to: "/trends", label: "Trends & Forecast", icon: TrendingUp, enabled: true },
   { to: "/risk", label: "Risk & Vulnerability", icon: ShieldAlert, enabled: true },
+  { to: "/patterns", label: "Patterns & MO", icon: Fingerprint, enabled: true },
   { to: "/network", label: "Network & Link", icon: Network, enabled: false },
-  { to: "/timeofday", label: "Time-of-day", icon: Clock, enabled: false },
 ];
 
 function Emblem({ size = "h-10 w-10" }) {
@@ -78,9 +78,9 @@ export default function Layout({ children }) {
         <div className="mt-auto">
           <div className="glass rounded-2xl p-3 text-[11px] leading-relaxed text-slate-500">
             <div className="mb-1 flex items-center gap-1.5 font-semibold text-slate-700">
-              <ShieldCheck size={13} className="text-emerald-500" /> Phase 1 · live
+              <ShieldCheck size={13} className="text-emerald-500" /> Live
             </div>
-            Statewide dashboard on real FIR data. Hotspots, forecasts, risk & network land in later phases.
+            Dashboard, hotspots, forecasts, risk &amp; MO patterns on real FIR data. Network analysis lands next.
           </div>
         </div>
       </aside>

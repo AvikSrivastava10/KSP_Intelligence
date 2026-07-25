@@ -66,3 +66,10 @@ export const fetchAnomalies = ({ district, category, year, limit } = {}) => {
   const qs = q.toString();
   return api(`/anomalies${qs ? `?${qs}` : ""}`);
 };
+
+// --- Phase 4: patterns / MO / outcomes ---
+export const fetchMoClusters = () => api("/patterns/mo-clusters");
+export const fetchTemporal = (district) =>
+  api(`/patterns/temporal${district ? `?district=${encodeURIComponent(district)}` : ""}`);
+export const fetchOutcomes = () => api("/outcomes");
+export const fetchOutcomeDrivers = () => api("/outcomes/drivers");

@@ -1,0 +1,81 @@
+{
+  "generated_at_utc": "2026-07-24T20:39:13.912920+00:00",
+  "data_class": "real",
+  "n_cases": 1674734,
+  "features": [
+    "season",
+    "district",
+    "crime_head",
+    "crime_subhead",
+    "gravity",
+    "complaint_mode",
+    "first_act",
+    "first_section",
+    "year",
+    "month",
+    "dow",
+    "victims",
+    "accused_count",
+    "has_coord"
+  ],
+  "multiclass": {
+    "target": "fir_stage",
+    "classes": 13,
+    "holdout": "stratified 80/20",
+    "accuracy": 0.7231,
+    "macro_f1": 0.5606,
+    "baseline_majority_class": "Pending Trial",
+    "baseline_accuracy": 0.2976,
+    "baseline_macro_f1": 0.0353,
+    "beats_baseline": true
+  },
+  "binary_detection": {
+    "mapping": {
+      "undetected": [
+        "Un Traced",
+        "Undetected"
+      ],
+      "detected": [
+        "Abated",
+        "BoundOver",
+        "Compounded",
+        "Convicted",
+        "Dis/Acq",
+        "Other Disposal",
+        "Pending Trial",
+        "Traced"
+      ],
+      "excluded": [
+        "False Case",
+        "Transferred",
+        "Under Investigation"
+      ]
+    },
+    "n": 1488859,
+    "undetected_base_rate": 0.1311,
+    "cv": "3-fold stratified",
+    "auc_mean": 0.9691,
+    "auc_std": 0.0004,
+    "accuracy": 0.9448,
+    "baseline_accuracy": 0.8689,
+    "beats_baseline": true,
+    "accused_count_proxy_check": {
+      "mean_accused_undetected": 0.275,
+      "mean_accused_detected": 1.982
+    }
+  },
+  "leakage_check": {
+    "excluded_features": [
+      "arrested_count",
+      "arrested_female",
+      "arrested_male",
+      "chargesheeted_count",
+      "conviction_count"
+    ],
+    "threshold": 0.95,
+    "flagged": false,
+    "note": "No outcome-derived field is a feature; accused_count/victims are filing-time totals."
+  },
+  "fairness": "No protected attributes/proxies: victims is a TOTAL (never sex-split); no caste/religion; modeled time-of-day excluded (circular with crime type).",
+  "interpretation": "Feature importances are ASSOCIATIONS with the outcome, not causal effects."
+}

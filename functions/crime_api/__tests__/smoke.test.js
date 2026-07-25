@@ -163,3 +163,106 @@ describe("crime_api Phase 3 predictive (CSV fallback)", () => {
     expect(r.body.result.anomalies[0].count).toBeGreaterThan(r.body.result.anomalies[0].expected);
   });
 });
+
+describe("crime_api Phase 4 patterns / MO / outcomes (CSV fallback)", () => {
+  test("GET /patterns/mo-clusters -> clusters sorted by size, with descriptions + members", async () => {
+    const r = await request(app).get("/patterns/mo-clusters");
+    expect(r.status).toBe(200);
+    expect(r.body.data_class).toBe("real");
+    const cl = r.body.result.clusters;
+    expect(cl.length).toBeGreaterThan(0);
+    expect(cl[0].size).toBeGreaterThanOrEqual(cl[1].size); // sorted desc
+    expect(cl[0].mo_description).toBeTruthy();
+    expect(Array.isArray(cl[0].top_districts)).toBe(true);
+    expect(Array.isArray(cl[0].members)).toBe(true);
+    expect(r.body.result.note).toMatch(/modeled/i); // time-of-day honesty note
+  });
+
+  test("GET /patterns/temporal -> 84-cell dow x month grid + peak call-out", async () => {
+    const r = await request(app).get("/patterns/temporal");
+    expect(r.body.ok).toBe(true);
+    expect(r.body.result.cells.length).toBe(84); // 7 dow x 12 months
+    expect(r.body.result.dow_labels.length).toBe(7);
+    expect(r.body.result.month_labels.length).toBe(12);
+    expect(r.body.result.peak.count).toBeGreaterThan(0);
+    expect(r.body.result.callout).toMatch(/peak/i);
+    expect(r.body.result.total).toBeGreaterThan(0);
+  });
+
+  test("GET /patterns/temporal?district=Mysuru -> filtered grid (smaller total)", async () => {
+    const all = await request(app).get("/patterns/temporal");
+    const one = await request(app).get("/patterns/temporal?district=Mysuru");
+    expect(one.body.ok).toBe(true);
+    expect(one.body.result.total).toBeGreaterThan(0);
+    expect(one.body.result.total).toBeLessThan(all.body.result.total);
+  });
+
+  test("GET /outcomes -> 31 geographic districts + statewide roll-up", async () => {
+    const r = await request(app).get("/outcomes");
+    expect(r.body.ok).toBe(true);
+    expect(r.body.result.count).toBe(31);
+    expect(r.body.result.districts[0].detection_rate).toBeGreaterThan(0);
+    expect(r.body.result.statewide.conviction_rate).toBeGreaterThan(0);
+  });
+
+  test("GET /patterns/temporal?district=Mysuru City -> rolls up to parent Mysuru", async () => {
+    const city = await request(app).get("/patterns/temporal?district=Mysuru%20City");
+    const parent = await request(app).get("/patterns/temporal?district=Mysuru");
+    expect(city.body.ok).toBe(true);
+    expect(city.body.result.district).toBe("Mysuru");
+    expect(city.body.result.total).toBe(parent.body.result.total);
+  });
+
+  test("GET /outcomes/drivers -> importances (associations) + honest AUC, no leakage/protected features", async () => {
+    const r = await request(app).get("/outcomes/drivers");
+    expect(r.body.ok).toBe(true);
+    const d = r.body.result.drivers;
+    expect(d.length).toBeGreaterThan(0);
+    expect(d[0].importance_detection_pct).toBeGreaterThanOrEqual(d[1].importance_detection_pct);
+    // honest, non-leaky headline
+    expect(r.body.result.binary_detection.auc_mean).toBeGreaterThan(0.5);
+    expect(r.body.result.binary_detection.auc_mean).toBeLessThan(0.99);
+    expect(r.body.result.leakage_check.flagged).toBe(false);
+    // no outcome-derived or protected features exposed as drivers
+    const feats = d.map((x) => x.feature).join(" ");
+    expect(feats).not.toMatch(/arrested|chargesheet|conviction_count|v_male|v_female|v_boy|v_girl/);
+  });
+});
+
+describe("crime_api hardening (audit regressions)", () => {
+  test("malformed percent-encoding -> 400 (not 500)", async () => {
+    const r = await request(app).get("/district/%ZZ");
+    expect(r.status).toBe(400);
+    expect(r.body.ok).toBe(false);
+  });
+
+  test("oversized x-request-id is NOT echoed back (fresh UUID instead)", async () => {
+    const big = "A".repeat(5000);
+    const r = await request(app).get("/health").set("x-request-id", big);
+    expect(r.status).toBe(200);
+    expect(r.headers["x-request-id"]).not.toBe(big);
+    expect(r.headers["x-request-id"].length).toBeLessThanOrEqual(64);
+  });
+
+  test("well-formed x-request-id IS honoured", async () => {
+    const r = await request(app).get("/health").set("x-request-id", "trace-123.abc");
+    expect(r.headers["x-request-id"]).toBe("trace-123.abc");
+    expect(r.body.request_id).toBe("trace-123.abc");
+  });
+
+  test("injection-ish query params are inert (JS-side filtering only)", async () => {
+    const r = await request(app).get("/patterns/temporal?district=%27%3B%20DROP%20TABLE%20x%3B--");
+    expect(r.status).toBe(200);
+    expect(r.body.result.total).toBe(0);
+    expect(r.body.result.callout).toMatch(/no records/i);
+  });
+
+  test("limit params clamp: huge -> capped, negative -> 1, NaN -> default", async () => {
+    const huge = await request(app).get("/anomalies?limit=999999");
+    expect(huge.body.result.showing).toBeLessThanOrEqual(500);
+    const neg = await request(app).get("/anomalies?limit=-5");
+    expect(neg.body.result.showing).toBe(1);
+    const nan = await request(app).get("/hotspots/clusters?limit=abc");
+    expect(nan.body.result.showing).toBeLessThanOrEqual(60);
+  });
+});

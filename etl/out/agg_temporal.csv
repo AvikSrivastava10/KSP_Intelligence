@@ -1,0 +1,2855 @@
+district,dow,month,season,count
+Bagalkote,0,1,Winter,382
+Bagalkote,0,2,Winter,426
+Bagalkote,0,3,Summer,362
+Bagalkote,0,4,Summer,351
+Bagalkote,0,5,Summer,385
+Bagalkote,0,6,Monsoon,234
+Bagalkote,0,7,Monsoon,284
+Bagalkote,0,8,Monsoon,277
+Bagalkote,0,9,Monsoon,245
+Bagalkote,0,10,Post-Monsoon,339
+Bagalkote,0,11,Post-Monsoon,292
+Bagalkote,0,12,Winter,293
+Bagalkote,1,1,Winter,412
+Bagalkote,1,2,Winter,455
+Bagalkote,1,3,Summer,404
+Bagalkote,1,4,Summer,338
+Bagalkote,1,5,Summer,330
+Bagalkote,1,6,Monsoon,319
+Bagalkote,1,7,Monsoon,301
+Bagalkote,1,8,Monsoon,324
+Bagalkote,1,9,Monsoon,279
+Bagalkote,1,10,Post-Monsoon,369
+Bagalkote,1,11,Post-Monsoon,341
+Bagalkote,1,12,Winter,269
+Bagalkote,2,1,Winter,388
+Bagalkote,2,2,Winter,488
+Bagalkote,2,3,Summer,376
+Bagalkote,2,4,Summer,334
+Bagalkote,2,5,Summer,339
+Bagalkote,2,6,Monsoon,359
+Bagalkote,2,7,Monsoon,300
+Bagalkote,2,8,Monsoon,312
+Bagalkote,2,9,Monsoon,291
+Bagalkote,2,10,Post-Monsoon,350
+Bagalkote,2,11,Post-Monsoon,360
+Bagalkote,2,12,Winter,267
+Bagalkote,3,1,Winter,364
+Bagalkote,3,2,Winter,536
+Bagalkote,3,3,Summer,440
+Bagalkote,3,4,Summer,380
+Bagalkote,3,5,Summer,290
+Bagalkote,3,6,Monsoon,340
+Bagalkote,3,7,Monsoon,289
+Bagalkote,3,8,Monsoon,329
+Bagalkote,3,9,Monsoon,326
+Bagalkote,3,10,Post-Monsoon,313
+Bagalkote,3,11,Post-Monsoon,347
+Bagalkote,3,12,Winter,276
+Bagalkote,4,1,Winter,355
+Bagalkote,4,2,Winter,466
+Bagalkote,4,3,Summer,459
+Bagalkote,4,4,Summer,360
+Bagalkote,4,5,Summer,282
+Bagalkote,4,6,Monsoon,362
+Bagalkote,4,7,Monsoon,281
+Bagalkote,4,8,Monsoon,307
+Bagalkote,4,9,Monsoon,310
+Bagalkote,4,10,Post-Monsoon,310
+Bagalkote,4,11,Post-Monsoon,312
+Bagalkote,4,12,Winter,326
+Bagalkote,5,1,Winter,347
+Bagalkote,5,2,Winter,425
+Bagalkote,5,3,Summer,422
+Bagalkote,5,4,Summer,362
+Bagalkote,5,5,Summer,292
+Bagalkote,5,6,Monsoon,311
+Bagalkote,5,7,Monsoon,335
+Bagalkote,5,8,Monsoon,330
+Bagalkote,5,9,Monsoon,341
+Bagalkote,5,10,Post-Monsoon,325
+Bagalkote,5,11,Post-Monsoon,270
+Bagalkote,5,12,Winter,299
+Bagalkote,6,1,Winter,303
+Bagalkote,6,2,Winter,381
+Bagalkote,6,3,Summer,304
+Bagalkote,6,4,Summer,304
+Bagalkote,6,5,Summer,310
+Bagalkote,6,6,Monsoon,270
+Bagalkote,6,7,Monsoon,295
+Bagalkote,6,8,Monsoon,270
+Bagalkote,6,9,Monsoon,274
+Bagalkote,6,10,Post-Monsoon,269
+Bagalkote,6,11,Post-Monsoon,271
+Bagalkote,6,12,Winter,278
+Ballari,0,1,Winter,387
+Ballari,0,2,Winter,351
+Ballari,0,3,Summer,366
+Ballari,0,4,Summer,370
+Ballari,0,5,Summer,381
+Ballari,0,6,Monsoon,292
+Ballari,0,7,Monsoon,373
+Ballari,0,8,Monsoon,338
+Ballari,0,9,Monsoon,268
+Ballari,0,10,Post-Monsoon,352
+Ballari,0,11,Post-Monsoon,287
+Ballari,0,12,Winter,255
+Ballari,1,1,Winter,350
+Ballari,1,2,Winter,408
+Ballari,1,3,Summer,342
+Ballari,1,4,Summer,332
+Ballari,1,5,Summer,387
+Ballari,1,6,Monsoon,342
+Ballari,1,7,Monsoon,387
+Ballari,1,8,Monsoon,385
+Ballari,1,9,Monsoon,293
+Ballari,1,10,Post-Monsoon,370
+Ballari,1,11,Post-Monsoon,354
+Ballari,1,12,Winter,296
+Ballari,2,1,Winter,381
+Ballari,2,2,Winter,439
+Ballari,2,3,Summer,442
+Ballari,2,4,Summer,359
+Ballari,2,5,Summer,360
+Ballari,2,6,Monsoon,316
+Ballari,2,7,Monsoon,359
+Ballari,2,8,Monsoon,368
+Ballari,2,9,Monsoon,347
+Ballari,2,10,Post-Monsoon,286
+Ballari,2,11,Post-Monsoon,353
+Ballari,2,12,Winter,288
+Ballari,3,1,Winter,335
+Ballari,3,2,Winter,438
+Ballari,3,3,Summer,416
+Ballari,3,4,Summer,365
+Ballari,3,5,Summer,348
+Ballari,3,6,Monsoon,338
+Ballari,3,7,Monsoon,315
+Ballari,3,8,Monsoon,397
+Ballari,3,9,Monsoon,369
+Ballari,3,10,Post-Monsoon,354
+Ballari,3,11,Post-Monsoon,323
+Ballari,3,12,Winter,338
+Ballari,4,1,Winter,356
+Ballari,4,2,Winter,361
+Ballari,4,3,Summer,408
+Ballari,4,4,Summer,361
+Ballari,4,5,Summer,330
+Ballari,4,6,Monsoon,303
+Ballari,4,7,Monsoon,329
+Ballari,4,8,Monsoon,341
+Ballari,4,9,Monsoon,344
+Ballari,4,10,Post-Monsoon,353
+Ballari,4,11,Post-Monsoon,329
+Ballari,4,12,Winter,356
+Ballari,5,1,Winter,377
+Ballari,5,2,Winter,398
+Ballari,5,3,Summer,415
+Ballari,5,4,Summer,387
+Ballari,5,5,Summer,306
+Ballari,5,6,Monsoon,307
+Ballari,5,7,Monsoon,390
+Ballari,5,8,Monsoon,294
+Ballari,5,9,Monsoon,305
+Ballari,5,10,Post-Monsoon,344
+Ballari,5,11,Post-Monsoon,275
+Ballari,5,12,Winter,326
+Ballari,6,1,Winter,288
+Ballari,6,2,Winter,290
+Ballari,6,3,Summer,325
+Ballari,6,4,Summer,315
+Ballari,6,5,Summer,299
+Ballari,6,6,Monsoon,215
+Ballari,6,7,Monsoon,302
+Ballari,6,8,Monsoon,263
+Ballari,6,9,Monsoon,229
+Ballari,6,10,Post-Monsoon,277
+Ballari,6,11,Post-Monsoon,215
+Ballari,6,12,Winter,213
+Belagavi,0,1,Winter,1098
+Belagavi,0,2,Winter,1441
+Belagavi,0,3,Summer,1019
+Belagavi,0,4,Summer,913
+Belagavi,0,5,Summer,1025
+Belagavi,0,6,Monsoon,901
+Belagavi,0,7,Monsoon,881
+Belagavi,0,8,Monsoon,938
+Belagavi,0,9,Monsoon,795
+Belagavi,0,10,Post-Monsoon,927
+Belagavi,0,11,Post-Monsoon,814
+Belagavi,0,12,Winter,771
+Belagavi,1,1,Winter,1171
+Belagavi,1,2,Winter,1432
+Belagavi,1,3,Summer,1181
+Belagavi,1,4,Summer,933
+Belagavi,1,5,Summer,1020
+Belagavi,1,6,Monsoon,977
+Belagavi,1,7,Monsoon,868
+Belagavi,1,8,Monsoon,943
+Belagavi,1,9,Monsoon,827
+Belagavi,1,10,Post-Monsoon,888
+Belagavi,1,11,Post-Monsoon,927
+Belagavi,1,12,Winter,875
+Belagavi,2,1,Winter,1078
+Belagavi,2,2,Winter,1353
+Belagavi,2,3,Summer,1226
+Belagavi,2,4,Summer,944
+Belagavi,2,5,Summer,996
+Belagavi,2,6,Monsoon,1047
+Belagavi,2,7,Monsoon,848
+Belagavi,2,8,Monsoon,945
+Belagavi,2,9,Monsoon,821
+Belagavi,2,10,Post-Monsoon,889
+Belagavi,2,11,Post-Monsoon,844
+Belagavi,2,12,Winter,825
+Belagavi,3,1,Winter,1028
+Belagavi,3,2,Winter,1289
+Belagavi,3,3,Summer,1330
+Belagavi,3,4,Summer,967
+Belagavi,3,5,Summer,916
+Belagavi,3,6,Monsoon,1012
+Belagavi,3,7,Monsoon,800
+Belagavi,3,8,Monsoon,989
+Belagavi,3,9,Monsoon,932
+Belagavi,3,10,Post-Monsoon,893
+Belagavi,3,11,Post-Monsoon,864
+Belagavi,3,12,Winter,803
+Belagavi,4,1,Winter,1075
+Belagavi,4,2,Winter,1125
+Belagavi,4,3,Summer,1188
+Belagavi,4,4,Summer,954
+Belagavi,4,5,Summer,955
+Belagavi,4,6,Monsoon,875
+Belagavi,4,7,Monsoon,881
+Belagavi,4,8,Monsoon,913
+Belagavi,4,9,Monsoon,874
+Belagavi,4,10,Post-Monsoon,894
+Belagavi,4,11,Post-Monsoon,835
+Belagavi,4,12,Winter,854
+Belagavi,5,1,Winter,1002
+Belagavi,5,2,Winter,1285
+Belagavi,5,3,Summer,1182
+Belagavi,5,4,Summer,936
+Belagavi,5,5,Summer,911
+Belagavi,5,6,Monsoon,965
+Belagavi,5,7,Monsoon,955
+Belagavi,5,8,Monsoon,920
+Belagavi,5,9,Monsoon,886
+Belagavi,5,10,Post-Monsoon,921
+Belagavi,5,11,Post-Monsoon,758
+Belagavi,5,12,Winter,944
+Belagavi,6,1,Winter,946
+Belagavi,6,2,Winter,1080
+Belagavi,6,3,Summer,954
+Belagavi,6,4,Summer,911
+Belagavi,6,5,Summer,907
+Belagavi,6,6,Monsoon,766
+Belagavi,6,7,Monsoon,813
+Belagavi,6,8,Monsoon,822
+Belagavi,6,9,Monsoon,724
+Belagavi,6,10,Post-Monsoon,815
+Belagavi,6,11,Post-Monsoon,643
+Belagavi,6,12,Winter,773
+Bengaluru Rural,0,1,Winter,958
+Bengaluru Rural,0,2,Winter,1012
+Bengaluru Rural,0,3,Summer,793
+Bengaluru Rural,0,4,Summer,756
+Bengaluru Rural,0,5,Summer,793
+Bengaluru Rural,0,6,Monsoon,787
+Bengaluru Rural,0,7,Monsoon,792
+Bengaluru Rural,0,8,Monsoon,820
+Bengaluru Rural,0,9,Monsoon,716
+Bengaluru Rural,0,10,Post-Monsoon,788
+Bengaluru Rural,0,11,Post-Monsoon,714
+Bengaluru Rural,0,12,Winter,751
+Bengaluru Rural,1,1,Winter,922
+Bengaluru Rural,1,2,Winter,960
+Bengaluru Rural,1,3,Summer,812
+Bengaluru Rural,1,4,Summer,733
+Bengaluru Rural,1,5,Summer,785
+Bengaluru Rural,1,6,Monsoon,833
+Bengaluru Rural,1,7,Monsoon,783
+Bengaluru Rural,1,8,Monsoon,867
+Bengaluru Rural,1,9,Monsoon,734
+Bengaluru Rural,1,10,Post-Monsoon,747
+Bengaluru Rural,1,11,Post-Monsoon,770
+Bengaluru Rural,1,12,Winter,707
+Bengaluru Rural,2,1,Winter,928
+Bengaluru Rural,2,2,Winter,928
+Bengaluru Rural,2,3,Summer,858
+Bengaluru Rural,2,4,Summer,709
+Bengaluru Rural,2,5,Summer,711
+Bengaluru Rural,2,6,Monsoon,818
+Bengaluru Rural,2,7,Monsoon,718
+Bengaluru Rural,2,8,Monsoon,880
+Bengaluru Rural,2,9,Monsoon,677
+Bengaluru Rural,2,10,Post-Monsoon,702
+Bengaluru Rural,2,11,Post-Monsoon,759
+Bengaluru Rural,2,12,Winter,708
+Bengaluru Rural,3,1,Winter,815
+Bengaluru Rural,3,2,Winter,961
+Bengaluru Rural,3,3,Summer,877
+Bengaluru Rural,3,4,Summer,772
+Bengaluru Rural,3,5,Summer,736
+Bengaluru Rural,3,6,Monsoon,865
+Bengaluru Rural,3,7,Monsoon,692
+Bengaluru Rural,3,8,Monsoon,836
+Bengaluru Rural,3,9,Monsoon,756
+Bengaluru Rural,3,10,Post-Monsoon,722
+Bengaluru Rural,3,11,Post-Monsoon,748
+Bengaluru Rural,3,12,Winter,772
+Bengaluru Rural,4,1,Winter,799
+Bengaluru Rural,4,2,Winter,905
+Bengaluru Rural,4,3,Summer,846
+Bengaluru Rural,4,4,Summer,765
+Bengaluru Rural,4,5,Summer,650
+Bengaluru Rural,4,6,Monsoon,800
+Bengaluru Rural,4,7,Monsoon,747
+Bengaluru Rural,4,8,Monsoon,660
+Bengaluru Rural,4,9,Monsoon,733
+Bengaluru Rural,4,10,Post-Monsoon,683
+Bengaluru Rural,4,11,Post-Monsoon,681
+Bengaluru Rural,4,12,Winter,743
+Bengaluru Rural,5,1,Winter,958
+Bengaluru Rural,5,2,Winter,832
+Bengaluru Rural,5,3,Summer,791
+Bengaluru Rural,5,4,Summer,773
+Bengaluru Rural,5,5,Summer,599
+Bengaluru Rural,5,6,Monsoon,742
+Bengaluru Rural,5,7,Monsoon,841
+Bengaluru Rural,5,8,Monsoon,731
+Bengaluru Rural,5,9,Monsoon,770
+Bengaluru Rural,5,10,Post-Monsoon,738
+Bengaluru Rural,5,11,Post-Monsoon,677
+Bengaluru Rural,5,12,Winter,740
+Bengaluru Rural,6,1,Winter,803
+Bengaluru Rural,6,2,Winter,708
+Bengaluru Rural,6,3,Summer,618
+Bengaluru Rural,6,4,Summer,634
+Bengaluru Rural,6,5,Summer,554
+Bengaluru Rural,6,6,Monsoon,577
+Bengaluru Rural,6,7,Monsoon,656
+Bengaluru Rural,6,8,Monsoon,594
+Bengaluru Rural,6,9,Monsoon,596
+Bengaluru Rural,6,10,Post-Monsoon,613
+Bengaluru Rural,6,11,Post-Monsoon,558
+Bengaluru Rural,6,12,Winter,608
+Bengaluru Urban,0,1,Winter,5477
+Bengaluru Urban,0,2,Winter,6019
+Bengaluru Urban,0,3,Summer,5563
+Bengaluru Urban,0,4,Summer,5354
+Bengaluru Urban,0,5,Summer,5218
+Bengaluru Urban,0,6,Monsoon,5069
+Bengaluru Urban,0,7,Monsoon,6438
+Bengaluru Urban,0,8,Monsoon,6103
+Bengaluru Urban,0,9,Monsoon,5506
+Bengaluru Urban,0,10,Post-Monsoon,5535
+Bengaluru Urban,0,11,Post-Monsoon,5206
+Bengaluru Urban,0,12,Winter,5373
+Bengaluru Urban,1,1,Winter,5924
+Bengaluru Urban,1,2,Winter,5861
+Bengaluru Urban,1,3,Summer,5790
+Bengaluru Urban,1,4,Summer,5104
+Bengaluru Urban,1,5,Summer,5134
+Bengaluru Urban,1,6,Monsoon,5412
+Bengaluru Urban,1,7,Monsoon,6088
+Bengaluru Urban,1,8,Monsoon,6824
+Bengaluru Urban,1,9,Monsoon,5307
+Bengaluru Urban,1,10,Post-Monsoon,5522
+Bengaluru Urban,1,11,Post-Monsoon,5473
+Bengaluru Urban,1,12,Winter,5312
+Bengaluru Urban,2,1,Winter,5525
+Bengaluru Urban,2,2,Winter,5483
+Bengaluru Urban,2,3,Summer,5961
+Bengaluru Urban,2,4,Summer,4841
+Bengaluru Urban,2,5,Summer,4878
+Bengaluru Urban,2,6,Monsoon,5364
+Bengaluru Urban,2,7,Monsoon,5695
+Bengaluru Urban,2,8,Monsoon,6390
+Bengaluru Urban,2,9,Monsoon,5716
+Bengaluru Urban,2,10,Post-Monsoon,5134
+Bengaluru Urban,2,11,Post-Monsoon,5715
+Bengaluru Urban,2,12,Winter,5357
+Bengaluru Urban,3,1,Winter,5151
+Bengaluru Urban,3,2,Winter,5914
+Bengaluru Urban,3,3,Summer,6320
+Bengaluru Urban,3,4,Summer,4769
+Bengaluru Urban,3,5,Summer,4584
+Bengaluru Urban,3,6,Monsoon,5644
+Bengaluru Urban,3,7,Monsoon,5656
+Bengaluru Urban,3,8,Monsoon,6166
+Bengaluru Urban,3,9,Monsoon,5803
+Bengaluru Urban,3,10,Post-Monsoon,5067
+Bengaluru Urban,3,11,Post-Monsoon,5329
+Bengaluru Urban,3,12,Winter,5588
+Bengaluru Urban,4,1,Winter,5022
+Bengaluru Urban,4,2,Winter,5332
+Bengaluru Urban,4,3,Summer,6037
+Bengaluru Urban,4,4,Summer,4357
+Bengaluru Urban,4,5,Summer,4385
+Bengaluru Urban,4,6,Monsoon,5279
+Bengaluru Urban,4,7,Monsoon,5874
+Bengaluru Urban,4,8,Monsoon,5407
+Bengaluru Urban,4,9,Monsoon,5439
+Bengaluru Urban,4,10,Post-Monsoon,4836
+Bengaluru Urban,4,11,Post-Monsoon,4932
+Bengaluru Urban,4,12,Winter,5636
+Bengaluru Urban,5,1,Winter,5061
+Bengaluru Urban,5,2,Winter,4966
+Bengaluru Urban,5,3,Summer,5533
+Bengaluru Urban,5,4,Summer,4766
+Bengaluru Urban,5,5,Summer,3941
+Bengaluru Urban,5,6,Monsoon,4858
+Bengaluru Urban,5,7,Monsoon,5978
+Bengaluru Urban,5,8,Monsoon,5212
+Bengaluru Urban,5,9,Monsoon,5608
+Bengaluru Urban,5,10,Post-Monsoon,4974
+Bengaluru Urban,5,11,Post-Monsoon,4553
+Bengaluru Urban,5,12,Winter,5487
+Bengaluru Urban,6,1,Winter,3087
+Bengaluru Urban,6,2,Winter,3125
+Bengaluru Urban,6,3,Summer,2943
+Bengaluru Urban,6,4,Summer,2595
+Bengaluru Urban,6,5,Summer,2488
+Bengaluru Urban,6,6,Monsoon,2693
+Bengaluru Urban,6,7,Monsoon,3329
+Bengaluru Urban,6,8,Monsoon,3083
+Bengaluru Urban,6,9,Monsoon,3287
+Bengaluru Urban,6,10,Post-Monsoon,3055
+Bengaluru Urban,6,11,Post-Monsoon,2633
+Bengaluru Urban,6,12,Winter,2955
+Bidar,0,1,Winter,553
+Bidar,0,2,Winter,491
+Bidar,0,3,Summer,455
+Bidar,0,4,Summer,558
+Bidar,0,5,Summer,503
+Bidar,0,6,Monsoon,435
+Bidar,0,7,Monsoon,561
+Bidar,0,8,Monsoon,367
+Bidar,0,9,Monsoon,357
+Bidar,0,10,Post-Monsoon,402
+Bidar,0,11,Post-Monsoon,376
+Bidar,0,12,Winter,368
+Bidar,1,1,Winter,465
+Bidar,1,2,Winter,496
+Bidar,1,3,Summer,515
+Bidar,1,4,Summer,545
+Bidar,1,5,Summer,496
+Bidar,1,6,Monsoon,628
+Bidar,1,7,Monsoon,504
+Bidar,1,8,Monsoon,448
+Bidar,1,9,Monsoon,386
+Bidar,1,10,Post-Monsoon,381
+Bidar,1,11,Post-Monsoon,429
+Bidar,1,12,Winter,372
+Bidar,2,1,Winter,489
+Bidar,2,2,Winter,524
+Bidar,2,3,Summer,461
+Bidar,2,4,Summer,503
+Bidar,2,5,Summer,408
+Bidar,2,6,Monsoon,519
+Bidar,2,7,Monsoon,440
+Bidar,2,8,Monsoon,405
+Bidar,2,9,Monsoon,411
+Bidar,2,10,Post-Monsoon,360
+Bidar,2,11,Post-Monsoon,443
+Bidar,2,12,Winter,377
+Bidar,3,1,Winter,464
+Bidar,3,2,Winter,488
+Bidar,3,3,Summer,502
+Bidar,3,4,Summer,626
+Bidar,3,5,Summer,458
+Bidar,3,6,Monsoon,573
+Bidar,3,7,Monsoon,356
+Bidar,3,8,Monsoon,495
+Bidar,3,9,Monsoon,373
+Bidar,3,10,Post-Monsoon,343
+Bidar,3,11,Post-Monsoon,417
+Bidar,3,12,Winter,387
+Bidar,4,1,Winter,490
+Bidar,4,2,Winter,442
+Bidar,4,3,Summer,530
+Bidar,4,4,Summer,531
+Bidar,4,5,Summer,429
+Bidar,4,6,Monsoon,499
+Bidar,4,7,Monsoon,454
+Bidar,4,8,Monsoon,419
+Bidar,4,9,Monsoon,393
+Bidar,4,10,Post-Monsoon,393
+Bidar,4,11,Post-Monsoon,417
+Bidar,4,12,Winter,403
+Bidar,5,1,Winter,506
+Bidar,5,2,Winter,472
+Bidar,5,3,Summer,469
+Bidar,5,4,Summer,536
+Bidar,5,5,Summer,435
+Bidar,5,6,Monsoon,493
+Bidar,5,7,Monsoon,463
+Bidar,5,8,Monsoon,376
+Bidar,5,9,Monsoon,428
+Bidar,5,10,Post-Monsoon,397
+Bidar,5,11,Post-Monsoon,443
+Bidar,5,12,Winter,412
+Bidar,6,1,Winter,555
+Bidar,6,2,Winter,424
+Bidar,6,3,Summer,470
+Bidar,6,4,Summer,608
+Bidar,6,5,Summer,451
+Bidar,6,6,Monsoon,410
+Bidar,6,7,Monsoon,470
+Bidar,6,8,Monsoon,352
+Bidar,6,9,Monsoon,343
+Bidar,6,10,Post-Monsoon,352
+Bidar,6,11,Post-Monsoon,358
+Bidar,6,12,Winter,325
+CID,0,1,Winter,8
+CID,0,2,Winter,3
+CID,0,3,Summer,7
+CID,0,4,Summer,2
+CID,0,5,Summer,3
+CID,0,6,Monsoon,3
+CID,0,7,Monsoon,2
+CID,0,12,Winter,2
+CID,1,1,Winter,1
+CID,1,2,Winter,5
+CID,1,3,Summer,7
+CID,1,5,Summer,4
+CID,1,6,Monsoon,4
+CID,1,7,Monsoon,3
+CID,1,8,Monsoon,1
+CID,1,9,Monsoon,3
+CID,1,10,Post-Monsoon,1
+CID,1,12,Winter,2
+CID,2,1,Winter,5
+CID,2,2,Winter,3
+CID,2,3,Summer,4
+CID,2,4,Summer,5
+CID,2,5,Summer,5
+CID,2,6,Monsoon,6
+CID,2,7,Monsoon,2
+CID,2,8,Monsoon,3
+CID,2,9,Monsoon,1
+CID,2,11,Post-Monsoon,1
+CID,2,12,Winter,3
+CID,3,1,Winter,4
+CID,3,2,Winter,4
+CID,3,3,Summer,3
+CID,3,5,Summer,6
+CID,3,6,Monsoon,2
+CID,3,7,Monsoon,1
+CID,3,8,Monsoon,2
+CID,3,9,Monsoon,1
+CID,3,10,Post-Monsoon,1
+CID,3,12,Winter,1
+CID,4,1,Winter,3
+CID,4,2,Winter,1
+CID,4,3,Summer,4
+CID,4,4,Summer,5
+CID,4,5,Summer,5
+CID,4,6,Monsoon,5
+CID,4,9,Monsoon,1
+CID,4,11,Post-Monsoon,4
+CID,5,1,Winter,3
+CID,5,2,Winter,5
+CID,5,4,Summer,1
+CID,5,5,Summer,2
+CID,5,6,Monsoon,3
+CID,5,8,Monsoon,1
+CID,5,9,Monsoon,1
+CID,5,10,Post-Monsoon,3
+CID,5,12,Winter,1
+Chamarajanagar,0,1,Winter,285
+Chamarajanagar,0,2,Winter,317
+Chamarajanagar,0,3,Summer,311
+Chamarajanagar,0,4,Summer,415
+Chamarajanagar,0,5,Summer,446
+Chamarajanagar,0,6,Monsoon,255
+Chamarajanagar,0,7,Monsoon,261
+Chamarajanagar,0,8,Monsoon,248
+Chamarajanagar,0,9,Monsoon,217
+Chamarajanagar,0,10,Post-Monsoon,245
+Chamarajanagar,0,11,Post-Monsoon,239
+Chamarajanagar,0,12,Winter,224
+Chamarajanagar,1,1,Winter,284
+Chamarajanagar,1,2,Winter,291
+Chamarajanagar,1,3,Summer,347
+Chamarajanagar,1,4,Summer,434
+Chamarajanagar,1,5,Summer,325
+Chamarajanagar,1,6,Monsoon,257
+Chamarajanagar,1,7,Monsoon,290
+Chamarajanagar,1,8,Monsoon,281
+Chamarajanagar,1,9,Monsoon,247
+Chamarajanagar,1,10,Post-Monsoon,262
+Chamarajanagar,1,11,Post-Monsoon,225
+Chamarajanagar,1,12,Winter,236
+Chamarajanagar,2,1,Winter,285
+Chamarajanagar,2,2,Winter,298
+Chamarajanagar,2,3,Summer,352
+Chamarajanagar,2,4,Summer,373
+Chamarajanagar,2,5,Summer,291
+Chamarajanagar,2,6,Monsoon,280
+Chamarajanagar,2,7,Monsoon,268
+Chamarajanagar,2,8,Monsoon,262
+Chamarajanagar,2,9,Monsoon,228
+Chamarajanagar,2,10,Post-Monsoon,232
+Chamarajanagar,2,11,Post-Monsoon,235
+Chamarajanagar,2,12,Winter,218
+Chamarajanagar,3,1,Winter,281
+Chamarajanagar,3,2,Winter,333
+Chamarajanagar,3,3,Summer,362
+Chamarajanagar,3,4,Summer,318
+Chamarajanagar,3,5,Summer,243
+Chamarajanagar,3,6,Monsoon,298
+Chamarajanagar,3,7,Monsoon,243
+Chamarajanagar,3,8,Monsoon,257
+Chamarajanagar,3,9,Monsoon,257
+Chamarajanagar,3,10,Post-Monsoon,220
+Chamarajanagar,3,11,Post-Monsoon,207
+Chamarajanagar,3,12,Winter,243
+Chamarajanagar,4,1,Winter,251
+Chamarajanagar,4,2,Winter,255
+Chamarajanagar,4,3,Summer,296
+Chamarajanagar,4,4,Summer,355
+Chamarajanagar,4,5,Summer,306
+Chamarajanagar,4,6,Monsoon,280
+Chamarajanagar,4,7,Monsoon,390
+Chamarajanagar,4,8,Monsoon,244
+Chamarajanagar,4,9,Monsoon,260
+Chamarajanagar,4,10,Post-Monsoon,240
+Chamarajanagar,4,11,Post-Monsoon,236
+Chamarajanagar,4,12,Winter,242
+Chamarajanagar,5,1,Winter,262
+Chamarajanagar,5,2,Winter,300
+Chamarajanagar,5,3,Summer,385
+Chamarajanagar,5,4,Summer,304
+Chamarajanagar,5,5,Summer,262
+Chamarajanagar,5,6,Monsoon,254
+Chamarajanagar,5,7,Monsoon,335
+Chamarajanagar,5,8,Monsoon,236
+Chamarajanagar,5,9,Monsoon,239
+Chamarajanagar,5,10,Post-Monsoon,235
+Chamarajanagar,5,11,Post-Monsoon,214
+Chamarajanagar,5,12,Winter,264
+Chamarajanagar,6,1,Winter,224
+Chamarajanagar,6,2,Winter,277
+Chamarajanagar,6,3,Summer,259
+Chamarajanagar,6,4,Summer,364
+Chamarajanagar,6,5,Summer,257
+Chamarajanagar,6,6,Monsoon,225
+Chamarajanagar,6,7,Monsoon,255
+Chamarajanagar,6,8,Monsoon,206
+Chamarajanagar,6,9,Monsoon,216
+Chamarajanagar,6,10,Post-Monsoon,213
+Chamarajanagar,6,11,Post-Monsoon,175
+Chamarajanagar,6,12,Winter,201
+Chikkaballapura,0,1,Winter,423
+Chikkaballapura,0,2,Winter,436
+Chikkaballapura,0,3,Summer,507
+Chikkaballapura,0,4,Summer,501
+Chikkaballapura,0,5,Summer,535
+Chikkaballapura,0,6,Monsoon,493
+Chikkaballapura,0,7,Monsoon,514
+Chikkaballapura,0,8,Monsoon,456
+Chikkaballapura,0,9,Monsoon,410
+Chikkaballapura,0,10,Post-Monsoon,401
+Chikkaballapura,0,11,Post-Monsoon,337
+Chikkaballapura,0,12,Winter,339
+Chikkaballapura,1,1,Winter,386
+Chikkaballapura,1,2,Winter,399
+Chikkaballapura,1,3,Summer,548
+Chikkaballapura,1,4,Summer,466
+Chikkaballapura,1,5,Summer,471
+Chikkaballapura,1,6,Monsoon,597
+Chikkaballapura,1,7,Monsoon,450
+Chikkaballapura,1,8,Monsoon,545
+Chikkaballapura,1,9,Monsoon,407
+Chikkaballapura,1,10,Post-Monsoon,430
+Chikkaballapura,1,11,Post-Monsoon,368
+Chikkaballapura,1,12,Winter,333
+Chikkaballapura,2,1,Winter,490
+Chikkaballapura,2,2,Winter,478
+Chikkaballapura,2,3,Summer,597
+Chikkaballapura,2,4,Summer,473
+Chikkaballapura,2,5,Summer,414
+Chikkaballapura,2,6,Monsoon,508
+Chikkaballapura,2,7,Monsoon,408
+Chikkaballapura,2,8,Monsoon,426
+Chikkaballapura,2,9,Monsoon,403
+Chikkaballapura,2,10,Post-Monsoon,416
+Chikkaballapura,2,11,Post-Monsoon,384
+Chikkaballapura,2,12,Winter,364
+Chikkaballapura,3,1,Winter,383
+Chikkaballapura,3,2,Winter,485
+Chikkaballapura,3,3,Summer,628
+Chikkaballapura,3,4,Summer,482
+Chikkaballapura,3,5,Summer,404
+Chikkaballapura,3,6,Monsoon,511
+Chikkaballapura,3,7,Monsoon,378
+Chikkaballapura,3,8,Monsoon,462
+Chikkaballapura,3,9,Monsoon,426
+Chikkaballapura,3,10,Post-Monsoon,448
+Chikkaballapura,3,11,Post-Monsoon,377
+Chikkaballapura,3,12,Winter,385
+Chikkaballapura,4,1,Winter,395
+Chikkaballapura,4,2,Winter,378
+Chikkaballapura,4,3,Summer,566
+Chikkaballapura,4,4,Summer,485
+Chikkaballapura,4,5,Summer,409
+Chikkaballapura,4,6,Monsoon,499
+Chikkaballapura,4,7,Monsoon,570
+Chikkaballapura,4,8,Monsoon,402
+Chikkaballapura,4,9,Monsoon,418
+Chikkaballapura,4,10,Post-Monsoon,372
+Chikkaballapura,4,11,Post-Monsoon,356
+Chikkaballapura,4,12,Winter,361
+Chikkaballapura,5,1,Winter,390
+Chikkaballapura,5,2,Winter,374
+Chikkaballapura,5,3,Summer,507
+Chikkaballapura,5,4,Summer,536
+Chikkaballapura,5,5,Summer,382
+Chikkaballapura,5,6,Monsoon,418
+Chikkaballapura,5,7,Monsoon,656
+Chikkaballapura,5,8,Monsoon,416
+Chikkaballapura,5,9,Monsoon,401
+Chikkaballapura,5,10,Post-Monsoon,405
+Chikkaballapura,5,11,Post-Monsoon,431
+Chikkaballapura,5,12,Winter,423
+Chikkaballapura,6,1,Winter,349
+Chikkaballapura,6,2,Winter,312
+Chikkaballapura,6,3,Summer,389
+Chikkaballapura,6,4,Summer,439
+Chikkaballapura,6,5,Summer,368
+Chikkaballapura,6,6,Monsoon,357
+Chikkaballapura,6,7,Monsoon,600
+Chikkaballapura,6,8,Monsoon,375
+Chikkaballapura,6,9,Monsoon,380
+Chikkaballapura,6,10,Post-Monsoon,334
+Chikkaballapura,6,11,Post-Monsoon,328
+Chikkaballapura,6,12,Winter,282
+Chikkamagaluru,0,1,Winter,488
+Chikkamagaluru,0,2,Winter,511
+Chikkamagaluru,0,3,Summer,459
+Chikkamagaluru,0,4,Summer,511
+Chikkamagaluru,0,5,Summer,510
+Chikkamagaluru,0,6,Monsoon,390
+Chikkamagaluru,0,7,Monsoon,367
+Chikkamagaluru,0,8,Monsoon,385
+Chikkamagaluru,0,9,Monsoon,348
+Chikkamagaluru,0,10,Post-Monsoon,471
+Chikkamagaluru,0,11,Post-Monsoon,361
+Chikkamagaluru,0,12,Winter,344
+Chikkamagaluru,1,1,Winter,492
+Chikkamagaluru,1,2,Winter,470
+Chikkamagaluru,1,3,Summer,527
+Chikkamagaluru,1,4,Summer,465
+Chikkamagaluru,1,5,Summer,488
+Chikkamagaluru,1,6,Monsoon,420
+Chikkamagaluru,1,7,Monsoon,355
+Chikkamagaluru,1,8,Monsoon,428
+Chikkamagaluru,1,9,Monsoon,525
+Chikkamagaluru,1,10,Post-Monsoon,348
+Chikkamagaluru,1,11,Post-Monsoon,425
+Chikkamagaluru,1,12,Winter,344
+Chikkamagaluru,2,1,Winter,517
+Chikkamagaluru,2,2,Winter,529
+Chikkamagaluru,2,3,Summer,494
+Chikkamagaluru,2,4,Summer,452
+Chikkamagaluru,2,5,Summer,481
+Chikkamagaluru,2,6,Monsoon,391
+Chikkamagaluru,2,7,Monsoon,371
+Chikkamagaluru,2,8,Monsoon,435
+Chikkamagaluru,2,9,Monsoon,475
+Chikkamagaluru,2,10,Post-Monsoon,353
+Chikkamagaluru,2,11,Post-Monsoon,452
+Chikkamagaluru,2,12,Winter,368
+Chikkamagaluru,3,1,Winter,500
+Chikkamagaluru,3,2,Winter,520
+Chikkamagaluru,3,3,Summer,491
+Chikkamagaluru,3,4,Summer,476
+Chikkamagaluru,3,5,Summer,465
+Chikkamagaluru,3,6,Monsoon,428
+Chikkamagaluru,3,7,Monsoon,388
+Chikkamagaluru,3,8,Monsoon,371
+Chikkamagaluru,3,9,Monsoon,422
+Chikkamagaluru,3,10,Post-Monsoon,355
+Chikkamagaluru,3,11,Post-Monsoon,417
+Chikkamagaluru,3,12,Winter,364
+Chikkamagaluru,4,1,Winter,466
+Chikkamagaluru,4,2,Winter,439
+Chikkamagaluru,4,3,Summer,559
+Chikkamagaluru,4,4,Summer,454
+Chikkamagaluru,4,5,Summer,479
+Chikkamagaluru,4,6,Monsoon,372
+Chikkamagaluru,4,7,Monsoon,400
+Chikkamagaluru,4,8,Monsoon,311
+Chikkamagaluru,4,9,Monsoon,460
+Chikkamagaluru,4,10,Post-Monsoon,360
+Chikkamagaluru,4,11,Post-Monsoon,420
+Chikkamagaluru,4,12,Winter,389
+Chikkamagaluru,5,1,Winter,509
+Chikkamagaluru,5,2,Winter,445
+Chikkamagaluru,5,3,Summer,530
+Chikkamagaluru,5,4,Summer,445
+Chikkamagaluru,5,5,Summer,411
+Chikkamagaluru,5,6,Monsoon,413
+Chikkamagaluru,5,7,Monsoon,426
+Chikkamagaluru,5,8,Monsoon,379
+Chikkamagaluru,5,9,Monsoon,401
+Chikkamagaluru,5,10,Post-Monsoon,372
+Chikkamagaluru,5,11,Post-Monsoon,413
+Chikkamagaluru,5,12,Winter,349
+Chikkamagaluru,6,1,Winter,460
+Chikkamagaluru,6,2,Winter,384
+Chikkamagaluru,6,3,Summer,353
+Chikkamagaluru,6,4,Summer,443
+Chikkamagaluru,6,5,Summer,414
+Chikkamagaluru,6,6,Monsoon,363
+Chikkamagaluru,6,7,Monsoon,327
+Chikkamagaluru,6,8,Monsoon,293
+Chikkamagaluru,6,9,Monsoon,314
+Chikkamagaluru,6,10,Post-Monsoon,362
+Chikkamagaluru,6,11,Post-Monsoon,303
+Chikkamagaluru,6,12,Winter,320
+Chitradurga,0,1,Winter,683
+Chitradurga,0,2,Winter,611
+Chitradurga,0,3,Summer,651
+Chitradurga,0,4,Summer,655
+Chitradurga,0,5,Summer,847
+Chitradurga,0,6,Monsoon,709
+Chitradurga,0,7,Monsoon,495
+Chitradurga,0,8,Monsoon,487
+Chitradurga,0,9,Monsoon,403
+Chitradurga,0,10,Post-Monsoon,531
+Chitradurga,0,11,Post-Monsoon,537
+Chitradurga,0,12,Winter,488
+Chitradurga,1,1,Winter,705
+Chitradurga,1,2,Winter,602
+Chitradurga,1,3,Summer,787
+Chitradurga,1,4,Summer,660
+Chitradurga,1,5,Summer,646
+Chitradurga,1,6,Monsoon,724
+Chitradurga,1,7,Monsoon,458
+Chitradurga,1,8,Monsoon,540
+Chitradurga,1,9,Monsoon,421
+Chitradurga,1,10,Post-Monsoon,532
+Chitradurga,1,11,Post-Monsoon,525
+Chitradurga,1,12,Winter,439
+Chitradurga,2,1,Winter,716
+Chitradurga,2,2,Winter,600
+Chitradurga,2,3,Summer,765
+Chitradurga,2,4,Summer,656
+Chitradurga,2,5,Summer,693
+Chitradurga,2,6,Monsoon,602
+Chitradurga,2,7,Monsoon,481
+Chitradurga,2,8,Monsoon,507
+Chitradurga,2,9,Monsoon,477
+Chitradurga,2,10,Post-Monsoon,489
+Chitradurga,2,11,Post-Monsoon,523
+Chitradurga,2,12,Winter,466
+Chitradurga,3,1,Winter,640
+Chitradurga,3,2,Winter,589
+Chitradurga,3,3,Summer,735
+Chitradurga,3,4,Summer,657
+Chitradurga,3,5,Summer,600
+Chitradurga,3,6,Monsoon,672
+Chitradurga,3,7,Monsoon,485
+Chitradurga,3,8,Monsoon,470
+Chitradurga,3,9,Monsoon,468
+Chitradurga,3,10,Post-Monsoon,524
+Chitradurga,3,11,Post-Monsoon,567
+Chitradurga,3,12,Winter,551
+Chitradurga,4,1,Winter,647
+Chitradurga,4,2,Winter,595
+Chitradurga,4,3,Summer,727
+Chitradurga,4,4,Summer,737
+Chitradurga,4,5,Summer,523
+Chitradurga,4,6,Monsoon,647
+Chitradurga,4,7,Monsoon,503
+Chitradurga,4,8,Monsoon,454
+Chitradurga,4,9,Monsoon,440
+Chitradurga,4,10,Post-Monsoon,484
+Chitradurga,4,11,Post-Monsoon,492
+Chitradurga,4,12,Winter,465
+Chitradurga,5,1,Winter,636
+Chitradurga,5,2,Winter,645
+Chitradurga,5,3,Summer,782
+Chitradurga,5,4,Summer,870
+Chitradurga,5,5,Summer,593
+Chitradurga,5,6,Monsoon,550
+Chitradurga,5,7,Monsoon,519
+Chitradurga,5,8,Monsoon,424
+Chitradurga,5,9,Monsoon,385
+Chitradurga,5,10,Post-Monsoon,559
+Chitradurga,5,11,Post-Monsoon,439
+Chitradurga,5,12,Winter,499
+Chitradurga,6,1,Winter,612
+Chitradurga,6,2,Winter,561
+Chitradurga,6,3,Summer,660
+Chitradurga,6,4,Summer,652
+Chitradurga,6,5,Summer,619
+Chitradurga,6,6,Monsoon,450
+Chitradurga,6,7,Monsoon,440
+Chitradurga,6,8,Monsoon,424
+Chitradurga,6,9,Monsoon,370
+Chitradurga,6,10,Post-Monsoon,486
+Chitradurga,6,11,Post-Monsoon,372
+Chitradurga,6,12,Winter,424
+Coastal Security Police,0,1,Winter,5
+Coastal Security Police,0,2,Winter,9
+Coastal Security Police,0,3,Summer,2
+Coastal Security Police,0,4,Summer,4
+Coastal Security Police,0,5,Summer,4
+Coastal Security Police,0,6,Monsoon,2
+Coastal Security Police,0,7,Monsoon,6
+Coastal Security Police,0,8,Monsoon,3
+Coastal Security Police,0,9,Monsoon,2
+Coastal Security Police,0,11,Post-Monsoon,4
+Coastal Security Police,1,1,Winter,7
+Coastal Security Police,1,2,Winter,9
+Coastal Security Police,1,3,Summer,7
+Coastal Security Police,1,4,Summer,10
+Coastal Security Police,1,5,Summer,1
+Coastal Security Police,1,6,Monsoon,2
+Coastal Security Police,1,9,Monsoon,3
+Coastal Security Police,1,10,Post-Monsoon,3
+Coastal Security Police,1,11,Post-Monsoon,2
+Coastal Security Police,1,12,Winter,1
+Coastal Security Police,2,1,Winter,5
+Coastal Security Police,2,2,Winter,9
+Coastal Security Police,2,3,Summer,4
+Coastal Security Police,2,4,Summer,2
+Coastal Security Police,2,5,Summer,1
+Coastal Security Police,2,6,Monsoon,4
+Coastal Security Police,2,7,Monsoon,1
+Coastal Security Police,2,8,Monsoon,1
+Coastal Security Police,2,9,Monsoon,2
+Coastal Security Police,2,10,Post-Monsoon,3
+Coastal Security Police,2,12,Winter,1
+Coastal Security Police,3,1,Winter,5
+Coastal Security Police,3,2,Winter,5
+Coastal Security Police,3,3,Summer,3
+Coastal Security Police,3,4,Summer,3
+Coastal Security Police,3,5,Summer,2
+Coastal Security Police,3,10,Post-Monsoon,4
+Coastal Security Police,3,11,Post-Monsoon,2
+Coastal Security Police,3,12,Winter,1
+Coastal Security Police,4,1,Winter,5
+Coastal Security Police,4,2,Winter,5
+Coastal Security Police,4,3,Summer,2
+Coastal Security Police,4,4,Summer,2
+Coastal Security Police,4,5,Summer,2
+Coastal Security Police,4,6,Monsoon,3
+Coastal Security Police,4,7,Monsoon,1
+Coastal Security Police,4,8,Monsoon,5
+Coastal Security Police,4,9,Monsoon,1
+Coastal Security Police,4,11,Post-Monsoon,1
+Coastal Security Police,4,12,Winter,1
+Coastal Security Police,5,1,Winter,2
+Coastal Security Police,5,2,Winter,2
+Coastal Security Police,5,3,Summer,3
+Coastal Security Police,5,4,Summer,2
+Coastal Security Police,5,5,Summer,1
+Coastal Security Police,5,7,Monsoon,4
+Coastal Security Police,5,8,Monsoon,4
+Coastal Security Police,5,9,Monsoon,2
+Coastal Security Police,5,10,Post-Monsoon,5
+Coastal Security Police,5,11,Post-Monsoon,2
+Coastal Security Police,5,12,Winter,1
+Coastal Security Police,6,1,Winter,3
+Coastal Security Police,6,2,Winter,2
+Coastal Security Police,6,3,Summer,3
+Coastal Security Police,6,6,Monsoon,1
+Coastal Security Police,6,7,Monsoon,1
+Coastal Security Police,6,10,Post-Monsoon,1
+Coastal Security Police,6,11,Post-Monsoon,2
+Dakshina Kannada,0,1,Winter,763
+Dakshina Kannada,0,2,Winter,777
+Dakshina Kannada,0,3,Summer,650
+Dakshina Kannada,0,4,Summer,739
+Dakshina Kannada,0,5,Summer,704
+Dakshina Kannada,0,6,Monsoon,580
+Dakshina Kannada,0,7,Monsoon,624
+Dakshina Kannada,0,8,Monsoon,638
+Dakshina Kannada,0,9,Monsoon,555
+Dakshina Kannada,0,10,Post-Monsoon,650
+Dakshina Kannada,0,11,Post-Monsoon,637
+Dakshina Kannada,0,12,Winter,593
+Dakshina Kannada,1,1,Winter,760
+Dakshina Kannada,1,2,Winter,786
+Dakshina Kannada,1,3,Summer,748
+Dakshina Kannada,1,4,Summer,646
+Dakshina Kannada,1,5,Summer,703
+Dakshina Kannada,1,6,Monsoon,585
+Dakshina Kannada,1,7,Monsoon,655
+Dakshina Kannada,1,8,Monsoon,647
+Dakshina Kannada,1,9,Monsoon,536
+Dakshina Kannada,1,10,Post-Monsoon,570
+Dakshina Kannada,1,11,Post-Monsoon,664
+Dakshina Kannada,1,12,Winter,607
+Dakshina Kannada,2,1,Winter,710
+Dakshina Kannada,2,2,Winter,801
+Dakshina Kannada,2,3,Summer,700
+Dakshina Kannada,2,4,Summer,751
+Dakshina Kannada,2,5,Summer,626
+Dakshina Kannada,2,6,Monsoon,554
+Dakshina Kannada,2,7,Monsoon,589
+Dakshina Kannada,2,8,Monsoon,668
+Dakshina Kannada,2,9,Monsoon,573
+Dakshina Kannada,2,10,Post-Monsoon,569
+Dakshina Kannada,2,11,Post-Monsoon,593
+Dakshina Kannada,2,12,Winter,546
+Dakshina Kannada,3,1,Winter,628
+Dakshina Kannada,3,2,Winter,915
+Dakshina Kannada,3,3,Summer,761
+Dakshina Kannada,3,4,Summer,655
+Dakshina Kannada,3,5,Summer,589
+Dakshina Kannada,3,6,Monsoon,580
+Dakshina Kannada,3,7,Monsoon,571
+Dakshina Kannada,3,8,Monsoon,610
+Dakshina Kannada,3,9,Monsoon,645
+Dakshina Kannada,3,10,Post-Monsoon,528
+Dakshina Kannada,3,11,Post-Monsoon,598
+Dakshina Kannada,3,12,Winter,627
+Dakshina Kannada,4,1,Winter,642
+Dakshina Kannada,4,2,Winter,702
+Dakshina Kannada,4,3,Summer,759
+Dakshina Kannada,4,4,Summer,612
+Dakshina Kannada,4,5,Summer,609
+Dakshina Kannada,4,6,Monsoon,574
+Dakshina Kannada,4,7,Monsoon,655
+Dakshina Kannada,4,8,Monsoon,539
+Dakshina Kannada,4,9,Monsoon,624
+Dakshina Kannada,4,10,Post-Monsoon,540
+Dakshina Kannada,4,11,Post-Monsoon,632
+Dakshina Kannada,4,12,Winter,591
+Dakshina Kannada,5,1,Winter,673
+Dakshina Kannada,5,2,Winter,695
+Dakshina Kannada,5,3,Summer,740
+Dakshina Kannada,5,4,Summer,550
+Dakshina Kannada,5,5,Summer,620
+Dakshina Kannada,5,6,Monsoon,517
+Dakshina Kannada,5,7,Monsoon,628
+Dakshina Kannada,5,8,Monsoon,587
+Dakshina Kannada,5,9,Monsoon,619
+Dakshina Kannada,5,10,Post-Monsoon,567
+Dakshina Kannada,5,11,Post-Monsoon,581
+Dakshina Kannada,5,12,Winter,647
+Dakshina Kannada,6,1,Winter,544
+Dakshina Kannada,6,2,Winter,650
+Dakshina Kannada,6,3,Summer,556
+Dakshina Kannada,6,4,Summer,599
+Dakshina Kannada,6,5,Summer,639
+Dakshina Kannada,6,6,Monsoon,453
+Dakshina Kannada,6,7,Monsoon,573
+Dakshina Kannada,6,8,Monsoon,503
+Dakshina Kannada,6,9,Monsoon,514
+Dakshina Kannada,6,10,Post-Monsoon,502
+Dakshina Kannada,6,11,Post-Monsoon,489
+Dakshina Kannada,6,12,Winter,540
+Davanagere,0,1,Winter,477
+Davanagere,0,2,Winter,657
+Davanagere,0,3,Summer,532
+Davanagere,0,4,Summer,471
+Davanagere,0,5,Summer,530
+Davanagere,0,6,Monsoon,464
+Davanagere,0,7,Monsoon,592
+Davanagere,0,8,Monsoon,432
+Davanagere,0,9,Monsoon,381
+Davanagere,0,10,Post-Monsoon,402
+Davanagere,0,11,Post-Monsoon,434
+Davanagere,0,12,Winter,393
+Davanagere,1,1,Winter,491
+Davanagere,1,2,Winter,725
+Davanagere,1,3,Summer,540
+Davanagere,1,4,Summer,426
+Davanagere,1,5,Summer,560
+Davanagere,1,6,Monsoon,473
+Davanagere,1,7,Monsoon,505
+Davanagere,1,8,Monsoon,491
+Davanagere,1,9,Monsoon,412
+Davanagere,1,10,Post-Monsoon,438
+Davanagere,1,11,Post-Monsoon,416
+Davanagere,1,12,Winter,447
+Davanagere,2,1,Winter,470
+Davanagere,2,2,Winter,587
+Davanagere,2,3,Summer,526
+Davanagere,2,4,Summer,460
+Davanagere,2,5,Summer,515
+Davanagere,2,6,Monsoon,515
+Davanagere,2,7,Monsoon,529
+Davanagere,2,8,Monsoon,489
+Davanagere,2,9,Monsoon,396
+Davanagere,2,10,Post-Monsoon,381
+Davanagere,2,11,Post-Monsoon,456
+Davanagere,2,12,Winter,431
+Davanagere,3,1,Winter,478
+Davanagere,3,2,Winter,571
+Davanagere,3,3,Summer,609
+Davanagere,3,4,Summer,481
+Davanagere,3,5,Summer,402
+Davanagere,3,6,Monsoon,524
+Davanagere,3,7,Monsoon,436
+Davanagere,3,8,Monsoon,532
+Davanagere,3,9,Monsoon,415
+Davanagere,3,10,Post-Monsoon,432
+Davanagere,3,11,Post-Monsoon,452
+Davanagere,3,12,Winter,474
+Davanagere,4,1,Winter,471
+Davanagere,4,2,Winter,519
+Davanagere,4,3,Summer,489
+Davanagere,4,4,Summer,505
+Davanagere,4,5,Summer,419
+Davanagere,4,6,Monsoon,455
+Davanagere,4,7,Monsoon,504
+Davanagere,4,8,Monsoon,418
+Davanagere,4,9,Monsoon,423
+Davanagere,4,10,Post-Monsoon,409
+Davanagere,4,11,Post-Monsoon,452
+Davanagere,4,12,Winter,457
+Davanagere,5,1,Winter,534
+Davanagere,5,2,Winter,583
+Davanagere,5,3,Summer,509
+Davanagere,5,4,Summer,466
+Davanagere,5,5,Summer,428
+Davanagere,5,6,Monsoon,496
+Davanagere,5,7,Monsoon,552
+Davanagere,5,8,Monsoon,470
+Davanagere,5,9,Monsoon,394
+Davanagere,5,10,Post-Monsoon,447
+Davanagere,5,11,Post-Monsoon,401
+Davanagere,5,12,Winter,451
+Davanagere,6,1,Winter,386
+Davanagere,6,2,Winter,448
+Davanagere,6,3,Summer,439
+Davanagere,6,4,Summer,378
+Davanagere,6,5,Summer,387
+Davanagere,6,6,Monsoon,385
+Davanagere,6,7,Monsoon,429
+Davanagere,6,8,Monsoon,341
+Davanagere,6,9,Monsoon,286
+Davanagere,6,10,Post-Monsoon,353
+Davanagere,6,11,Post-Monsoon,377
+Davanagere,6,12,Winter,330
+Dharwad,0,1,Winter,544
+Dharwad,0,2,Winter,532
+Dharwad,0,3,Summer,455
+Dharwad,0,4,Summer,462
+Dharwad,0,5,Summer,517
+Dharwad,0,6,Monsoon,431
+Dharwad,0,7,Monsoon,518
+Dharwad,0,8,Monsoon,405
+Dharwad,0,9,Monsoon,384
+Dharwad,0,10,Post-Monsoon,425
+Dharwad,0,11,Post-Monsoon,495
+Dharwad,0,12,Winter,417
+Dharwad,1,1,Winter,510
+Dharwad,1,2,Winter,536
+Dharwad,1,3,Summer,467
+Dharwad,1,4,Summer,453
+Dharwad,1,5,Summer,469
+Dharwad,1,6,Monsoon,489
+Dharwad,1,7,Monsoon,498
+Dharwad,1,8,Monsoon,473
+Dharwad,1,9,Monsoon,427
+Dharwad,1,10,Post-Monsoon,493
+Dharwad,1,11,Post-Monsoon,525
+Dharwad,1,12,Winter,422
+Dharwad,2,1,Winter,516
+Dharwad,2,2,Winter,606
+Dharwad,2,3,Summer,519
+Dharwad,2,4,Summer,464
+Dharwad,2,5,Summer,490
+Dharwad,2,6,Monsoon,488
+Dharwad,2,7,Monsoon,479
+Dharwad,2,8,Monsoon,512
+Dharwad,2,9,Monsoon,439
+Dharwad,2,10,Post-Monsoon,468
+Dharwad,2,11,Post-Monsoon,508
+Dharwad,2,12,Winter,418
+Dharwad,3,1,Winter,440
+Dharwad,3,2,Winter,609
+Dharwad,3,3,Summer,586
+Dharwad,3,4,Summer,519
+Dharwad,3,5,Summer,469
+Dharwad,3,6,Monsoon,504
+Dharwad,3,7,Monsoon,567
+Dharwad,3,8,Monsoon,465
+Dharwad,3,9,Monsoon,458
+Dharwad,3,10,Post-Monsoon,432
+Dharwad,3,11,Post-Monsoon,449
+Dharwad,3,12,Winter,438
+Dharwad,4,1,Winter,490
+Dharwad,4,2,Winter,478
+Dharwad,4,3,Summer,500
+Dharwad,4,4,Summer,505
+Dharwad,4,5,Summer,432
+Dharwad,4,6,Monsoon,450
+Dharwad,4,7,Monsoon,519
+Dharwad,4,8,Monsoon,431
+Dharwad,4,9,Monsoon,437
+Dharwad,4,10,Post-Monsoon,427
+Dharwad,4,11,Post-Monsoon,444
+Dharwad,4,12,Winter,480
+Dharwad,5,1,Winter,497
+Dharwad,5,2,Winter,514
+Dharwad,5,3,Summer,479
+Dharwad,5,4,Summer,513
+Dharwad,5,5,Summer,465
+Dharwad,5,6,Monsoon,488
+Dharwad,5,7,Monsoon,483
+Dharwad,5,8,Monsoon,367
+Dharwad,5,9,Monsoon,394
+Dharwad,5,10,Post-Monsoon,439
+Dharwad,5,11,Post-Monsoon,474
+Dharwad,5,12,Winter,491
+Dharwad,6,1,Winter,414
+Dharwad,6,2,Winter,419
+Dharwad,6,3,Summer,379
+Dharwad,6,4,Summer,422
+Dharwad,6,5,Summer,448
+Dharwad,6,6,Monsoon,327
+Dharwad,6,7,Monsoon,411
+Dharwad,6,8,Monsoon,303
+Dharwad,6,9,Monsoon,331
+Dharwad,6,10,Post-Monsoon,344
+Dharwad,6,11,Post-Monsoon,417
+Dharwad,6,12,Winter,351
+Gadag,0,1,Winter,265
+Gadag,0,2,Winter,315
+Gadag,0,3,Summer,212
+Gadag,0,4,Summer,203
+Gadag,0,5,Summer,212
+Gadag,0,6,Monsoon,210
+Gadag,0,7,Monsoon,206
+Gadag,0,8,Monsoon,169
+Gadag,0,9,Monsoon,176
+Gadag,0,10,Post-Monsoon,209
+Gadag,0,11,Post-Monsoon,192
+Gadag,0,12,Winter,182
+Gadag,1,1,Winter,262
+Gadag,1,2,Winter,348
+Gadag,1,3,Summer,225
+Gadag,1,4,Summer,233
+Gadag,1,5,Summer,246
+Gadag,1,6,Monsoon,251
+Gadag,1,7,Monsoon,199
+Gadag,1,8,Monsoon,189
+Gadag,1,9,Monsoon,209
+Gadag,1,10,Post-Monsoon,235
+Gadag,1,11,Post-Monsoon,239
+Gadag,1,12,Winter,199
+Gadag,2,1,Winter,254
+Gadag,2,2,Winter,337
+Gadag,2,3,Summer,235
+Gadag,2,4,Summer,193
+Gadag,2,5,Summer,272
+Gadag,2,6,Monsoon,274
+Gadag,2,7,Monsoon,226
+Gadag,2,8,Monsoon,182
+Gadag,2,9,Monsoon,185
+Gadag,2,10,Post-Monsoon,188
+Gadag,2,11,Post-Monsoon,233
+Gadag,2,12,Winter,206
+Gadag,3,1,Winter,238
+Gadag,3,2,Winter,302
+Gadag,3,3,Summer,309
+Gadag,3,4,Summer,178
+Gadag,3,5,Summer,191
+Gadag,3,6,Monsoon,319
+Gadag,3,7,Monsoon,190
+Gadag,3,8,Monsoon,210
+Gadag,3,9,Monsoon,198
+Gadag,3,10,Post-Monsoon,226
+Gadag,3,11,Post-Monsoon,217
+Gadag,3,12,Winter,236
+Gadag,4,1,Winter,240
+Gadag,4,2,Winter,248
+Gadag,4,3,Summer,260
+Gadag,4,4,Summer,179
+Gadag,4,5,Summer,188
+Gadag,4,6,Monsoon,263
+Gadag,4,7,Monsoon,201
+Gadag,4,8,Monsoon,211
+Gadag,4,9,Monsoon,202
+Gadag,4,10,Post-Monsoon,185
+Gadag,4,11,Post-Monsoon,202
+Gadag,4,12,Winter,232
+Gadag,5,1,Winter,244
+Gadag,5,2,Winter,295
+Gadag,5,3,Summer,249
+Gadag,5,4,Summer,214
+Gadag,5,5,Summer,198
+Gadag,5,6,Monsoon,247
+Gadag,5,7,Monsoon,220
+Gadag,5,8,Monsoon,165
+Gadag,5,9,Monsoon,197
+Gadag,5,10,Post-Monsoon,207
+Gadag,5,11,Post-Monsoon,196
+Gadag,5,12,Winter,214
+Gadag,6,1,Winter,235
+Gadag,6,2,Winter,263
+Gadag,6,3,Summer,217
+Gadag,6,4,Summer,200
+Gadag,6,5,Summer,183
+Gadag,6,6,Monsoon,241
+Gadag,6,7,Monsoon,171
+Gadag,6,8,Monsoon,142
+Gadag,6,9,Monsoon,142
+Gadag,6,10,Post-Monsoon,160
+Gadag,6,11,Post-Monsoon,144
+Gadag,6,12,Winter,162
+Hassan,0,1,Winter,892
+Hassan,0,2,Winter,770
+Hassan,0,3,Summer,724
+Hassan,0,4,Summer,901
+Hassan,0,5,Summer,933
+Hassan,0,6,Monsoon,654
+Hassan,0,7,Monsoon,606
+Hassan,0,8,Monsoon,588
+Hassan,0,9,Monsoon,601
+Hassan,0,10,Post-Monsoon,655
+Hassan,0,11,Post-Monsoon,610
+Hassan,0,12,Winter,559
+Hassan,1,1,Winter,953
+Hassan,1,2,Winter,747
+Hassan,1,3,Summer,814
+Hassan,1,4,Summer,982
+Hassan,1,5,Summer,930
+Hassan,1,6,Monsoon,753
+Hassan,1,7,Monsoon,562
+Hassan,1,8,Monsoon,666
+Hassan,1,9,Monsoon,573
+Hassan,1,10,Post-Monsoon,638
+Hassan,1,11,Post-Monsoon,669
+Hassan,1,12,Winter,582
+Hassan,2,1,Winter,817
+Hassan,2,2,Winter,728
+Hassan,2,3,Summer,793
+Hassan,2,4,Summer,987
+Hassan,2,5,Summer,936
+Hassan,2,6,Monsoon,786
+Hassan,2,7,Monsoon,571
+Hassan,2,8,Monsoon,646
+Hassan,2,9,Monsoon,598
+Hassan,2,10,Post-Monsoon,585
+Hassan,2,11,Post-Monsoon,606
+Hassan,2,12,Winter,564
+Hassan,3,1,Winter,735
+Hassan,3,2,Winter,807
+Hassan,3,3,Summer,868
+Hassan,3,4,Summer,911
+Hassan,3,5,Summer,749
+Hassan,3,6,Monsoon,745
+Hassan,3,7,Monsoon,585
+Hassan,3,8,Monsoon,642
+Hassan,3,9,Monsoon,640
+Hassan,3,10,Post-Monsoon,571
+Hassan,3,11,Post-Monsoon,649
+Hassan,3,12,Winter,613
+Hassan,4,1,Winter,739
+Hassan,4,2,Winter,721
+Hassan,4,3,Summer,852
+Hassan,4,4,Summer,928
+Hassan,4,5,Summer,731
+Hassan,4,6,Monsoon,669
+Hassan,4,7,Monsoon,629
+Hassan,4,8,Monsoon,590
+Hassan,4,9,Monsoon,590
+Hassan,4,10,Post-Monsoon,607
+Hassan,4,11,Post-Monsoon,547
+Hassan,4,12,Winter,689
+Hassan,5,1,Winter,749
+Hassan,5,2,Winter,741
+Hassan,5,3,Summer,740
+Hassan,5,4,Summer,903
+Hassan,5,5,Summer,937
+Hassan,5,6,Monsoon,664
+Hassan,5,7,Monsoon,631
+Hassan,5,8,Monsoon,549
+Hassan,5,9,Monsoon,609
+Hassan,5,10,Post-Monsoon,629
+Hassan,5,11,Post-Monsoon,637
+Hassan,5,12,Winter,635
+Hassan,6,1,Winter,680
+Hassan,6,2,Winter,586
+Hassan,6,3,Summer,623
+Hassan,6,4,Summer,917
+Hassan,6,5,Summer,683
+Hassan,6,6,Monsoon,454
+Hassan,6,7,Monsoon,543
+Hassan,6,8,Monsoon,497
+Hassan,6,9,Monsoon,509
+Hassan,6,10,Post-Monsoon,524
+Hassan,6,11,Post-Monsoon,518
+Hassan,6,12,Winter,512
+Haveri,0,1,Winter,343
+Haveri,0,2,Winter,489
+Haveri,0,3,Summer,420
+Haveri,0,4,Summer,306
+Haveri,0,5,Summer,489
+Haveri,0,6,Monsoon,340
+Haveri,0,7,Monsoon,330
+Haveri,0,8,Monsoon,361
+Haveri,0,9,Monsoon,240
+Haveri,0,10,Post-Monsoon,291
+Haveri,0,11,Post-Monsoon,284
+Haveri,0,12,Winter,326
+Haveri,1,1,Winter,361
+Haveri,1,2,Winter,623
+Haveri,1,3,Summer,420
+Haveri,1,4,Summer,338
+Haveri,1,5,Summer,411
+Haveri,1,6,Monsoon,517
+Haveri,1,7,Monsoon,298
+Haveri,1,8,Monsoon,309
+Haveri,1,9,Monsoon,318
+Haveri,1,10,Post-Monsoon,301
+Haveri,1,11,Post-Monsoon,320
+Haveri,1,12,Winter,302
+Haveri,2,1,Winter,362
+Haveri,2,2,Winter,525
+Haveri,2,3,Summer,399
+Haveri,2,4,Summer,344
+Haveri,2,5,Summer,398
+Haveri,2,6,Monsoon,668
+Haveri,2,7,Monsoon,279
+Haveri,2,8,Monsoon,320
+Haveri,2,9,Monsoon,297
+Haveri,2,10,Post-Monsoon,297
+Haveri,2,11,Post-Monsoon,346
+Haveri,2,12,Winter,306
+Haveri,3,1,Winter,391
+Haveri,3,2,Winter,587
+Haveri,3,3,Summer,492
+Haveri,3,4,Summer,327
+Haveri,3,5,Summer,329
+Haveri,3,6,Monsoon,605
+Haveri,3,7,Monsoon,305
+Haveri,3,8,Monsoon,329
+Haveri,3,9,Monsoon,272
+Haveri,3,10,Post-Monsoon,302
+Haveri,3,11,Post-Monsoon,325
+Haveri,3,12,Winter,329
+Haveri,4,1,Winter,387
+Haveri,4,2,Winter,457
+Haveri,4,3,Summer,468
+Haveri,4,4,Summer,353
+Haveri,4,5,Summer,394
+Haveri,4,6,Monsoon,509
+Haveri,4,7,Monsoon,298
+Haveri,4,8,Monsoon,287
+Haveri,4,9,Monsoon,297
+Haveri,4,10,Post-Monsoon,301
+Haveri,4,11,Post-Monsoon,306
+Haveri,4,12,Winter,334
+Haveri,5,1,Winter,389
+Haveri,5,2,Winter,436
+Haveri,5,3,Summer,463
+Haveri,5,4,Summer,322
+Haveri,5,5,Summer,331
+Haveri,5,6,Monsoon,396
+Haveri,5,7,Monsoon,297
+Haveri,5,8,Monsoon,300
+Haveri,5,9,Monsoon,289
+Haveri,5,10,Post-Monsoon,306
+Haveri,5,11,Post-Monsoon,296
+Haveri,5,12,Winter,305
+Haveri,6,1,Winter,313
+Haveri,6,2,Winter,372
+Haveri,6,3,Summer,320
+Haveri,6,4,Summer,290
+Haveri,6,5,Summer,292
+Haveri,6,6,Monsoon,332
+Haveri,6,7,Monsoon,263
+Haveri,6,8,Monsoon,257
+Haveri,6,9,Monsoon,213
+Haveri,6,10,Post-Monsoon,232
+Haveri,6,11,Post-Monsoon,238
+Haveri,6,12,Winter,257
+ISD Bengaluru,0,2,Winter,4
+ISD Bengaluru,0,7,Monsoon,2
+ISD Bengaluru,0,8,Monsoon,3
+ISD Bengaluru,0,9,Monsoon,2
+ISD Bengaluru,0,10,Post-Monsoon,2
+ISD Bengaluru,0,11,Post-Monsoon,6
+ISD Bengaluru,0,12,Winter,1
+ISD Bengaluru,1,1,Winter,1
+ISD Bengaluru,1,7,Monsoon,9
+ISD Bengaluru,1,8,Monsoon,2
+ISD Bengaluru,1,10,Post-Monsoon,2
+ISD Bengaluru,1,11,Post-Monsoon,10
+ISD Bengaluru,2,1,Winter,3
+ISD Bengaluru,2,2,Winter,1
+ISD Bengaluru,2,6,Monsoon,1
+ISD Bengaluru,2,7,Monsoon,16
+ISD Bengaluru,2,8,Monsoon,7
+ISD Bengaluru,2,10,Post-Monsoon,3
+ISD Bengaluru,2,12,Winter,6
+ISD Bengaluru,3,2,Winter,1
+ISD Bengaluru,3,5,Summer,2
+ISD Bengaluru,3,6,Monsoon,5
+ISD Bengaluru,3,7,Monsoon,4
+ISD Bengaluru,3,10,Post-Monsoon,1
+ISD Bengaluru,3,12,Winter,6
+ISD Bengaluru,4,3,Summer,1
+ISD Bengaluru,4,4,Summer,3
+ISD Bengaluru,4,5,Summer,3
+ISD Bengaluru,4,6,Monsoon,1
+ISD Bengaluru,4,8,Monsoon,7
+ISD Bengaluru,4,9,Monsoon,2
+ISD Bengaluru,4,10,Post-Monsoon,1
+ISD Bengaluru,4,11,Post-Monsoon,3
+ISD Bengaluru,4,12,Winter,4
+ISD Bengaluru,5,1,Winter,1
+ISD Bengaluru,5,7,Monsoon,1
+ISD Bengaluru,5,8,Monsoon,2
+ISD Bengaluru,5,9,Monsoon,3
+ISD Bengaluru,5,10,Post-Monsoon,1
+ISD Bengaluru,5,11,Post-Monsoon,4
+ISD Bengaluru,6,8,Monsoon,1
+ISD Bengaluru,6,9,Monsoon,1
+Kalaburagi,0,1,Winter,632
+Kalaburagi,0,2,Winter,577
+Kalaburagi,0,3,Summer,633
+Kalaburagi,0,4,Summer,716
+Kalaburagi,0,5,Summer,629
+Kalaburagi,0,6,Monsoon,650
+Kalaburagi,0,7,Monsoon,613
+Kalaburagi,0,8,Monsoon,576
+Kalaburagi,0,9,Monsoon,568
+Kalaburagi,0,10,Post-Monsoon,541
+Kalaburagi,0,11,Post-Monsoon,556
+Kalaburagi,0,12,Winter,476
+Kalaburagi,1,1,Winter,658
+Kalaburagi,1,2,Winter,647
+Kalaburagi,1,3,Summer,675
+Kalaburagi,1,4,Summer,680
+Kalaburagi,1,5,Summer,640
+Kalaburagi,1,6,Monsoon,737
+Kalaburagi,1,7,Monsoon,593
+Kalaburagi,1,8,Monsoon,698
+Kalaburagi,1,9,Monsoon,573
+Kalaburagi,1,10,Post-Monsoon,564
+Kalaburagi,1,11,Post-Monsoon,602
+Kalaburagi,1,12,Winter,543
+Kalaburagi,2,1,Winter,637
+Kalaburagi,2,2,Winter,638
+Kalaburagi,2,3,Summer,729
+Kalaburagi,2,4,Summer,661
+Kalaburagi,2,5,Summer,678
+Kalaburagi,2,6,Monsoon,829
+Kalaburagi,2,7,Monsoon,622
+Kalaburagi,2,8,Monsoon,794
+Kalaburagi,2,9,Monsoon,582
+Kalaburagi,2,10,Post-Monsoon,546
+Kalaburagi,2,11,Post-Monsoon,598
+Kalaburagi,2,12,Winter,527
+Kalaburagi,3,1,Winter,612
+Kalaburagi,3,2,Winter,617
+Kalaburagi,3,3,Summer,689
+Kalaburagi,3,4,Summer,693
+Kalaburagi,3,5,Summer,553
+Kalaburagi,3,6,Monsoon,750
+Kalaburagi,3,7,Monsoon,581
+Kalaburagi,3,8,Monsoon,595
+Kalaburagi,3,9,Monsoon,652
+Kalaburagi,3,10,Post-Monsoon,490
+Kalaburagi,3,11,Post-Monsoon,594
+Kalaburagi,3,12,Winter,624
+Kalaburagi,4,1,Winter,630
+Kalaburagi,4,2,Winter,599
+Kalaburagi,4,3,Summer,736
+Kalaburagi,4,4,Summer,686
+Kalaburagi,4,5,Summer,565
+Kalaburagi,4,6,Monsoon,712
+Kalaburagi,4,7,Monsoon,572
+Kalaburagi,4,8,Monsoon,535
+Kalaburagi,4,9,Monsoon,657
+Kalaburagi,4,10,Post-Monsoon,535
+Kalaburagi,4,11,Post-Monsoon,538
+Kalaburagi,4,12,Winter,573
+Kalaburagi,5,1,Winter,647
+Kalaburagi,5,2,Winter,569
+Kalaburagi,5,3,Summer,765
+Kalaburagi,5,4,Summer,671
+Kalaburagi,5,5,Summer,638
+Kalaburagi,5,6,Monsoon,646
+Kalaburagi,5,7,Monsoon,619
+Kalaburagi,5,8,Monsoon,610
+Kalaburagi,5,9,Monsoon,599
+Kalaburagi,5,10,Post-Monsoon,534
+Kalaburagi,5,11,Post-Monsoon,548
+Kalaburagi,5,12,Winter,535
+Kalaburagi,6,1,Winter,593
+Kalaburagi,6,2,Winter,545
+Kalaburagi,6,3,Summer,530
+Kalaburagi,6,4,Summer,745
+Kalaburagi,6,5,Summer,597
+Kalaburagi,6,6,Monsoon,617
+Kalaburagi,6,7,Monsoon,644
+Kalaburagi,6,8,Monsoon,520
+Kalaburagi,6,9,Monsoon,518
+Kalaburagi,6,10,Post-Monsoon,502
+Kalaburagi,6,11,Post-Monsoon,507
+Kalaburagi,6,12,Winter,469
+Karnataka Railways,0,1,Winter,138
+Karnataka Railways,0,2,Winter,143
+Karnataka Railways,0,3,Summer,133
+Karnataka Railways,0,4,Summer,123
+Karnataka Railways,0,5,Summer,112
+Karnataka Railways,0,6,Monsoon,101
+Karnataka Railways,0,7,Monsoon,122
+Karnataka Railways,0,8,Monsoon,101
+Karnataka Railways,0,9,Monsoon,106
+Karnataka Railways,0,10,Post-Monsoon,108
+Karnataka Railways,0,11,Post-Monsoon,140
+Karnataka Railways,0,12,Winter,152
+Karnataka Railways,1,1,Winter,130
+Karnataka Railways,1,2,Winter,126
+Karnataka Railways,1,3,Summer,135
+Karnataka Railways,1,4,Summer,119
+Karnataka Railways,1,5,Summer,139
+Karnataka Railways,1,6,Monsoon,102
+Karnataka Railways,1,7,Monsoon,101
+Karnataka Railways,1,8,Monsoon,125
+Karnataka Railways,1,9,Monsoon,120
+Karnataka Railways,1,10,Post-Monsoon,145
+Karnataka Railways,1,11,Post-Monsoon,159
+Karnataka Railways,1,12,Winter,127
+Karnataka Railways,2,1,Winter,136
+Karnataka Railways,2,2,Winter,151
+Karnataka Railways,2,3,Summer,124
+Karnataka Railways,2,4,Summer,96
+Karnataka Railways,2,5,Summer,127
+Karnataka Railways,2,6,Monsoon,113
+Karnataka Railways,2,7,Monsoon,90
+Karnataka Railways,2,8,Monsoon,122
+Karnataka Railways,2,9,Monsoon,109
+Karnataka Railways,2,10,Post-Monsoon,114
+Karnataka Railways,2,11,Post-Monsoon,156
+Karnataka Railways,2,12,Winter,123
+Karnataka Railways,3,1,Winter,108
+Karnataka Railways,3,2,Winter,146
+Karnataka Railways,3,3,Summer,147
+Karnataka Railways,3,4,Summer,99
+Karnataka Railways,3,5,Summer,106
+Karnataka Railways,3,6,Monsoon,118
+Karnataka Railways,3,7,Monsoon,82
+Karnataka Railways,3,8,Monsoon,125
+Karnataka Railways,3,9,Monsoon,108
+Karnataka Railways,3,10,Post-Monsoon,105
+Karnataka Railways,3,11,Post-Monsoon,169
+Karnataka Railways,3,12,Winter,148
+Karnataka Railways,4,1,Winter,126
+Karnataka Railways,4,2,Winter,122
+Karnataka Railways,4,3,Summer,144
+Karnataka Railways,4,4,Summer,112
+Karnataka Railways,4,5,Summer,104
+Karnataka Railways,4,6,Monsoon,120
+Karnataka Railways,4,7,Monsoon,80
+Karnataka Railways,4,8,Monsoon,107
+Karnataka Railways,4,9,Monsoon,107
+Karnataka Railways,4,10,Post-Monsoon,122
+Karnataka Railways,4,11,Post-Monsoon,159
+Karnataka Railways,4,12,Winter,129
+Karnataka Railways,5,1,Winter,140
+Karnataka Railways,5,2,Winter,129
+Karnataka Railways,5,3,Summer,135
+Karnataka Railways,5,4,Summer,117
+Karnataka Railways,5,5,Summer,110
+Karnataka Railways,5,6,Monsoon,96
+Karnataka Railways,5,7,Monsoon,106
+Karnataka Railways,5,8,Monsoon,114
+Karnataka Railways,5,9,Monsoon,114
+Karnataka Railways,5,10,Post-Monsoon,135
+Karnataka Railways,5,11,Post-Monsoon,135
+Karnataka Railways,5,12,Winter,147
+Karnataka Railways,6,1,Winter,76
+Karnataka Railways,6,2,Winter,72
+Karnataka Railways,6,3,Summer,93
+Karnataka Railways,6,4,Summer,79
+Karnataka Railways,6,5,Summer,73
+Karnataka Railways,6,6,Monsoon,73
+Karnataka Railways,6,7,Monsoon,72
+Karnataka Railways,6,8,Monsoon,77
+Karnataka Railways,6,9,Monsoon,94
+Karnataka Railways,6,10,Post-Monsoon,110
+Karnataka Railways,6,11,Post-Monsoon,129
+Karnataka Railways,6,12,Winter,101
+Kodagu,0,1,Winter,230
+Kodagu,0,2,Winter,291
+Kodagu,0,3,Summer,282
+Kodagu,0,4,Summer,234
+Kodagu,0,5,Summer,283
+Kodagu,0,6,Monsoon,205
+Kodagu,0,7,Monsoon,224
+Kodagu,0,8,Monsoon,214
+Kodagu,0,9,Monsoon,202
+Kodagu,0,10,Post-Monsoon,261
+Kodagu,0,11,Post-Monsoon,216
+Kodagu,0,12,Winter,210
+Kodagu,1,1,Winter,249
+Kodagu,1,2,Winter,257
+Kodagu,1,3,Summer,290
+Kodagu,1,4,Summer,277
+Kodagu,1,5,Summer,272
+Kodagu,1,6,Monsoon,214
+Kodagu,1,7,Monsoon,211
+Kodagu,1,8,Monsoon,326
+Kodagu,1,9,Monsoon,181
+Kodagu,1,10,Post-Monsoon,252
+Kodagu,1,11,Post-Monsoon,260
+Kodagu,1,12,Winter,198
+Kodagu,2,1,Winter,332
+Kodagu,2,2,Winter,261
+Kodagu,2,3,Summer,331
+Kodagu,2,4,Summer,230
+Kodagu,2,5,Summer,232
+Kodagu,2,6,Monsoon,239
+Kodagu,2,7,Monsoon,212
+Kodagu,2,8,Monsoon,308
+Kodagu,2,9,Monsoon,189
+Kodagu,2,10,Post-Monsoon,223
+Kodagu,2,11,Post-Monsoon,213
+Kodagu,2,12,Winter,206
+Kodagu,3,1,Winter,257
+Kodagu,3,2,Winter,247
+Kodagu,3,3,Summer,331
+Kodagu,3,4,Summer,210
+Kodagu,3,5,Summer,229
+Kodagu,3,6,Monsoon,184
+Kodagu,3,7,Monsoon,248
+Kodagu,3,8,Monsoon,288
+Kodagu,3,9,Monsoon,192
+Kodagu,3,10,Post-Monsoon,223
+Kodagu,3,11,Post-Monsoon,194
+Kodagu,3,12,Winter,181
+Kodagu,4,1,Winter,263
+Kodagu,4,2,Winter,211
+Kodagu,4,3,Summer,289
+Kodagu,4,4,Summer,211
+Kodagu,4,5,Summer,231
+Kodagu,4,6,Monsoon,221
+Kodagu,4,7,Monsoon,198
+Kodagu,4,8,Monsoon,160
+Kodagu,4,9,Monsoon,189
+Kodagu,4,10,Post-Monsoon,237
+Kodagu,4,11,Post-Monsoon,188
+Kodagu,4,12,Winter,171
+Kodagu,5,1,Winter,265
+Kodagu,5,2,Winter,255
+Kodagu,5,3,Summer,278
+Kodagu,5,4,Summer,239
+Kodagu,5,5,Summer,222
+Kodagu,5,6,Monsoon,195
+Kodagu,5,7,Monsoon,206
+Kodagu,5,8,Monsoon,163
+Kodagu,5,9,Monsoon,165
+Kodagu,5,10,Post-Monsoon,266
+Kodagu,5,11,Post-Monsoon,172
+Kodagu,5,12,Winter,208
+Kodagu,6,1,Winter,292
+Kodagu,6,2,Winter,213
+Kodagu,6,3,Summer,251
+Kodagu,6,4,Summer,202
+Kodagu,6,5,Summer,207
+Kodagu,6,6,Monsoon,168
+Kodagu,6,7,Monsoon,188
+Kodagu,6,8,Monsoon,138
+Kodagu,6,9,Monsoon,166
+Kodagu,6,10,Post-Monsoon,247
+Kodagu,6,11,Post-Monsoon,184
+Kodagu,6,12,Winter,189
+Kolar,0,1,Winter,484
+Kolar,0,2,Winter,663
+Kolar,0,3,Summer,470
+Kolar,0,4,Summer,489
+Kolar,0,5,Summer,384
+Kolar,0,6,Monsoon,391
+Kolar,0,7,Monsoon,370
+Kolar,0,8,Monsoon,472
+Kolar,0,9,Monsoon,350
+Kolar,0,10,Post-Monsoon,379
+Kolar,0,11,Post-Monsoon,373
+Kolar,0,12,Winter,368
+Kolar,1,1,Winter,461
+Kolar,1,2,Winter,577
+Kolar,1,3,Summer,475
+Kolar,1,4,Summer,504
+Kolar,1,5,Summer,446
+Kolar,1,6,Monsoon,409
+Kolar,1,7,Monsoon,441
+Kolar,1,8,Monsoon,458
+Kolar,1,9,Monsoon,404
+Kolar,1,10,Post-Monsoon,337
+Kolar,1,11,Post-Monsoon,365
+Kolar,1,12,Winter,336
+Kolar,2,1,Winter,462
+Kolar,2,2,Winter,539
+Kolar,2,3,Summer,466
+Kolar,2,4,Summer,415
+Kolar,2,5,Summer,424
+Kolar,2,6,Monsoon,492
+Kolar,2,7,Monsoon,373
+Kolar,2,8,Monsoon,525
+Kolar,2,9,Monsoon,331
+Kolar,2,10,Post-Monsoon,345
+Kolar,2,11,Post-Monsoon,378
+Kolar,2,12,Winter,335
+Kolar,3,1,Winter,395
+Kolar,3,2,Winter,551
+Kolar,3,3,Summer,450
+Kolar,3,4,Summer,438
+Kolar,3,5,Summer,387
+Kolar,3,6,Monsoon,539
+Kolar,3,7,Monsoon,359
+Kolar,3,8,Monsoon,528
+Kolar,3,9,Monsoon,391
+Kolar,3,10,Post-Monsoon,293
+Kolar,3,11,Post-Monsoon,307
+Kolar,3,12,Winter,367
+Kolar,4,1,Winter,408
+Kolar,4,2,Winter,574
+Kolar,4,3,Summer,430
+Kolar,4,4,Summer,422
+Kolar,4,5,Summer,364
+Kolar,4,6,Monsoon,455
+Kolar,4,7,Monsoon,387
+Kolar,4,8,Monsoon,409
+Kolar,4,9,Monsoon,400
+Kolar,4,10,Post-Monsoon,344
+Kolar,4,11,Post-Monsoon,358
+Kolar,4,12,Winter,363
+Kolar,5,1,Winter,407
+Kolar,5,2,Winter,487
+Kolar,5,3,Summer,429
+Kolar,5,4,Summer,375
+Kolar,5,5,Summer,370
+Kolar,5,6,Monsoon,397
+Kolar,5,7,Monsoon,444
+Kolar,5,8,Monsoon,353
+Kolar,5,9,Monsoon,354
+Kolar,5,10,Post-Monsoon,362
+Kolar,5,11,Post-Monsoon,333
+Kolar,5,12,Winter,358
+Kolar,6,1,Winter,370
+Kolar,6,2,Winter,353
+Kolar,6,3,Summer,338
+Kolar,6,4,Summer,333
+Kolar,6,5,Summer,337
+Kolar,6,6,Monsoon,308
+Kolar,6,7,Monsoon,311
+Kolar,6,8,Monsoon,287
+Kolar,6,9,Monsoon,306
+Kolar,6,10,Post-Monsoon,314
+Kolar,6,11,Post-Monsoon,298
+Kolar,6,12,Winter,270
+Koppal,0,1,Winter,291
+Koppal,0,2,Winter,291
+Koppal,0,3,Summer,302
+Koppal,0,4,Summer,367
+Koppal,0,5,Summer,287
+Koppal,0,6,Monsoon,282
+Koppal,0,7,Monsoon,338
+Koppal,0,8,Monsoon,239
+Koppal,0,9,Monsoon,227
+Koppal,0,10,Post-Monsoon,312
+Koppal,0,11,Post-Monsoon,288
+Koppal,0,12,Winter,252
+Koppal,1,1,Winter,319
+Koppal,1,2,Winter,300
+Koppal,1,3,Summer,360
+Koppal,1,4,Summer,366
+Koppal,1,5,Summer,324
+Koppal,1,6,Monsoon,337
+Koppal,1,7,Monsoon,316
+Koppal,1,8,Monsoon,281
+Koppal,1,9,Monsoon,255
+Koppal,1,10,Post-Monsoon,311
+Koppal,1,11,Post-Monsoon,301
+Koppal,1,12,Winter,237
+Koppal,2,1,Winter,330
+Koppal,2,2,Winter,325
+Koppal,2,3,Summer,355
+Koppal,2,4,Summer,331
+Koppal,2,5,Summer,268
+Koppal,2,6,Monsoon,354
+Koppal,2,7,Monsoon,298
+Koppal,2,8,Monsoon,281
+Koppal,2,9,Monsoon,260
+Koppal,2,10,Post-Monsoon,323
+Koppal,2,11,Post-Monsoon,298
+Koppal,2,12,Winter,265
+Koppal,3,1,Winter,324
+Koppal,3,2,Winter,337
+Koppal,3,3,Summer,406
+Koppal,3,4,Summer,381
+Koppal,3,5,Summer,293
+Koppal,3,6,Monsoon,327
+Koppal,3,7,Monsoon,273
+Koppal,3,8,Monsoon,251
+Koppal,3,9,Monsoon,298
+Koppal,3,10,Post-Monsoon,322
+Koppal,3,11,Post-Monsoon,266
+Koppal,3,12,Winter,280
+Koppal,4,1,Winter,314
+Koppal,4,2,Winter,337
+Koppal,4,3,Summer,426
+Koppal,4,4,Summer,330
+Koppal,4,5,Summer,259
+Koppal,4,6,Monsoon,321
+Koppal,4,7,Monsoon,360
+Koppal,4,8,Monsoon,265
+Koppal,4,9,Monsoon,239
+Koppal,4,10,Post-Monsoon,310
+Koppal,4,11,Post-Monsoon,302
+Koppal,4,12,Winter,269
+Koppal,5,1,Winter,293
+Koppal,5,2,Winter,293
+Koppal,5,3,Summer,354
+Koppal,5,4,Summer,339
+Koppal,5,5,Summer,284
+Koppal,5,6,Monsoon,307
+Koppal,5,7,Monsoon,335
+Koppal,5,8,Monsoon,266
+Koppal,5,9,Monsoon,240
+Koppal,5,10,Post-Monsoon,283
+Koppal,5,11,Post-Monsoon,250
+Koppal,5,12,Winter,316
+Koppal,6,1,Winter,253
+Koppal,6,2,Winter,219
+Koppal,6,3,Summer,246
+Koppal,6,4,Summer,352
+Koppal,6,5,Summer,268
+Koppal,6,6,Monsoon,277
+Koppal,6,7,Monsoon,298
+Koppal,6,8,Monsoon,234
+Koppal,6,9,Monsoon,207
+Koppal,6,10,Post-Monsoon,225
+Koppal,6,11,Post-Monsoon,204
+Koppal,6,12,Winter,222
+Mandya,0,1,Winter,836
+Mandya,0,2,Winter,838
+Mandya,0,3,Summer,808
+Mandya,0,4,Summer,892
+Mandya,0,5,Summer,767
+Mandya,0,6,Monsoon,671
+Mandya,0,7,Monsoon,690
+Mandya,0,8,Monsoon,717
+Mandya,0,9,Monsoon,631
+Mandya,0,10,Post-Monsoon,658
+Mandya,0,11,Post-Monsoon,584
+Mandya,0,12,Winter,598
+Mandya,1,1,Winter,806
+Mandya,1,2,Winter,811
+Mandya,1,3,Summer,888
+Mandya,1,4,Summer,869
+Mandya,1,5,Summer,798
+Mandya,1,6,Monsoon,726
+Mandya,1,7,Monsoon,634
+Mandya,1,8,Monsoon,716
+Mandya,1,9,Monsoon,625
+Mandya,1,10,Post-Monsoon,668
+Mandya,1,11,Post-Monsoon,656
+Mandya,1,12,Winter,589
+Mandya,2,1,Winter,753
+Mandya,2,2,Winter,950
+Mandya,2,3,Summer,988
+Mandya,2,4,Summer,853
+Mandya,2,5,Summer,754
+Mandya,2,6,Monsoon,761
+Mandya,2,7,Monsoon,603
+Mandya,2,8,Monsoon,697
+Mandya,2,9,Monsoon,654
+Mandya,2,10,Post-Monsoon,602
+Mandya,2,11,Post-Monsoon,660
+Mandya,2,12,Winter,609
+Mandya,3,1,Winter,753
+Mandya,3,2,Winter,882
+Mandya,3,3,Summer,1079
+Mandya,3,4,Summer,848
+Mandya,3,5,Summer,724
+Mandya,3,6,Monsoon,713
+Mandya,3,7,Monsoon,621
+Mandya,3,8,Monsoon,664
+Mandya,3,9,Monsoon,618
+Mandya,3,10,Post-Monsoon,617
+Mandya,3,11,Post-Monsoon,662
+Mandya,3,12,Winter,605
+Mandya,4,1,Winter,697
+Mandya,4,2,Winter,765
+Mandya,4,3,Summer,956
+Mandya,4,4,Summer,857
+Mandya,4,5,Summer,692
+Mandya,4,6,Monsoon,658
+Mandya,4,7,Monsoon,682
+Mandya,4,8,Monsoon,601
+Mandya,4,9,Monsoon,638
+Mandya,4,10,Post-Monsoon,584
+Mandya,4,11,Post-Monsoon,565
+Mandya,4,12,Winter,658
+Mandya,5,1,Winter,757
+Mandya,5,2,Winter,722
+Mandya,5,3,Summer,964
+Mandya,5,4,Summer,867
+Mandya,5,5,Summer,727
+Mandya,5,6,Monsoon,697
+Mandya,5,7,Monsoon,676
+Mandya,5,8,Monsoon,635
+Mandya,5,9,Monsoon,774
+Mandya,5,10,Post-Monsoon,610
+Mandya,5,11,Post-Monsoon,569
+Mandya,5,12,Winter,691
+Mandya,6,1,Winter,732
+Mandya,6,2,Winter,627
+Mandya,6,3,Summer,679
+Mandya,6,4,Summer,849
+Mandya,6,5,Summer,681
+Mandya,6,6,Monsoon,575
+Mandya,6,7,Monsoon,566
+Mandya,6,8,Monsoon,602
+Mandya,6,9,Monsoon,540
+Mandya,6,10,Post-Monsoon,548
+Mandya,6,11,Post-Monsoon,545
+Mandya,6,12,Winter,569
+Mysuru,0,1,Winter,1075
+Mysuru,0,2,Winter,1100
+Mysuru,0,3,Summer,1038
+Mysuru,0,4,Summer,1235
+Mysuru,0,5,Summer,1131
+Mysuru,0,6,Monsoon,828
+Mysuru,0,7,Monsoon,939
+Mysuru,0,8,Monsoon,885
+Mysuru,0,9,Monsoon,844
+Mysuru,0,10,Post-Monsoon,891
+Mysuru,0,11,Post-Monsoon,861
+Mysuru,0,12,Winter,846
+Mysuru,1,1,Winter,1048
+Mysuru,1,2,Winter,995
+Mysuru,1,3,Summer,1092
+Mysuru,1,4,Summer,1197
+Mysuru,1,5,Summer,1061
+Mysuru,1,6,Monsoon,986
+Mysuru,1,7,Monsoon,879
+Mysuru,1,8,Monsoon,933
+Mysuru,1,9,Monsoon,959
+Mysuru,1,10,Post-Monsoon,947
+Mysuru,1,11,Post-Monsoon,1017
+Mysuru,1,12,Winter,901
+Mysuru,2,1,Winter,1027
+Mysuru,2,2,Winter,1097
+Mysuru,2,3,Summer,1118
+Mysuru,2,4,Summer,1175
+Mysuru,2,5,Summer,1087
+Mysuru,2,6,Monsoon,976
+Mysuru,2,7,Monsoon,847
+Mysuru,2,8,Monsoon,976
+Mysuru,2,9,Monsoon,915
+Mysuru,2,10,Post-Monsoon,890
+Mysuru,2,11,Post-Monsoon,1048
+Mysuru,2,12,Winter,849
+Mysuru,3,1,Winter,1018
+Mysuru,3,2,Winter,1171
+Mysuru,3,3,Summer,1184
+Mysuru,3,4,Summer,1098
+Mysuru,3,5,Summer,987
+Mysuru,3,6,Monsoon,981
+Mysuru,3,7,Monsoon,911
+Mysuru,3,8,Monsoon,944
+Mysuru,3,9,Monsoon,999
+Mysuru,3,10,Post-Monsoon,869
+Mysuru,3,11,Post-Monsoon,930
+Mysuru,3,12,Winter,908
+Mysuru,4,1,Winter,1045
+Mysuru,4,2,Winter,1054
+Mysuru,4,3,Summer,1337
+Mysuru,4,4,Summer,1117
+Mysuru,4,5,Summer,998
+Mysuru,4,6,Monsoon,894
+Mysuru,4,7,Monsoon,787
+Mysuru,4,8,Monsoon,807
+Mysuru,4,9,Monsoon,819
+Mysuru,4,10,Post-Monsoon,878
+Mysuru,4,11,Post-Monsoon,908
+Mysuru,4,12,Winter,942
+Mysuru,5,1,Winter,1041
+Mysuru,5,2,Winter,1124
+Mysuru,5,3,Summer,1301
+Mysuru,5,4,Summer,1060
+Mysuru,5,5,Summer,959
+Mysuru,5,6,Monsoon,921
+Mysuru,5,7,Monsoon,925
+Mysuru,5,8,Monsoon,893
+Mysuru,5,9,Monsoon,941
+Mysuru,5,10,Post-Monsoon,928
+Mysuru,5,11,Post-Monsoon,859
+Mysuru,5,12,Winter,1086
+Mysuru,6,1,Winter,833
+Mysuru,6,2,Winter,902
+Mysuru,6,3,Summer,825
+Mysuru,6,4,Summer,1064
+Mysuru,6,5,Summer,871
+Mysuru,6,6,Monsoon,705
+Mysuru,6,7,Monsoon,748
+Mysuru,6,8,Monsoon,743
+Mysuru,6,9,Monsoon,738
+Mysuru,6,10,Post-Monsoon,813
+Mysuru,6,11,Post-Monsoon,721
+Mysuru,6,12,Winter,829
+Raichur,0,1,Winter,429
+Raichur,0,2,Winter,458
+Raichur,0,3,Summer,514
+Raichur,0,4,Summer,457
+Raichur,0,5,Summer,433
+Raichur,0,6,Monsoon,466
+Raichur,0,7,Monsoon,477
+Raichur,0,8,Monsoon,373
+Raichur,0,9,Monsoon,333
+Raichur,0,10,Post-Monsoon,342
+Raichur,0,11,Post-Monsoon,384
+Raichur,0,12,Winter,317
+Raichur,1,1,Winter,483
+Raichur,1,2,Winter,423
+Raichur,1,3,Summer,602
+Raichur,1,4,Summer,564
+Raichur,1,5,Summer,422
+Raichur,1,6,Monsoon,442
+Raichur,1,7,Monsoon,529
+Raichur,1,8,Monsoon,444
+Raichur,1,9,Monsoon,358
+Raichur,1,10,Post-Monsoon,416
+Raichur,1,11,Post-Monsoon,416
+Raichur,1,12,Winter,339
+Raichur,2,1,Winter,493
+Raichur,2,2,Winter,436
+Raichur,2,3,Summer,617
+Raichur,2,4,Summer,517
+Raichur,2,5,Summer,441
+Raichur,2,6,Monsoon,414
+Raichur,2,7,Monsoon,495
+Raichur,2,8,Monsoon,482
+Raichur,2,9,Monsoon,375
+Raichur,2,10,Post-Monsoon,400
+Raichur,2,11,Post-Monsoon,418
+Raichur,2,12,Winter,357
+Raichur,3,1,Winter,403
+Raichur,3,2,Winter,424
+Raichur,3,3,Summer,612
+Raichur,3,4,Summer,507
+Raichur,3,5,Summer,365
+Raichur,3,6,Monsoon,449
+Raichur,3,7,Monsoon,528
+Raichur,3,8,Monsoon,453
+Raichur,3,9,Monsoon,380
+Raichur,3,10,Post-Monsoon,432
+Raichur,3,11,Post-Monsoon,386
+Raichur,3,12,Winter,360
+Raichur,4,1,Winter,420
+Raichur,4,2,Winter,404
+Raichur,4,3,Summer,515
+Raichur,4,4,Summer,480
+Raichur,4,5,Summer,458
+Raichur,4,6,Monsoon,448
+Raichur,4,7,Monsoon,543
+Raichur,4,8,Monsoon,378
+Raichur,4,9,Monsoon,396
+Raichur,4,10,Post-Monsoon,452
+Raichur,4,11,Post-Monsoon,383
+Raichur,4,12,Winter,370
+Raichur,5,1,Winter,458
+Raichur,5,2,Winter,417
+Raichur,5,3,Summer,587
+Raichur,5,4,Summer,535
+Raichur,5,5,Summer,390
+Raichur,5,6,Monsoon,387
+Raichur,5,7,Monsoon,545
+Raichur,5,8,Monsoon,500
+Raichur,5,9,Monsoon,379
+Raichur,5,10,Post-Monsoon,417
+Raichur,5,11,Post-Monsoon,332
+Raichur,5,12,Winter,383
+Raichur,6,1,Winter,396
+Raichur,6,2,Winter,381
+Raichur,6,3,Summer,464
+Raichur,6,4,Summer,495
+Raichur,6,5,Summer,551
+Raichur,6,6,Monsoon,343
+Raichur,6,7,Monsoon,468
+Raichur,6,8,Monsoon,414
+Raichur,6,9,Monsoon,300
+Raichur,6,10,Post-Monsoon,345
+Raichur,6,11,Post-Monsoon,288
+Raichur,6,12,Winter,309
+Ramanagara,0,1,Winter,573
+Ramanagara,0,2,Winter,729
+Ramanagara,0,3,Summer,565
+Ramanagara,0,4,Summer,541
+Ramanagara,0,5,Summer,585
+Ramanagara,0,6,Monsoon,534
+Ramanagara,0,7,Monsoon,627
+Ramanagara,0,8,Monsoon,555
+Ramanagara,0,9,Monsoon,503
+Ramanagara,0,10,Post-Monsoon,501
+Ramanagara,0,11,Post-Monsoon,510
+Ramanagara,0,12,Winter,491
+Ramanagara,1,1,Winter,581
+Ramanagara,1,2,Winter,738
+Ramanagara,1,3,Summer,595
+Ramanagara,1,4,Summer,517
+Ramanagara,1,5,Summer,527
+Ramanagara,1,6,Monsoon,561
+Ramanagara,1,7,Monsoon,581
+Ramanagara,1,8,Monsoon,575
+Ramanagara,1,9,Monsoon,573
+Ramanagara,1,10,Post-Monsoon,482
+Ramanagara,1,11,Post-Monsoon,515
+Ramanagara,1,12,Winter,488
+Ramanagara,2,1,Winter,534
+Ramanagara,2,2,Winter,707
+Ramanagara,2,3,Summer,605
+Ramanagara,2,4,Summer,505
+Ramanagara,2,5,Summer,522
+Ramanagara,2,6,Monsoon,617
+Ramanagara,2,7,Monsoon,434
+Ramanagara,2,8,Monsoon,535
+Ramanagara,2,9,Monsoon,543
+Ramanagara,2,10,Post-Monsoon,430
+Ramanagara,2,11,Post-Monsoon,501
+Ramanagara,2,12,Winter,471
+Ramanagara,3,1,Winter,548
+Ramanagara,3,2,Winter,666
+Ramanagara,3,3,Summer,576
+Ramanagara,3,4,Summer,549
+Ramanagara,3,5,Summer,428
+Ramanagara,3,6,Monsoon,679
+Ramanagara,3,7,Monsoon,495
+Ramanagara,3,8,Monsoon,539
+Ramanagara,3,9,Monsoon,498
+Ramanagara,3,10,Post-Monsoon,471
+Ramanagara,3,11,Post-Monsoon,469
+Ramanagara,3,12,Winter,541
+Ramanagara,4,1,Winter,564
+Ramanagara,4,2,Winter,650
+Ramanagara,4,3,Summer,537
+Ramanagara,4,4,Summer,541
+Ramanagara,4,5,Summer,510
+Ramanagara,4,6,Monsoon,700
+Ramanagara,4,7,Monsoon,495
+Ramanagara,4,8,Monsoon,446
+Ramanagara,4,9,Monsoon,504
+Ramanagara,4,10,Post-Monsoon,475
+Ramanagara,4,11,Post-Monsoon,413
+Ramanagara,4,12,Winter,508
+Ramanagara,5,1,Winter,520
+Ramanagara,5,2,Winter,566
+Ramanagara,5,3,Summer,477
+Ramanagara,5,4,Summer,575
+Ramanagara,5,5,Summer,466
+Ramanagara,5,6,Monsoon,521
+Ramanagara,5,7,Monsoon,667
+Ramanagara,5,8,Monsoon,462
+Ramanagara,5,9,Monsoon,507
+Ramanagara,5,10,Post-Monsoon,551
+Ramanagara,5,11,Post-Monsoon,485
+Ramanagara,5,12,Winter,515
+Ramanagara,6,1,Winter,444
+Ramanagara,6,2,Winter,458
+Ramanagara,6,3,Summer,428
+Ramanagara,6,4,Summer,479
+Ramanagara,6,5,Summer,463
+Ramanagara,6,6,Monsoon,389
+Ramanagara,6,7,Monsoon,551
+Ramanagara,6,8,Monsoon,457
+Ramanagara,6,9,Monsoon,387
+Ramanagara,6,10,Post-Monsoon,413
+Ramanagara,6,11,Post-Monsoon,386
+Ramanagara,6,12,Winter,412
+Shivamogga,0,1,Winter,810
+Shivamogga,0,2,Winter,1147
+Shivamogga,0,3,Summer,722
+Shivamogga,0,4,Summer,784
+Shivamogga,0,5,Summer,923
+Shivamogga,0,6,Monsoon,731
+Shivamogga,0,7,Monsoon,720
+Shivamogga,0,8,Monsoon,659
+Shivamogga,0,9,Monsoon,514
+Shivamogga,0,10,Post-Monsoon,744
+Shivamogga,0,11,Post-Monsoon,701
+Shivamogga,0,12,Winter,609
+Shivamogga,1,1,Winter,845
+Shivamogga,1,2,Winter,992
+Shivamogga,1,3,Summer,763
+Shivamogga,1,4,Summer,698
+Shivamogga,1,5,Summer,840
+Shivamogga,1,6,Monsoon,825
+Shivamogga,1,7,Monsoon,740
+Shivamogga,1,8,Monsoon,701
+Shivamogga,1,9,Monsoon,593
+Shivamogga,1,10,Post-Monsoon,685
+Shivamogga,1,11,Post-Monsoon,764
+Shivamogga,1,12,Winter,699
+Shivamogga,2,1,Winter,827
+Shivamogga,2,2,Winter,872
+Shivamogga,2,3,Summer,774
+Shivamogga,2,4,Summer,643
+Shivamogga,2,5,Summer,826
+Shivamogga,2,6,Monsoon,782
+Shivamogga,2,7,Monsoon,711
+Shivamogga,2,8,Monsoon,647
+Shivamogga,2,9,Monsoon,586
+Shivamogga,2,10,Post-Monsoon,663
+Shivamogga,2,11,Post-Monsoon,733
+Shivamogga,2,12,Winter,649
+Shivamogga,3,1,Winter,801
+Shivamogga,3,2,Winter,996
+Shivamogga,3,3,Summer,763
+Shivamogga,3,4,Summer,682
+Shivamogga,3,5,Summer,668
+Shivamogga,3,6,Monsoon,906
+Shivamogga,3,7,Monsoon,683
+Shivamogga,3,8,Monsoon,668
+Shivamogga,3,9,Monsoon,635
+Shivamogga,3,10,Post-Monsoon,651
+Shivamogga,3,11,Post-Monsoon,720
+Shivamogga,3,12,Winter,719
+Shivamogga,4,1,Winter,748
+Shivamogga,4,2,Winter,1109
+Shivamogga,4,3,Summer,850
+Shivamogga,4,4,Summer,720
+Shivamogga,4,5,Summer,689
+Shivamogga,4,6,Monsoon,788
+Shivamogga,4,7,Monsoon,734
+Shivamogga,4,8,Monsoon,588
+Shivamogga,4,9,Monsoon,577
+Shivamogga,4,10,Post-Monsoon,640
+Shivamogga,4,11,Post-Monsoon,691
+Shivamogga,4,12,Winter,694
+Shivamogga,5,1,Winter,764
+Shivamogga,5,2,Winter,1212
+Shivamogga,5,3,Summer,767
+Shivamogga,5,4,Summer,721
+Shivamogga,5,5,Summer,775
+Shivamogga,5,6,Monsoon,756
+Shivamogga,5,7,Monsoon,711
+Shivamogga,5,8,Monsoon,554
+Shivamogga,5,9,Monsoon,562
+Shivamogga,5,10,Post-Monsoon,680
+Shivamogga,5,11,Post-Monsoon,615
+Shivamogga,5,12,Winter,704
+Shivamogga,6,1,Winter,688
+Shivamogga,6,2,Winter,1133
+Shivamogga,6,3,Summer,604
+Shivamogga,6,4,Summer,632
+Shivamogga,6,5,Summer,778
+Shivamogga,6,6,Monsoon,575
+Shivamogga,6,7,Monsoon,655
+Shivamogga,6,8,Monsoon,564
+Shivamogga,6,9,Monsoon,494
+Shivamogga,6,10,Post-Monsoon,630
+Shivamogga,6,11,Post-Monsoon,511
+Shivamogga,6,12,Winter,611
+Tumakuru,0,1,Winter,794
+Tumakuru,0,2,Winter,947
+Tumakuru,0,3,Summer,808
+Tumakuru,0,4,Summer,766
+Tumakuru,0,5,Summer,816
+Tumakuru,0,6,Monsoon,687
+Tumakuru,0,7,Monsoon,720
+Tumakuru,0,8,Monsoon,745
+Tumakuru,0,9,Monsoon,646
+Tumakuru,0,10,Post-Monsoon,710
+Tumakuru,0,11,Post-Monsoon,744
+Tumakuru,0,12,Winter,654
+Tumakuru,1,1,Winter,832
+Tumakuru,1,2,Winter,918
+Tumakuru,1,3,Summer,900
+Tumakuru,1,4,Summer,684
+Tumakuru,1,5,Summer,893
+Tumakuru,1,6,Monsoon,820
+Tumakuru,1,7,Monsoon,740
+Tumakuru,1,8,Monsoon,815
+Tumakuru,1,9,Monsoon,660
+Tumakuru,1,10,Post-Monsoon,700
+Tumakuru,1,11,Post-Monsoon,773
+Tumakuru,1,12,Winter,637
+Tumakuru,2,1,Winter,763
+Tumakuru,2,2,Winter,929
+Tumakuru,2,3,Summer,918
+Tumakuru,2,4,Summer,689
+Tumakuru,2,5,Summer,864
+Tumakuru,2,6,Monsoon,790
+Tumakuru,2,7,Monsoon,699
+Tumakuru,2,8,Monsoon,777
+Tumakuru,2,9,Monsoon,655
+Tumakuru,2,10,Post-Monsoon,664
+Tumakuru,2,11,Post-Monsoon,737
+Tumakuru,2,12,Winter,677
+Tumakuru,3,1,Winter,786
+Tumakuru,3,2,Winter,903
+Tumakuru,3,3,Summer,910
+Tumakuru,3,4,Summer,722
+Tumakuru,3,5,Summer,782
+Tumakuru,3,6,Monsoon,792
+Tumakuru,3,7,Monsoon,683
+Tumakuru,3,8,Monsoon,749
+Tumakuru,3,9,Monsoon,713
+Tumakuru,3,10,Post-Monsoon,698
+Tumakuru,3,11,Post-Monsoon,644
+Tumakuru,3,12,Winter,703
+Tumakuru,4,1,Winter,755
+Tumakuru,4,2,Winter,792
+Tumakuru,4,3,Summer,799
+Tumakuru,4,4,Summer,712
+Tumakuru,4,5,Summer,697
+Tumakuru,4,6,Monsoon,733
+Tumakuru,4,7,Monsoon,696
+Tumakuru,4,8,Monsoon,677
+Tumakuru,4,9,Monsoon,762
+Tumakuru,4,10,Post-Monsoon,688
+Tumakuru,4,11,Post-Monsoon,672
+Tumakuru,4,12,Winter,732
+Tumakuru,5,1,Winter,747
+Tumakuru,5,2,Winter,932
+Tumakuru,5,3,Summer,740
+Tumakuru,5,4,Summer,815
+Tumakuru,5,5,Summer,728
+Tumakuru,5,6,Monsoon,732
+Tumakuru,5,7,Monsoon,707
+Tumakuru,5,8,Monsoon,693
+Tumakuru,5,9,Monsoon,680
+Tumakuru,5,10,Post-Monsoon,731
+Tumakuru,5,11,Post-Monsoon,610
+Tumakuru,5,12,Winter,708
+Tumakuru,6,1,Winter,639
+Tumakuru,6,2,Winter,700
+Tumakuru,6,3,Summer,692
+Tumakuru,6,4,Summer,635
+Tumakuru,6,5,Summer,623
+Tumakuru,6,6,Monsoon,577
+Tumakuru,6,7,Monsoon,620
+Tumakuru,6,8,Monsoon,595
+Tumakuru,6,9,Monsoon,538
+Tumakuru,6,10,Post-Monsoon,648
+Tumakuru,6,11,Post-Monsoon,558
+Tumakuru,6,12,Winter,534
+Udupi,0,1,Winter,446
+Udupi,0,2,Winter,474
+Udupi,0,3,Summer,346
+Udupi,0,4,Summer,362
+Udupi,0,5,Summer,410
+Udupi,0,6,Monsoon,284
+Udupi,0,7,Monsoon,346
+Udupi,0,8,Monsoon,332
+Udupi,0,9,Monsoon,282
+Udupi,0,10,Post-Monsoon,376
+Udupi,0,11,Post-Monsoon,352
+Udupi,0,12,Winter,299
+Udupi,1,1,Winter,476
+Udupi,1,2,Winter,420
+Udupi,1,3,Summer,381
+Udupi,1,4,Summer,347
+Udupi,1,5,Summer,396
+Udupi,1,6,Monsoon,302
+Udupi,1,7,Monsoon,342
+Udupi,1,8,Monsoon,298
+Udupi,1,9,Monsoon,330
+Udupi,1,10,Post-Monsoon,318
+Udupi,1,11,Post-Monsoon,312
+Udupi,1,12,Winter,320
+Udupi,2,1,Winter,479
+Udupi,2,2,Winter,385
+Udupi,2,3,Summer,372
+Udupi,2,4,Summer,362
+Udupi,2,5,Summer,351
+Udupi,2,6,Monsoon,292
+Udupi,2,7,Monsoon,337
+Udupi,2,8,Monsoon,286
+Udupi,2,9,Monsoon,338
+Udupi,2,10,Post-Monsoon,324
+Udupi,2,11,Post-Monsoon,332
+Udupi,2,12,Winter,266
+Udupi,3,1,Winter,446
+Udupi,3,2,Winter,359
+Udupi,3,3,Summer,371
+Udupi,3,4,Summer,373
+Udupi,3,5,Summer,318
+Udupi,3,6,Monsoon,291
+Udupi,3,7,Monsoon,279
+Udupi,3,8,Monsoon,314
+Udupi,3,9,Monsoon,330
+Udupi,3,10,Post-Monsoon,274
+Udupi,3,11,Post-Monsoon,333
+Udupi,3,12,Winter,311
+Udupi,4,1,Winter,430
+Udupi,4,2,Winter,424
+Udupi,4,3,Summer,349
+Udupi,4,4,Summer,397
+Udupi,4,5,Summer,354
+Udupi,4,6,Monsoon,281
+Udupi,4,7,Monsoon,315
+Udupi,4,8,Monsoon,268
+Udupi,4,9,Monsoon,375
+Udupi,4,10,Post-Monsoon,271
+Udupi,4,11,Post-Monsoon,274
+Udupi,4,12,Winter,323
+Udupi,5,1,Winter,445
+Udupi,5,2,Winter,405
+Udupi,5,3,Summer,353
+Udupi,5,4,Summer,395
+Udupi,5,5,Summer,334
+Udupi,5,6,Monsoon,245
+Udupi,5,7,Monsoon,340
+Udupi,5,8,Monsoon,314
+Udupi,5,9,Monsoon,323
+Udupi,5,10,Post-Monsoon,319
+Udupi,5,11,Post-Monsoon,335
+Udupi,5,12,Winter,338
+Udupi,6,1,Winter,398
+Udupi,6,2,Winter,340
+Udupi,6,3,Summer,314
+Udupi,6,4,Summer,339
+Udupi,6,5,Summer,305
+Udupi,6,6,Monsoon,210
+Udupi,6,7,Monsoon,320
+Udupi,6,8,Monsoon,210
+Udupi,6,9,Monsoon,266
+Udupi,6,10,Post-Monsoon,295
+Udupi,6,11,Post-Monsoon,295
+Udupi,6,12,Winter,258
+Uttara Kannada,0,1,Winter,479
+Uttara Kannada,0,2,Winter,466
+Uttara Kannada,0,3,Summer,456
+Uttara Kannada,0,4,Summer,344
+Uttara Kannada,0,5,Summer,487
+Uttara Kannada,0,6,Monsoon,397
+Uttara Kannada,0,7,Monsoon,359
+Uttara Kannada,0,8,Monsoon,323
+Uttara Kannada,0,9,Monsoon,314
+Uttara Kannada,0,10,Post-Monsoon,330
+Uttara Kannada,0,11,Post-Monsoon,408
+Uttara Kannada,0,12,Winter,350
+Uttara Kannada,1,1,Winter,506
+Uttara Kannada,1,2,Winter,458
+Uttara Kannada,1,3,Summer,439
+Uttara Kannada,1,4,Summer,403
+Uttara Kannada,1,5,Summer,469
+Uttara Kannada,1,6,Monsoon,435
+Uttara Kannada,1,7,Monsoon,305
+Uttara Kannada,1,8,Monsoon,408
+Uttara Kannada,1,9,Monsoon,304
+Uttara Kannada,1,10,Post-Monsoon,397
+Uttara Kannada,1,11,Post-Monsoon,407
+Uttara Kannada,1,12,Winter,385
+Uttara Kannada,2,1,Winter,519
+Uttara Kannada,2,2,Winter,474
+Uttara Kannada,2,3,Summer,509
+Uttara Kannada,2,4,Summer,417
+Uttara Kannada,2,5,Summer,412
+Uttara Kannada,2,6,Monsoon,456
+Uttara Kannada,2,7,Monsoon,295
+Uttara Kannada,2,8,Monsoon,389
+Uttara Kannada,2,9,Monsoon,344
+Uttara Kannada,2,10,Post-Monsoon,321
+Uttara Kannada,2,11,Post-Monsoon,390
+Uttara Kannada,2,12,Winter,357
+Uttara Kannada,3,1,Winter,437
+Uttara Kannada,3,2,Winter,527
+Uttara Kannada,3,3,Summer,483
+Uttara Kannada,3,4,Summer,349
+Uttara Kannada,3,5,Summer,434
+Uttara Kannada,3,6,Monsoon,447
+Uttara Kannada,3,7,Monsoon,319
+Uttara Kannada,3,8,Monsoon,306
+Uttara Kannada,3,9,Monsoon,347
+Uttara Kannada,3,10,Post-Monsoon,346
+Uttara Kannada,3,11,Post-Monsoon,388
+Uttara Kannada,3,12,Winter,391
+Uttara Kannada,4,1,Winter,480
+Uttara Kannada,4,2,Winter,413
+Uttara Kannada,4,3,Summer,462
+Uttara Kannada,4,4,Summer,454
+Uttara Kannada,4,5,Summer,401
+Uttara Kannada,4,6,Monsoon,401
+Uttara Kannada,4,7,Monsoon,320
+Uttara Kannada,4,8,Monsoon,306
+Uttara Kannada,4,9,Monsoon,345
+Uttara Kannada,4,10,Post-Monsoon,321
+Uttara Kannada,4,11,Post-Monsoon,355
+Uttara Kannada,4,12,Winter,378
+Uttara Kannada,5,1,Winter,495
+Uttara Kannada,5,2,Winter,526
+Uttara Kannada,5,3,Summer,460
+Uttara Kannada,5,4,Summer,421
+Uttara Kannada,5,5,Summer,405
+Uttara Kannada,5,6,Monsoon,345
+Uttara Kannada,5,7,Monsoon,345
+Uttara Kannada,5,8,Monsoon,335
+Uttara Kannada,5,9,Monsoon,362
+Uttara Kannada,5,10,Post-Monsoon,310
+Uttara Kannada,5,11,Post-Monsoon,303
+Uttara Kannada,5,12,Winter,414
+Uttara Kannada,6,1,Winter,416
+Uttara Kannada,6,2,Winter,419
+Uttara Kannada,6,3,Summer,365
+Uttara Kannada,6,4,Summer,375
+Uttara Kannada,6,5,Summer,446
+Uttara Kannada,6,6,Monsoon,297
+Uttara Kannada,6,7,Monsoon,280
+Uttara Kannada,6,8,Monsoon,281
+Uttara Kannada,6,9,Monsoon,241
+Uttara Kannada,6,10,Post-Monsoon,313
+Uttara Kannada,6,11,Post-Monsoon,293
+Uttara Kannada,6,12,Winter,321
+Vijayanagara,0,1,Winter,317
+Vijayanagara,0,2,Winter,436
+Vijayanagara,0,3,Summer,376
+Vijayanagara,0,4,Summer,388
+Vijayanagara,0,5,Summer,367
+Vijayanagara,0,6,Monsoon,304
+Vijayanagara,0,7,Monsoon,285
+Vijayanagara,0,8,Monsoon,259
+Vijayanagara,0,9,Monsoon,229
+Vijayanagara,0,10,Post-Monsoon,238
+Vijayanagara,0,11,Post-Monsoon,262
+Vijayanagara,0,12,Winter,243
+Vijayanagara,1,1,Winter,302
+Vijayanagara,1,2,Winter,408
+Vijayanagara,1,3,Summer,376
+Vijayanagara,1,4,Summer,375
+Vijayanagara,1,5,Summer,347
+Vijayanagara,1,6,Monsoon,355
+Vijayanagara,1,7,Monsoon,345
+Vijayanagara,1,8,Monsoon,316
+Vijayanagara,1,9,Monsoon,247
+Vijayanagara,1,10,Post-Monsoon,269
+Vijayanagara,1,11,Post-Monsoon,342
+Vijayanagara,1,12,Winter,250
+Vijayanagara,2,1,Winter,304
+Vijayanagara,2,2,Winter,352
+Vijayanagara,2,3,Summer,365
+Vijayanagara,2,4,Summer,334
+Vijayanagara,2,5,Summer,337
+Vijayanagara,2,6,Monsoon,351
+Vijayanagara,2,7,Monsoon,289
+Vijayanagara,2,8,Monsoon,337
+Vijayanagara,2,9,Monsoon,277
+Vijayanagara,2,10,Post-Monsoon,266
+Vijayanagara,2,11,Post-Monsoon,337
+Vijayanagara,2,12,Winter,271
+Vijayanagara,3,1,Winter,320
+Vijayanagara,3,2,Winter,385
+Vijayanagara,3,3,Summer,395
+Vijayanagara,3,4,Summer,359
+Vijayanagara,3,5,Summer,301
+Vijayanagara,3,6,Monsoon,361
+Vijayanagara,3,7,Monsoon,305
+Vijayanagara,3,8,Monsoon,333
+Vijayanagara,3,9,Monsoon,248
+Vijayanagara,3,10,Post-Monsoon,298
+Vijayanagara,3,11,Post-Monsoon,258
+Vijayanagara,3,12,Winter,294
+Vijayanagara,4,1,Winter,322
+Vijayanagara,4,2,Winter,337
+Vijayanagara,4,3,Summer,397
+Vijayanagara,4,4,Summer,353
+Vijayanagara,4,5,Summer,274
+Vijayanagara,4,6,Monsoon,303
+Vijayanagara,4,7,Monsoon,295
+Vijayanagara,4,8,Monsoon,310
+Vijayanagara,4,9,Monsoon,285
+Vijayanagara,4,10,Post-Monsoon,268
+Vijayanagara,4,11,Post-Monsoon,297
+Vijayanagara,4,12,Winter,288
+Vijayanagara,5,1,Winter,333
+Vijayanagara,5,2,Winter,322
+Vijayanagara,5,3,Summer,392
+Vijayanagara,5,4,Summer,349
+Vijayanagara,5,5,Summer,292
+Vijayanagara,5,6,Monsoon,308
+Vijayanagara,5,7,Monsoon,320
+Vijayanagara,5,8,Monsoon,275
+Vijayanagara,5,9,Monsoon,271
+Vijayanagara,5,10,Post-Monsoon,295
+Vijayanagara,5,11,Post-Monsoon,265
+Vijayanagara,5,12,Winter,286
+Vijayanagara,6,1,Winter,307
+Vijayanagara,6,2,Winter,257
+Vijayanagara,6,3,Summer,338
+Vijayanagara,6,4,Summer,308
+Vijayanagara,6,5,Summer,294
+Vijayanagara,6,6,Monsoon,231
+Vijayanagara,6,7,Monsoon,227
+Vijayanagara,6,8,Monsoon,241
+Vijayanagara,6,9,Monsoon,215
+Vijayanagara,6,10,Post-Monsoon,198
+Vijayanagara,6,11,Post-Monsoon,239
+Vijayanagara,6,12,Winter,210
+Vijayapura,0,1,Winter,529
+Vijayapura,0,2,Winter,599
+Vijayapura,0,3,Summer,512
+Vijayapura,0,4,Summer,416
+Vijayapura,0,5,Summer,507
+Vijayapura,0,6,Monsoon,408
+Vijayapura,0,7,Monsoon,458
+Vijayapura,0,8,Monsoon,470
+Vijayapura,0,9,Monsoon,406
+Vijayapura,0,10,Post-Monsoon,403
+Vijayapura,0,11,Post-Monsoon,352
+Vijayapura,0,12,Winter,390
+Vijayapura,1,1,Winter,560
+Vijayapura,1,2,Winter,626
+Vijayapura,1,3,Summer,592
+Vijayapura,1,4,Summer,474
+Vijayapura,1,5,Summer,524
+Vijayapura,1,6,Monsoon,500
+Vijayapura,1,7,Monsoon,443
+Vijayapura,1,8,Monsoon,483
+Vijayapura,1,9,Monsoon,420
+Vijayapura,1,10,Post-Monsoon,456
+Vijayapura,1,11,Post-Monsoon,395
+Vijayapura,1,12,Winter,383
+Vijayapura,2,1,Winter,548
+Vijayapura,2,2,Winter,589
+Vijayapura,2,3,Summer,598
+Vijayapura,2,4,Summer,447
+Vijayapura,2,5,Summer,449
+Vijayapura,2,6,Monsoon,564
+Vijayapura,2,7,Monsoon,511
+Vijayapura,2,8,Monsoon,541
+Vijayapura,2,9,Monsoon,402
+Vijayapura,2,10,Post-Monsoon,436
+Vijayapura,2,11,Post-Monsoon,466
+Vijayapura,2,12,Winter,389
+Vijayapura,3,1,Winter,468
+Vijayapura,3,2,Winter,578
+Vijayapura,3,3,Summer,566
+Vijayapura,3,4,Summer,475
+Vijayapura,3,5,Summer,415
+Vijayapura,3,6,Monsoon,464
+Vijayapura,3,7,Monsoon,478
+Vijayapura,3,8,Monsoon,484
+Vijayapura,3,9,Monsoon,467
+Vijayapura,3,10,Post-Monsoon,457
+Vijayapura,3,11,Post-Monsoon,436
+Vijayapura,3,12,Winter,397
+Vijayapura,4,1,Winter,496
+Vijayapura,4,2,Winter,495
+Vijayapura,4,3,Summer,604
+Vijayapura,4,4,Summer,468
+Vijayapura,4,5,Summer,415
+Vijayapura,4,6,Monsoon,468
+Vijayapura,4,7,Monsoon,520
+Vijayapura,4,8,Monsoon,461
+Vijayapura,4,9,Monsoon,492
+Vijayapura,4,10,Post-Monsoon,399
+Vijayapura,4,11,Post-Monsoon,425
+Vijayapura,4,12,Winter,421
+Vijayapura,5,1,Winter,522
+Vijayapura,5,2,Winter,560
+Vijayapura,5,3,Summer,612
+Vijayapura,5,4,Summer,489
+Vijayapura,5,5,Summer,467
+Vijayapura,5,6,Monsoon,466
+Vijayapura,5,7,Monsoon,544
+Vijayapura,5,8,Monsoon,493
+Vijayapura,5,9,Monsoon,497
+Vijayapura,5,10,Post-Monsoon,490
+Vijayapura,5,11,Post-Monsoon,373
+Vijayapura,5,12,Winter,409
+Vijayapura,6,1,Winter,457
+Vijayapura,6,2,Winter,431
+Vijayapura,6,3,Summer,500
+Vijayapura,6,4,Summer,431
+Vijayapura,6,5,Summer,414
+Vijayapura,6,6,Monsoon,414
+Vijayapura,6,7,Monsoon,430
+Vijayapura,6,8,Monsoon,411
+Vijayapura,6,9,Monsoon,441
+Vijayapura,6,10,Post-Monsoon,379
+Vijayapura,6,11,Post-Monsoon,329
+Vijayapura,6,12,Winter,354
+Yadgir,0,1,Winter,229
+Yadgir,0,2,Winter,248
+Yadgir,0,3,Summer,214
+Yadgir,0,4,Summer,239
+Yadgir,0,5,Summer,230
+Yadgir,0,6,Monsoon,208
+Yadgir,0,7,Monsoon,263
+Yadgir,0,8,Monsoon,197
+Yadgir,0,9,Monsoon,157
+Yadgir,0,10,Post-Monsoon,201
+Yadgir,0,11,Post-Monsoon,192
+Yadgir,0,12,Winter,161
+Yadgir,1,1,Winter,249
+Yadgir,1,2,Winter,232
+Yadgir,1,3,Summer,344
+Yadgir,1,4,Summer,346
+Yadgir,1,5,Summer,281
+Yadgir,1,6,Monsoon,225
+Yadgir,1,7,Monsoon,305
+Yadgir,1,8,Monsoon,287
+Yadgir,1,9,Monsoon,186
+Yadgir,1,10,Post-Monsoon,213
+Yadgir,1,11,Post-Monsoon,211
+Yadgir,1,12,Winter,191
+Yadgir,2,1,Winter,225
+Yadgir,2,2,Winter,262
+Yadgir,2,3,Summer,328
+Yadgir,2,4,Summer,350
+Yadgir,2,5,Summer,277
+Yadgir,2,6,Monsoon,240
+Yadgir,2,7,Monsoon,228
+Yadgir,2,8,Monsoon,254
+Yadgir,2,9,Monsoon,178
+Yadgir,2,10,Post-Monsoon,198
+Yadgir,2,11,Post-Monsoon,197
+Yadgir,2,12,Winter,196
+Yadgir,3,1,Winter,242
+Yadgir,3,2,Winter,297
+Yadgir,3,3,Summer,313
+Yadgir,3,4,Summer,344
+Yadgir,3,5,Summer,279
+Yadgir,3,6,Monsoon,229
+Yadgir,3,7,Monsoon,211
+Yadgir,3,8,Monsoon,211
+Yadgir,3,9,Monsoon,186
+Yadgir,3,10,Post-Monsoon,187
+Yadgir,3,11,Post-Monsoon,184
+Yadgir,3,12,Winter,194
+Yadgir,4,1,Winter,207
+Yadgir,4,2,Winter,222
+Yadgir,4,3,Summer,328
+Yadgir,4,4,Summer,293
+Yadgir,4,5,Summer,247
+Yadgir,4,6,Monsoon,228
+Yadgir,4,7,Monsoon,191
+Yadgir,4,8,Monsoon,214
+Yadgir,4,9,Monsoon,224
+Yadgir,4,10,Post-Monsoon,199
+Yadgir,4,11,Post-Monsoon,183
+Yadgir,4,12,Winter,190
+Yadgir,5,1,Winter,261
+Yadgir,5,2,Winter,222
+Yadgir,5,3,Summer,292
+Yadgir,5,4,Summer,338
+Yadgir,5,5,Summer,234
+Yadgir,5,6,Monsoon,231
+Yadgir,5,7,Monsoon,274
+Yadgir,5,8,Monsoon,242
+Yadgir,5,9,Monsoon,197
+Yadgir,5,10,Post-Monsoon,215
+Yadgir,5,11,Post-Monsoon,233
+Yadgir,5,12,Winter,204
+Yadgir,6,1,Winter,193
+Yadgir,6,2,Winter,217
+Yadgir,6,3,Summer,259
+Yadgir,6,4,Summer,274
+Yadgir,6,5,Summer,200
+Yadgir,6,6,Monsoon,159
+Yadgir,6,7,Monsoon,238
+Yadgir,6,8,Monsoon,195
+Yadgir,6,9,Monsoon,165
+Yadgir,6,10,Post-Monsoon,154
+Yadgir,6,11,Post-Monsoon,207
+Yadgir,6,12,Winter,162
