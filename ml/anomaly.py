@@ -18,11 +18,15 @@ from __future__ import annotations
 
 import calendar
 import os
+import sys
 import warnings
 
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from model_store import save_model  # noqa: E402
 
 warnings.filterwarnings("ignore")
 
@@ -59,12 +63,18 @@ def featurize(pts):
     return pts
 
 
-def detect(pts):
-    """Return a boolean 'flagged' Series + normalised anomaly_score (0..1)."""
+def detect(pts, keep_model=None):
+    """Return a boolean 'flagged' Series + normalised anomaly_score (0..1).
+
+    keep_model: optional dict — the fitted IsolationForest is stashed here so the caller can
+    serialize the production model without refitting (the recall test refits on injected data).
+    """
     feats = featurize(pts)
     X = feats[["z", "logratio"]].to_numpy()
     iso = IsolationForest(contamination=CONTAM, random_state=0, n_estimators=200)
     iso.fit(X)
+    if keep_model is not None:
+        keep_model["iso"] = iso
     raw = -iso.score_samples(X)  # higher = more anomalous
     score = (raw - raw.min()) / (raw.max() - raw.min() + 1e-9)
     iso_flag = iso.predict(X) == -1
@@ -109,7 +119,8 @@ def main():
     districts = sorted(dm["district"].dropna().unique().tolist())
 
     pts = build_points(dm, districts)
-    feats, flagged = detect(pts)
+    fitted = {}
+    feats, flagged = detect(pts, keep_model=fitted)
     hits = feats[flagged].copy()
 
     def reason(r):
@@ -134,6 +145,13 @@ def main():
     out.to_csv(os.path.join(OUT_DIR, "anomalies.csv"), index=False)
 
     recall, k = recall_test(pts)
+    save_model("anomaly_isolation_forest", fitted["iso"],
+               task="unsupervised: monthly district x category spike detection",
+               features=["z", "logratio"], training_rows=int(len(pts)),
+               metrics={"injected_spike_recall": round(recall, 3), "flagged": int(len(out))},
+               notes="Scale-free features: z = standardised seasonal residual, logratio = "
+                     "log((count+1)/(expected+1)). Flag = forest OR z>=3.5 OR ratio>=2.5, "
+                     "restricted to spikes (resid>0, expected>=5).")
     print(f"[anomaly] {len(pts):,} district x category x month points; flagged {len(out)} spike anomalies")
     print(f"[anomaly] injected-spike recall: {recall*100:.0f}% (recovered on {k} synthetic spikes)")
     if len(out):
