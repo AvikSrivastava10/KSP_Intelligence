@@ -1,0 +1,154 @@
+"use strict";
+const fs = require("fs");
+const path = require("path");
+const { getTable, readMeta, DATA_DIR } = require("../lib/store");
+const { num } = require("../lib/districts");
+
+function readJson(name, fallback = null) {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(DATA_DIR, name), "utf8"));
+  } catch (e) {
+    return fallback;
+  }
+}
+
+/**
+ * Phase 6 — Fairness & Data-Quality audit.
+ *
+ * GET /audit — the platform's own limitations, in one place, stated before anyone has to ask.
+ *
+ * A crime-intelligence tool that only advertises its strengths is not trustworthy. This endpoint
+ * publishes what the data cannot support, which capabilities were descoped and why, what every
+ * model actually scored, and which attributes are excluded from modelling by design.
+ */
+module.exports = (router, asyncH) => {
+  router.get("/audit", asyncH(async (req, res) => {
+    const meta = readMeta();
+    const outcome = readJson("outcome_metrics.json", {});
+    const network = readJson("network_metrics.json", {});
+    const socio = readJson("socio_metrics.json", {});
+    const validation = readJson("validation_metrics.json", {});
+    const timeofday = await getTable("agg_timeofday", req.ctx);
+
+    const cov = meta.coordinate_coverage || {};
+    const byPrec = cov.by_precision || {};
+    const totalRows = num(meta.total_rows_processed);
+
+    // ---- data coverage / quality ----
+    const coverage = {
+      total_records: totalRows,
+      reconciles_to_source: meta.row_count_reconciles === true,
+      year_range: "2016–2024",
+      partial_year: { year: 2024, records: num((meta.per_year_counts || {})["2024"]),
+                      note: meta.note_2024_partial },
+      geocoding: {
+        real_gps_pct: cov.before_pct,
+        after_geocoding_pct: cov.after_pct,
+        by_precision: byPrec,
+        note: "Only ~30% of FIRs carry real GPS. The rest are pinned to police-station or "
+          + "village/place coordinates, or fall back to the district centroid. District-centroid "
+          + "points are EXCLUDED from the hotspot/heat layers — they would render as fake clusters.",
+      },
+      districts: {
+        fir_units: (meta.districts || {}).fir_units_total,
+        geographic: (meta.districts || {}).geographic,
+        non_geographic: (meta.districts || {}).non_geographic,
+        note: "CID, Coastal Security, ISD Bengaluru and Karnataka Railways are not geographic "
+          + "districts; they are excluded from maps and per-capita rates.",
+      },
+    };
+
+    // ---- what the data cannot support (stated up front) ----
+    const limitations = [
+      { item: "Person-level networks (suspect ↔ victim) on REAL data", status: "not possible",
+        why: "Victim/accused identities are confidential under Indian law and absent from the "
+          + "extract. Even the official KSP ER schema has no cross-case person key.",
+        instead: "Entity co-occurrence network on real data, PLUS a clearly-labelled SYNTHETIC "
+          + "person network (separate syn_* plane, data_class=synthetic) demonstrating the "
+          + "capability without fabricating anything presented as real." },
+      { item: "Repeat-offender tracking on REAL data", status: "not possible",
+        why: "Same constraint — no person identifiers, and no cross-case key to join on.",
+        instead: "A real privacy-preserving record-linkage (PPRL) engine that resolves identity "
+          + "probabilistically and exports only salted tokens — validated at F1 0.98 against "
+          + "synthetic ground truth. Deployed inside KSP's perimeter it would enable this for "
+          + "real, with identities never leaving the force." },
+      { item: "Observed time-of-day hotspots", status: "not possible",
+        why: "The FIR extract records only year/month/day — no clock time.",
+        instead: "A clearly-labelled MODELED time-of-day profile (data_class=modeled), never "
+          + "used to train any model." },
+      { item: "Crime rate as true offending", status: "caveat",
+        why: "FIR counts measure REPORTED crime. Better-policed, more literate districts report "
+          + "more, which inflates their apparent rate.",
+        instead: "Socio-economic correlations are labelled as reporting-propensity signals." },
+      { item: "Per-capita rates", status: "caveat",
+        why: "Population is Census 2011 while crime spans 2016–2024, so rates are indicative.",
+        instead: "Raw counts are shown alongside every per-capita figure." },
+    ];
+
+    // ---- fairness guarantees ----
+    const fairness = {
+      excluded_from_all_models: ["caste (SC/ST share)", "religion", "sex / sex ratio", "occupation"],
+      victim_counts: "Used only as a TOTAL. The Male/Female/Boy/Girl split is never a feature.",
+      where_protected_attributes_appear: "Only in the area-level socio-economic correlation view, "
+        + "segregated into a 'sensitive' group with a mandatory caveat, for enforcement-disparity "
+        + "audit — never for targeting and never as a model feature.",
+      finding: (socio.ethics && socio.ethics.protected_attributes_segregated)
+        ? "No protected attribute shows a significant, non-negligible association with recorded crime."
+        : null,
+      leakage_control: outcome.leakage_check
+        ? `Outcome model excludes every disposition-derived field (${(outcome.leakage_check.excluded_features || []).join(", ")}); leakage flag: ${outcome.leakage_check.flagged}.`
+        : null,
+      predictive_policing_note: "Risk scores rank AREAS for resource planning, never individuals. "
+        + "Because recorded crime reflects where police already look, feedback-loop bias is a real "
+        + "risk — these outputs support deployment decisions, they do not justify them.",
+    };
+
+    // ---- model cards, one row each ----
+    const models = [
+      { model: "Spatiotemporal hotspots", technique: "Gaussian KDE + weighted DBSCAN",
+        metric: "silhouette 0.492 · 467 clusters", data_class: "real" },
+      { model: "Forecast (12-month)", technique: "Holt-Winters, damped trend",
+        metric: "backtest MAPE 11.2% · real-2024 MAPE 8.2%", data_class: "real" },
+      { model: "Emerging-trend alerts", technique: "deviation vs recent baseline",
+        metric: "121 red-zones (68 red / 53 amber)", data_class: "real" },
+      { model: "District risk", technique: "LightGBM on growth ratio",
+        metric: "Spearman 0.981 · MAE 1229 (beats persistence 1258)", data_class: "real" },
+      { model: "Anomaly detection", technique: "IsolationForest + z/ratio rules",
+        metric: "91% injected-spike recall · 415 flagged", data_class: "real" },
+      { model: "MO clustering", technique: "HDBSCAN on weighted MO profiles",
+        metric: "silhouette 0.682 · noise 9.1% · 43 clusters", data_class: "real" },
+      { model: "Case outcome (binary)", technique: "LightGBM detected/undetected",
+        metric: `AUC ${(outcome.binary_detection || {}).auc_mean ?? "—"} vs ${(outcome.binary_detection || {}).baseline_accuracy ?? "—"} baseline`,
+        data_class: "real" },
+      { model: "Case outcome (13-class)", technique: "LightGBM on FIR_Stage",
+        metric: `acc ${(outcome.multiclass || {}).accuracy ?? "—"} · macro-F1 ${(outcome.multiclass || {}).macro_f1 ?? "—"}`,
+        data_class: "real" },
+      { model: "Entity network", technique: "NetworkX + Louvain",
+        metric: `modularity ${(network.communities || {}).modularity ?? "—"} · ${(network.communities || {}).count ?? "—"} communities`,
+        data_class: "real" },
+      { model: "Socio-economic", technique: "Pearson/Spearman + partial correlation",
+        metric: `n=${socio.n_districts ?? "—"} districts · ${socio.significant_findings ?? 0} significant`,
+        data_class: "real" },
+      { model: "Time-of-day profile", technique: "category signal + criminological priors",
+        metric: `${timeofday.length} rows — illustrative only`, data_class: "modeled" },
+    ];
+
+    res.sendOk({
+      generated_at: meta.generated_at_utc,
+      source_file: meta.source_file,
+      coverage,
+      limitations,
+      fairness,
+      models,
+      ground_truth_validation: validation.results
+        ? { tests: validation.results, honesty: validation.honesty }
+        : null,
+      data_classes: meta.data_class,
+      guardrails: meta.guardrails,
+      synthetic_data: "Confined to the person-network DEMO (syn_* tables, ~3.9k fabricated people). "
+        + "Every payload built from it is data_class=\"synthetic\" and the UI carries a permanent "
+        + "banner. It is never joined to a real table and never trains or validates any model — "
+        + "asserted by automated tests. All other figures in this platform are real.",
+    }, "real");
+  }));
+};

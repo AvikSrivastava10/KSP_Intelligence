@@ -19,6 +19,13 @@ function buildRouter() {
   require("./predict")(router, asyncH);
   require("./patterns")(router, asyncH);
   require("./outcomes")(router, asyncH);
+  require("./network")(router, asyncH);
+  require("./socio")(router, asyncH);
+  require("./validation")(router, asyncH);
+  require("./hub")(router, asyncH);
+  require("./audit")(router, asyncH);
+  require("./persons")(router, asyncH);
+  require("./persons")(router, asyncH);
 
   return router;
 }
