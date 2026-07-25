@@ -197,6 +197,70 @@ module.exports = (router, asyncH) => {
     }, "real");
   }));
 
+  /**
+   * GET /network/matrix?rows=&cols=
+   * Crime type x legal act grid — the readable alternative to the force graph.
+   *
+   * A force layout cannot render this data well: IPC 1860 appears in 77.8% of all FIRs with 292
+   * connections, so every physics layout collapses into a starburst around it and labels collide.
+   * A matrix has none of those problems — fixed positions, zero overlap, identical every load, and
+   * it answers the operational question directly: "for THIS offence, which acts usually apply?"
+   *
+   * Cell value = share of that crime type's cases which also cite that act.
+   */
+  router.get("/network/matrix", asyncH(async (req, res) => {
+    const [nodeRows, edgeRows] = await Promise.all([
+      getTable("network_nodes", req.ctx),
+      getTable("network_edges", req.ctx),
+    ]);
+    const nRows = Math.min(Math.max(parseInt(req.query.rows, 10) || 16, 4), 40);
+    const nCols = Math.min(Math.max(parseInt(req.query.cols, 10) || 12, 4), 30);
+
+    const byId = new Map(nodeRows.map((n) => [n.node, n]));
+    const heads = nodeRows.filter((n) => n.node_type === "crime_head")
+      .sort((a, b) => num(b.cases) - num(a.cases)).slice(0, nRows);
+    const acts = nodeRows.filter((n) => n.node_type === "act")
+      .sort((a, b) => num(b.cases) - num(a.cases)).slice(0, nCols);
+
+    const headSet = new Set(heads.map((h) => h.node));
+    const actSet = new Set(acts.map((a) => a.node));
+
+    // pair weights, direction-agnostic
+    const pair = new Map();
+    for (const e of edgeRows) {
+      let head = null, act = null;
+      if (headSet.has(e.src) && actSet.has(e.dst)) { head = e.src; act = e.dst; }
+      else if (headSet.has(e.dst) && actSet.has(e.src)) { head = e.dst; act = e.src; }
+      if (head) pair.set(`${head}|${act}`, num(e.weight));
+    }
+
+    const cells = [];
+    heads.forEach((h, ri) => {
+      acts.forEach((a, ci) => {
+        const w = pair.get(`${h.node}|${a.node}`) || 0;
+        const hc = num(h.cases);
+        cells.push({
+          row: ri, col: ci,
+          crime_head: h.node, act: a.node,
+          cases: w,
+          share: hc ? +(w / hc).toFixed(4) : 0,   // share of THIS crime's cases citing the act
+        });
+      });
+    });
+
+    res.sendOk({
+      rows: heads.map((h) => ({ id: h.node, cases: num(h.cases) })),
+      cols: acts.map((a) => ({ id: a.node, cases: num(a.cases) })),
+      cells,
+      coverage: {
+        crime_heads_shown: heads.length,
+        acts_shown: acts.length,
+        note: "Rows and columns are the highest-volume crime types and acts. Cell shading = the "
+          + "share of that crime type's FIRs which also cite that act.",
+      },
+    }, "real");
+  }));
+
   router.get("/network/communities", asyncH(async (req, res) => {
     const rows = await getTable("network_communities", req.ctx);
     const m = readNetworkMetrics();
