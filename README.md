@@ -17,14 +17,17 @@ data honestly cannot tell you.
 
 1. [The problem we set out to solve](#1-the-problem-we-set-out-to-solve)
 2. [What the platform does](#2-what-the-platform-does)
-3. [Quick start — running it yourself](#3-quick-start-running-it-yourself)
+   - [The numbers, at a glance](#2b-the-numbers-at-a-glance)
+   - [Every model against its baseline](#2c-every-model-against-its-baseline)
+   - [Efficiency: where the time goes](#2d-efficiency-where-the-time-goes)
+3. [Quick start: running it yourself](#3-quick-start-running-it-yourself)
 4. [How it all fits together](#4-how-it-all-fits-together)
 5. [The data](#5-the-data)
 6. [The pipeline, stage by stage](#6-the-pipeline-stage-by-stage)
-7. [The models — all ten, explained](#7-the-models-all-ten-explained)
+7. [The models: all ten explained](#7-the-models-all-ten-explained)
 8. [Does it actually work? Ground-truth validation](#8-does-it-actually-work-ground-truth-validation)
 9. [The API](#9-the-api)
-10. [The interface — nine workspaces](#10-the-interface-nine-workspaces)
+10. [The interface: nine workspaces](#10-the-interface-nine-workspaces)
 11. [Honesty, fairness, and what we refuse to do](#11-honesty-fairness-and-what-we-refuse-to-do)
 12. [Testing and quality control](#12-testing-and-quality-control)
 13. [Deployment](#13-deployment)
@@ -66,13 +69,241 @@ Six capabilities were required. Here is where each one landed, verified against 
 | 5 | **Network & behavioural analysis** — organised-crime structures, recurring modus operandi | ✅ Delivered |
 | 6 | **AI/ML-driven intelligence** — hidden correlations, anomalies, emerging risk prediction | ✅ Delivered |
 
+```mermaid
+flowchart LR
+    subgraph SIX["The six required capabilities"]
+        direction TB
+        C1["1 · Advanced visualisation<br/><b>4/4 clauses</b>"]
+        C2["2 · Network &amp; link analysis<br/><b>3/3 clauses</b>"]
+        C3["3 · Predictive dashboards<br/><b>5/5 clauses</b>"]
+        C4["4 · Pattern &amp; trend discovery<br/><b>2/2 clauses</b>"]
+        C5["5 · Behavioural analysis<br/><b>2/2 clauses</b>"]
+        C6["6 · AI/ML intelligence<br/><b>3/3 clauses</b>"]
+    end
+    SIX --> R["<b>20 / 20</b><br/>verified against live endpoints"]
+    style R fill:#dcfce7,stroke:#16a34a,color:#000
+    style SIX fill:#f8fafc,stroke:#94a3b8
+```
+
 A scripted conformance check tests all 20 individual clauses of the problem statement against live
 API endpoints. Current result: **20/20 delivered** — 16 outright, 1 restricted to genuinely observed
 data, 3 through a labelled synthetic demonstration plus a real supporting engine.
 
 ---
 
-## 3. Quick start — running it yourself
+## 2b. The numbers, at a glance
+
+Every figure below is generated from the live artifacts. Nothing here is illustrative.
+
+### Nine years of crime, as recorded
+
+```
+2016  ███████████████████████████████░░░  227,717
+2017  ██████████████████████████████████  246,839   <- peak year
+2018  ██████████████████████████████░░░░  219,447
+2019  ████████████████████████░░░░░░░░░░  175,486
+2020  ██████████████████████░░░░░░░░░░░░  160,547   <- COVID year
+2021  ████████████████████████░░░░░░░░░░  175,857
+2022  ███████████████████████████░░░░░░░  195,170
+2023  ████████████████████████████████░░  231,326
+2024  ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░   42,345   <- PARTIAL (cut mid-March)
+```
+
+The 2020 dip is real. It is also exactly why the alert model baselines on 2021-2022 instead of the
+full history: including COVID-suppressed years would make every 2023 comparison look like a spike.
+
+### How every incident got onto the map
+
+Only 29.9% of FIRs arrive with GPS. A four-tier resolver lifts coverage to **99.54%** — and tags
+each record with *how* it was located, because that tag decides what the record is allowed to do.
+
+```
+Police station coords  █████████████████░░░░░░░░░░░  60.6%   1,014,580  -> heat + clusters
+Real GPS               ████████░░░░░░░░░░░░░░░░░░░░  29.9%     501,075  -> heat + clusters
+District centroid      ██░░░░░░░░░░░░░░░░░░░░░░░░░░   7.8%     131,146  -> choropleth ONLY
+Geocoded place         ░░░░░░░░░░░░░░░░░░░░░░░░░░░░   1.2%      20,276  -> heat + clusters
+No location            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░   0.5%       7,657  -> excluded
+```
+
+```mermaid
+pie showData
+    title How 1,674,734 incidents were located
+    "Police station coords" : 1014580
+    "Real GPS in the FIR" : 501075
+    "District centroid (map-only)" : 131146
+    "Geocoded village/place" : 20276
+    "No location" : 7657
+```
+
+> **Why the tag matters.** Those 131,146 district-centroid records would stack onto 31 exact points
+> and render as spectacular fake hotspots. The hotspot model excludes them and *asserts* they never
+> leak in. They still count on the choropleth, where a district-level number is honest.
+
+### What Karnataka actually reports
+
+```
+MOTOR VEHICLE ACCIDENTS (NON-FATAL)  ████████████████████████  242,976
+THEFT                                ████████████████░░░░░░░░  159,021
+CrPC PROCEEDINGS                     ██████████████░░░░░░░░░░  137,939
+CASES OF HURT                        ████████████░░░░░░░░░░░░  126,211
+MISSING PERSON                       ████████████░░░░░░░░░░░░  124,811
+KARNATAKA POLICE ACT 1963            ███████████░░░░░░░░░░░░░  107,576
+KARNATAKA STATE LOCAL ACT            █████████░░░░░░░░░░░░░░░   90,742
+MOTOR VEHICLE ACCIDENTS (FATAL)      ████████░░░░░░░░░░░░░░░░   83,040
+CYBER CRIME                          ████████░░░░░░░░░░░░░░░░   78,502
+CHEATING                             █████░░░░░░░░░░░░░░░░░░░   48,675
+```
+
+Traffic dominates. That single fact reshapes what "crime intelligence" should optimise for, and it
+is invisible in a spreadsheet of 1.67 million rows.
+
+### Where cases actually end up
+
+```
+Pending Trial        ██████████████████████  29.8%  498,324
+Convicted            ███████████████░░░░░░░  20.5%  343,660
+Undetected           ████████░░░░░░░░░░░░░░  11.2%  188,150
+Dis/Acq              ██████░░░░░░░░░░░░░░░░   8.0%  134,001
+BoundOver            █████░░░░░░░░░░░░░░░░░   6.7%  111,480
+Traced               █████░░░░░░░░░░░░░░░░░   6.6%  111,024
+Under Investigation  ████░░░░░░░░░░░░░░░░░░   5.7%   95,582
+False Case           ████░░░░░░░░░░░░░░░░░░   5.1%   84,726
+```
+
+This distribution is what the case-outcome model predicts, and the reason its binary baseline sits
+at 86.9%: guessing "detected" every time is already right most of the time. Beating that is the
+entire challenge.
+
+---
+
+## 2c. Every model against its baseline
+
+A metric with no baseline is decoration. Each pair below is **model vs the naive alternative**,
+measured on held-out data.
+
+```
+CASE OUTCOME (binary)  ROC-AUC                        <- the strongest result
+   model     0.969  ████████████████████████████████████████████████░
+   baseline  0.869  ███████████████████████████████████████████░░░░░░
+
+CASE OUTCOME (13-class)  accuracy
+   model     0.723  ████████████████████████████████████░░░░░░░░░░░░░
+   baseline  0.298  ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+CASE OUTCOME (13-class)  macro-F1                     <- 16x the baseline
+   model     0.561  ████████████████████████████░░░░░░░░░░░░░░░░░░░░░
+   baseline  0.035  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+FORECAST on unseen 2024  MAPE  (lower is better)
+   model     8.18%  ████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+   baseline 12.40%  █████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░
+
+DISTRICT RISK  MAE  (lower is better)
+   model      1229  ███████████████████████████████████████████████░░
+   baseline   1258  █████████████████████████████████████████████████
+
+PERSON LINKAGE (PPRL)  F1
+   engine    0.980  █████████████████████████████████████████████████
+```
+
+| Model | Metric | Result | Baseline | Verdict |
+|---|---|---|---|---|
+| Case outcome (binary) | ROC-AUC | **0.969** | 0.869 | Clear win |
+| Case outcome (13-class) | Macro-F1 | **0.561** | 0.035 | 16x baseline |
+| Forecast (real 2024) | MAPE | **8.18%** | 12.40% | Beats persistence |
+| District risk | MAE | **1,229** | 1,258 | Narrow win |
+| PPRL linkage | F1 | **0.980** | — | P 0.965 / R 0.996 |
+| Anomaly detection | Injected recall | **91%** | — | 415 flagged |
+| MO clustering | Silhouette | **0.682** | — | noise 9.1% |
+| Entity network | Modularity | **0.469** | 0.3 threshold | real structure |
+| Hotspots | Silhouette | **0.492** | — | 467 clusters |
+| Socio-economic | Significant findings | **1 of 6** | — | honest null result |
+
+Two entries deserve an asterisk, stated here rather than buried:
+
+- **District risk wins by 29 MAE.** That is narrow, and on *ranking* the model ties a naive baseline
+  (rho 0.971 vs 0.977). District crime volume is so persistent that "next year = this year" is
+  genuinely hard to beat. We report the tie as a tie.
+- **Socio-economic found almost nothing significant.** That *is* the finding, not a failure — and
+  crucially, **no protected attribute correlates with recorded crime** in this data.
+
+---
+
+## 2d. Efficiency: where the time goes
+
+The architecture trades a slow one-time build for a permanently fast runtime.
+
+### Build once, offline
+
+```
+ml/outcomes.py            ~163 s  ████████████████████████  1.49 M rows, 2 LightGBM models
+ml/mo_clustering.py        ~78 s  ███████████░░░░░░░░░░░░░  HDBSCAN on an 80 K sample
+etl/ingest_fir.py          ~40 s  ██████░░░░░░░░░░░░░░░░░░  546 MB -> 18 tables
+ml/forecast.py             ~28 s  ████░░░░░░░░░░░░░░░░░░░░  199 series, Holt-Winters
+etl/build_modeling_table   ~25 s  ████░░░░░░░░░░░░░░░░░░░░  per-case feature table
+etl/build_timed_hotspots    ~8 s  █░░░░░░░░░░░░░░░░░░░░░░░  observed day/night grid
+ml/network.py               ~1 s  ░░░░░░░░░░░░░░░░░░░░░░░░  graph + 278 rules
+ml/socioeconomic.py         ~1 s  ░░░░░░░░░░░░░░░░░░░░░░░░  correlations
+                          ──────
+full rebuild               ~6 min from the raw CSV to every table the app serves
+```
+
+### Serve forever — measured, 7 runs per endpoint, warm cache
+
+```
+/validation             1.4 ms  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/socio                  1.5 ms  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/risk                   1.5 ms  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/overview               1.6 ms  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/patterns/mo-clusters   1.6 ms  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/patterns/temporal      1.6 ms  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/hotspots/clusters      1.7 ms  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/districts              1.8 ms  ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/hub                    1.9 ms  ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/forecast?level=state   2.0 ms  ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/network/matrix         2.2 ms  ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/audit                  3.1 ms  ███░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/network/entity         3.4 ms  ███░░░░░░░░░░░░░░░░░░░░░░░░░░░
+/district/Mysuru        4.8 ms  ████░░░░░░░░░░░░░░░░░░░░░░░░░░
+/hotspots?year=2023    34.7 ms  ██████████████████████████████  <- 140 K-cell heat layer
+```
+
+**Median across all 16 endpoints: 1.8 ms.** Nothing infers at request time — every response is a
+table read from memory. The one outlier is the heat layer, which genuinely returns tens of
+thousands of map cells.
+
+### Compression — what actually ships
+
+```
+raw FIR extract        546.2 MB  ██████████████████████████████████████████████████
+API deployment bundle   18.4 MB  ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+etl/out tables          10.7 MB  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+ml/out model results     7.7 MB  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+```
+
+**30x smaller than the source.** The bundle is self-contained: the function deploys with every
+table inside it and needs no database to answer a single request.
+
+| Largest served table | Size | Rows |
+|---|---|---|
+| `agg_district_month.csv` | 4,960 KB | 124,314 |
+| `hotspot_cells.csv` | 4,911 KB | 140,142 |
+| `agg_hotspots.csv` | 3,611 KB | 142,048 |
+| `forecasts.csv` | 1,340 KB | 21,491 |
+| `dim_section.csv` | 866 KB | 17,465 |
+
+### Trained model artifacts
+
+| Model | Size | Trained on |
+|---|---|---|
+| `case_outcome_multiclass` | 11.6 MB | 1,339,787 rows |
+| `case_outcome_binary` | 944 KB | 1,488,859 rows |
+| `anomaly_isolation_forest` | 544 KB | 28,004 rows |
+| `district_risk` | 205 KB | 155 district-years |
+
+---
+
+## 3. Quick start: running it yourself
 
 You need **Node 18+** and **Python 3.11+**. No cloud account, no API keys, no database.
 
@@ -132,29 +363,35 @@ Then copy the outputs into `functions/crime_api/src/data/` and the app serves th
 The single most important architectural decision: **no machine learning runs when a user loads a
 page.** Models train offline, write small result tables, and the live app only reads those tables.
 
-```
-   datasets/FIR_Details_Data.csv                     546 MB · 1,674,734 rows
-                 │
-                 ▼
-   ┌───────────────────────────┐
-   │  etl/   (Python)          │   stream · clean · geocode · reconstruct · aggregate
-   └───────────────────────────┘
-                 │  etl/out/*.csv     compact, API-ready tables
-                 ▼
-   ┌───────────────────────────┐
-   │  ml/    (Python)          │   10 models trained offline, each writing a result table
-   └───────────────────────────┘
-                 │  ml/out/*.csv + *.json
-                 ▼
-   ┌───────────────────────────┐
-   │  functions/crime_api      │   Node + Express · reads tables · { ok, data_class, result }
-   │  (Catalyst Advanced I/O)  │   Catalyst Data Store  ──or──  bundled CSVs (never hard-fails)
-   └───────────────────────────┘
-                 │  HTTPS JSON
-                 ▼
-   ┌───────────────────────────┐
-   │  client/  (React + Vite)  │   9 workspaces · Leaflet maps · ECharts graphs
-   └───────────────────────────┘
+```mermaid
+flowchart TD
+    RAW["datasets/FIR_Details_Data.csv<br/><b>546 MB · 1,674,734 rows</b>"]
+
+    subgraph OFFLINE["OFFLINE — runs on a laptop, once"]
+        direction TB
+        ETL["<b>etl/</b> — Python<br/>stream · clean · geocode<br/>reconstruct · aggregate"]
+        TABLES[("etl/out/*.csv<br/>18 compact tables · 10.7 MB")]
+        ML["<b>ml/</b> — 10 models<br/>hotspots · forecast · risk · anomaly<br/>MO · outcomes · network · socio"]
+        RESULTS[("ml/out/*.csv + *.json<br/>model results · 7.7 MB")]
+        ETL --> TABLES --> ML --> RESULTS
+    end
+
+    subgraph LIVE["LIVE — every response is a table read"]
+        direction TB
+        API["<b>crime_api</b> — Node + Express<br/>32 endpoints · median 1.8 ms<br/>{ ok, data_class, result }"]
+        STORE{{"Catalyst Data Store<br/><i>or</i> bundled CSVs"}}
+        UI["<b>client/</b> — React + Vite<br/>9 workspaces · Leaflet · ECharts"]
+        STORE --> API --> UI
+    end
+
+    RAW --> ETL
+    RESULTS -.->|"bundled — 18.4 MB"| STORE
+
+    style RAW fill:#fef3c7,stroke:#d97706,color:#000
+    style OFFLINE fill:#eef2ff,stroke:#6366f1
+    style LIVE fill:#ecfdf5,stroke:#059669
+    style API fill:#fff,stroke:#059669,color:#000
+    style UI fill:#fff,stroke:#059669,color:#000
 ```
 
 **Why this shape?**
@@ -259,11 +496,41 @@ Two rules are enforced *at source*, so no downstream model can violate them by a
 
 ### Stage 3 — Observed-time hotspots (`etl/build_timed_hotspots.py`, ~8 s)
 
-A focused pass covered in [§7.10](#710-observed-time-hotspots-when-using-only-real-timestamps).
+A focused pass covered in [§7.10](#710-observed-time-hotspots--when-using-only-real-timestamps).
 
 ---
 
-## 7. The models — all ten, explained
+### The journey of a single FIR
+
+```mermaid
+flowchart LR
+    A["Raw row<br/><i>messy</i>"] --> B["Clean<br/>BOM · tabs · casing"]
+    B --> C["Reconstruct<br/>acts · sections · rank"]
+    C --> D{"Has GPS?"}
+    D -->|"29.9%"| E["tag: point"]
+    D -->|"no"| F{"Station match?"}
+    F -->|"60.6%"| G["tag: station"]
+    F -->|"no"| H{"Place match?"}
+    H -->|"1.2%"| I["tag: place"]
+    H -->|"no"| J["tag: district<br/><i>map-only</i>"]
+    E & G & I --> K["Hotspots<br/>heat + clusters"]
+    J --> L["Choropleth only"]
+    C --> M["Aggregate tables"]
+    M --> N["10 models"]
+
+    style D fill:#fef3c7,stroke:#d97706,color:#000
+    style F fill:#fef3c7,stroke:#d97706,color:#000
+    style H fill:#fef3c7,stroke:#d97706,color:#000
+    style J fill:#fee2e2,stroke:#dc2626,color:#000
+    style K fill:#dcfce7,stroke:#16a34a,color:#000
+```
+
+The decision diamonds are the honest part: a record's *precision tag* decides which visualisations
+it is allowed to appear in. District-centroid records reach the choropleth and nothing else.
+
+---
+
+## 7. The models: all ten explained
 
 Every model follows the same discipline: **a real validation number, measured against a naive
 baseline, on data the model did not train on.** A metric without a baseline is decoration.
@@ -563,7 +830,7 @@ Four models are saved to `ml/models/` with their full inference contract:
 | Artifact | Type | Size | Metric |
 |---|---|---|---|
 | `case_outcome_binary` | LightGBM classifier | 944 KB | AUC 0.969 |
-| `case_outcome_multiclass` | LightGBM, 13 classes | 11.9 MB | acc 0.723 |
+| `case_outcome_multiclass` | LightGBM, 13 classes | 11.6 MB | acc 0.723 |
 | `district_risk` | LightGBM regressor | 205 KB | ρ 0.981 |
 | `anomaly_isolation_forest` | IsolationForest | 544 KB | 91% recall |
 
@@ -594,6 +861,24 @@ Three tests, each against data excluded from every training set, each scored aga
 | **Forecast accuracy** | Real Jan–Feb 2024 FIRs | **MAPE 8.18%**, 2/2 months inside the 95% CI | 12.4% persistence | 🟢 **Beats baseline** |
 | **Risk ranking** | Real Jan–Feb 2024 volumes | ρ 0.971, **top-5 hit rate 5/5** | ρ 0.977 prior-year | 🔵 Matches baseline |
 | **Cross-source** | Independent 2025 dataset | ρ 0.971, **top-5 5/5** | ρ 0.978 | 🔵 Matches baseline |
+
+```mermaid
+flowchart TD
+    M["Models trained on<br/><b>2016 – 2023 only</b>"]
+    M --> P["Predictions made<br/>for 2024 and beyond"]
+
+    P --> T1["<b>Test 1</b><br/>vs real Jan–Feb 2024 FIRs<br/>MAPE <b>8.18%</b> vs 12.40%"]
+    P --> T2["<b>Test 2</b><br/>vs real 2024 district volumes<br/>rho <b>0.971</b> vs 0.977"]
+    P --> T3["<b>Test 3</b><br/>vs INDEPENDENT 2025 dataset<br/>rho <b>0.971</b> vs 0.978"]
+
+    T1 --> W["BEATS baseline"]
+    T2 --> E["TIES baseline"]
+    T3 --> E
+
+    style M fill:#eef2ff,stroke:#6366f1,color:#000
+    style W fill:#dcfce7,stroke:#16a34a,color:#000
+    style E fill:#dbeafe,stroke:#2563eb,color:#000
+```
 
 **3/3 at or above baseline — one genuine win, two ties.**
 
@@ -674,7 +959,7 @@ there is no query-injection surface. Client-supplied request IDs are validated a
 
 ---
 
-## 10. The interface — nine workspaces
+## 10. The interface: nine workspaces
 
 React 18 + Vite + Tailwind, with React-Leaflet for maps and Apache ECharts for graphs.
 

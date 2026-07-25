@@ -640,3 +640,68 @@ rounding down), which read as an error and buried the real ones — now shown as
 Verified live: header/legend/density control/start-chips all render; Cyber Crime → 78,502 FIRs,
 rank 9/483, "Ipc 1860 71% · Information Technology Act 2000 67% · 2008 33%". 52/52 tests,
 data audit 0 FAIL, vite build OK.
+
+---
+
+## Network graph → readable grid  (2026-07-25)
+
+The force graph was congested and unprofessional: labels overlapped ("Karnataka Police Act 1963"
+on top of "Karnataka Excise Act, 1965"), unlabelled dots scattered at the edges, a paginated
+legend showing "1/2", and a layout that changed on every load.
+
+**Measured the cause rather than tuning the physics.** `IPC 1860` appears in **1,302,525 of
+1,674,734 FIRs (77.8%)** with **292 connections** — 20% of all edges touch it. Any force layout
+collapses into a starburst around a node that connects to nearly everything, and the node itself
+carries almost no discriminating information.
+
+**A force graph is the wrong chart for this data.** Added `GET /network/matrix` and made a
+**crime-type × legal-act grid the default view**:
+
+| | Force graph | Grid |
+|---|---|---|
+| Layout | physics, different every load | fixed, identical every load |
+| Labels | overlap and truncate | one per row/column, never collide |
+| Reads as | "some dots are connected" | "for THIS offence, THESE laws apply, X% of the time" |
+
+Coverage: top 16 crime types + top 12 acts = 192 cells, 68 populated. The top 12 crime heads
+cover 77% of crime-head volume; the top 10 acts cover 93% of act volume.
+
+The graph is kept as a secondary "Network" tab, now with an option (default on) to hide
+catch-all laws like IPC 1860 so the actual structure becomes visible. Grid animation disabled —
+a reference table should look settled, not animate in.
+
+> **Environment note:** every chart in the app renders to canvas via ECharts, which paints inside
+> `requestAnimationFrame`. The verification browser pane was not compositing
+> (`document.hidden === true`, rAF never fires), so **no chart on any page could be visually
+> confirmed this session** — including ones verified working earlier. Data contract, option
+> structure, build and tests were all verified instead; visual confirmation is outstanding.
+
+## Grid axis labels made readable  (2026-07-25)
+
+The grid shipped with unreadable column headers — `Ip…`, `Ind…`, `Co…`, `Na…`. Cause measured, not
+guessed: the source names are full legal titles up to **60 characters**
+("MMDR (MINES AND MINERALS REGULATION OF DEVELOPMENT) ACT 1957") in columns roughly **29px** wide.
+No rotation or font size fixes that ratio.
+
+**The fix was not smaller text — it was the right text.** Officers say "IPC", "CrPC", "NDPS",
+"POCSO", "MV Act", not the full statute titles. Added `shortAct()` (22 known Indian legal short
+forms + an initials fallback) and `shortCrime()`.
+
+| Before | After |
+|---|---|
+| `INDIAN MOTOR VEHICLES ACT, 1988` (31) | `MV Act` (6) |
+| `NARCOTIC DRUGS AND PSYCHOTROPIC SUBSTANCES ACT, 1985` (52) | `NDPS` (4) |
+| `PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012` (52) | `POCSO` (5) |
+| `CODE OF CRIMINAL PROCEDURE, 1973` (32) | `CrPC` (4) |
+
+Longest column label is now **13 chars**. Also: margins widened (left 178→196, top 96→78 with a
+40° rotation), font 10→11px with weight 500, and the full legal title stays in the tooltip so
+nothing is lost.
+
+**Caught in review:** title-casing was mangling statutes — `CrPC` rendered as `Crpc`, `NDPS` as
+`Ndps`. Added an acronym restorer. Getting a statute's name wrong on screen costs more trust than
+any layout problem. The helper was also declared after its first use (the same latent pattern that
+caused the earlier `clusterColor` crash) and was moved above it.
+
+Layout verified arithmetically: longest column 13 chars ≈ 78px, rotated 40° → 50px vertical against
+a 78px margin; longest row 22 chars ≈ 132px against a 196px margin. Both fit. 52/52 tests, build OK.
