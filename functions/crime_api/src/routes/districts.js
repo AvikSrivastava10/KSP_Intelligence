@@ -1,7 +1,7 @@
 "use strict";
 const { z } = require("zod");
 const { getTable } = require("../lib/store");
-const { loadDistrictIndex, num, rate } = require("../lib/districts");
+const { loadDistrictIndex, num, rate, safeDecode } = require("../lib/districts");
 
 const listQuery = z.object({ per_capita: z.enum(["true", "false"]).optional() });
 
@@ -59,7 +59,7 @@ module.exports = (router, asyncH) => {
   }));
 
   router.get("/district/:id", asyncH(async (req, res) => {
-    const id = decodeURIComponent(req.params.id || "").trim();
+    const id = (safeDecode(req.params.id) || "").trim();
     if (!id) return res.sendFail("district id required", 400);
 
     const idx = await loadDistrictIndex(req.ctx);

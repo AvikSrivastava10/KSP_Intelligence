@@ -7,7 +7,10 @@ function securityHeaders() {
   return helmet({ contentSecurityPolicy: false }); // API only; CSP handled by the web client host
 }
 
-/** Origin-restricted CORS. localhost always allowed (dev); prod origins via ALLOWED_ORIGINS. */
+/** Origin-restricted CORS. localhost always allowed (dev); prod origins via ALLOWED_ORIGINS.
+ *  With ALLOWED_ORIGINS unset the API answers any origin — a deliberate default for this
+ *  public, read-only, credential-free dataset API (prod is same-origin on Catalyst anyway).
+ *  Set ALLOWED_ORIGINS on the deployed function to lock it down. */
 function corsPolicy() {
   const allowed = (process.env.ALLOWED_ORIGINS || "")
     .split(",").map((s) => s.trim()).filter(Boolean);
@@ -30,11 +33,15 @@ function rateLimiter() {
   });
 }
 
-/** Terminal error handler — consistent { ok:false, error, request_id } envelope. */
+/** Terminal error handler — consistent { ok:false, error, request_id } envelope.
+ *  Honours the status Express/body-parser attach (e.g. 400 malformed URI, 413 too large)
+ *  instead of flattening every client error into a 500. */
 function errorHandler() {
   // eslint-disable-next-line no-unused-vars
   return (err, req, res, next) => {
-    res.status(500).json({ ok: false, error: err && err.message ? err.message : "internal error", request_id: req.request_id });
+    const status = (err && (err.status || err.statusCode)) || 500;
+    const msg = status < 500 && err && err.message ? err.message : "internal error";
+    res.status(status).json({ ok: false, error: msg, request_id: req.request_id });
   };
 }
 

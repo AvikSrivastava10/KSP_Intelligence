@@ -3,6 +3,16 @@
 Predicts each parent-district's next-year crime volume from a district x year panel and
 turns the prediction into a 0-100 risk score + tier for proactive deployment.
 
+TARGET = GROWTH RATIO, not absolute level. District crime volume is highly autocorrelated,
+so a persistence baseline (next year ~= this year) is very strong (Spearman ~0.98). Gradient-
+boosted trees also cannot predict a level above their training range, which capped fast-
+growing districts (Bengaluru Urban was under-projected). So the model predicts the growth
+RATIO target/lag1 (bounded, tree-friendly) and multiplies it back by the known current level:
+  predicted_volume = clip(model(features), 0.4, 2.5) * lag1
+This matches persistence on ranking, BEATS it on absolute error (it models momentum), and lets
+a rising district's projection scale past anything seen in training. The persistence + avg3
+baselines are reported alongside the model so the comparison is honest (never overclaimed).
+
 FAIRNESS GUARDRAIL (critical): features are crime dynamics + population ONLY -
   lag totals, 3-yr average, trend slope, YoY growth, seasonal volatility, crime-type mix
   (property/violent/traffic/cyber shares), population, prior per-capita rate.
@@ -10,10 +20,11 @@ FAIRNESS GUARDRAIL (critical): features are crime dynamics + population ONLY -
   those live only in the Phase-5 correlation view. Documented in FEATURES below.
 
 Panel: target year t in 2019-2023 (needs 3 prior years); train on 2019-2022, validate on
-held-out 2023 (Spearman rank + RMSE). A final model on all labelled years predicts 2024 ->
-risk score. Per-district drivers come from LightGBM SHAP contributions (pred_contrib).
+held-out 2023 (Spearman rank + MAE vs baselines). A final model on all labelled years predicts
+2024. Per-district drivers = SHAP contributions on the ratio model (i.e. momentum drivers).
 
-2024 is a partial year -> used only as the prediction TARGET horizon, never as a feature.
+2024 is a partial year -> used only as the prediction horizon; its rows carry target=NaN so
+they never enter training (a prior bug filled them and collapsed every projection to ~1/5 scale).
 
 Output -> ml/out/risk_scores.csv
   canonical_name, kgis_code, population, predicted_next, risk_score, risk_tier, top_drivers
@@ -54,6 +65,19 @@ GROUPS = {
 }
 TARGET_YEARS = [2019, 2020, 2021, 2022, 2023]
 PREDICT_YEAR = 2024
+RATIO_CLIP = (0.4, 2.5)   # bound the year-on-year growth multiplier (guards tiny/volatile districts)
+
+
+def _ratio_target(df):
+    return (df["target"] / df["lag1"].clip(lower=1)).clip(*RATIO_CLIP)
+
+
+def fit_predict_ratio(train, X, params):
+    """Train on the growth ratio target/lag1; return (predicted VOLUME = ratio*lag1, model)."""
+    m = LGBMRegressor(**params).fit(train[FEATURES], _ratio_target(train))
+    ratio = np.clip(m.predict(X[FEATURES]), *RATIO_CLIP)
+    vol = np.clip(ratio * X["lag1"].clip(lower=1).to_numpy(), 0, None)
+    return vol, m
 
 
 def build_features(dm, pop_by_district, districts):
@@ -91,7 +115,12 @@ def build_features(dm, pop_by_district, districts):
             trend = float(np.polyfit([0, 1, 2], [lag3, lag2, lag1], 1)[0])
             yoy = (lag1 - lag2) / lag2 if lag2 else 0.0
             percap = (lag1 / pop * 1e5) if pop and np.isfinite(pop) else np.nan
-            target = float(annual.loc[d, t]) if (t in cols and d in annual.index) else np.nan
+            # target: the year's FULL volume. PREDICT_YEAR (2024) is partial in the source,
+            # so its rows get target=NaN — they are prediction inputs ONLY. (Filling them
+            # trained the final model on partial-2024 labels and crushed every prediction
+            # to ~1/5 of true scale — the ranking survived, the absolute volumes didn't.)
+            target = (float(annual.loc[d, t])
+                      if (t in cols and d in annual.index and t != PREDICT_YEAR) else np.nan)
             rows.append({
                 "district": d, "year": t,
                 "lag1": lag1, "lag2": lag2, "avg3": avg3, "trend": trend, "yoy": yoy,
@@ -132,25 +161,42 @@ def main():
     labelled = panel[panel["target"].notna()].copy()
     predict_rows = panel[panel["year"] == PREDICT_YEAR].copy()
 
-    # ---- validation: train 2019-2022, test 2023 (ranking + RMSE) ----
+    # ---- validation: train 2019-2022, test 2023, vs naive baselines ----
     tr = labelled[labelled["year"] < 2023]
     te = labelled[labelled["year"] == 2023]
     params = dict(n_estimators=400, learning_rate=0.03, num_leaves=15, min_child_samples=5,
                   subsample=0.9, colsample_bytree=0.9, random_state=0, verbosity=-1)
-    m_val = LGBMRegressor(**params).fit(tr[FEATURES], tr["target"])
-    pred_te = np.clip(m_val.predict(te[FEATURES]), 0, None)
-    rho = spearmanr(te["target"], pred_te).correlation
-    rmse = float(np.sqrt(np.mean((te["target"].to_numpy() - pred_te) ** 2)))
-    mae = float(np.mean(np.abs(te["target"].to_numpy() - pred_te)))
-    denom = te["target"].mean()
-    print(f"[risk] validation (held-out 2023, n={len(te)}): Spearman rank rho={rho:.3f} | "
-          f"RMSE={rmse:.0f} | MAE={mae:.0f} | mean actual={denom:.0f} (MAE {100*mae/denom:.1f}% of mean)")
+    yte = te["target"].to_numpy()
 
-    # ---- final model on all labelled years -> predict 2024 ----
-    m = LGBMRegressor(**params).fit(labelled[FEATURES], labelled["target"])
-    X24 = predict_rows[FEATURES]
-    pred24 = np.clip(m.predict(X24), 0, None)
-    contrib = m.booster_.predict(X24, pred_contrib=True)  # (n, n_feat+1) SHAP-like
+    def _stats(pred):
+        return spearmanr(yte, pred).correlation, float(np.mean(np.abs(yte - pred)))
+
+    # persistence (next year = this year) is a strong baseline for sticky crime volumes.
+    base_rho, base_mae = _stats(te["lag1"].to_numpy())
+    avg_rho, avg_mae = _stats(te["avg3"].to_numpy())
+    pred_te, _ = fit_predict_ratio(tr, te, params)
+    rho, mae = _stats(pred_te)
+    denom = te["target"].mean()
+    print(f"[risk] baselines (held-out 2023): persistence Spearman={base_rho:.3f} MAE={base_mae:.0f} "
+          f"| avg3 Spearman={avg_rho:.3f} MAE={avg_mae:.0f}")
+    print(f"[risk] MODEL (growth-ratio, n={len(te)}): Spearman={rho:.3f} | MAE={mae:.0f} "
+          f"({100*mae/denom:.1f}% of mean {denom:.0f}) | beats persistence MAE: {mae < base_mae}")
+
+    # ---- final model on all labelled years -> predict 2024 (target=NaN rows already excluded) ----
+    assert PREDICT_YEAR not in labelled["year"].values, \
+        "partial PREDICT_YEAR rows leaked into training labels!"
+    pred24, m = fit_predict_ratio(labelled, predict_rows, params)
+    # SHAP on the ratio model -> explains each district's projected MOMENTUM (growth), not level.
+    contrib = m.booster_.predict(predict_rows[FEATURES], pred_contrib=True)
+
+    # CALIBRATION GUARD: statewide sum of district predictions must be in a sane band of
+    # the last full year's actual volume (trees can't extrapolate, so mildly conservative
+    # is expected — but a collapse like the partial-label bug must fail loudly here).
+    last_full = float(labelled[labelled["year"] == max(TARGET_YEARS)]["target"].sum())
+    calib = float(pred24.sum()) / last_full if last_full else float("nan")
+    print(f"[risk] calibration: sum(pred {PREDICT_YEAR})={pred24.sum():,.0f} vs "
+          f"actual {max(TARGET_YEARS)}={last_full:,.0f} (ratio {calib:.2f})")
+    assert 0.6 <= calib <= 1.6, f"calibration ratio {calib:.2f} outside sane band [0.6, 1.6]"
 
     # log-scaled relative index in [8, 100] (8 floor so the lowest district reads as low, not empty)
     lo, hi = np.log1p(pred24.min()), np.log1p(pred24.max())

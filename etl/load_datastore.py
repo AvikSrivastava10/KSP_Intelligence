@@ -89,6 +89,18 @@ SCHEMA = {
                     ("predicted_next", B), ("risk_score", D), ("risk_tier", V), ("top_drivers", V)],
     "anomalies": [("canonical_name", V), ("kgis_code", V), ("year", B), ("month", B),
                   ("category", V), ("count", B), ("expected", D), ("anomaly_score", D), ("reason", V)],
+    # Phase 4 — patterns / MO clustering + case-outcome (models derived from real data)
+    "mo_clusters": [("cluster_id", B), ("size", B), ("share_pct", D), ("top_crime_head", V),
+                    ("head_purity", D), ("top_crime_subhead", V), ("top_section", V),
+                    ("top_districts", V), ("heinous_share", D), ("season_profile", V),
+                    ("time_profile", V), ("mo_description", V)],
+    "mo_assignments": [("crime_subhead", V), ("cluster_id", B), ("n", B)],
+    "agg_temporal": [("district", V), ("dow", B), ("month", B), ("season", V), ("count", B)],
+    "outcomes_by_district": [("district", V), ("kgis_code", V), ("cases", B), ("detected", B),
+                             ("undetected", B), ("detection_rate", D), ("convicted", B),
+                             ("conviction_rate", D)],
+    "outcome_drivers": [("feature", V), ("importance_detection_pct", D),
+                        ("importance_multiclass_pct", D)],
 }
 VARCHAR_MAX = 255  # every string column here is well under 255 chars
 MODELED = {"agg_timeofday"}
