@@ -1,2 +1,23 @@
 node_modules/
 datasets/
+
+# --- Secrets (never commit) ---
+# Re-added ahead of the Catalyst Data Store step, which needs ZOHO_CLIENT_SECRET /
+# ZOHO_REFRESH_TOKEN in the environment. A committed .env cannot be fully un-published.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+client-secret*.json
+service-account*.json
+
+# --- Serialized model binaries (regenerable; keep git history lean) ---
+# ml/models/*.joblib totals ~14 MB and is rewritten on every retrain — committing it would add
+# a fresh multi-MB blob to history each time, permanently. The artifacts rebuild in ~3 min via
+# `python ml/outcomes.py && python ml/risk.py && python ml/anomaly.py`.
+# ml/models/registry.json IS tracked: it records what was trained, when, and with what metrics,
+# so the audit trail survives without the bloat.
+# To version the binaries instead, delete the next line (consider Git LFS if you do).
+ml/models/*.joblib

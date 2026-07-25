@@ -360,3 +360,283 @@ three items:
 ---
 
 ## Phase 4+ — Patterns / network / hub / deploy  ⏳ (separate sessions)
+
+---
+
+## Phase 5 — Network & Socio-Economic  ✅ COMPLETE (2026-07-25)
+
+**Goal:** the last two modules of the model plan — honest link analysis + the "why behind the where".
+With this, the §6 portfolio (6 models + 2 modules) is complete.
+
+### Module A — Entity co-occurrence network (`ml/network.py`)
+NetworkX + Louvain (networkx 3.6 ships Louvain, so `python-louvain`/`mlxtend` were never needed —
+zero new dependencies).
+
+**Key design finding (measured, not assumed):** `entity_edges.csv` is 3,128/4,558 `crime_head↔district`
+edges, which are near-complete bipartite. Clustering the full graph → modularity **0.261 (weak)**.
+Holding district edges out of clustering (kept as node metadata + spatial-affinity rules) →
+**0.469 (meaningful)** on a 483-node / 1,430-edge graph.
+
+- **9 crime ecosystems**, genuinely interpretable: Missing Person + Cyber Crime + Cheating (IPC/IT Act) ·
+  Cases of Hurt + Riots + Attempt to Murder (Arms Act) · MV accidents + CrPC (Motor Vehicles Act).
+- **278 association rules** (support/confidence/lift; lift>1, ≥500 cases), typed `co_occurrence` vs
+  `spatial_affinity`. Findings: Explosives↔Explosive Act 1884 **1800× lift**; Cyber Crime **3.2×**
+  concentrated in Bengaluru City; **72% of all Karnataka Railways cases are theft**.
+- Data-quality artefact surfaced: `Copyright Act, 1957` / `Copy Right Act 1957` are duplicate
+  spellings co-occurring at 100% confidence.
+- **Bug caught in review:** the spatial-rule sentence had antecedent/consequent swapped, printing
+  *"72% of THEFT cases are Karnataka Railways"* (false — that's 4.5%) instead of the true
+  *"72% of Karnataka Railways cases are theft"*. Fixed + commented.
+
+### Module B — Socio-economic correlation (`ml/socioeconomic.py`)
+Pearson + Spearman + p-values + partial correlation controlling for literacy, n=30 districts.
+- **Literacy is the only significant correlate (r=+0.413, p=0.023)** — reported as a *reporting-propensity*
+  signal, not more offending.
+- Added a real `urban_share` from the Census PCA rural/urban split (replaced a placeholder that just
+  duplicated population). District names mapped to canonical modern names (Bangalore→Bengaluru Urban).
+- **ETHICS:** protected attributes (`sc_share`/`st_share`/`sex_ratio`) are computed but segregated into a
+  `sensitive` group, flagged `is_protected`, each with a mandatory caveat, and never used as model
+  features anywhere. Shown for **enforcement-disparity audit only**. **Headline: no protected attribute
+  shows a significant association** — a strong, honest result. Asserted by a jest test.
+- **Synthetic person layer NOT built** (reverses the earlier Bucket-4 "yes") — the user's instruction was
+  explicit: no fabricated data. The Network page states person-level analysis is descoped by law and that
+  no synthetic people were invented.
+
+### API + Frontend
+- `routes/network.js` (`/network/entity` w/ community filter + dangling-edge-free subgraphs,
+  `/network/communities`, `/network/rules?type=`) · `routes/socio.js` (`/socio`).
+- `NetworkLink.jsx` (ECharts force graph — chosen over `react-force-graph` for zero new deps) and
+  `SocioEconomic.jsx` (correlation bars, literacy scatter, "Protected attributes — audit only" panel).
+- 6 tables added to `datastore_schema.json` (now **34**). **36/36 jest tests** (7 new). `vite build` OK.
+  Both pages browser-verified, zero console errors. Sidebar: all 7 workspaces enabled.
+
+### Data-provenance clarification + Data Store prep
+- **"CSV fallback" never meant fake data.** The bundled CSVs *are* the real precomputed tables (audit:
+  30/30 hash-identical to sources; exact 1,674,734 reconciliation), and the Data Store is loaded *from*
+  them. `/health` now reports `storage: bundled_tables | catalyst_datastore` + `data_is_real: true` + an
+  explanatory note, instead of a bare ambiguous `"csv"`.
+- `load_datastore.py` auto-reads project/env from `.catalystrc` (project `KSP` linked); **varchar widths
+  now measured from real data** (+50% headroom) instead of a flat 255 — caught 4 columns (up to 352 chars)
+  that would have been **silently truncated** on load.
+- Full runbook: `etl/DATASTORE_RUNBOOK.md`. Note: localhost always reports `bundled_tables` because the
+  Catalyst SDK needs a Catalyst request context — expected, not a misconfiguration.
+- ⚠️ Flagged: current `.gitignore` (only `node_modules/` + `datasets/`) no longer ignores `.env`/keys —
+  re-add before creating OAuth secrets.
+
+### How to run
+```
+python ml/network.py           # -> network_nodes/edges/communities + association_rules (~1s)
+python ml/socioeconomic.py     # -> socio_correlations + socio_districts (~1s)
+# copy new CSVs+json to functions/crime_api/src/data/ ; python etl/load_datastore.py --schema
+cd functions/crime_api && npm test    # 36/36
+cd client && npm run build            # OK
+```
+
+---
+
+## Ground-truth validation — proof of concept  (2026-07-25)
+
+`ml/validation.py` scores shipped predictions against outcomes the models never trained on.
+
+| Test | Ground truth | Result | Baseline | Verdict |
+|---|---|---|---|---|
+| T1 forecast | real Jan–Feb 2024 FIRs | **MAPE 8.2%**, 2/2 in 95% CI | 12.4% persistence | **BEATS** |
+| T2 risk ranking | real Jan–Feb 2024 volumes | rho 0.971, top-5 **5/5** | 0.977 prior-year | TIES |
+| T3 cross-source | independent 2025 dataset | rho 0.971, top-5 **5/5** | 0.978 | TIES |
+
+**3/3 at or above baseline — one genuine win, two ties.** Reported honestly: district crime volume
+is highly persistent so a naive ranking is near-ceiling (~0.97); matching it is the realistic
+outcome. The platform's edge is within-district intelligence, the "why", and the case-outcome
+model (AUC 0.969 vs 0.869 baseline — an unambiguous win), not a district-ranking edge.
+
+**Model fix this exposed:** the forecast was over-extrapolating 2023's growth. Adopted damped
+trend (a principled a-priori remedy, not chosen by peeking) — improved the internal backtest
+(14.26→11.25%), the real 2024 ground truth (13.56→8.18%) **and** median district MAPE
+(19.20→17.73%), so it is robust rather than test-set fitting.
+
+**Environment fix:** `statsmodels` was missing — `ml/forecast.py` could not be re-run and its
+output was a stale Phase-3 artefact. Installed (already in `requirements.txt`); all 10 model
+scripts now re-run end to end. Exclusions documented: March 2024 (truncated month) and absolute
+2025 totals (different counting rule). `GET /validation` + 3 tests → **39/39**.
+
+---
+
+## Serialized models + offline inference  (2026-07-25)
+
+**Q: why were there no .pkl/.joblib files?** Because `crime_api` is **Node** — a Python pickle can
+never be loaded there — and every UI figure is precomputed. For *serving*, tables are correct and
+the "no ML at request time" rule stands.
+
+**What was genuinely missing:** scoring a case that did not exist at build time. That now works.
+
+| Artifact | Model | Size | Metric |
+|---|---|---|---|
+| `case_outcome_binary` | LGBM classifier | 944 KB | AUC 0.969 |
+| `case_outcome_multiclass` | LGBM, 13 classes | 11.9 MB | acc 0.723 |
+| `district_risk` | LGBM regressor (growth ratio) | 205 KB | rho 0.981 |
+| `anomaly_isolation_forest` | IsolationForest | 544 KB | 91% recall |
+
+Not serialized (documented): forecast (199 statsmodels objects, 28s refit), hotspots/alerts
+(no meaningful predict), MO clustering (sklearn HDBSCAN has no `predict()`).
+
+**The contract is the point.** Bundles store `features` / `category_levels` / `topn_keep` so
+inference reproduces training preprocessing exactly — otherwise LightGBM's category-order encoding
+silently returns confident nonsense. `--verify` scores 20k real rows both ways:
+**100.00% identical decisions, max gap 0.0000, corr 1.000000.** (The first run of this check failed
+at gap 0.114 — the *test* was wrong, re-deriving top-N from a sample; the test was fixed, not the
+threshold.)
+
+```
+python ml/predict.py --list      # registry
+python ml/predict.py --verify    # serving-skew proof
+python ml/predict.py --case "district=Belagavi,crime_head=THEFT,accused_count=0"
+python ml/predict.py --cases new_firs.csv
+```
+
+Display honesty: never prints 100% (>99.9% instead); flags that a named accused is most of the
+signal, so `accused_count=0` (90.3%) is the real cold-case view.
+
+**.gitignore:** re-added secret patterns before the OAuth step; ignored `ml/models/*.joblib`
+(14 MB per retrain would live in git history forever) while keeping `registry.json` tracked.
+
+---
+
+## Phase 6 — Strategic Hub, report export, fairness audit  ✅ COMPLETE (2026-07-25)
+
+**Strategic Intelligence Hub** (`/hub`, `StrategicHub.jsx`) — cross-model synthesis in one call.
+A per-district ledger over three independent models (risk tier · red-zone alert · anomaly).
+
+> **Threshold finding:** ≥2-of-3 flagged **27 of 31** districts — no prioritisation value. Requiring
+> **all three** isolates **9** (breakdown 9/18/4 shipped in the payload so the cut is transparent).
+
+Example synthesis: Bengaluru Urban — Critical, 16 red-zones, 44 anomalies, sharpest rise
+COTPA +1148%. Plus forecast direction, top deployment clusters, drill-down links.
+
+**Data Quality & Fairness** (`/audit`, `DataQualityAudit.jsx`) — the trust page. 5 published
+limitations (person networks + repeat-offender impossible by law/data; no observed time-of-day;
+FIRs = reporting not offending; per-capita vintage), each naming what is provided instead;
+the fairness contract; geocoding-precision breakdown; ground-truth validation; **11 model cards**.
+
+**Report export** — `window.print()` + `@media print` CSS. No jsPDF/html2canvas (dependency
+discipline; native print keeps text selectable). Critically, the print CSS forces `Reveal()`'s
+`opacity-0` panels visible — without that the report prints **blank** — flattens glass/neumorphic
+styling, prevents breaks inside panels, and stamps a provenance footer.
+
+Sidebar reordered (Hub first, Data Quality last), 9 workspaces enabled.
+**41/41 tests · data audit 0 FAIL · vite build OK · both pages browser-verified.**
+
+### Remaining
+Phase 7 (deploy) only — `etl/DATASTORE_RUNBOOK.md` + `catalyst deploy`, both user steps.
+
+---
+
+## PS conformance audit — the last gap closed  (2026-07-25)
+
+Scripted clause-by-clause check of the problem statement against **live endpoints**:
+**17 YES · 2 NO (legal/data) · 1 REFRAMED.**
+
+**The one PARTIAL was "hotspots layering time of day with location".** Investigating it produced
+the decisive number — the modeled time-of-day is **97.4% assumption**:
+
+| method | FIRs | share |
+|---|---|---|
+| `default_distributed` | 832,619 | 49.7% — no signal at all |
+| `criminological_prior` | 798,141 | 47.7% — documented assumption |
+| **`category_encoded`** | **43,974** | **2.6% — REAL** (officer's BURGLARY - NIGHT/DAY classification) |
+
+Mapping the first two would have looked like spatiotemporal intelligence while being a crime-type
+map wearing a clock costume. **Built the honest version instead:** `etl/build_timed_hotspots.py`
+→ real classification **and** real GPS only → **15,068 incidents (12,020 night / 3,048 day)**,
+served at `/hotspots/timed`, shown as a "Night vs day (real)" map layer with an explicit note that
+the other 97.4% are excluded by design.
+
+**The 2 NOs are data-rights boundaries, not build gaps** — no person identities exist (confidential
+under Indian law; even the official KSP ER schema lacks a cross-case person key). Published on
+`/audit` with what is delivered instead.
+
+**43/43 tests · data audit 0 FAIL · vite build OK · layer browser-verified.**
+
+---
+
+## Person network — PPRL engine + labelled synthetic demo  (2026-07-25)
+
+Closes the last two PS ❌s (suspect↔victim mapping, repeat-offender tracking). User approved
+"Engine + synthetic demo", reversing the earlier no-fake-data call under strict guardrails.
+
+**`ml/person_linkage.py` (REAL).** PPRL: normalise → multi-token phonetic blocking → weighted
+Jaro-Winkler + hard gates → union-find → salted tokens. Runs inside KSP's perimeter; exports
+tokens only. **precision 0.965 / recall 0.996 / F1 0.980**; 10.5M comparisons → 85,835.
+- Single-token surname blocking capped recall at **0.77** ("KUMAR RAJESH" vs "RAJESH KUMAR" landed
+  in different blocks) → multi-blocking + order-insensitive alignment fixed it.
+- Threshold 0.92 from a measured sweep, **leaning to precision**: a false merge brands two people
+  as one repeat offender — worse harm than a missed link.
+
+**`ml/synthetic_persons.py` (SYNTHETIC).** 3,861 people / 1,500 cases / 5,164 edges sampled from
+the real district×year×head mix; dacoity honours IPC s.391 (5+). 151 repeat offenders, **47
+cross-district**. Recording noise doubles as linkage ground truth.
+
+**Containment:** `syn_*` plane · `SYN-` ids · `data_class="synthetic"` · permanent UI banner ·
+never trains any model · **jest asserts no real endpoint emits a `SYN-` id**.
+
+**Test caught a real bug:** subgraph selection scanned edges in file order (co_accused first), so
+the node cap filled before any `accused_victim` edges — the suspect↔victim map, the whole point,
+rendered empty. Fixed with adjacency + type-balanced BFS (220 victim edges vs 22 co-accused).
+
+**Stale claims fixed:** entity banner ("no synthetic people are invented") and `/audit`
+("synthetic_data: None") were both made FALSE by this change and rewritten to scope it precisely.
+
+42 tables · **47/47 tests** · data audit 0 FAIL · vite build OK · both tabs browser-verified.
+
+---
+
+## Network page → interactive explorer  (2026-07-25)
+
+Graph/ecosystems/rules kept intact; added the ability to interrogate the network.
+
+**Root cause first:** `ml/network.py` shipped only the top 400 of 1,430 edges, leaving **302/483
+entities (63%) with no connections at all**. No UI could explore absent data. Now writes all
+edges (129 KB); API caps for rendering only. Jest pins it.
+
+**API:** `/network/entities` (all 483 — search/filter/sort/paginate) · `/network/entity/:id`
+(neighbours with **share_of_entity**, rules touching it, ecosystem, centrality rank, districts) ·
+`focus=` ego-network · `q=` rule search. **52/52 tests.**
+
+**UI (additive):** entity search w/ click-to-inspect · type filter · **click node → detail panel**
+(% connection bars, plain-language patterns, ecosystem jump, focus view) · **full sortable entity
+table** (row-click inspects) · searchable clickable rules. Neighbour rows are clickable, so the
+user walks the graph hop by hop.
+
+> **Lesson: `vite build` passed while the page crashed.** `clusterColor()` was never defined —
+> an undefined identifier is a *runtime* ReferenceError, not a compile error, so the component
+> unmounted when the table opened despite a green build. Found only by clicking through in the
+> browser. **A passing build is not evidence a UI works.**
+
+---
+
+## Network page — made readable for police users  (2026-07-25)
+
+The graph was a hairball: ~220 nodes, 1,021 crossing lines, truncated labels, a legend reading
+`#0 #1 #5`, and a tooltip saying "30 shared cases" — which tells an officer nothing to act on.
+
+**Measured the cause first:** only **8.5% of edges carry ≥1,000 shared cases**, so most of the
+spaghetti was weak noise crowding out the signal.
+
+| Change | Before | After |
+|---|---|---|
+| Link density | all 1,021 drawn | **284 shown** (≥200 shared cases), presets 1,000×/200×/50×/any; orphaned nodes dropped |
+| Title | "Entity co-occurrence graph" | "Which crimes and laws get booked together" |
+| Shape key | "Circles = crime types · squares = legal acts · colour = ecosystem" | inline visual key: ● crime type ■ law/act — line = same FIR, bigger = more cases |
+| Legend | `#0 Motor Vehicle Accidents Non-Fatal` | `Motor Vehicle Accidents` (plain names, no IDs) |
+| Link tooltip | "30 shared cases" | "Booked together in 30 FIRs — when one is registered, the other frequently applies too, worth checking on the chargesheet" |
+| Panel heading | "Appears together with" | "Usually booked alongside" (+ read-it-as explainer) |
+| Jargon | "crime ecosystems" | "crime pattern groups" |
+| Entry point | none — stare at the hairball | **"Start with a common offence"** chips (Theft, Cyber Crime, Robbery…) |
+| Casing | `MOTOR VEHICLE ACCIDENTS NON-FATAL` | Sentence Case throughout |
+
+**Also fixed on inspection:** neighbour lists were printing several `0%` rows (sub-1% links
+rounding down), which read as an error and buried the real ones — now shown as
+"+ 9 occasional links (under 1% of cases) not shown".
+
+Verified live: header/legend/density control/start-chips all render; Cyber Crime → 78,502 FIRs,
+rank 9/483, "Ipc 1860 71% · Information Technology Act 2000 67% · 2008 33%". 52/52 tests,
+data audit 0 FAIL, vite build OK.
