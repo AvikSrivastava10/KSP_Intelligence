@@ -1,0 +1,56 @@
+{
+  "generated_at_utc": "2026-07-25T09:54:17.268213+00:00",
+  "data_class": "real",
+  "purpose": "Independent proof that shipped predictions hold up against real outcomes, scored on data excluded from every training set.",
+  "tests_run": 3,
+  "tests_at_or_above_baseline": 3,
+  "verdict_scale": "beats_baseline | matches_baseline (inside noise) | below_baseline",
+  "ground_truth_sources": {
+    "in_source_holdout": "Real 2024 FIR records (months [1, 2]) \u2014 excluded from all training.",
+    "out_of_source": "datasets/ka-district-wise-2025.csv \u2014 separate dataset, 2025, IPC/BNS+SLL taxonomy, beyond the FIR extract entirely."
+  },
+  "exclusions_and_why": {
+    "march_2024": "5,811 FIRs vs ~18,000 in Jan/Feb \u2014 the extract is cut mid-March. Scoring a truncated month would fabricate a ~68% error.",
+    "absolute_2025_comparison": "The 2025 file uses a different counting rule to FIR records, so only RANK is comparable, not totals.",
+    "risk_absolute_2024": "Two months of actuals cannot be compared to an annual projection \u2014 ranking is the honest test."
+  },
+  "honesty": "Every test is scored against a naive baseline (persistence / prior-year ranking). Beating the baseline \u2014 not the raw number \u2014 is the bar. District crime volume is highly persistent, so a naive ranking is already near-ceiling (rho ~0.97); matching it is the realistic outcome and is reported as a TIE rather than dressed up as a win.",
+  "results": [
+    {
+      "test": "T1 forecast vs real 2024 (out-of-sample)",
+      "what_it_proves": "The 12-month projection matches reality on months the model never saw.",
+      "metric": "MAPE (statewide, Jan-Feb 2024)",
+      "value": 8.18,
+      "unit": "%",
+      "baseline_name": "persistence (same month, 2023)",
+      "baseline_value": 12.4,
+      "verdict": "beats_baseline",
+      "extra": "2/2 months inside the 95% CI",
+      "n": 2
+    },
+    {
+      "test": "T2 risk ranking vs real 2024 (out-of-sample)",
+      "what_it_proves": "Districts flagged high-risk really did record the most crime.",
+      "metric": "Spearman rank correlation",
+      "value": 0.971,
+      "unit": "rho",
+      "baseline_name": "prior-year ranking (2023)",
+      "baseline_value": 0.977,
+      "verdict": "matches_baseline",
+      "extra": "top-5 overlap 5/5",
+      "n": 31
+    },
+    {
+      "test": "T3 cross-source vs independent 2025 data",
+      "what_it_proves": "District risk signal holds on a DIFFERENT dataset and a LATER year.",
+      "metric": "Spearman rank correlation",
+      "value": 0.971,
+      "unit": "rho",
+      "baseline_name": "2023 FIR ranking",
+      "baseline_value": 0.978,
+      "verdict": "matches_baseline",
+      "extra": "top-5 overlap 5/5 (rank-only: differing counting rules)",
+      "n": 31
+    }
+  ]
+}

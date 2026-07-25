@@ -1,0 +1,21 @@
+{
+  "generated_at_utc": "2026-07-25T13:15:39.419478+00:00",
+  "engine": "PPRL: normalize -> phonetic block -> Jaro-Winkler weighted score -> union-find",
+  "threshold": 0.92,
+  "weights": {
+    "name": 0.65,
+    "father": 0.2,
+    "age": 0.15
+  },
+  "records_linked": 4590,
+  "pairwise_comparisons": 85835,
+  "validation": {
+    "ground_truth": "synthetic appearances with known person_id and realistic recording noise (initials 25%, transliteration variants 15%, name-order swaps 10%, father's name missing 30%, age drift +/-2)",
+    "pairwise_precision": 0.9646,
+    "pairwise_recall": 0.9957,
+    "pairwise_f1": 0.9799,
+    "honesty": "The PEOPLE are synthetic; the engine metric is a real measurement of re-linking performance under the stated noise model."
+  },
+  "deployment": "Runs inside the data holder's perimeter on ER-schema person records; exports only salted tokens + case links. Identities never leave KSP.",
+  "fairness_note": "Gender is used as an IDENTITY-RESOLUTION field only; this engine feeds no predictive model, and the platform's models never see person data."
+}
