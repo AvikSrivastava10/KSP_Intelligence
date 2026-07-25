@@ -65,6 +65,50 @@ module.exports = (router, asyncH) => {
     res.sendOk({ total_clusters: clusters.length, showing: Math.min(limit, clusters.length), clusters: clusters.slice(0, limit) }, "real");
   }));
 
+  /**
+   * GET /hotspots/timed?bucket=Night|Daytime&year=
+   * Spatiotemporal hotspots where BOTH the location and the time are REAL — no inference.
+   * Restricted to crime heads whose FIR classification itself records the time
+   * (BURGLARY - NIGHT / - DAY, HOUSE BREAKING BY NIGHT / BY DAY) AND to incidents with real GPS.
+   * The 97.4% of FIRs carrying only a MODELED time are deliberately excluded: mapping them would
+   * present a criminological assumption as an observation.
+   */
+  router.get("/hotspots/timed", asyncH(async (req, res) => {
+    const rows = await getTable("agg_hotspots_timed", req.ctx);
+    const bucket = safeDecode(req.query.bucket);
+    const year = req.query.year ? String(req.query.year) : null;
+
+    const cells = [];
+    const byBucket = {};
+    let total = 0;
+    for (const r of rows) {
+      if (bucket && r.time_bucket !== bucket) continue;
+      if (year && year !== "all" && String(r.year) !== year) continue;
+      const c = num(r.count);
+      total += c;
+      byBucket[r.time_bucket] = (byBucket[r.time_bucket] || 0) + c;
+      cells.push({
+        lat: num(r.lat), lng: num(r.lng), count: c,
+        time_bucket: r.time_bucket, major_head: r.major_head, year: num(r.year),
+      });
+    }
+    cells.sort((a, b) => b.count - a.count);
+
+    res.sendOk({
+      bucket: bucket || "all",
+      year: year || "all",
+      total_incidents: total,
+      by_bucket: byBucket,
+      count: cells.length,
+      cells: cells.slice(0, HEAT_CAP),
+      scope: "REAL time-of-day only — crime heads whose classification records night/day "
+        + "(burglary night/day, house-breaking by night/day), with real GPS coordinates.",
+      coverage_note: "These are the 2.6% of FIRs carrying an observed day/night classification. "
+        + "The remaining 97.4% have only a MODELED time-of-day and are excluded here by design — "
+        + "mapping them would present assumption as observation.",
+    }, "real");
+  }));
+
   router.get("/stations", asyncH(async (req, res) => {
     const rows = await getTable("agg_unit", req.ctx);
     const d = safeDecode(req.query.district);
