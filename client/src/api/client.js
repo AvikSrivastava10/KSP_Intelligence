@@ -104,6 +104,8 @@ export const fetchEntities = ({ q = "", type = "", community = "", sort = "pager
   return api(`/network/entities?${p.toString()}`);
 };
 export const fetchEntityDetail = (id) => api(`/network/entity/${encodeURIComponent(id)}`);
+// Crime type x legal act grid — the readable alternative to the force graph.
+export const fetchMatrix = (rows = 16, cols = 12) => api(`/network/matrix?rows=${rows}&cols=${cols}`);
 export const fetchSocio = () => api("/socio");
 // Person network — SYNTHETIC demo plane. Callers MUST surface the synthetic banner.
 export const fetchPersonNetwork = () => api("/network/persons");

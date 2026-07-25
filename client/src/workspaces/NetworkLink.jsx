@@ -12,7 +12,7 @@ import Reveal from "../components/Reveal.jsx";
 import {
   fetchNetwork, fetchCommunities, fetchRules,
   fetchPersonNetwork, fetchOffenderProfiles, fetchLinkage,
-  fetchEntities, fetchEntityDetail,
+  fetchEntities, fetchEntityDetail, fetchMatrix,
 } from "../api/client.js";
 
 const fmt = (n) => (typeof n === "number" ? n.toLocaleString() : n ?? "—");
@@ -24,6 +24,89 @@ const clusterColor = (i) => PALETTE[(Number.isFinite(+i) ? Math.abs(+i) : 0) % P
 // looks like shouting on screen, so everything user-facing is sentence-cased.
 const title = (s) => String(s || "").toLowerCase().replace(/(^|[\s(/-])([a-z])/g, (m, a, b) => a + b.toUpperCase());
 const prettyTheme = (s) => title(s).replace(/ Non-Fatal$/i, "").replace(/&/g, "and");
+
+/**
+ * Axis labels for the grid.
+ *
+ * The source names are full legal titles — "NARCOTIC DRUGS AND PSYCHOTROPIC SUBSTANCES ACT, 1985"
+ * is 52 characters, and a column in this grid is roughly 29px wide. No rotation makes that fit, so
+ * the previous version truncated everything to "Na…" and the axis became useless.
+ *
+ * The fix is not a smaller font — it is to use the short forms officers actually say: IPC, CrPC,
+ * NDPS, POCSO, MV Act. Shorter AND more familiar. The full legal title is still shown in the
+ * tooltip, so nothing is lost.
+ */
+const ACT_SHORT = [
+  [/^IPC\b|INDIAN PENAL/i, "IPC"],
+  [/CODE OF CRIMINAL PROCEDURE|^CRPC\b/i, "CrPC"],
+  [/MOTOR VEHICLES? ACT/i, "MV Act"],
+  [/NARCOTIC DRUGS|PSYCHOTROPIC|PSHYCOTROPIC/i, "NDPS"],
+  [/PROTECTION OF CHILDREN FROM SEXUAL/i, "POCSO"],
+  [/INFORMATION TECHNOLOGY ACT\D*(\d{4})/i, (m) => `IT Act '${m[1].slice(2)}`],
+  [/KARNATAKA POLICE ACT/i, "KP Act"],
+  [/KARNATAKA EXCISE ACT/i, "Excise Act"],
+  [/DOWRY PROHIBITION/i, "Dowry Act"],
+  [/^MMDR|MINES AND MINERALS/i, "MMDR"],
+  [/KARNATAKA MINOR MINERAL/i, "Minor Mineral"],
+  [/ARMS ACT/i, "Arms Act"],
+  [/EXPLOSIVE/i, "Explosives Act"],
+  [/COPY ?RIGHT/i, "Copyright Act"],
+  [/GAMBLING/i, "Gambling Act"],
+  [/COTPA|CIGARETTES/i, "COTPA"],
+  [/SCHEDULED CASTE|SC\/ST|ATROCIT/i, "SC/ST Act"],
+  [/FOREIGNERS? ACT/i, "Foreigners Act"],
+  [/PASSPORT/i, "Passport Act"],
+  [/WILD ?LIFE/i, "Wildlife Act"],
+  [/ELECTRICITY/i, "Electricity Act"],
+  [/RAILWAY/i, "Railways Act"],
+];
+
+// Title-casing mangles legal acronyms ("CrPC" -> "Crpc", "NDPS" -> "Ndps"). Restore them, because
+// getting a statute's name wrong on screen undermines trust faster than any layout problem.
+const ACRONYMS = [
+  [/\bCrpc\b/g, "CrPC"], [/\bNdps\b/g, "NDPS"], [/\bIpc\b/g, "IPC"], [/\bPocso\b/g, "POCSO"],
+  [/\bIt Act\b/g, "IT Act"], [/\bMv\b/g, "MV"], [/\bKa\b/g, "KA"], [/\bMmdr\b/g, "MMDR"],
+  [/\bSc\/St\b/g, "SC/ST"], [/\bCotpa\b/g, "COTPA"], [/\bKp Act\b/g, "KP Act"],
+];
+const fixAcronyms = (s) => ACRONYMS.reduce((acc, [re, out]) => acc.replace(re, out), s);
+
+/** Fall back to something readable when the act is not one of the well-known ones. */
+function genericShort(name) {
+  let t = String(name)
+    .replace(/\(.*?\)/g, " ")                 // drop parenthetical expansions
+    .replace(/,?\s*(19|20)\d{2}\s*$/, "")     // drop a trailing year
+    .replace(/\bACT\b|\bRULES?\b|\bTHE\b|\bOF\b|\bAND\b/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!t) t = String(name);
+  const words = t.split(" ").filter(Boolean);
+  // Long multi-word titles become initials; short ones stay as words.
+  if (t.length > 16 && words.length > 2) return words.map((w) => w[0]).join("").toUpperCase();
+  return fixAcronyms(title(t));
+}
+
+const shortAct = (name) => {
+  for (const [re, out] of ACT_SHORT) {
+    const m = String(name).match(re);
+    if (m) return typeof out === "function" ? out(m) : out;
+  }
+  return genericShort(name);
+};
+
+
+/** Crime types sit on the horizontal axis, so they get more room than the acts do. */
+const shortCrime = (name) => {
+  const t = fixAcronyms(title(name))
+    .replace(/^Motor Vehicle Accidents\s*/i, "MV Accidents ")
+    .replace(/Narcotic Drugs.*/i, "NDPS")
+    .replace(/Kidnapping And Abduction/i, "Kidnapping / Abduction")
+    .replace(/Scheduled Caste And The Scheduled Tribes/i, "SC/ST Act")
+    .replace(/Karnataka State Local Act/i, "KA State Local Act")
+    .replace(/Karnataka Police Act.*/i, "KA Police Act")
+    .replace(/\s+/g, " ")
+    .trim();
+  return t.length > 30 ? `${t.slice(0, 29)}…` : t;
+};
 
 export default function NetworkLink() {
   const [mode, setMode] = useState("entity");         // "entity" (real) | "person" (synthetic)
@@ -50,6 +133,18 @@ export default function NetworkLink() {
   // 1,430 renders as an unreadable hairball. Default to "common" — enough structure to read,
   // little enough to follow a line with your eye.
   const [minWeight, setMinWeight] = useState(200);
+  // "grid" is the default because a force layout genuinely cannot render this data legibly:
+  // IPC 1860 sits in 77.8% of all FIRs with 292 links, so physics collapses everything into a
+  // starburst around it and labels overlap. A grid has fixed positions and no overlap at all.
+  const [view, setView] = useState("grid");
+  // IPC-type nodes connect to almost everything, which adds no discriminating information to a
+  // graph while dominating its shape. Hidden by default in the network view only.
+  const [hideHubs, setHideHubs] = useState(true);
+
+  const matrixQ = useQuery({
+    queryKey: ["matrix"], queryFn: () => fetchMatrix(16, 12), enabled: view === "grid" && !isPerson,
+  });
+  const matrix = matrixQ.data?.result;
 
   const netQ = useQuery({
     queryKey: ["network", community || "all", focus || "none", nodeType || "all"],
@@ -121,15 +216,93 @@ export default function NetworkLink() {
     };
   }, [pnet]);
 
+  // Charts sit inside Reveal, which animates its wrapper, and inside a responsive grid. ECharts
+  // measures the container once at init, so a width that is still settling can leave the canvas
+  // sized wrong. Resizing on ready is a cheap guard against that.
+  const chartReady = (chart) => {
+    requestAnimationFrame(() => chart.resize());
+    setTimeout(() => chart.resize(), 120);
+  };
+
+  // --- GRID VIEW: crime type x legal act. Fixed positions, zero overlap, identical every load. ---
+  const shorten = (s, n) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
+  const gridOption = useMemo(() => {
+    if (!matrix?.cells?.length) return null;
+    const rowLabels = matrix.rows.map((r) => shortCrime(r.id));
+    const colLabels = matrix.cols.map((c) => shortAct(c.id));
+    return {
+      // A reference grid should appear settled, not animate itself in. Static also means the
+      // first paint is synchronous rather than deferred to an animation frame.
+      animation: false,
+      tooltip: {
+        confine: true,
+        extraCssText: "max-width:300px;white-space:normal;",
+        formatter: (p) => {
+          const c = matrix.cells[p.dataIndex];
+          if (!c) return "";
+          if (!c.cases) {
+            return `<b>${title(c.crime_head)}</b> is not normally booked under<br/><b>${title(c.act)}</b>`;
+          }
+          return `<b>${title(c.crime_head)}</b><br/>`
+            + `<span style="color:#4f46e5">${(c.share * 100).toFixed(0)}% of these cases also cite</span><br/>`
+            + `<b>${title(c.act)}</b><br/>`
+            + `<span style="color:#64748b">${c.cases.toLocaleString()} FIRs</span>`;
+        },
+      },
+      // Generous left/top margins: the axis labels are the point of this chart, so they get the
+      // room rather than being squeezed to fit a bigger plot area.
+      grid: { left: 196, right: 28, top: 78, bottom: 16 },
+      xAxis: {
+        type: "category", position: "top", data: colLabels,
+        axisTick: { show: false }, axisLine: { show: false },
+        axisLabel: {
+          rotate: 40, fontSize: 11, color: "#334155", fontWeight: 500,
+          align: "left", verticalAlign: "middle", margin: 10,
+        },
+        splitArea: { show: true, areaStyle: { color: ["rgba(255,255,255,0)", "rgba(148,163,184,0.04)"] } },
+      },
+      yAxis: {
+        type: "category", data: rowLabels, inverse: true,
+        axisTick: { show: false }, axisLine: { show: false },
+        axisLabel: { fontSize: 11, color: "#334155", fontWeight: 500, margin: 10 },
+        splitArea: { show: true, areaStyle: { color: ["rgba(255,255,255,0)", "rgba(148,163,184,0.04)"] } },
+      },
+      visualMap: {
+        min: 0, max: 1, show: false,
+        // Ramp stops at a mid indigo rather than near-black: cell labels use one static colour
+        // (heatmap labels take no per-cell colour callback), so every shade must stay light
+        // enough for dark text to remain readable on it.
+        inRange: { color: ["#f8fafc", "#eef2ff", "#e0e7ff", "#c7d2fe", "#a5b4fc", "#818cf8"] },
+      },
+      series: [{
+        type: "heatmap",
+        data: matrix.cells.map((c) => [c.col, c.row, c.share]),
+        itemStyle: { borderColor: "#fff", borderWidth: 2, borderRadius: 3 },
+        label: {
+          show: true, fontSize: 9, color: "#1e293b", fontWeight: 500,
+          formatter: (p) => (p.value[2] >= 0.08 ? `${Math.round(p.value[2] * 100)}%` : ""),
+        },
+        emphasis: { itemStyle: { borderColor: "#4338ca", borderWidth: 2 } },
+      }],
+    };
+  }, [matrix]);
+
   const option = useMemo(() => {
     if (!net?.nodes?.length) return null;
 
+    // Ubiquitous nodes (IPC 1860 = 77.8% of all FIRs, 292 links) connect to nearly everything.
+    // They add no discriminating information but dominate the layout, pulling every other node
+    // into a starburst. Removing them lets the ACTUAL structure become visible.
+    const HUB_SHARE = 0.35 * 1674734;
+    const hubIds = new Set(hideHubs ? net.nodes.filter((n) => n.cases > HUB_SHARE).map((n) => n.id) : []);
+
     // 1) keep only meaningful connections, 2) drop whatever is left unconnected — an isolated
     //    dot tells an officer nothing and just adds visual noise.
-    const strongEdges = net.edges.filter((e) => e.weight >= minWeight);
+    const strongEdges = net.edges.filter((e) => e.weight >= minWeight
+      && !hubIds.has(e.source) && !hubIds.has(e.target));
     const connected = new Set();
     strongEdges.forEach((e) => { connected.add(e.source); connected.add(e.target); });
-    const shownNodes = net.nodes.filter((n) => connected.has(n.id));
+    const shownNodes = net.nodes.filter((n) => connected.has(n.id) && !hubIds.has(n.id));
     if (!shownNodes.length) return null;
 
     // legend reads as plain crime-pattern names, not "#0 / #5"
@@ -205,7 +378,7 @@ export default function NetworkLink() {
         color: PALETTE,
       }],
     };
-  }, [net, communities, minWeight]);
+  }, [net, communities, minWeight, hideHubs]);
 
   return (
     <div className="mx-auto max-w-[1500px] space-y-5 pb-10">
@@ -359,54 +532,99 @@ export default function NetworkLink() {
               <div>
                 <div className="flex items-center gap-1.5 text-sm font-semibold text-slate-900">
                   Which crimes and laws get booked together
-                  <InfoDot text="Built from 1.67 million real FIRs. Each shape is one crime type or one law. A line means the two were recorded on the SAME FIR — the thicker the line, the more often. Use it to see what usually accompanies a given offence when framing charges." />
+                  <InfoDot text="Built from 1.67 million real FIRs. The grid reads one row at a time: for that offence, how often each law also appears on the same FIR. Useful when framing charges or checking a chargesheet is complete." />
                 </div>
-                <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-500">
-                  <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-slate-400" /> crime type</span>
-                  <span className="flex items-center gap-1"><span className="h-2 w-2 bg-slate-400" /> law / act</span>
-                  <span className="flex items-center gap-1"><span className="h-px w-4 bg-slate-400" /> booked on the same FIR</span>
-                  <span>bigger = more cases</span>
+                <div className="mt-0.5 text-[11px] text-slate-500">
+                  {view === "grid"
+                    ? "Read a row: for that offence, how often each law also appears on the FIR."
+                    : "Each shape is a crime type or law; a line means they shared an FIR."}
                 </div>
               </div>
             </div>
-            <select
-              value={community}
-              onChange={(e) => setCommunity(e.target.value)}
-              aria-label="Filter graph by crime pattern group"
-              className="neo-inset rounded-lg bg-transparent px-2.5 py-1.5 text-xs font-medium text-slate-700 outline-none"
-            >
-              <option value="">All crime patterns</option>
-              {communities.map((c) => <option key={c.community_id} value={c.community_id}>{prettyTheme(c.theme)}</option>)}
-            </select>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="neo-inset flex gap-1 rounded-xl p-1">
+                {[["grid", "Grid", Table2], ["graph", "Network", Share2]].map(([k, label, Icon]) => (
+                  <button key={k} onClick={() => setView(k)}
+                    className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-medium transition-all ${view === k ? "neo text-indigo-600" : "text-slate-500 hover:text-slate-900"}`}>
+                    <Icon size={12} /> {label}
+                  </button>
+                ))}
+              </div>
+              {view === "graph" && (
+                <select
+                  value={community}
+                  onChange={(e) => setCommunity(e.target.value)}
+                  aria-label="Filter graph by crime pattern group"
+                  className="neo-inset rounded-lg bg-transparent px-2.5 py-1.5 text-xs font-medium text-slate-700 outline-none"
+                >
+                  <option value="">All crime patterns</option>
+                  {communities.map((c) => <option key={c.community_id} value={c.community_id}>{prettyTheme(c.theme)}</option>)}
+                </select>
+              )}
+            </div>
           </div>
 
-          {/* Density control — the single biggest readability lever */}
-          <div className="flex flex-wrap items-center gap-2 border-b border-slate-900/8 px-4 py-2">
-            <span className="text-[11px] font-medium text-slate-500">Show links booked together at least</span>
-            <div className="neo-inset flex gap-1 rounded-lg p-1">
-              {[[1000, "1,000×"], [200, "200×"], [50, "50×"], [0, "any"]].map(([w, label]) => (
-                <button key={w} onClick={() => setMinWeight(w)}
-                  className={`rounded-md px-2.5 py-1 text-[11px] font-medium transition-all ${minWeight === w ? "neo text-indigo-600" : "text-slate-500 hover:text-slate-900"}`}>
-                  {label}
-                </button>
-              ))}
-            </div>
-            {net && (
-              <span className="text-[10px] text-slate-400">
-                showing {net.edges.filter((e) => e.weight >= minWeight).length} of {net.edges.length} links
-                {minWeight > 0 && " — weaker links hidden to keep the picture readable"}
+          {/* Grid legend — a colour scale, not a list of IDs */}
+          {view === "grid" && (
+            <div className="flex flex-wrap items-center gap-3 border-b border-slate-900/8 px-4 py-2 text-[11px] text-slate-500">
+              <span className="font-medium">Share of that offence&apos;s FIRs citing the law</span>
+              <span className="flex items-center gap-1.5">
+                0%
+                <span className="h-2.5 w-28 rounded-full border border-slate-900/10" style={{ background: "linear-gradient(90deg,#f8fafc,#eef2ff,#e0e7ff,#c7d2fe,#a5b4fc,#818cf8)" }} />
+                100%
               </span>
-            )}
-          </div>
+              <span className="text-slate-400">
+                rows = offences · columns = laws (short forms — hover any cell for the full legal title)
+              </span>
+            </div>
+          )}
+
+          {/* Graph controls — only meaningful in graph mode */}
+          {view === "graph" && (
+            <div className="flex flex-wrap items-center gap-2 border-b border-slate-900/8 px-4 py-2">
+              <span className="text-[11px] font-medium text-slate-500">Show links booked together at least</span>
+              <div className="neo-inset flex gap-1 rounded-lg p-1">
+                {[[1000, "1,000×"], [200, "200×"], [50, "50×"], [0, "any"]].map(([w, label]) => (
+                  <button key={w} onClick={() => setMinWeight(w)}
+                    className={`rounded-md px-2.5 py-1 text-[11px] font-medium transition-all ${minWeight === w ? "neo text-indigo-600" : "text-slate-500 hover:text-slate-900"}`}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <label className="flex cursor-pointer items-center gap-1.5 text-[11px] text-slate-600">
+                <input type="checkbox" checked={hideHubs} onChange={(e) => setHideHubs(e.target.checked)} />
+                hide IPC 1860 &amp; other catch-all laws
+                <InfoDot text="IPC 1860 appears in 77.8% of all FIRs and links to 292 other entities. It tells you almost nothing about a specific case, but its sheer connectedness pulls every other node into a starburst. Hiding it lets the real structure show." />
+              </label>
+            </div>
+          )}
           <div className="px-2 pt-2">
-            {option
-              ? <ReactECharts
-                  option={option}
-                  style={{ height: 460 }}
-                  notMerge
-                  onEvents={{ click: (p) => { if (p.dataType === "node") setSelected(p.data.name); } }}
-                />
-              : <div className="grid h-[460px] place-items-center text-sm text-slate-500">Loading network…</div>}
+            {view === "grid" ? (
+              gridOption
+                ? <ReactECharts
+                    key="grid"
+                    option={gridOption}
+                    style={{ height: 520, width: "100%" }}
+                    notMerge
+                    onChartReady={chartReady}
+                    onEvents={{ click: (p) => { const c = matrix?.cells?.[p.dataIndex]; if (c) setSelected(c.crime_head); } }}
+                  />
+                : <div className="grid h-[520px] place-items-center text-sm text-slate-500">Loading grid…</div>
+            ) : (
+              option
+                ? <ReactECharts
+                    key="graph"
+                    option={option}
+                    style={{ height: 520, width: "100%" }}
+                    notMerge
+                    onChartReady={chartReady}
+                    onEvents={{ click: (p) => { if (p.dataType === "node") setSelected(p.data.name); } }}
+                  />
+                : <div className="grid h-[520px] place-items-center text-sm text-slate-500">
+                    No connections at this strength — try a lower threshold.
+                  </div>
+            )}
           </div>
         </Reveal>
 
