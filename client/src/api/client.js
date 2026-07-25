@@ -37,6 +37,14 @@ export const fetchHotspots = (year, precision) => {
   return api(`/hotspots${qs ? `?${qs}` : ""}`);
 };
 export const fetchClusters = (limit = 80) => api(`/hotspots/clusters?limit=${limit}`);
+// Real-time-signal hotspots: only crime heads whose classification records night/day.
+export const fetchTimedHotspots = (bucket, year) => {
+  const q = new URLSearchParams();
+  if (bucket) q.set("bucket", bucket);
+  if (year && year !== "all") q.set("year", year);
+  const qs = q.toString();
+  return api(`/hotspots/timed${qs ? `?${qs}` : ""}`);
+};
 export const fetchStations = (district) => api(`/stations${district ? `?district=${encodeURIComponent(district)}` : ""}`);
 export const fetchTimeofday = (district, category) => {
   const q = new URLSearchParams();
@@ -66,6 +74,41 @@ export const fetchAnomalies = ({ district, category, year, limit } = {}) => {
   const qs = q.toString();
   return api(`/anomalies${qs ? `?${qs}` : ""}`);
 };
+
+// --- Phase 6: strategic hub + audit ---
+export const fetchHub = () => api("/hub");
+export const fetchAudit = () => api("/audit");
+export const fetchValidation = () => api("/validation");
+
+// --- Phase 5: entity network + socio-economic ---
+export const fetchNetwork = (community, limit = 250, opts = {}) => {
+  const q = new URLSearchParams({ limit: String(limit) });
+  if (community != null && community !== "") q.set("community", community);
+  if (opts.focus) q.set("focus", opts.focus);
+  if (opts.type) q.set("type", opts.type);
+  return api(`/network/entity?${q.toString()}`);
+};
+export const fetchCommunities = () => api("/network/communities");
+export const fetchRules = (type, limit = 40, q2 = "") => {
+  const q = new URLSearchParams({ limit: String(limit) });
+  if (type) q.set("type", type);
+  if (q2) q.set("q", q2);
+  return api(`/network/rules?${q.toString()}`);
+};
+// Full entity list (all 483) + single-entity deep dive.
+export const fetchEntities = ({ q = "", type = "", community = "", sort = "pagerank", limit = 60, offset = 0 } = {}) => {
+  const p = new URLSearchParams({ sort, limit: String(limit), offset: String(offset) });
+  if (q) p.set("q", q);
+  if (type) p.set("type", type);
+  if (community !== "" && community != null) p.set("community", community);
+  return api(`/network/entities?${p.toString()}`);
+};
+export const fetchEntityDetail = (id) => api(`/network/entity/${encodeURIComponent(id)}`);
+export const fetchSocio = () => api("/socio");
+// Person network — SYNTHETIC demo plane. Callers MUST surface the synthetic banner.
+export const fetchPersonNetwork = () => api("/network/persons");
+export const fetchOffenderProfiles = (limit = 25) => api(`/network/persons/offenders?limit=${limit}`);
+export const fetchLinkage = () => api("/network/linkage");
 
 // --- Phase 4: patterns / MO / outcomes ---
 export const fetchMoClusters = () => api("/patterns/mo-clusters");
