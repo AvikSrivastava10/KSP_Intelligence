@@ -66,6 +66,24 @@ describe("crime_api Phase 2 geospatial (CSV fallback)", () => {
     expect(r.body.result.cells.every((c) => c.geo_precision === "point")).toBe(true);
   });
 
+  test("GET /hotspots/timed -> REAL time+location only, night/day separable", async () => {
+    const r = await request(app).get("/hotspots/timed");
+    expect(r.status).toBe(200);
+    expect(r.body.data_class).toBe("real");
+    expect(r.body.result.total_incidents).toBeGreaterThan(0);
+    // both real buckets present, and ONLY real ones (no criminological-prior buckets)
+    const buckets = Object.keys(r.body.result.by_bucket).sort();
+    expect(buckets).toEqual(["Daytime", "Night"]);
+    expect(r.body.result.coverage_note).toMatch(/2\.6%|assumption as observation/i);
+  });
+
+  test("GET /hotspots/timed?bucket=Night -> filtered to night incidents", async () => {
+    const r = await request(app).get("/hotspots/timed?bucket=Night");
+    expect(r.body.ok).toBe(true);
+    expect(r.body.result.cells.every((c) => c.time_bucket === "Night")).toBe(true);
+    expect(r.body.result.cells.length).toBeGreaterThan(0);
+  });
+
   test("GET /hotspots/clusters -> clusters with deployment notes", async () => {
     const r = await request(app).get("/hotspots/clusters?limit=10");
     expect(r.body.ok).toBe(true);
@@ -226,6 +244,259 @@ describe("crime_api Phase 4 patterns / MO / outcomes (CSV fallback)", () => {
     // no outcome-derived or protected features exposed as drivers
     const feats = d.map((x) => x.feature).join(" ");
     expect(feats).not.toMatch(/arrested|chargesheet|conviction_count|v_male|v_female|v_boy|v_girl/);
+  });
+});
+
+describe("crime_api Phase 5 network + socio-economic (CSV fallback)", () => {
+  test("GET /network/entity -> nodes + edges, no dangling edges", async () => {
+    const r = await request(app).get("/network/entity?limit=120");
+    expect(r.status).toBe(200);
+    expect(r.body.data_class).toBe("real");
+    const { nodes, edges } = r.body.result;
+    expect(nodes.length).toBeGreaterThan(0);
+    expect(nodes.length).toBeLessThanOrEqual(120);
+    expect(edges.length).toBeGreaterThan(0);
+    // every edge endpoint must exist in the returned node set
+    const ids = new Set(nodes.map((n) => n.id));
+    expect(edges.every((e) => ids.has(e.source) && ids.has(e.target))).toBe(true);
+    // entity graph only — never persons
+    expect(new Set(nodes.map((n) => n.node_type))).toEqual(new Set(["crime_head", "act"]));
+    expect(r.body.result.scope).toMatch(/not a person network/i);
+  });
+
+  test("GET /network/entity?community= -> filtered to one community", async () => {
+    const r = await request(app).get("/network/entity?community=0&limit=200");
+    expect(r.body.ok).toBe(true);
+    expect(r.body.result.nodes.every((n) => n.community_id === 0)).toBe(true);
+  });
+
+  test("GET /network/communities -> meaningful modularity + themed clusters", async () => {
+    const r = await request(app).get("/network/communities");
+    expect(r.body.ok).toBe(true);
+    expect(r.body.result.modularity).toBeGreaterThan(0.3); // meaningful structure
+    const c = r.body.result.communities;
+    expect(c.length).toBeGreaterThan(0);
+    expect(c[0].total_cases).toBeGreaterThanOrEqual(c[1].total_cases);
+    expect(c[0].description).toBeTruthy();
+    expect(Array.isArray(c[0].members)).toBe(true);
+  });
+
+  test("GET /network/rules -> lift>1, sorted, both rule types present", async () => {
+    const r = await request(app).get("/network/rules?limit=50");
+    expect(r.body.ok).toBe(true);
+    const rules = r.body.result.rules;
+    expect(rules.length).toBeGreaterThan(0);
+    expect(rules.every((x) => x.lift > 1)).toBe(true);
+    expect(rules[0].lift).toBeGreaterThanOrEqual(rules[1].lift);
+    expect(r.body.result.by_type.co_occurrence).toBeGreaterThan(0);
+    expect(r.body.result.by_type.spatial_affinity).toBeGreaterThan(0);
+    expect(r.body.result.note).toMatch(/not.*people/i);
+  });
+
+  test("GET /network/rules?type=spatial_affinity -> filtered", async () => {
+    const r = await request(app).get("/network/rules?type=spatial_affinity&limit=10");
+    expect(r.body.result.rules.every((x) => x.rule_type === "spatial_affinity")).toBe(true);
+  });
+
+  test("GET /network/entities -> ALL entities browsable, searchable, sortable", async () => {
+    const all = await request(app).get("/network/entities?limit=5");
+    expect(all.body.result.total).toBe(483);           // every entity reachable, not a capped slice
+    expect(all.body.result.entities.length).toBe(5);
+    expect(all.body.result.type_counts.crime_head).toBeGreaterThan(0);
+    expect(all.body.result.type_counts.act).toBeGreaterThan(0);
+    const q = await request(app).get("/network/entities?q=cyber");
+    expect(q.body.result.total).toBeGreaterThan(0);
+    expect(q.body.result.entities.every((e) => /cyber/i.test(e.id))).toBe(true);
+    const typed = await request(app).get("/network/entities?type=crime_head&limit=5");
+    expect(typed.body.result.entities.every((e) => e.node_type === "crime_head")).toBe(true);
+    const sorted = await request(app).get("/network/entities?sort=cases&limit=5");
+    expect(sorted.body.result.entities[0].cases).toBeGreaterThanOrEqual(sorted.body.result.entities[1].cases);
+  });
+
+  test("GET /network/entity/:id -> full neighbours + rules (no truncated edge set)", async () => {
+    const r = await request(app).get("/network/entity/CYBER%20CRIME");
+    expect(r.status).toBe(200);
+    const d = r.body.result;
+    expect(d.cases).toBeGreaterThan(0);
+    expect(d.neighbour_count).toBeGreaterThan(0);
+    expect(d.neighbours[0].weight).toBeGreaterThanOrEqual(d.neighbours[1].weight);
+    // the interpretable number: share of this entity's cases involving the neighbour
+    expect(d.neighbours[0].share_of_entity).toBeGreaterThan(0);
+    expect(d.neighbours[0].share_of_entity).toBeLessThanOrEqual(1);
+    expect(d.rank_by_pagerank).toBeGreaterThan(0);
+    expect(d.community).toBeTruthy();
+    expect(Array.isArray(d.rules)).toBe(true);
+  });
+
+  test("every entity has neighbours (regression: edge CSV was truncated to top 400)", async () => {
+    // 302/483 entities previously had zero edges shipped, so they could not be inspected at all
+    for (const id of ["EXPLOSIVES", "CONSUMER", "DOWRY DEATHS"]) {
+      const r = await request(app).get(`/network/entity/${encodeURIComponent(id)}`);
+      expect(r.status).toBe(200);
+      expect(r.body.result.neighbour_count).toBeGreaterThan(0);
+    }
+  });
+
+  test("GET /network/entity?focus= -> ego network of one entity", async () => {
+    const r = await request(app).get("/network/entity?focus=CYBER%20CRIME");
+    expect(r.body.ok).toBe(true);
+    const ids = r.body.result.nodes.map((n) => n.id);
+    expect(ids).toContain("CYBER CRIME");
+    expect(ids.length).toBeLessThan(60);               // focused, not the whole graph
+  });
+
+  test("GET /network/rules?q= -> searchable rules", async () => {
+    const r = await request(app).get("/network/rules?q=cyber&limit=20");
+    expect(r.body.ok).toBe(true);
+    expect(r.body.result.rules.every((x) => /cyber/i.test(x.antecedent) || /cyber/i.test(x.consequent))).toBe(true);
+  });
+
+  test("GET /socio -> protected attributes segregated + caveated", async () => {
+    const r = await request(app).get("/socio");
+    expect(r.status).toBe(200);
+    expect(r.body.data_class).toBe("real");
+    const { socioeconomic, sensitive } = r.body.result.correlations;
+    expect(socioeconomic.length).toBeGreaterThan(0);
+    expect(sensitive.length).toBeGreaterThan(0);
+    // no protected attribute may leak into the non-sensitive group
+    expect(socioeconomic.every((x) => x.is_protected === false)).toBe(true);
+    expect(sensitive.every((x) => x.is_protected === true)).toBe(true);
+    // every sensitive indicator must ship a caveat
+    expect(sensitive.every((x) => typeof x.caveat === "string" && x.caveat.length > 40)).toBe(true);
+    expect(r.body.result.ethics.not_model_features).toMatch(/risk\.py/i);
+    expect(r.body.result.districts.length).toBe(30);
+  });
+
+  test("GET /socio -> reporting caveat is stated (FIRs != offending)", async () => {
+    const r = await request(app).get("/socio");
+    expect(r.body.result.ethics.reporting_caveat).toMatch(/reported/i);
+    expect(r.body.result.headline).toBeTruthy();
+    expect(r.body.result.protected_attributes_finding).toBeTruthy();
+  });
+});
+
+describe("crime_api ground-truth validation (proof of concept)", () => {
+  test("GET /validation -> every test scored against a baseline, none below it", async () => {
+    const r = await request(app).get("/validation");
+    expect(r.status).toBe(200);
+    expect(r.body.data_class).toBe("real");
+    const t = r.body.result.tests;
+    expect(t.length).toBeGreaterThanOrEqual(3);
+    // every test must name a baseline and carry a verdict
+    expect(t.every((x) => x.baseline_name && x.verdict)).toBe(true);
+    expect(t.every((x) => ["beats_baseline", "matches_baseline", "below_baseline"].includes(x.verdict))).toBe(true);
+    // no shipped model may be BELOW its naive baseline
+    expect(t.filter((x) => x.verdict === "below_baseline").length).toBe(0);
+    expect(r.body.result.tests_at_or_above_baseline).toBe(t.length);
+  });
+
+  test("GET /validation -> forecast genuinely beats persistence on unseen 2024", async () => {
+    const r = await request(app).get("/validation");
+    const t1 = r.body.result.tests.find((x) => x.test.startsWith("T1"));
+    expect(t1).toBeTruthy();
+    expect(t1.verdict).toBe("beats_baseline");
+    expect(t1.value).toBeLessThan(t1.baseline_value); // lower MAPE is better
+    expect(t1.value).toBeLessThan(15);
+  });
+
+  test("GET /validation -> declares its ground-truth sources and exclusions", async () => {
+    const r = await request(app).get("/validation");
+    expect(r.body.result.ground_truth_sources.out_of_source).toMatch(/2025/);
+    expect(r.body.result.exclusions_and_why.march_2024).toMatch(/truncat|cut mid/i);
+    expect(r.body.result.honesty).toMatch(/baseline/i);
+  });
+});
+
+describe("crime_api Phase 6 Strategic Hub + audit", () => {
+  test("GET /hub -> cross-model synthesis, priority sorted, converging districts flagged", async () => {
+    const r = await request(app).get("/hub");
+    expect(r.status).toBe(200);
+    expect(r.body.data_class).toBe("real");
+    const p = r.body.result.priority;
+    expect(p.districts.length).toBeGreaterThan(0);
+    // sorted by priority (signals dominate)
+    expect(p.districts[0].signals).toBeGreaterThanOrEqual(p.districts[1].signals);
+    // converging = flagged by ALL THREE models; must be a usable shortlist, not most of the state
+    expect(p.converging_count).toBeGreaterThan(0);
+    expect(p.converging_count).toBeLessThan(p.total_districts * 0.6);
+    expect(p.signal_breakdown.three).toBe(p.converging_count);
+    expect(p.districts[0].kgis_code).toBeTruthy();
+    expect(r.body.result.forecast.direction).toMatch(/rising|falling|unknown/);
+    expect(r.body.result.deployments.length).toBeGreaterThan(0);
+    expect(r.body.result.deployments[0].deployment_note).toBeTruthy();
+  });
+
+  test("GET /audit -> publishes limitations, fairness exclusions and model cards", async () => {
+    const r = await request(app).get("/audit");
+    expect(r.status).toBe(200);
+    expect(r.body.result.coverage.reconciles_to_source).toBe(true);
+    expect(r.body.result.coverage.total_records).toBe(1674734);
+    // must state what it cannot do
+    expect(r.body.result.limitations.length).toBeGreaterThanOrEqual(4);
+    expect(r.body.result.limitations.some((l) => /person/i.test(l.item))).toBe(true);
+    // fairness exclusions must name the protected attributes
+    const excl = r.body.result.fairness.excluded_from_all_models.join(" ").toLowerCase();
+    expect(excl).toMatch(/caste/);
+    expect(excl).toMatch(/religion/);
+    expect(excl).toMatch(/sex/);
+    // every model carries a metric + data class
+    expect(r.body.result.models.length).toBeGreaterThanOrEqual(10);
+    expect(r.body.result.models.every((m) => m.metric && m.data_class)).toBe(true);
+    expect(r.body.result.models.some((m) => m.data_class === "modeled")).toBe(true);
+    // synthetic data now exists (person demo) — the audit must scope it, not deny it
+    expect(r.body.result.synthetic_data).toMatch(/syn_|synthetic/i);
+    expect(r.body.result.synthetic_data).toMatch(/never trains|never joined/i);
+  });
+});
+
+describe("crime_api person network (SYNTHETIC demo plane)", () => {
+  test("GET /network/persons -> data_class synthetic + banner, ids are SYN-*", async () => {
+    const r = await request(app).get("/network/persons");
+    expect(r.status).toBe(200);
+    // the single most important assertion in this file: this data must NEVER read as real
+    expect(r.body.data_class).toBe("synthetic");
+    expect(r.body.result.banner).toMatch(/synthetic/i);
+    expect(r.body.result.banner).toMatch(/no real individual/i);
+    const { nodes, edges } = r.body.result;
+    expect(nodes.length).toBeGreaterThan(0);
+    expect(nodes.every((n) => n.id.startsWith("SYN-"))).toBe(true);
+    // no dangling edges
+    const ids = new Set(nodes.map((n) => n.id));
+    expect(edges.every((e) => ids.has(e.source) && ids.has(e.target))).toBe(true);
+    // both PS relationship types present: co-accused AND accused<->victim
+    const kinds = new Set(edges.map((e) => e.edge_type));
+    expect(kinds.has("co_accused")).toBe(true);
+    expect(kinds.has("accused_victim")).toBe(true);
+  });
+
+  test("GET /network/persons/offenders -> repeat offenders across jurisdictions", async () => {
+    const r = await request(app).get("/network/persons/offenders?limit=10");
+    expect(r.body.data_class).toBe("synthetic");
+    const p = r.body.result.profiles;
+    expect(p.length).toBeGreaterThan(0);
+    expect(p[0].n_cases).toBeGreaterThanOrEqual(2);          // "repeat" means >1 case
+    expect(r.body.result.cross_jurisdiction).toBeGreaterThan(0);
+    expect(p[0].mo_summary).toBeTruthy();                     // MO across jurisdictions
+    expect(p[0].n_districts).toBeGreaterThanOrEqual(p[1].n_districts);
+  });
+
+  test("GET /network/linkage -> real PPRL engine card, honest about its testbed", async () => {
+    const r = await request(app).get("/network/linkage");
+    expect(r.body.ok).toBe(true);
+    const v = r.body.result.validation;
+    expect(v.pairwise_precision).toBeGreaterThan(0.9);
+    expect(v.pairwise_recall).toBeGreaterThan(0.9);
+    expect(v.ground_truth).toMatch(/synthetic/i);             // must not overclaim
+    expect(r.body.result.deployment).toMatch(/perimeter/i);   // identities never leave KSP
+  });
+
+  test("synthetic plane never leaks into REAL endpoints", async () => {
+    // any real payload containing a SYN- id would mean the planes got mixed
+    for (const url of ["/network/entity", "/districts", "/hub", "/patterns/mo-clusters", "/outcomes"]) {
+      const r = await request(app).get(url);
+      expect(r.body.data_class).not.toBe("synthetic");
+      expect(JSON.stringify(r.body.result)).not.toMatch(/SYN-/);
+    }
   });
 });
 
