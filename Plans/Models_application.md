@@ -112,3 +112,36 @@ Two clearly-separated graphs:
 | A Graph (real + synthetic) | 2, 5 | Network & Link |
 | B Socio-economic | 3 | Socio-Economic |
 | Time-of-day (modeled) | 1 | Hotspot Map |
+
+
+---
+
+## 13. Success metrics & quality targets (honest, per model)
+
+**Principle:** push each model as high as it *legitimately* goes, measured by the metric that actually fits its type — never a blanket "accuracy %". Every model ships a **model card** (metric on held-out data, the baseline it beats, holdout method, leakage note). A panel of honest, correct metrics is more credible — and more defensible at judging — than one inflated number.
+
+**Universal discipline (every supervised / forecast model):**
+- **Proper holdout:** temporal split for forecasting; stratified CV for classification. Never evaluate on training data.
+- **Beat a baseline (report skill/lift):** forecast vs seasonal-naive; classifier vs majority-class; risk vs "same as last period".
+- **Leakage check (mandatory):** confirm no feature encodes the target. **If a metric looks >95% on this data, assume leakage until proven otherwise.**
+- Lift quality *honestly* via feature engineering (lags, rolling means, seasonality, density) + bounded hyperparameter tuning.
+
+| Model | Metric (fits its type) | Ambitious-but-honest target | How to reach it legitimately |
+|---|---|---|---|
+| 1 Hotspot (KDE+DBSCAN) | cluster quality + coverage | stable clusters; top-20 hotspots capture a reported share of incidents; matches known high-crime areas | tune eps/min_samples; face-validity check |
+| 2 Forecasting (Prophet/SARIMA) | backtested MAPE + skill vs seasonal-naive | high-volume series (state, big district×category) **MAPE ≤ ~10%**; medium ≤ ~20%; always beat naive | lags/seasonality; seasonal-naive fallback on sparse series |
+| 3 Risk scoring (LightGBM) | AUC + calibration + lift | **AUC ≥ 0.80**, calibrated, top-decile lift | crime-history + density features only (NO protected proxies); temporal validation |
+| 4 Anomaly (IsolationForest) | recall on injected anomalies @ fixed FPR | **≥ 90% recall** at controlled false-positive rate | inject known anomalies to validate; tune contamination |
+| 5 MO clustering (HDBSCAN) | silhouette/DBCV + noise fraction + interpretability | good separation, low noise, clusters map to recognizable MOs | feature encoding + min_cluster_size tuning |
+| 6 Case-outcome (LightGBM) | **accuracy applies here** | multi-class: macro-F1 + accuracy, strongly beating majority baseline (realistic ~65–85%). **Binary framing** (detected vs undetected) can honestly reach **high-80s–90s AUC** → use as the headline | stratified CV; leakage check; try the binary target |
+| Graph co-occurrence | modularity + recovered links | meaningful communities; rules with **confidence ≥ 0.6, lift > 1** | Louvain + FP-Growth thresholds |
+| Socio-economic | Pearson/Spearman r (+p), R² | report significant correlations honestly (strong *and* weak are both findings) | per-capita normalization; area-level only |
+
+**Legitimately high "headline" numbers for the pitch (all real, verifiable):**
+- **100% row reconciliation** (1,674,734 == source) — data integrity.
+- **99.54% geocoding coverage.**
+- **Aggregate forecast accuracy** (state / large-district monthly) — report the low MAPE as "~9X% accurate", honestly.
+- **Binary case-outcome classifier** (detected vs undetected) — the one genuine high-accuracy model.
+- **Detection & conviction rates** from real `FIR_Stage` outcomes — factual insight.
+
+**Bottom line:** "super good" here = *every model is as strong as its task honestly allows, validated on held-out data, beating a baseline, leakage-free.* That's bulletproof under scrutiny — unlike a fragile 95% that invites the leakage/overfitting/fabrication we've committed to avoiding.
