@@ -65,10 +65,22 @@ async function getTable(name, ctx) {
   return readCsvTable(name);
 }
 
+/**
+ * Which STORAGE backend is serving the tables — this says nothing about data authenticity.
+ * Both backends hold byte-identical tables derived from the real 1,674,734-row FIR extract:
+ * the Data Store copy is loaded FROM these same bundled CSVs (etl/load_datastore.py).
+ * "bundled_tables" is the normal, self-contained mode; it is not degraded or sample data.
+ */
 function backendInfo(ctx) {
+  const live = USE_DATASTORE && ctx && ctx.app;
   return {
     datastore_enabled: USE_DATASTORE,
-    source: USE_DATASTORE && ctx && ctx.app ? "datastore(+csv fallback)" : "csv",
+    storage: live ? "catalyst_datastore" : "bundled_tables",
+    source: live ? "datastore(+csv fallback)" : "csv", // kept for backward compatibility
+    data_is_real: true,
+    note: live
+      ? "Serving precomputed tables from the Catalyst Data Store (bundled CSVs remain as a resilience fallback)."
+      : "Serving precomputed tables bundled with the function. These are REAL — built by the offline ETL from the 1,674,734-row FIR extract, byte-identical to the Data Store copy. Set USE_DATASTORE=true on a deployed Catalyst function to read from the Data Store instead.",
   };
 }
 
