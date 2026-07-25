@@ -6,7 +6,7 @@ import { Layers, MapPin, Flame, Building2, Clock } from "lucide-react";
 import HeatLayer from "../components/HeatLayer.jsx";
 import DataClassBadge from "../components/DataClassBadge.jsx";
 import Reveal from "../components/Reveal.jsx";
-import { fetchDistricts, fetchHotspots, fetchClusters, fetchStations, fetchTimeofday } from "../api/client.js";
+import { fetchDistricts, fetchHotspots, fetchClusters, fetchStations, fetchTimeofday, fetchTimedHotspots } from "../api/client.js";
 
 const asset = (p) => `${import.meta.env.BASE_URL}${p}`;
 const YEARS = ["all", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"];
@@ -38,7 +38,8 @@ function choroScale(values) {
 
 export default function HotspotMap() {
   const [year, setYear] = useState("2023");
-  const [layers, setLayers] = useState({ choropleth: true, heat: true, clusters: true, stations: false });
+  const [layers, setLayers] = useState({ choropleth: true, heat: true, clusters: true, stations: false, timed: false });
+  const [timeBucket, setTimeBucket] = useState("Night");
   const [prec, setPrec] = useState({ point: true, station: true, place: true });
   const [selected, setSelected] = useState(null); // { district, lat, lng }
 
@@ -56,6 +57,12 @@ export default function HotspotMap() {
   const hotspotsQ = useQuery({ queryKey: ["hotspots", year, precParam], queryFn: () => fetchHotspots(year, precParam) });
   const clustersQ = useQuery({ queryKey: ["clusters"], queryFn: () => fetchClusters(80) });
   const stationsQ = useQuery({ queryKey: ["stations", selected?.district || "all"], queryFn: () => fetchStations(selected?.district), enabled: layers.stations });
+  const timedQ = useQuery({
+    queryKey: ["hotspots-timed", timeBucket, year],
+    queryFn: () => fetchTimedHotspots(timeBucket, year),
+    enabled: layers.timed,
+  });
+  const timedCells = timedQ.data?.result?.cells || [];
   const todQ = useQuery({ queryKey: ["timeofday", selected?.district || "state"], queryFn: () => fetchTimeofday(selected?.district) });
 
   const districts = districtsQ.data?.result?.districts || [];
@@ -146,6 +153,24 @@ export default function HotspotMap() {
                 <GeoJSON key={`ch-${selected?.district || "none"}-${layers.heat}`} data={geoQ.data} style={choroStyle} onEachFeature={onEachDistrict} />
               )}
               {layers.heat && heatPoints.length > 0 && <HeatLayer points={heatPoints} />}
+              {layers.timed && timedCells.map((c, i) => (
+                <CircleMarker
+                  key={`t-${c.lat}-${c.lng}-${i}`}
+                  center={[c.lat, c.lng]}
+                  radius={Math.min(3 + Math.sqrt(c.count) * 1.4, 14)}
+                  pathOptions={{
+                    color: c.time_bucket === "Night" ? "#4338ca" : "#f59e0b",
+                    fillColor: c.time_bucket === "Night" ? "#6366f1" : "#fbbf24",
+                    fillOpacity: 0.55, weight: 1,
+                  }}
+                >
+                  <Popup>
+                    <b>{c.time_bucket}</b> · {c.count} incidents
+                    <br />{c.major_head.toLowerCase()}
+                    <br /><span style={{ color: "#059669" }}>observed time — recorded in the FIR classification</span>
+                  </Popup>
+                </CircleMarker>
+              ))}
               {layers.clusters && clusters.map((c) => (
                 <CircleMarker
                   key={`cl-${c.cluster_id}`}
@@ -190,12 +215,37 @@ export default function HotspotMap() {
               { k: "heat", label: "Hotspot heat", icon: Flame },
               { k: "clusters", label: "DBSCAN clusters", icon: MapPin },
               { k: "stations", label: "Police stations", icon: Building2 },
+              { k: "timed", label: "Night vs day (real)", icon: Clock },
             ].map((l) => (
               <label key={l.k} className="flex cursor-pointer items-center gap-2 py-1 text-sm text-slate-600">
                 <input type="checkbox" checked={layers[l.k]} onChange={(e) => setLayers((s) => ({ ...s, [l.k]: e.target.checked }))} />
                 <l.icon size={14} className="text-slate-400" /> {l.label}
               </label>
             ))}
+            {layers.timed && (
+              <div className="mt-2 rounded-xl border border-indigo-500/20 bg-indigo-50/50 p-2.5">
+                <div className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-slate-700">
+                  <Clock size={12} className="text-indigo-500" /> Observed time
+                  <DataClassBadge kind="real" />
+                </div>
+                <div className="neo-inset flex gap-1 rounded-lg p-1">
+                  {["Night", "Daytime"].map((b) => (
+                    <button
+                      key={b}
+                      onClick={() => setTimeBucket(b)}
+                      className={`flex-1 rounded-md px-2 py-1 text-[11px] font-medium transition-all ${timeBucket === b ? "neo text-indigo-600" : "text-slate-500 hover:text-slate-900"}`}
+                    >
+                      {b}
+                    </button>
+                  ))}
+                </div>
+                <p className="mt-1.5 text-[10px] leading-snug text-slate-500">
+                  {timedQ.data ? `${(timedQ.data.result.total_incidents || 0).toLocaleString()} incidents` : "loading…"} —
+                  burglary &amp; house-breaking, where the FIR classification itself records night vs day.
+                  The other 97.4% of FIRs have no observed time and are excluded here.
+                </p>
+              </div>
+            )}
             <div className="mt-3 mb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500">Precision filter (heat)</div>
             {[
               { k: "point", label: "point · real GPS" },
