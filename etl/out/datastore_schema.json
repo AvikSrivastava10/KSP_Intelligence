@@ -539,7 +539,7 @@
         {
           "column_name": "deployment_note",
           "data_type": "varchar",
-          "max_length": 255
+          "max_length": 500
         }
       ]
     },
@@ -791,7 +791,7 @@
         {
           "column_name": "mo_description",
           "data_type": "varchar",
-          "max_length": 255
+          "max_length": 500
         }
       ]
     },
@@ -902,6 +902,655 @@
         {
           "column_name": "importance_multiclass_pct",
           "data_type": "double"
+        }
+      ]
+    },
+    {
+      "table_name": "network_nodes",
+      "data_class": "real",
+      "row_count": 483,
+      "columns": [
+        {
+          "column_name": "node",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "node_type",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "degree",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "weighted_degree",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "cases",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "community_id",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "pagerank",
+          "data_type": "double"
+        },
+        {
+          "column_name": "betweenness",
+          "data_type": "double"
+        },
+        {
+          "column_name": "is_hub",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "top_districts",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "network_edges",
+      "data_class": "real",
+      "row_count": 400,
+      "columns": [
+        {
+          "column_name": "src",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "src_type",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "dst",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "dst_type",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "weight",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "log_weight",
+          "data_type": "double"
+        },
+        {
+          "column_name": "src_community",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "dst_community",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "network_communities",
+      "data_class": "real",
+      "row_count": 9,
+      "columns": [
+        {
+          "column_name": "community_id",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "size",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "n_crime_heads",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "n_acts",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "total_cases",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "top_entity",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "members",
+          "data_type": "varchar",
+          "max_length": 1000
+        },
+        {
+          "column_name": "top_districts",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "theme",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "description",
+          "data_type": "varchar",
+          "max_length": 500
+        }
+      ]
+    },
+    {
+      "table_name": "association_rules",
+      "data_class": "real",
+      "row_count": 278,
+      "columns": [
+        {
+          "column_name": "rule_type",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "antecedent_type",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "antecedent",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "consequent_type",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "consequent",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "cases",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "support",
+          "data_type": "double"
+        },
+        {
+          "column_name": "confidence",
+          "data_type": "double"
+        },
+        {
+          "column_name": "lift",
+          "data_type": "double"
+        },
+        {
+          "column_name": "reading",
+          "data_type": "varchar",
+          "max_length": 500
+        }
+      ]
+    },
+    {
+      "table_name": "socio_correlations",
+      "data_class": "real",
+      "row_count": 6,
+      "columns": [
+        {
+          "column_name": "indicator",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "label",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "group",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "is_protected",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "n",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "pearson_r",
+          "data_type": "double"
+        },
+        {
+          "column_name": "p_value",
+          "data_type": "double"
+        },
+        {
+          "column_name": "spearman_r",
+          "data_type": "double"
+        },
+        {
+          "column_name": "spearman_p",
+          "data_type": "double"
+        },
+        {
+          "column_name": "significant",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "strength",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "direction",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "partial_r_ctrl_literacy",
+          "data_type": "double"
+        },
+        {
+          "column_name": "note",
+          "data_type": "varchar",
+          "max_length": 500
+        },
+        {
+          "column_name": "caveat",
+          "data_type": "varchar",
+          "max_length": 1000
+        }
+      ]
+    },
+    {
+      "table_name": "agg_hotspots_timed",
+      "data_class": "real",
+      "row_count": 11459,
+      "columns": [
+        {
+          "column_name": "lat",
+          "data_type": "double"
+        },
+        {
+          "column_name": "lng",
+          "data_type": "double"
+        },
+        {
+          "column_name": "time_bucket",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "major_head",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "year",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "count",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "validation_results",
+      "data_class": "real",
+      "row_count": 3,
+      "columns": [
+        {
+          "column_name": "test",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "what_it_proves",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "metric",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "value",
+          "data_type": "double"
+        },
+        {
+          "column_name": "unit",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "baseline_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "baseline_value",
+          "data_type": "double"
+        },
+        {
+          "column_name": "verdict",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "extra",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "n",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "socio_districts",
+      "data_class": "real",
+      "row_count": 30,
+      "columns": [
+        {
+          "column_name": "census_code_2011",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "district",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "district_2011_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "population_2011",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "crimes_per_100k",
+          "data_type": "double"
+        },
+        {
+          "column_name": "total_crimes_all_years",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "literacy_rate",
+          "data_type": "double"
+        },
+        {
+          "column_name": "urban_share",
+          "data_type": "double"
+        },
+        {
+          "column_name": "sc_share",
+          "data_type": "double"
+        },
+        {
+          "column_name": "st_share",
+          "data_type": "double"
+        },
+        {
+          "column_name": "sex_ratio_f_per_1000m",
+          "data_type": "double"
+        }
+      ]
+    },
+    {
+      "table_name": "syn_persons",
+      "data_class": "real",
+      "row_count": 3861,
+      "columns": [
+        {
+          "column_name": "person_id",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "father_name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "gender",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "age",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "home_district",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "is_repeat_offender",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "n_cases",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "syn_cases",
+      "data_class": "real",
+      "row_count": 1500,
+      "columns": [
+        {
+          "column_name": "case_id",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "district",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "year",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "crime_head",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "syn_person_case",
+      "data_class": "real",
+      "row_count": 4590,
+      "columns": [
+        {
+          "column_name": "case_id",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "person_id",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "role",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "name_as_recorded",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "father_name_as_recorded",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "age_as_recorded",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "gender",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "district",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "year",
+          "data_type": "bigint"
+        }
+      ]
+    },
+    {
+      "table_name": "syn_network_edges",
+      "data_class": "real",
+      "row_count": 5164,
+      "columns": [
+        {
+          "column_name": "src",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "dst",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "edge_type",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "case_id",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "syn_offender_profiles",
+      "data_class": "real",
+      "row_count": 150,
+      "columns": [
+        {
+          "column_name": "person_id",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "name",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "gender",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "age",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "n_cases",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "districts",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "n_districts",
+          "data_type": "bigint"
+        },
+        {
+          "column_name": "mo_summary",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "case_ids",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "years",
+          "data_type": "varchar",
+          "max_length": 255
+        }
+      ]
+    },
+    {
+      "table_name": "syn_linked_persons",
+      "data_class": "real",
+      "row_count": 4590,
+      "columns": [
+        {
+          "column_name": "case_id",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "person_token",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "role",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "district",
+          "data_type": "varchar",
+          "max_length": 255
+        },
+        {
+          "column_name": "year",
+          "data_type": "bigint"
         }
       ]
     }

@@ -101,9 +101,77 @@ SCHEMA = {
                              ("conviction_rate", D)],
     "outcome_drivers": [("feature", V), ("importance_detection_pct", D),
                         ("importance_multiclass_pct", D)],
+    # Phase 5 — entity network (Module A) + socio-economic correlation (Module B)
+    "network_nodes": [("node", V), ("node_type", V), ("degree", B), ("weighted_degree", B),
+                      ("cases", B), ("community_id", B), ("pagerank", D), ("betweenness", D),
+                      ("is_hub", V), ("top_districts", V)],
+    "network_edges": [("src", V), ("src_type", V), ("dst", V), ("dst_type", V),
+                      ("weight", B), ("log_weight", D), ("src_community", B), ("dst_community", B)],
+    "network_communities": [("community_id", B), ("size", B), ("n_crime_heads", B), ("n_acts", B),
+                            ("total_cases", B), ("top_entity", V), ("members", V),
+                            ("top_districts", V), ("theme", V), ("description", V)],
+    "association_rules": [("rule_type", V), ("antecedent_type", V), ("antecedent", V),
+                          ("consequent_type", V), ("consequent", V), ("cases", B), ("support", D),
+                          ("confidence", D), ("lift", D), ("reading", V)],
+    "socio_correlations": [("indicator", V), ("label", V), ("group", V), ("is_protected", V),
+                           ("n", B), ("pearson_r", D), ("p_value", D), ("spearman_r", D),
+                           ("spearman_p", D), ("significant", V), ("strength", V),
+                           ("direction", V), ("partial_r_ctrl_literacy", D), ("note", V),
+                           ("caveat", V)],
+    "agg_hotspots_timed": [("lat", D), ("lng", D), ("time_bucket", V), ("major_head", V),
+                           ("year", B), ("count", B)],
+    "validation_results": [("test", V), ("what_it_proves", V), ("metric", V), ("value", D),
+                           ("unit", V), ("baseline_name", V), ("baseline_value", D),
+                           ("verdict", V), ("extra", V), ("n", B)],
+    "socio_districts": [("census_code_2011", V), ("district", V), ("district_2011_name", V),
+                        ("population_2011", B),
+                        ("crimes_per_100k", D), ("total_crimes_all_years", B),
+                        ("literacy_rate", D), ("urban_share", D), ("sc_share", D),
+                        ("st_share", D), ("sex_ratio_f_per_1000m", D)],
+    # Person network — SYNTHETIC demo plane (syn_*) + the PPRL linkage engine's output.
+    # Kept in the same store but namespaced, and every API payload built from these is
+    # data_class="synthetic". They must never be joined to a real table.
+    "syn_persons": [("person_id", V), ("name", V), ("father_name", V), ("gender", V),
+                    ("age", B), ("home_district", V), ("is_repeat_offender", V), ("n_cases", B)],
+    "syn_cases": [("case_id", V), ("district", V), ("year", B), ("crime_head", V)],
+    "syn_person_case": [("case_id", V), ("person_id", V), ("role", V), ("name_as_recorded", V),
+                        ("father_name_as_recorded", V), ("age_as_recorded", B), ("gender", V),
+                        ("district", V), ("year", B)],
+    "syn_network_edges": [("src", V), ("dst", V), ("edge_type", V), ("case_id", V)],
+    "syn_offender_profiles": [("person_id", V), ("name", V), ("gender", V), ("age", B),
+                              ("n_cases", B), ("districts", V), ("n_districts", B),
+                              ("mo_summary", V), ("case_ids", V), ("years", V)],
+    "syn_linked_persons": [("case_id", V), ("person_token", V), ("role", V), ("district", V),
+                           ("year", B)],
 }
-VARCHAR_MAX = 255  # every string column here is well under 255 chars
+VARCHAR_MIN = 255      # floor: never declare a column narrower than this
+VARCHAR_BUCKETS = (255, 500, 1000, 2000)   # round the measured max up to one of these
+VARCHAR_HEADROOM = 1.5  # allow for the text growing when a model is re-run
 MODELED = {"agg_timeofday"}
+
+
+def catalystrc():
+    """Read the project/env linked by `catalyst init` (repo-root .catalystrc), if present.
+
+    Lets --load pick up CATALYST_PROJECT_ID / CATALYST_ENVIRONMENT automatically so only the
+    OAuth secrets have to be supplied by the user. Never contains secrets itself.
+    """
+    p = os.path.join(paths.REPO_ROOT, ".catalystrc")
+    if not os.path.exists(p):
+        return {}
+    try:
+        with open(p, encoding="utf-8") as f:
+            rc = json.load(f)
+        active = rc.get("actives", {}).get("project") or rc.get("defaults", {}).get("project")
+        proj = next((x for x in rc.get("projects", []) if x.get("idx") == active), None)
+        if not proj:
+            return {}
+        envs = proj.get("env", [])
+        env_name = envs[0].get("name") if envs else None
+        return {"project_id": str(proj.get("id") or ""), "project_name": proj.get("name"),
+                "environment": env_name, "domain_hint": (proj.get("domain") or {}).get("name")}
+    except (ValueError, KeyError, TypeError):
+        return {}
 
 
 def csv_path(table):
@@ -138,16 +206,43 @@ def coerce(row, cols):
 
 
 # ----------------------------- actions --------------------------------------
+def measure_varchar(table, cols):
+    """Longest actual value per varchar column -> a right-sized max_length.
+
+    Some generated text (plain-language rule readings, ethics caveats) exceeds 255 chars, which
+    a flat varchar(255) would silently truncate on load. Measure, add headroom, round to a bucket.
+    """
+    widths = {}
+    p = csv_path(table)
+    if not os.path.exists(p):
+        return {c: VARCHAR_MIN for c, t in cols if t == V}
+    longest = {c: 0 for c, t in cols if t == V}
+    if longest:
+        with open(p, encoding="utf-8", newline="") as f:
+            for row in csv.DictReader(f):
+                for c in longest:
+                    v = row.get(c) or ""
+                    if len(v) > longest[c]:
+                        longest[c] = len(v)
+    for c, ln in longest.items():
+        need = int(ln * VARCHAR_HEADROOM)
+        widths[c] = next((b for b in VARCHAR_BUCKETS if b >= max(need, VARCHAR_MIN)),
+                         VARCHAR_BUCKETS[-1])
+    return widths
+
+
 def emit_schema():
     tables = []
     for table, cols in SCHEMA.items():
         n = sum(1 for _ in open(csv_path(table), encoding="utf-8")) - 1 if os.path.exists(csv_path(table)) else None
+        widths = measure_varchar(table, cols)
         tables.append({
             "table_name": table,
             "data_class": "modeled" if table in MODELED else "real",
             "row_count": n,
             "columns": [
-                {"column_name": c, "data_type": t, **({"max_length": VARCHAR_MAX} if t == V else {})}
+                {"column_name": c, "data_type": t,
+                 **({"max_length": widths.get(c, VARCHAR_MIN)} if t == V else {})}
                 for c, t in cols
             ],
         })
@@ -216,19 +311,27 @@ def _access_token():
 
 
 def load(only=None, batch=100):
-    missing = [k for k in ("CATALYST_PROJECT_ID", "CATALYST_API_DOMAIN", "ZOHO_ACCOUNTS_URL",
-                           "ZOHO_CLIENT_ID", "ZOHO_CLIENT_SECRET", "ZOHO_REFRESH_TOKEN")
+    rc = catalystrc()
+    if rc.get("project_id"):
+        print(f"[load] .catalystrc: project '{rc.get('project_name')}' ({rc['project_id']}) "
+              f"env={rc.get('environment')}")
+    # project id + environment can come from .catalystrc; the SECRETS must come from the env.
+    pid = os.environ.get("CATALYST_PROJECT_ID") or rc.get("project_id")
+    env = os.environ.get("CATALYST_ENVIRONMENT") or rc.get("environment") or "Development"
+    missing = [k for k in ("CATALYST_API_DOMAIN", "ZOHO_ACCOUNTS_URL", "ZOHO_CLIENT_ID",
+                           "ZOHO_CLIENT_SECRET", "ZOHO_REFRESH_TOKEN")
                if not os.environ.get(k)]
+    if not pid:
+        missing.insert(0, "CATALYST_PROJECT_ID (and no .catalystrc found)")
     if missing:
         print("!! --load needs Catalyst/Zoho credentials. Missing env vars:")
         for m in missing:
             print(f"     {m}")
-        print("\n   See the module docstring. The app still works on the bundled CSV fallback.")
+        print("\n   Set them yourself (never paste secrets into shared logs/chats); see the module")
+        print("   docstring. The app keeps serving the same REAL tables from the bundled CSVs meanwhile.")
         return 2
 
-    pid = os.environ["CATALYST_PROJECT_ID"]
     domain = os.environ["CATALYST_API_DOMAIN"].rstrip("/")
-    env = os.environ.get("CATALYST_ENVIRONMENT", "Development")
     base = f"{domain}/baas/v1/project/{pid}"
     token = _access_token()
     print(f"[load] project={pid} env={env} domain={domain}")
