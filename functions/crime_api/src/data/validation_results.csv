@@ -1,0 +1,4 @@
+test,what_it_proves,metric,value,unit,baseline_name,baseline_value,verdict,extra,n
+T1 forecast vs real 2024 (out-of-sample),The 12-month projection matches reality on months the model never saw.,"MAPE (statewide, Jan-Feb 2024)",8.18,%,"persistence (same month, 2023)",12.4,beats_baseline,2/2 months inside the 95% CI,2
+T2 risk ranking vs real 2024 (out-of-sample),Districts flagged high-risk really did record the most crime.,Spearman rank correlation,0.971,rho,prior-year ranking (2023),0.977,matches_baseline,top-5 overlap 5/5,31
+T3 cross-source vs independent 2025 data,District risk signal holds on a DIFFERENT dataset and a LATER year.,Spearman rank correlation,0.971,rho,2023 FIR ranking,0.978,matches_baseline,top-5 overlap 5/5 (rank-only: differing counting rules),31

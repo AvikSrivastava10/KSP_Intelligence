@@ -1,0 +1,17 @@
+{
+  "generated_at_utc": "2026-07-25T09:08:56.162567+00:00",
+  "data_class": "real",
+  "method": "Pearson + Spearman correlation, two-sided p-values; partial correlation controlling for literacy as a confounder check.",
+  "n_districts": 30,
+  "target": "crimes_per_100k",
+  "census_vintage": "2011 (crime 2016-2024) \u2014 population base is dated; rates are indicative",
+  "alpha": 0.05,
+  "significant_findings": 1,
+  "ethics": {
+    "area_level_only": "Ecological correlations between district aggregates. They say nothing about individuals (ecological fallacy).",
+    "not_model_features": "No indicator here feeds any predictive model; ml/risk.py explicitly excludes caste/sex indicators.",
+    "protected_attributes_segregated": "sc_share / st_share / sex_ratio are grouped as 'sensitive', flagged is_protected, and carry a mandatory caveat. Reported for transparency and disparity audit, never as a targeting signal.",
+    "reporting_caveat": "FIR counts measure REPORTED crime, not true offending. Districts with better police access and higher literacy report more, which inflates their rate."
+  },
+  "interpretation": "Correlation is not causation. With n=30 only moderate+ effects are detectable; |r| < 0.3 is reported as negligible."
+}

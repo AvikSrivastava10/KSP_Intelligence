@@ -1,0 +1,484 @@
+node,node_type,degree,weighted_degree,cases,community_id,pagerank,betweenness,is_hub,top_districts
+IPC 1860,act,292,1679718,1302525,2,0.270801,0.676959,True,
+"INDIAN MOTOR VEHICLES ACT, 1988",act,56,372581,182351,0,0.04904,0.058104,True,
+MOTOR VEHICLE ACCIDENTS NON-FATAL,crime_head,19,354296,242976,0,0.046884,0.005842,True,Bengaluru City; Hassan; Tumakuru
+Karnataka State Local Act,crime_head,115,133130,90742,0,0.035485,0.148495,True,Bengaluru City; Chikkaballapura; Mysuru
+SCHEDULED CASTE AND THE SCHEDULED TRIBES,crime_head,113,31327,14196,1,0.030219,0.243859,True,Bengaluru City; Hassan; Bengaluru Rural
+THEFT,crime_head,36,168626,159021,0,0.024268,0.01003,True,Bengaluru City; Bengaluru Rural; Karnataka Railways
+POCSO,crime_head,92,45092,19854,3,0.02418,0.160381,True,Bengaluru City; Shivamogga; Chikkaballapura
+CASES OF HURT,crime_head,15,126603,126211,5,0.017813,0.00037,True,Bengaluru City; Hassan; Mandya
+CYBER CRIME,crime_head,12,134486,78502,2,0.017811,0.018354,True,Bengaluru City; Bengaluru Rural; Hubballi-Dharwad City
+MOTOR VEHICLE ACCIDENTS FATAL,crime_head,13,133471,83040,0,0.017781,0.005514,True,Bengaluru City; Belagavi; Tumakuru
+MISSING PERSON,crime_head,1,124811,124811,2,0.017413,0.0,True,Bengaluru City; Bengaluru Rural; Shivamogga
+"KARNATAKA EXCISE ACT, 1965",act,16,65204,61173,4,0.014799,0.002119,True,
+NARCOTIC DRUGS & PSHYCOTROPIC SUBSTANCES,crime_head,23,29540,27856,7,0.013494,0.041464,True,Bengaluru City; Mangaluru City; Udupi
+PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,41,39492,17252,3,0.01332,0.012012,True,
+INFORMATION TECHNOLOGY ACT 2000,act,23,89295,53256,2,0.011395,0.008418,True,
+"SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,44,19407,8928,1,0.011283,0.014643,False,
+"KARNATAKA POLICE ACT, 1963",act,39,114780,105510,4,0.009986,0.004323,False,
+KARNATAKA POLICE ACT 1963,crime_head,17,112442,107576,4,0.009933,0.011069,False,Belagavi; Vijayapura; Ballari
+CONSUMER,crime_head,26,6848,3717,6,0.009396,0.049182,False,Ballari; Bengaluru City; Bidar
+CHEATING,crime_head,40,50799,48675,2,0.009167,0.010174,False,Bengaluru City; Bengaluru Rural; Mysuru City
+MMDR (MINES AND MINERALS REGULATION OF DEVELOPMENT) ACT 1957,act,21,47659,17730,0,0.008795,0.001945,False,
+"NARCOTIC DRUGS AND PSYCHOTROPIC SUBSTANCES ACT, 1985",act,9,20309,19321,7,0.008559,0.00491,False,
+PUBLIC SAFETY,crime_head,13,48189,42380,4,0.007357,0.002105,False,Bengaluru City; Chitradurga; Mangaluru City
+The SC & ST (Prevention of Atrocities) Amendment Act 2015,act,31,11280,5106,1,0.006986,0.009056,False,
+"CODE OF CRIMINAL PROCEDURE, 1973",act,22,144483,140345,0,0.006866,0.002692,False,
+INFORMATION TECHNOLOGY ACT 2008,act,21,48852,26914,2,0.006607,0.006645,False,
+CrPC,crime_head,7,139059,137939,0,0.006461,0.00246,False,Bengaluru City; Belagavi; Hassan
+"ESSENTIAL COMMODITIES ACT, 1955",act,14,6213,3525,6,0.006246,0.003131,False,
+MOLESTATION,crime_head,10,43139,42856,2,0.006236,8.1e-05,False,Bengaluru City; Shivamogga; Mandya
+KARNATAKA MINOR MINERAL CONSISTENT RULE 1994,act,19,32185,10323,0,0.006001,0.001744,False,
+NEGLIGENT ACT,crime_head,11,38142,22659,0,0.005553,0.005527,False,Bengaluru City; Raichur; Tumakuru
+RIOTS,crime_head,13,37333,36695,5,0.005535,0.000114,False,Belagavi; Haveri; Shivamogga
+"DOWRY PROHIBITION ACT, 1961",act,18,37437,18624,2,0.00547,0.003584,False,
+BURGLARY - NIGHT,crime_head,3,35794,35729,2,0.00521,0.0,False,Bengaluru City; Bengaluru Rural; Shivamogga
+"NARCOTIC DRUGS & PSYCHOTROPIC SUBSTANCES ACT, 1985",act,9,10459,9245,7,0.0047,0.003045,False,
+CRIMES RELATED TO WOMEN,crime_head,6,28770,14345,2,0.004128,1.5e-05,False,Bengaluru City; Mysuru City; Tumakuru
+KIDNAPPING AND ABDUCTION,crime_head,8,24341,23922,3,0.003717,6.1e-05,False,Bengaluru City; Bengaluru Rural; Mandya
+"PREVENTION OF CRUELTY TO ANIMALS ACT, 1960",act,28,10550,3673,0,0.003674,0.00317,False,
+ATTEMPT TO MURDER,crime_head,16,21970,20816,5,0.00353,0.000413,False,Bengaluru City; Belagavi; Hassan
+CRUELTY BY HUSBAND,crime_head,5,21833,19260,2,0.003304,1.1e-05,False,Bengaluru City; Belagavi; Shivamogga
+"COTPA, CIGARETTES AND OTHER TOBACCO PRODUCTS",crime_head,11,4777,3329,4,0.003288,0.013841,False,Bengaluru City; Bagalkote; Shivamogga
+Scheduled Castes and Scheduled Tribes (Prevention of Atrocities) Amendment Ordinance 2014,act,15,4290,1874,1,0.002902,0.002611,False,
+CRIMINAL INTIMIDATION,crime_head,13,18125,17885,5,0.00286,0.000147,False,Bengaluru City; Shivamogga; Mysuru
+Prohibition of Child Marriage Act 2006,act,12,7332,2773,3,0.002637,0.001553,False,
+ROBBERY,crime_head,8,15212,15000,5,0.002427,2e-05,False,Bengaluru City; Bengaluru Rural; Mysuru City
+MURDER,crime_head,16,11812,10764,1,0.002358,0.000231,False,Bengaluru City; Belagavi; Vijayapura
+KARNTAKA PREVENTION OF COW SLANGHTER & CATTLE PREVENTION ACT-1964,act,18,7664,2835,0,0.002276,0.000495,False,
+CRIMINAL TRESPASS,crime_head,7,14180,14017,5,0.002276,1.2e-05,False,Bengaluru City; Bengaluru Rural; Shivamogga
+ANIMAL,crime_head,26,5058,2096,0,0.002228,0.003468,False,Bengaluru City; Mandya; Shivamogga
+"COTPA, Cigarettes and Other Tobacco Products,Act 2003",act,7,3980,2767,4,0.002198,0.001507,False,
+OFFENCES AGAINST PUBLIC SERVANTS (Public servant is a victim),crime_head,27,11283,9964,5,0.002088,0.000808,False,Bengaluru City; Shivamogga; Mandya
+KARNATAKA ESSENTIAL COMMODITIES (PUBLIC DISTRIBUTION SYSTEM) PUBLIC CONTROL ORDER 2016,act,7,1604,589,6,0.00194,0.002136,False,
+"THE DISASTER MANAGEMENT ACT, 2005",act,14,9811,4468,4,0.0019,0.0008,False,
+CHILDREN ACT,crime_head,12,3041,2106,3,0.001827,0.000288,False,Bengaluru City; Ramanagara; Bagalkote
+(n) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,11,4981,1892,3,0.001824,0.001155,False,
+"FOREIGNERS ACT, 1946",act,12,1846,880,7,0.001795,0.002349,False,
+EXPLOSIVES,crime_head,10,1823,871,8,0.00175,0.003317,False,Mandya; Bengaluru Rural; Bengaluru City
+"ARMS ACT, 1959",act,27,4427,2541,5,0.001701,0.01355,False,
+"The Scheduled Castes and the Scheduled Tribes (Prevention of Atrocities) Amendment Bill, 2015",act,13,2521,1150,1,0.001624,0.001531,False,
+"THE KARNATAKA EPIDEMIC DISEASES ACT, 2020",act,10,7855,3921,4,0.001588,0.000204,False,
+COPY RIGHT ACT 1957,crime_head,4,1895,1407,2,0.001539,0.005405,False,Bengaluru City; Mysuru City; Ramanagara
+CHILD MARRIAGE RESTRAINT ACT,act,10,3913,1512,3,0.00153,0.00118,False,
+"COPYRIGHT ACT, 1957",act,5,2087,1512,2,0.001454,0.000112,False,
+BURGLARY - DAY,crime_head,2,8253,8245,2,0.00144,0.0,False,Bengaluru City; Bengaluru Rural; Tumakuru
+Karnataka Essential Commodities (Storage Accounts Maintaining Value Notification) Order 1981,act,6,993,310,6,0.001343,0.000943,False,
+FOREIGNER,crime_head,6,747,421,7,0.001278,0.006747,False,Bengaluru City; Mysuru City; Bengaluru Rural
+"EXPLOSIVE ACT, 1884",act,6,1141,564,8,0.001267,0.002168,False,
+"PASSPORTS ACT, 1967",act,11,1108,492,7,0.001262,0.000295,False,
+DACOITY,crime_head,7,5795,5276,5,0.001218,3.7e-05,False,Bengaluru City; Bengaluru Rural; Ramanagara
+"IMMORAL TRAFFIC PREVENTION ACT, 1956",act,5,3512,2213,2,0.001201,0.000406,False,
+SUICIDE,crime_head,7,6237,6074,2,0.00119,3.5e-05,False,Bengaluru City; Mandya; Belagavi
+ANTIQUES (CULTURAL PROPERTY),crime_head,2,54,53,2,0.001174,0.005417,False,Vijayanagara; Vijayapura; Bagalkote
+"(r),3(1)(s) IPC 1860",act,5,1476,612,1,0.001161,0.0,False,
+RAPE,crime_head,13,4683,4062,1,0.001132,3.7e-05,False,Bengaluru City; Belagavi; Raichur
+KARNATAKA OPEN PLACE DISFIGUREMENT ACT 1951 & 1981,act,10,3552,2766,4,0.001132,0.000263,False,
+"PDS CONTROLING ORDER, 1992",act,3,859,403,6,0.00112,0.0,False,
+MISCHIEF,crime_head,12,4364,3570,5,0.001106,0.000118,False,Bengaluru City; Mandya; Mangaluru City
+IMMORAL TRAFFIC,crime_head,3,3250,2085,2,0.001092,5e-06,False,Bengaluru City; Mysuru City; Mangaluru City
+CRIMINAL BREACH OF TRUST,crime_head,7,3944,3722,2,0.001063,3.6e-05,False,Bengaluru City; Bengaluru Rural; Uttara Kannada
+"ANCIENT MONUMENT & ARCH.SITES & REMAINS ACT,1958",act,1,38,46,2,0.001013,0.0,False,
+PREVENTION OF DAMAGE TO PUBLIC PROPERTY ACT 1984,crime_head,10,2462,1217,5,0.000971,7e-05,False,Bengaluru City; Belagavi; Hassan
+ARMS ACT 1959,crime_head,5,2192,1651,5,0.000943,9e-06,False,Bengaluru City; Chikkamagaluru; Uttara Kannada
+KARNATAKA FOREST ACT 1963,act,7,2316,1118,0,0.000938,0.000202,False,
+REPRESENTATION OF PEOPLE ACT 1951 & 1988,crime_head,5,2106,1276,4,0.000926,9e-06,False,Bengaluru City; Mysuru; Belagavi
+ELECTION,crime_head,8,3311,2648,4,0.000925,2.7e-05,False,Bengaluru City; Chikkaballapura; Bagalkote
+THE KARNATAKA PREVENTION OF SLAUGHTER AND PRESERVATION OF CATTLE ACT-2020,act,11,2291,1111,0,0.00092,9.2e-05,False,
+"Juvenile Justice (Care and Protection of Children) Act, 2015",act,15,1691,888,3,0.000894,0.006765,False,
+"KARNATAKA POLICE (AMENDMENT) ACT, 2021",act,4,5621,5418,4,0.000866,0.001871,False,
+Disobedience to Order Promulgated by PublicServan,crime_head,12,3756,2713,4,0.000864,6.1e-05,False,Bengaluru City; Vijayapura; Mandya
+UNLAWFUL ACTIVITIES(Prevention)ACT 1967,crime_head,2,31,17,2,0.000856,0.005417,False,Bengaluru City; Chikkamagaluru; Mangaluru City
+LIQUIFIED PETROLEUM GAS SUPPLY & CONTROL ORDER 2000,act,4,681,315,6,0.000823,3.7e-05,False,
+Transportation of Animal Act 1978,act,11,2004,432,0,0.000822,2.1e-05,False,
+THE KARNATAKA PREVENTION OF SLAUGHTER AND PRESERVATION OF CATTLE ORDINANCE-2020,act,12,1971,867,0,0.000814,8.1e-05,False,
+"REPRESENTATION OF PEOPLE ACT, 1950,1951,1989",act,7,1998,1151,4,0.000803,0.000127,False,
+KARNATAKA LAND REVENUE ACT 1964,act,9,2842,1135,0,0.0008,0.00026,False,
+"PREVENTION OF DAMAGE TO PUBLIC PROPERTY ACT, 1984",act,16,2456,1181,5,0.000794,0.000595,False,
+WRONGFUL RESTRAINT/CONFINEMENT,crime_head,2,3478,3469,2,0.000789,0.0,False,Mandya; Bengaluru City; Raichur
+FORGERY,crime_head,5,3372,3317,2,0.000786,1e-05,False,Bengaluru City; Belagavi; Bengaluru Rural
+KARNATAKA ESSENTIAL COMMODITIES( PUBLIC DISTRIBUTION SYSTEM) PUBLIC CONTROL ORDER 1992,act,5,549,270,6,0.000785,0.000701,False,
+Attempting to commit offences,crime_head,2,1514,1505,2,0.000784,0.005417,False,Tumakuru; Uttara Kannada; Bengaluru Rural
+"INDIAN ARMS ACT, 1959",act,18,2097,1262,5,0.000774,0.007255,False,
+"EXPLOSIVE SUBSTANCES ACT, 1908",act,5,771,378,8,0.00077,1.3e-05,False,
+AFFRAY,crime_head,2,3207,3191,2,0.000749,0.0,False,Bengaluru City; Mysuru; Hubballi-Dharwad City
+DEATHS DUE TO RASHNESS/NEGLIGENCE,crime_head,3,3154,2976,0,0.000746,0.0,False,Bengaluru City; Shivamogga; Tumakuru
+"THE PROHIBITION OF CHILD MARRIAGE (KARNATAKA AMENDMENT) ACT, 2016",act,6,1351,504,3,0.000725,6.4e-05,False,
+"THE CENTRAL MOTOR VEHICLES RULES, 1989",act,7,3366,1147,0,0.000719,0.000269,False,
+"KARNATAKA PROHIBITION OF CHARGING EXORBITANT INTEREST ACT, 2004",act,6,1707,742,2,0.000717,0.004733,False,
+ARSON,crime_head,5,2705,2550,5,0.000705,3e-06,False,Bengaluru City; Hassan; Shivamogga
+PASSPORT ACT,crime_head,5,471,246,7,0.000702,1e-05,False,Bengaluru City; Mangaluru City; Shivamogga
+"Cigarettes and Other Tobacco Products (Prohibition of Advertisement and Regulation of Trade and Commerce, Production,Supply and Distribution) Rules - 2004",act,5,839,607,4,0.000689,8e-06,False,
+"MOTOR VEHICLE ACT, 1954",act,12,1438,532,0,0.00068,0.000284,False,
+DOWRY DEATHS,crime_head,3,2668,1484,2,0.000666,0.0,False,Bengaluru City; Bengaluru Rural; Hassan
+"BONDED LABOUR SYSTEM (ABOLITION) ACT, 1976",act,4,235,155,2,0.000664,0.000508,False,
+"PREV. OF DAMAGE TO PUBLIC PROPERTY ACT, 1984",act,15,1825,861,5,0.000658,0.000493,False,
+The Central Motor Vehicle Rules 2015,act,13,1563,374,0,0.000656,0.00022,False,
+(r)(s) IPC 1860,act,4,609,245,1,0.000656,0.0,False,
+"(i),8,4 ESSENTIAL COMMODITIES ACT, 1955",act,4,346,103,6,0.000655,0.0,False,
+KARNATAKA MONEY LENDERS ACT 1961,act,7,1424,579,2,0.000644,0.000299,False,
+"(r),3(1)(s),3(2)(va) IPC 1860",act,4,605,235,1,0.000642,0.0,False,
+"UNLAWFUL ACTIVITIES (PREVENTION) ACT, 1967",act,1,14,25,2,0.000639,0.0,False,
+"PREVENTION OF DESTRUCTION AND LOSS OF PROPERTY ACT, 1981",act,16,1823,891,5,0.000633,0.0008,False,
+"RAILWAYS ACT, 1989",act,5,301,185,5,0.000615,2.8e-05,False,
+(10) IPC 1860,act,3,569,229,1,0.000614,0.0,False,
+BONDED LABOUR SYSTEM,crime_head,3,190,117,2,0.00061,5e-06,False,Mysuru; Bengaluru City; Bengaluru Rural
+"(r),3(1)(s),3(2)(v-a) IPC 1860",act,3,540,218,1,0.000606,0.0,False,
+(V) IPC 1860,act,9,717,255,1,0.000604,0.000961,False,
+"REPRESENTATION OF PEOPLE ACT, 1951 & 1988",act,4,1130,705,4,0.000604,8.2e-05,False,
+KARNATAKA PREVENTION OF DISTRUCTION & LOSS OF PROPERTY ACT 1981,act,15,1798,928,5,0.000601,0.000799,False,
+(va) IPC 1860,act,8,586,219,1,0.000599,0.000877,False,
+"(r)(s) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,4,523,175,1,0.000597,0.0,False,
+COMMUNAL / RELIGION,crime_head,5,2068,1955,2,0.000597,2.1e-05,False,Uttara Kannada; Bengaluru City; Kalaburagi
+INDIAN ELECTRICITY ACT (AMEND.) 2003,act,11,755,381,0,0.000584,0.000147,False,
+"The Karnataka essential services maintenance act, 2013",act,2,52,37,2,0.000574,0.0,False,
+KARNATAKA NEW SAND POLICY 2011,act,6,1376,437,0,0.00057,4e-05,False,
+KARNATAKA PROTECTION OF INTEREST DEPOSITORS EXORBITANT ACT 2004,act,7,593,234,2,0.000568,0.000314,False,
+OFFICIAL SECURITY RELATED ACTS,crime_head,2,50,37,2,0.000567,0.0,False,Bengaluru City; Hassan; Mandya
+"PROTECTION OF CIVIL RIGHTS ACT,1955",act,2,100,73,2,0.000564,0.0,False,
+"CHILD LABOUR (PROHIBITION & REGULATION) ACT,1986",act,5,508,359,3,0.000564,1.9e-05,False,
+"(A) INDIAN MOTOR VEHICLES ACT, 1988",act,10,916,232,0,0.000563,2.1e-05,False,
+"THE EPIDEMIC DISEASES (AMENDMENT) ORDINANCE, 2020",act,10,1558,626,4,0.000551,0.000203,False,
+"REGISTRATION OF FOREIGNERS ACT, 1939",act,7,309,102,7,0.00055,7.3e-05,False,
+"(s),3(1)(r) IPC 1860",act,4,471,169,1,0.000548,0.0,False,
+Failure to appear to Court,crime_head,1,1660,1660,2,0.000538,0.0,False,Bengaluru City; Mangaluru City; Kalaburagi
+(v-a) IPC 1860,act,6,418,150,1,0.000538,5.4e-05,False,
+(B) IPC 1860,act,8,373,185,7,0.000537,0.001302,False,
+(i)(n) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,4,743,308,3,0.000529,0.0,False,
+"EXPLOSIVES ACT, 1884",act,6,457,256,8,0.000521,4.5e-05,False,
+(r) IPC 1860,act,5,372,154,1,0.000521,0.0,False,
+CIVIL RIGHTS,crime_head,2,75,42,2,0.000517,0.0,False,Chitradurga; Mysuru; Raichur
+"GAS SUPPLY ACT(LPG ACT REGULATION AND SUPPLY DISTRIBUTION ORDER 2000),1939",act,4,258,112,6,0.000505,3.8e-05,False,
+KARNATAKA PREVENTION OF COW SLANGHTER & CATTLE PREVENTION ACT 2020,act,6,841,438,0,0.0005,5.6e-05,False,
+CHILD LABOUR (PROHIBITION & REGULATION) AMENDMENT ACT 2016,act,4,382,279,3,0.000493,0.0,False,
+INDIAN TELEGRAPH ACT - 1885,act,4,124,70,5,0.000493,1.6e-05,False,
+ADULTERATION,crime_head,4,255,157,4,0.00049,1.6e-05,False,Raichur; Vijayapura; Belagavi
+"(D) INDIAN MOTOR VEHICLES ACT, 1988",act,7,687,221,0,0.00049,5.6e-05,False,
+(I) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,3,591,264,3,0.000484,0.0,False,
+(r)(s)(2)(va) IPC 1860,act,3,313,130,1,0.000477,0.0,False,
+KARNATAKA FOREST RULES,act,5,590,210,0,0.000468,0.000182,False,
+(x) IPC 1860,act,3,290,111,1,0.000463,0.0,False,
+"(i),4,6,8 IPC 1860",act,4,136,34,6,0.000453,0.0,False,
+INDIAN ELECTRICITY ACT,crime_head,4,294,142,0,0.000453,9e-06,False,Chamarajanagar; Chikkamagaluru; Mysuru
+KARNATAKA LAND REVENUE(AMENDMENT) ACT-2007,act,5,774,265,0,0.000444,2.8e-05,False,
+Explosive Rules 2008,act,3,209,77,8,0.000444,0.0,False,
+CULPABLE HOMICIDE NOT AMOUNTING TO MURDER,crime_head,5,815,665,0,0.000442,2.9e-05,False,Bengaluru City; Shivamogga; Tumakuru
+(s) IPC 1860,act,4,225,98,1,0.00044,0.0,False,
+INSULTING MODESTY OF WOMEN (EVE TEASING),crime_head,2,928,917,2,0.000437,0.0,False,Bengaluru City; Uttara Kannada; Kalaburagi
+"FOREIGNERS ORDER ACT, 1948",act,3,115,64,7,0.00043,3.1e-05,False,
+"JUVENILE JUSTICE ACT, 2000",act,5,414,227,3,0.000427,0.000145,False,
+"EPIDEMIC DISEASES ACT, 1897",act,8,793,317,4,0.000425,0.000203,False,
+EXPOSURE AND ABANDONMENT OF CHILD,crime_head,1,835,835,2,0.000425,0.0,False,Bengaluru City; Tumakuru; Karnataka Railways
+LOTTERY REGULATION ACT 1998,act,2,207,189,0,0.00042,0.0,False,
+Liquified Petroleum Gas (Regulation of Supply & Distribution) Order 2000,act,2,156,92,6,0.000419,0.0,False,
+PUBLIC NUISANCE,crime_head,5,693,513,4,0.000417,7e-06,False,Bengaluru City; Chitradurga; Raichur
+(10)(11) IPC 1860,act,3,202,76,1,0.000415,0.0,False,
+"(r),3(1) (s) IPC 1860",act,4,175,73,1,0.000414,0.0,False,
+B PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,3,350,155,3,0.000414,0.0,False,
+"(r) (s),3(2)(va) IPC 1860",act,3,202,71,1,0.000414,0.0,False,
+"PRIZE CHITS & MONEY CIRCULATION SCHEMES (BANNING) ACT, 1978",act,5,439,203,2,0.000412,0.000112,False,
+"WILD LIFE (PROTECTION) ACT, 1972",act,6,335,203,5,0.000411,0.000359,False,
+"Karnataka Prevention of Damage to Public Property Act, 1984",act,7,491,262,5,0.000409,0.000182,False,
+"COTPA, Cigarettes and Other Tobacco Products Act (Amendment) Bill 2015",act,3,152,94,4,0.000408,1.8e-05,False,
+(5) IPC 1860,act,5,249,107,1,0.000407,0.000874,False,
+KARNATAKA MOTOR VEHICLE RULE,act,6,760,280,0,0.000404,0.000212,False,
+(II) IPC 1860,act,3,310,116,3,0.000402,0.0,False,
+(A) Transportation of Animal Act 1978,act,7,377,81,0,0.000401,1.6e-05,False,
+(r) (s) IPC 1860,act,3,152,65,1,0.000398,0.0,False,
+(2)(v) IPC 1860,act,5,193,85,1,0.000397,0.000877,False,
+RAILWAYS ACT,crime_head,2,61,49,5,0.000397,0.0,False,Karnataka Railways; Chikkamagaluru; Mangaluru City
+"(r),3(1)(s),3(1)(w) IPC 1860",act,4,155,63,1,0.000396,0.0,False,
+"(n),506 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,2,286,145,3,0.000395,0.0,False,
+The Banning of Unregulated Deposit Schemes Ordinance 2019,act,5,267,107,2,0.000391,0.000112,False,
+"(r)(s),3(2)(5a) IPC 1860",act,3,139,54,1,0.000389,0.0,False,
+OFFENCES RELATED TO MARRIAGE,crime_head,2,398,379,2,0.000388,0.0,False,Bengaluru City; Belagavi; Bengaluru Rural
+"KARNATAKA PROHIBITION OF VIOLENCE AGAINST MEDICARE SERVICE PERSONNEL AND DAMAGE TO PROPERTY IN MEDICARE SERVICE INSTITUTIONS ACT , 2009",act,6,495,263,5,0.000386,0.00014,False,
+OFFENCES PROMOTING ENEMITY,crime_head,3,558,534,2,0.000386,0.0,False,Bengaluru City; Belagavi City; Dakshina Kannada
+TRADE MARKS ACT 1999,act,5,198,86,2,0.000385,0.000507,False,
+FOREST,crime_head,3,264,133,0,0.000385,0.0,False,Bengaluru Rural; Vijayapura; Mysuru City
+"(b) EXPLOSIVE SUBSTANCES ACT, 1908",act,3,105,40,8,0.000384,0.0,False,
+Concealment of birth by secret disposal of Child,crime_head,1,534,534,2,0.000384,0.0,False,Bengaluru City; Belagavi; Bidar
+"POST & TELEGRAPH,TELEGRAPH WIRES(UNLAWFUL POSSESSION)ACT 1950",crime_head,2,42,21,5,0.000384,0.0,False,Bengaluru City; Bengaluru Rural; Udupi
+(1A) KARNATAKA MINOR MINERAL CONSISTENT RULE 1994,act,5,376,113,0,0.000382,3.7e-05,False,
+CHIT FUNDS ACT 1982,act,3,457,233,2,0.000382,2.8e-05,False,
+"/181 INDIAN MOTOR VEHICLES ACT, 1988",act,8,321,89,0,0.00038,0.000166,False,
+(w)(i)(ii) IPC 1860,act,5,150,58,3,0.000379,0.000794,False,
+(V) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,4,170,62,1,0.000379,0.000797,False,
+KARNATAKA LOTTERY AND PRIZE COMPITATION CONTROL AND TAX ACT 1951,act,2,121,95,0,0.000377,0.0,False,
+(D) IPC 1860,act,6,269,89,0,0.000377,5.6e-05,False,
+"The Muslim Women(Protection of Rights on Marriage) Act, 2019",act,5,338,141,2,0.000375,5e-06,False,
+Prevention of Cruelty to Animals (Slaughter House) Rules 2001,act,5,256,85,0,0.000375,1.6e-05,False,
+"(n),376(3) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,2,213,108,3,0.000374,0.0,False,
+"Rules Of The Roads Regulations, 1989",act,4,519,188,0,0.000374,3e-06,False,
+(b) IPC 1860,act,2,72,58,8,0.000374,0.0,False,
+"(d),102 IPC 1860",act,5,948,388,0,0.000372,5e-06,False,
+"PETROLEUM ACT, 1934",act,4,96,49,6,0.000365,0.000614,False,
+"(v-a),3(1)(s),3(1)(r) IPC 1860",act,3,107,40,1,0.000364,0.0,False,
+A PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,3,171,76,3,0.00036,0.0,False,
+"(w)(i)(ii),3(2)(va) IPC 1860",act,4,101,42,3,0.00036,0.000797,False,
+"ENVIRONMENT (PROTECTION) ACT, 1986",act,5,259,104,0,0.000359,3.5e-05,False,
+(w) IPC 1860,act,3,77,48,1,0.000358,0.000797,False,
+"Prohibition of Electronic Cigarettes(Production,Manufacture,Import, Export,Transport,Sale, Distribution,Storage and Advertisement) Act 2019",act,1,81,84,4,0.000358,0.0,False,
+"WILD ANIMAL PROTECTION ACT, 1972",act,3,147,93,0,0.000358,3e-06,False,
+"(II),6 IPC 1860",act,3,144,65,3,0.000358,0.0,False,
+(n) Prohibition of Child Marriage Act 2006,act,3,162,55,3,0.000358,0.0,False,
+The banning of unregulated deposit schemes act 2019,act,4,299,157,2,0.000357,0.000112,False,
+FOOD SAFETY AND STANDARDS ACT-2006,act,4,92,51,4,0.000357,0.000417,False,
+(10) Scheduled Castes and Scheduled Tribes (Prevention of Atrocities) Amendment Ordinance 2014,act,3,96,33,1,0.000356,0.0,False,
+ESCAPE FROM LAWFUL CUSTODY AND RESISTANCE,crime_head,1,333,333,2,0.000356,0.0,False,Bengaluru City; Bidar; Hubballi-Dharwad City
+"(II),5(L),6 IPC 1860",act,2,119,70,3,0.000356,0.0,False,
+KARNATAKA EDUCATION ACT 1983 AS AMENDED UPTODATE,act,3,260,154,0,0.000354,2.8e-05,False,
+(A) IPC 1860,act,7,202,127,0,0.000354,0.000138,False,
+"(r),3(2)(va) IPC 1860",act,2,63,39,1,0.000354,0.0,False,
+The Karnataka Prisons (Amendment) Act-2022,act,3,207,133,0,0.000354,0.000712,False,
+(f) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,2,144,72,3,0.000353,0.0,False,
+COUNTERFEITING,crime_head,1,313,314,2,0.000353,0.0,False,Bengaluru City; Mangaluru City; Bengaluru Rural
+(D) KARNTAKA PREVENTION OF COW SLANGHTER & CATTLE PREVENTION ACT-1964,act,3,137,72,0,0.000351,1.6e-05,False,
+-1(B) (b) IPC 1860,act,5,172,79,5,0.000351,4e-06,False,
+"(d),102 KARNATAKA POLICE ACT, 1963",act,5,518,193,0,0.000351,2.8e-05,False,
+(va) The SC & ST (Prevention of Atrocities) Amendment Act 2015,act,3,81,32,1,0.00035,0.0,False,
+(v-a) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,4,92,31,1,0.00035,0.000797,False,
+ATTEMPT TO CULPABLE HOMICIDE NOT AMOUNTING TO MURDER,crime_head,1,281,282,2,0.000349,0.0,False,Bidar; Bengaluru City; Yadgir
+"(A),11(1) (D) INDIAN MOTOR VEHICLES ACT, 1988",act,4,141,57,0,0.000347,1.6e-05,False,
+ASSAULT,crime_head,1,269,269,2,0.000347,0.0,False,Bengaluru City; Mandya; Raichur
+Human Trafficking,crime_head,3,169,104,2,0.000347,2e-06,False,Mangaluru City; Tumakuru; Hubballi-Dharwad City
+"PREVENTION OF FOOD ADULTERATION ACT, 1954",act,2,61,34,6,0.000347,0.0,False,
+"(n),363 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,3,126,46,3,0.000347,0.0,False,
+"(va),3(1) (r) (s) IPC 1860",act,2,52,26,1,0.000346,0.0,False,
+"(V),3(2)(v-a) IPC 1860",act,2,55,36,1,0.000346,0.0,False,
+"The Prize Chits and Money Circulation Schemes (Banning) Act, 1978",act,4,106,40,2,0.000346,4e-06,False,
+FALSE EVIDENCE,crime_head,1,255,255,2,0.000346,0.0,False,Bengaluru City; Bidar; Mandya
+The Karnataka Protection of Interest Depositors in Financial Establishment Act 2004,act,3,227,117,2,0.000345,2.8e-05,False,
+"(n) THE PROHIBITION OF CHILD MARRIAGE (KARNATAKA AMENDMENT) ACT, 2016",act,3,120,41,3,0.000345,0.0,False,
+Private Security Regulation act 2005,act,1,146,148,0,0.000344,0.0,False,
+Karnataka Muncipal Corporation Act 1976,act,3,162,71,4,0.000344,0.0,False,
+"(r)(s),3(2)(v-a) IPC 1860",act,2,51,26,1,0.000344,0.0,False,
+(11) IPC 1860,act,2,52,29,1,0.000344,0.0,False,
+"KARNATAKA PRIVATE MEDICAL ESTABLISHMENT ACT, 2007",act,3,199,112,2,0.000344,2.8e-05,False,
+(10) The SC & ST (Prevention of Atrocities) Amendment Act 2015,act,2,50,25,1,0.000343,0.0,False,
+Cigarettes and Other Tobacco Products (Packging and Labelling) amendment Rules - 2014,act,2,61,34,4,0.000343,0.0,False,
+"The Prohibition of Employment as Manual Scavengers and their Rehabilitation Act, 2013",act,3,98,84,0,0.000343,0.003931,False,
+CRIMINAL CONSPIRACY,crime_head,1,237,237,2,0.000343,0.0,False,Bengaluru City; Bengaluru Rural; Mangaluru City
+"(f),376(2)(n) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,2,109,55,3,0.000343,0.0,False,
+(5a) IPC 1860,act,2,46,31,1,0.000342,0.0,False,
+"KARNATAKA PROHIBITION OF BEGGARY ACT, 1975",act,1,137,140,0,0.000342,0.0,False,
+"A,376 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,2,102,51,3,0.000341,0.0,False,
+(X) IPC 1860,act,2,47,26,1,0.000341,0.0,False,
+"(J),376(2)(n) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,2,95,48,3,0.000339,0.0,False,
+"RELIGIOUS INSTITUTIONS (PREVENTION OF MISUSE) ACT, 1988",act,4,143,98,4,0.000337,8.3e-05,False,
+"(ii) (B) NARCOTIC DRUGS & PSYCHOTROPIC SUBSTANCES ACT, 1985",act,2,70,36,7,0.000337,0.0,False,
+KARNATAKA PRISONERS ACT - 1963,act,4,136,84,0,0.000337,0.00077,False,
+"(ii) A NARCOTIC DRUGS AND PSYCHOTROPIC SUBSTANCES ACT, 1985",act,2,66,33,7,0.000336,0.0,False,
+"(II),6 Prohibition of Child Marriage Act 2006",act,2,87,44,3,0.000336,0.0,False,
+"JUVENILE JUSTICE ACT, 1986",act,2,82,63,3,0.000336,0.0,False,
+"(n) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,3,64,39,1,0.000335,0.000794,False,
+/181 IPC 1860,act,3,111,39,0,0.000335,0.0,False,
+"NEGOTIABLE INSTRUMENTS ACT, 1881",act,5,189,69,0,0.000334,1.7e-05,False,
+POISONING-PROFESSIONAL,crime_head,2,168,156,2,0.000334,0.0,False,Karnataka Railways; Bidar; Bengaluru City
+"(A) ESSENTIAL COMMODITIES ACT, 1955",act,1,19,19,6,0.000333,0.0,False,
+(ii)(A) IPC 1860,act,2,60,31,7,0.000333,0.0,False,
+"(n),34 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,2,77,39,3,0.000333,0.0,False,
+(1A) IPC 1860,act,3,124,45,0,0.000333,0.0,False,
+INDIAN MOTOR VEHICLE,crime_head,2,180,103,0,0.000333,0.0,False,Hassan; Bengaluru Rural; Raichur
+(J) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,2,74,38,3,0.000332,0.0,False,
+"(s),3(1)(r),3(2)(va) IPC 1860",act,1,26,27,1,0.000332,0.0,False,
+"PREVENTION OF INSULT TO NATIONAL HONOURS ACT, 1971",act,2,107,104,0,0.000332,0.0,False,
+(B) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,4,102,37,2,0.000332,0.000322,False,
+"(ii) B NARCOTIC DRUGS AND PSYCHOTROPIC SUBSTANCES ACT, 1985",act,2,55,28,7,0.000332,0.0,False,
+(r)(s) The SC & ST (Prevention of Atrocities) Amendment Act 2015,act,1,25,27,1,0.000331,0.0,False,
+"(ii)(A) NARCOTIC DRUGS & PSYCHOTROPIC SUBSTANCES ACT, 1985",act,2,55,30,7,0.000331,0.0,False,
+"KARNATAKA IRRIGATION ACT, 1965",act,2,108,78,0,0.00033,0.0,False,
+"(r),3(1)(s),3(2)(V) IPC 1860",act,1,23,30,1,0.000329,0.0,False,
+"(I),376(2)(n) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,2,62,31,3,0.000329,0.0,False,
+"(r),3(1)(s) The SC & ST (Prevention of Atrocities) Amendment Act 2015",act,1,23,24,1,0.000329,0.0,False,
+DRUGS CONTROL ACT 1950,act,2,102,56,0,0.000329,0.0,False,
+"(a)(b)(c),4(1)(A) ESSENTIAL COMMODITIES ACT, 1955",act,1,16,16,6,0.000329,0.0,False,
+"(r),3(1) (s) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,1,23,23,1,0.000329,0.0,False,
+PORNOGRAPHY,crime_head,2,148,109,2,0.000328,0.0,False,Bengaluru City; Bagalkote; Kodagu
+"PRISONS ACT, 1894",act,3,89,56,2,0.000328,3e-05,False,
+"The Karnataka Essential Commodities (Maintenance of Accounts, Display of Prices and Stocks) Order, 1981",act,1,15,16,6,0.000328,0.0,False,
+"(r),3(2)(v-a) IPC 1860",act,1,21,22,1,0.000328,0.0,False,
+(A) KARNTAKA PREVENTION OF COW SLANGHTER & CATTLE PREVENTION ACT-1964,act,3,58,33,0,0.000328,1.6e-05,False,
+"(va),3(1)(r) IPC 1860",act,1,21,22,1,0.000328,0.0,False,
+(W) (I) IPC 1860,act,2,26,27,1,0.000328,0.000794,False,
+"(n),344 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,2,56,30,3,0.000327,0.0,False,
+"(r),3(1)(s),3(1)(w),3(2)(va) IPC 1860",act,1,20,21,1,0.000327,0.0,False,
+"(i),4,6,8 KARNATAKA ESSENTIAL COMMODITIES (PUBLIC DISTRIBUTION SYSTEM) PUBLIC CONTROL ORDER 2016",act,1,14,15,6,0.000327,0.0,False,
+"(i),8 ESSENTIAL COMMODITIES ACT, 1955",act,1,14,14,6,0.000327,0.0,False,
+THE KARNATAKA PREVENTION OF CHARGING EXORBITANT INTEREST ACT 2004,act,2,91,53,0,0.000327,0.0,False,
+"(s),3(1)(r) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,1,20,21,1,0.000327,0.0,False,
+"(r),3(1)(s),3(1)(w),3(2)(v-a) IPC 1860",act,1,20,20,1,0.000327,0.0,False,
+FERTILIZER ACT,act,1,14,27,6,0.000327,0.0,False,
+"(va),3(1)(s),3(1)(r) IPC 1860",act,1,20,22,1,0.000327,0.0,False,
+"Kerosene (Restriction on use and Fixation of selling price) Act, 1993",act,1,13,13,6,0.000326,0.0,False,
+(i) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,2,51,26,3,0.000326,0.0,False,
+"(s),3(1) (r) IPC 1860",act,1,19,20,1,0.000326,0.0,False,
+CRIMINAL MISAPPROPRIATION,crime_head,1,111,111,2,0.000326,0.0,False,Bidar; Bengaluru City; Hassan
+"ESSENTIAL COMMODITIES (LICENSING) ORDER, 1986",act,1,13,19,6,0.000326,0.0,False,
+(q) Karnataka SC/ST & Other B .C. [ Reservation Of Appointment ACT] -1990,act,1,19,20,1,0.000326,0.0,False,
+"(r) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,1,19,22,1,0.000326,0.0,False,
+"(n),354(D) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,2,52,26,3,0.000326,0.0,False,
+"(r) (s) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,1,18,18,1,0.000325,0.0,False,
+MOTOR SPIRIT & HIGH SPEED DIESEL ORDER ACT 1999,act,1,12,13,6,0.000325,0.0,False,
+DEATHS-MISCARRIAGE,crime_head,1,107,107,2,0.000325,0.0,False,Bengaluru City; Vijayapura; Koppal
+"(r),3(1)(s),3(2)(va) The SC & ST (Prevention of Atrocities) Amendment Act 2015",act,1,18,18,1,0.000325,0.0,False,
+"B,506 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,2,50,25,3,0.000325,0.0,False,
+"(b) EPIDEMIC DISEASES ACT, 1897",act,1,10,10,7,0.000325,0.0,False,
+"(r),3(1)(s) The Scheduled Castes and the Scheduled Tribes (Prevention of Atrocities) Amendment Bill, 2015",act,1,18,21,1,0.000325,0.0,False,
+THE FERTILISER (CONTROL) ORDER,act,1,12,17,6,0.000325,0.0,False,
+(A) KARNATAKA MINOR MINERAL CONSISTENT RULE 1994,act,3,84,29,0,0.000325,0.0,False,
+"(r),3(1)(s) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,1,18,18,1,0.000325,0.0,False,
+Karnataka Electricity Act 2003,act,4,106,65,0,0.000324,1.8e-05,False,
+OFFENCES BY PUBLIC SERVANTS (EXCEPT CORRUPTION) (Public servant is accused),crime_head,1,96,97,2,0.000324,0.0,False,Bengaluru City; Tumakuru; Bidar
+DEFAMATION,crime_head,1,98,98,2,0.000324,0.0,False,Bengaluru City; Tumakuru; Gadag
+"(r),3(1)(s),3(2)(V),3(2)(v-a) IPC 1860",act,1,17,20,1,0.000324,0.0,False,
+"(va),3(1)(r),3(1)(s) IPC 1860",act,1,16,16,1,0.000324,0.0,False,
+(x) Scheduled Castes and Scheduled Tribes (Prevention of Atrocities) Amendment Ordinance 2014,act,1,17,18,1,0.000324,0.0,False,
+(v-a) The SC & ST (Prevention of Atrocities) Amendment Act 2015,act,1,17,18,1,0.000324,0.0,False,
+"(V),3(1)(s),3(1)(r) IPC 1860",act,1,16,20,1,0.000324,0.0,False,
+"(5a),3(1)(r)(s) IPC 1860",act,1,16,16,1,0.000324,0.0,False,
+"THE SPECIFIED BANK NOTES(CESSATIONOF LIABILITIES)ACT, 2017",act,2,76,46,0,0.000324,0.0,False,
+(va) Scheduled Castes and Scheduled Tribes (Prevention of Atrocities) Amendment Ordinance 2014,act,1,16,16,1,0.000324,0.0,False,
+"(a)(i) GAS SUPPLY ACT(LPG ACT REGULATION AND SUPPLY DISTRIBUTION ORDER 2000),1939",act,1,11,11,6,0.000323,0.0,False,
+"(s),3(1)(r),3(2)(v-a) IPC 1860",act,1,15,15,1,0.000323,0.0,False,
+"Maintenance and Welfare of Parents and Senior Citizens Act, 2007",act,4,81,52,0,0.000323,9.3e-05,False,
+"(s),3(2)(va) IPC 1860",act,1,15,16,1,0.000323,0.0,False,
+(w)(i) IPC 1860,act,1,15,23,1,0.000323,0.0,False,
+"(r),3(1)(s),3(2)(v-a),3(1)(w) IPC 1860",act,1,15,17,1,0.000323,0.0,False,
+(f) IPC 1860,act,1,15,15,1,0.000323,0.0,False,
+KARNATAKA REGISTRATION ACT 1908,act,3,80,43,2,0.000323,2.8e-05,False,
+"(i),4,8 KARNATAKA ESSENTIAL COMMODITIES (PUBLIC DISTRIBUTION SYSTEM) PUBLIC CONTROL ORDER 2016",act,1,10,11,6,0.000322,0.0,False,
+"(r),3(1)(s) Scheduled Castes and Scheduled Tribes (Prevention of Atrocities) Amendment Ordinance 2014",act,1,14,16,1,0.000322,0.0,False,
+"(s),3(2)(v-a) IPC 1860",act,1,14,15,1,0.000322,0.0,False,
+"(w),3(1)(s),3(1)(r) IPC 1860",act,1,14,15,1,0.000322,0.0,False,
+(r) The SC & ST (Prevention of Atrocities) Amendment Act 2015,act,1,14,17,1,0.000322,0.0,False,
+"(n),366 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,25,26,3,0.000322,0.0,False,
+(va) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,2,44,26,3,0.000322,0.0,False,
+SLAVERY,crime_head,1,80,80,2,0.000322,0.0,False,Bengaluru City; Raichur; Belagavi City
+"(r)(s),3(2)(5a) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,1,14,15,1,0.000322,0.0,False,
+The Karnataka Phohibition of Violence against Medicare service personnel and Damage to Property in Medicare Service Institutions Act 2009,act,3,72,52,2,0.000322,6e-06,False,
+ASSAULT OR USE OF CRIMINAL FORCE TO DISROBE WOMAN,crime_head,1,87,87,2,0.000322,0.0,False,Chikkamagaluru; Chitradurga; Vijayapura
+"(r),3(1) (s),3(2)(5a) IPC 1860",act,1,14,16,1,0.000322,0.0,False,
+(n) CHILD MARRIAGE RESTRAINT ACT,act,1,24,25,3,0.000321,0.0,False,
+"KARNATAKA CO-OPERATIVE SOCIETIES ACT, 1959",act,2,73,49,2,0.000321,0.0,False,
+"(va) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,1,13,17,1,0.000321,0.0,False,
+"-1(B) (b),4 IPC 1860",act,1,32,32,5,0.000321,0.0,False,
+(v-a) Scheduled Castes and Scheduled Tribes (Prevention of Atrocities) Amendment Ordinance 2014,act,1,13,15,1,0.000321,0.0,False,
+"(r),3(1)(s),3(1)(w)(i)(ii) IPC 1860",act,1,13,18,1,0.000321,0.0,False,
+"(w)(i)(ii),3 (2)(v) IPC 1860",act,1,22,24,3,0.000321,0.0,False,
+"(n),376(2)(f) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,24,24,3,0.000321,0.0,False,
+"(I),506 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,24,24,3,0.000321,0.0,False,
+(II) Prohibition of Child Marriage Act 2006,act,1,24,24,3,0.000321,0.0,False,
+"(II),6,5(L) IPC 1860",act,1,23,23,3,0.000321,0.0,False,
+(V) The SC & ST (Prevention of Atrocities) Amendment Act 2015,act,1,13,25,1,0.000321,0.0,False,
+"(b),63 IPC 1860",act,1,13,13,2,0.00032,0.0,False,
+UNNATURAL SEX,crime_head,2,61,52,2,0.00032,0.0,False,Bengaluru City; Belagavi; Mangaluru City
+KARNATAKA PANCHAYAT ACT - 1993,act,2,52,48,0,0.00032,0.0,False,
+"(r),3(2)(va),3(1)(s) IPC 1860",act,1,12,14,1,0.00032,0.0,False,
+"(r)(s) The Scheduled Castes and the Scheduled Tribes (Prevention of Atrocities) Amendment Bill, 2015",act,1,12,13,1,0.00032,0.0,False,
+"REGISTRATION ACT, 1908",act,2,65,43,2,0.00032,0.0,False,
+"(II),5(L),6 Prohibition of Child Marriage Act 2006",act,1,20,20,3,0.00032,0.0,False,
+(ii) A IPC 1860,act,1,24,24,7,0.00032,0.0,False,
+(5) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,1,21,24,3,0.00032,0.0,False,
+"(r),3(1)(s),3 (2)(v) IPC 1860",act,1,12,17,1,0.00032,0.0,False,
+"(r),2(v) IPC 1860",act,1,12,15,1,0.00032,0.0,False,
+"(r),3(1)(s),3(2)(v-a),3(2)(V) IPC 1860",act,1,11,12,1,0.00032,0.0,False,
+"(i)(n),506 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,21,21,3,0.00032,0.0,False,
+"(W) (I) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,1,12,16,1,0.00032,0.0,False,
+(s) The SC & ST (Prevention of Atrocities) Amendment Act 2015,act,1,12,12,1,0.00032,0.0,False,
+"(va),0 IPC 1860",act,1,11,13,1,0.00032,0.0,False,
+"(r),3(2)(5a) IPC 1860",act,1,11,12,1,0.00032,0.0,False,
+"(r),3(1)(s),3(1)(w)(i)(ii),3(2)(va) IPC 1860",act,1,11,15,1,0.00032,0.0,False,
+"(s),3(1) (r) SC AND THE ST (PREVENTION OF ATTROCITIES) ACT, 1989",act,1,12,13,1,0.00032,0.0,False,
+"(r),3(1) (s),3(2)(v-a) IPC 1860",act,1,12,12,1,0.00032,0.0,False,
+"(r),3(2)(v-a),3(1) (s) IPC 1860",act,1,12,12,1,0.00032,0.0,False,
+(2) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,1,19,21,3,0.000319,0.0,False,
+IMPERSONATION,crime_head,1,64,64,2,0.000319,0.0,False,Bengaluru City; Karnataka Railways; Mysuru
+"(f),3(1)(r),3(1)(s) IPC 1860",act,1,10,10,1,0.000319,0.0,False,
+IMMIGRATION ACT,act,3,54,30,2,0.000319,2.8e-05,False,
+"A,376(2)(n) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,18,18,3,0.000319,0.0,False,
+"Karnataka Prevention and Eradication of Inhuman Evil Practices and Black Magic Act, 2017",act,2,49,39,0,0.000319,0.0,False,
+OF ABETMENT,crime_head,1,63,63,2,0.000319,0.0,False,Bengaluru City; Mandya; Koppal
+"(s),3(1)(r) The SC & ST (Prevention of Atrocities) Amendment Act 2015",act,1,10,10,1,0.000319,0.0,False,
+"(D),11(1) (A) INDIAN MOTOR VEHICLES ACT, 1988",act,2,23,24,0,0.000318,1.6e-05,False,
+"(n),376(3),506 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,17,17,3,0.000318,0.0,False,
+"(w),3 (2)(v) IPC 1860",act,1,16,21,3,0.000318,0.0,False,
+KARNATAKA ELECTRICITY REFORM ACT 1999,act,2,57,45,2,0.000318,0.0,False,
+"(f),376(2)(i)(n) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,17,17,3,0.000318,0.0,False,
+TOBACCO BOARD (AMENDMENT) ACT 1975,act,1,11,13,4,0.000317,0.0,False,
+"PREVENTION OF CORRUPTION ACT, 1988",act,2,45,35,2,0.000317,0.0,False,
+KARNATAKA MINING ACT,act,1,29,32,0,0.000317,0.0,False,
+"(n),376(1) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,14,14,3,0.000317,0.0,False,
+(d) IPC 1860,act,3,118,66,0,0.000317,5e-06,False,
+"(f),506 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,14,14,3,0.000317,0.0,False,
+(W) (I) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,1,14,21,3,0.000317,0.0,False,
+(L) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,1,15,15,3,0.000317,0.0,False,
+(w)(i)(ii) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,1,14,17,3,0.000317,0.0,False,
+"(3) KARNATAKA POLICE ACT, 1963",act,2,64,32,4,0.000317,0.0,False,
+"(n),366(A) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,15,15,3,0.000317,0.0,False,
+"(II),6 CHILD MARRIAGE RESTRAINT ACT",act,1,11,11,3,0.000316,0.0,False,
+"The Poisons Act, 1919",act,1,10,13,4,0.000316,0.0,False,
+(w) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,1,11,16,3,0.000316,0.0,False,
+"(f),376(2)(I),376(2)(n) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,11,11,3,0.000316,0.0,False,
+"THE KARNATAKA PROHIBITION OF SMOKING AND PROTECTION OF HEALTH OF NON SMOKERS ACT, 2001",act,1,22,27,0,0.000316,0.0,False,
+"(n),149 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,12,12,3,0.000316,0.0,False,
+"(n),114 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,13,13,3,0.000316,0.0,False,
+"(w),3(2)(V) IPC 1860",act,1,12,17,3,0.000316,0.0,False,
+(ii) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012,act,1,12,14,3,0.000316,0.0,False,
+(n) The SC & ST (Prevention of Atrocities) Amendment Act 2015,act,1,13,26,3,0.000316,0.0,False,
+"(II),5(L),5(n),6 IPC 1860",act,1,13,13,3,0.000316,0.0,False,
+(ii) (B) IPC 1860,act,1,15,16,7,0.000316,0.0,False,
+"(n),363,366(A) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,12,15,3,0.000316,0.0,False,
+"(f),376(2)(n),506 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,12,12,3,0.000316,0.0,False,
+"(n),343 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,12,12,3,0.000316,0.0,False,
+"(f),376(2)(I) PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,11,11,3,0.000316,0.0,False,
+"(n),504,506 PROTECTION OF CHILDREN FROM SEXUAL OFFENCES ACT 2012",act,1,10,12,3,0.000315,0.0,False,
+"THE KARNATAKA REGULATION OF STONE CRUSHERS ACT, 2011",act,1,20,22,0,0.000315,0.0,False,
+PUBLIC JUSTICE,crime_head,1,30,30,2,0.000315,0.0,False,Bengaluru City; Bengaluru Rural; Mysuru City
+"IRRIGATION ACT, 1963",act,1,19,30,0,0.000315,0.0,False,
+"THE BANGALORE WATER SUPPLY AND SEWERAGE ACT, 1964",act,1,20,22,0,0.000315,0.0,False,
+(ii) B IPC 1860,act,1,11,11,7,0.000315,0.0,False,
+"(10),21(1),21(2),21(3),21(4) INDIAN MOTOR VEHICLES ACT, 1988",act,1,18,19,0,0.000315,0.0,False,
+(ii)(I)(n)/6 IPC 1860,act,1,10,11,3,0.000315,0.0,False,
+"(n),363 Prohibition of Child Marriage Act 2006",act,1,10,10,3,0.000315,0.0,False,
+SEDITION,crime_head,1,34,34,2,0.000315,0.0,False,Bengaluru City; Vijayanagara; Gadag
+Karanata State Public Records Act-2010,act,1,19,25,0,0.000315,0.0,False,
+"(ii) C NARCOTIC DRUGS AND PSYCHOTROPIC SUBSTANCES ACT, 1985",act,1,11,11,7,0.000315,0.0,False,
+"Indian Treasure Trove Act, 1878",act,1,10,25,2,0.000315,0.0,False,
+"(i) NARCOTIC DRUGS & PSYCHOTROPIC SUBSTANCES ACT, 1985",act,1,12,12,7,0.000315,0.0,False,
+"(1A),21(2),21(3),21(4),21(4A),21(5) IPC 1860",act,1,13,13,0,0.000314,0.0,False,
+(D) THE KARNATAKA PREVENTION OF SLAUGHTER AND PRESERVATION OF CATTLE ORDINANCE-2020,act,1,13,23,0,0.000314,0.0,False,
+"(h),5,9 IPC 1860",act,1,13,13,0,0.000314,0.0,False,
+The Specified Bank Notes (Cessation of Liabilities) Act 2017,act,1,15,26,0,0.000314,0.0,False,
+(A) KARNATAKA NEW SAND POLICY 2011,act,1,17,17,0,0.000314,0.0,False,
+"(h),5(1),5(4) IPC 1860",act,1,16,16,0,0.000314,0.0,False,
+"(E),11(1) (D) INDIAN MOTOR VEHICLES ACT, 1988",act,1,17,24,0,0.000314,0.0,False,
+"(E),11(1) (D),11(1) (A) INDIAN MOTOR VEHICLES ACT, 1988",act,1,17,20,0,0.000314,0.0,False,
+(1A) KARNATAKA LAND REVENUE ACT 1964,act,1,15,16,0,0.000314,0.0,False,
+(A) THE KARNATAKA PREVENTION OF SLAUGHTER AND PRESERVATION OF CATTLE ACT-2020,act,1,13,20,0,0.000314,0.0,False,
+KARNATAKA PREVENTION OF ANIMAL SACRIFICES ACT 1959,act,1,15,27,0,0.000314,0.0,False,
+"(10),21(5) KARNATAKA LAND REVENUE ACT 1964",act,1,12,12,0,0.000313,0.0,False,
+(A) MMDR (MINES AND MINERALS REGULATION OF DEVELOPMENT) ACT 1957,act,1,10,12,0,0.000313,0.0,False,
+The Bangalore Water Supply and Sewerage (Amendment) Act 2011,act,1,11,11,0,0.000313,0.0,False,
+KARNATAKA AYURVEDIC & UNANI PRACT. REGI. & MEDICAL PRACT. MISC. PROV. ACT,act,1,15,20,2,0.000313,0.0,False,
+KARNATAKA PRISONERS RULE 1974,act,1,10,14,0,0.000313,0.0,False,
+"PREVENTION OF ANIMAL SACRIFICE ACT, 1959",act,1,10,14,0,0.000313,0.0,False,
+"(a),4(2) (h),5(1),5(3) THE DISASTER MANAGEMENT ACT, 2005",act,1,11,11,0,0.000313,0.0,False,
+(a) (b) IPC 1860,act,1,10,10,0,0.000313,0.0,False,
+"(A),230 (A),177 IPC 1860",act,1,17,17,0,0.000313,0.0,False,
+Indian Telegraph Act 1985,act,1,19,32,2,0.000313,0.0,False,
+DOCUMENTS & PROPERTY MARKS,crime_head,1,16,16,2,0.000313,0.0,False,Bengaluru City; Mysuru City; Bengaluru Rural
+"DRUGS AND COSMETICS ACT, 1940",act,1,15,25,2,0.000313,0.0,False,
+"(e),4(2) (h),5(1) IPC 1860",act,1,10,10,4,0.000312,0.0,False,
+"MOTOR VEHICLE (TAX) ACT, 1958",act,1,11,23,0,0.000312,0.0,False,
+(iii) INFORMATION TECHNOLOGY ACT 2000,act,1,12,13,2,0.000312,0.0,False,
+"INDECENT REPREN. OF WOMEN (PROHIBITION) ACT, 1986",act,1,10,21,2,0.000312,0.0,False,
+Giving false information respecting an offence com,crime_head,1,11,11,2,0.000312,0.0,False,Kolar; Ballari; Bengaluru City
+RECEIVING OF STOLEN PROPERTY,crime_head,1,13,14,2,0.000312,0.0,False,Bengaluru City; Mandya; Vijayapura
+"-ii INDIAN MOTOR VEHICLES ACT, 1988",act,1,14,20,0,0.000312,0.0,False,
+KARNATAKA RACE BETTING ACT,act,1,23,24,4,0.000312,0.0,False,
+IV(B) KARNATAKA MINOR MINERAL CONSISTENT RULE 1994,act,1,10,10,0,0.000312,0.0,False,
+(B) INFORMATION TECHNOLOGY ACT 2000,act,1,12,20,2,0.000312,0.0,False,
+"IV(B),31R(13) KARNATAKA MINOR MINERAL CONSISTENT RULE 1994",act,1,10,10,0,0.000312,0.0,False,
+"(d) KARNATAKA POLICE ACT, 1963",act,1,10,14,0,0.000311,0.0,False,
+(a)(vi) IPC 1860,act,1,10,10,4,0.000311,0.0,False,

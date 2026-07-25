@@ -1,0 +1,30 @@
+{
+  "generated_at_utc": "2026-07-25T08:54:07.561722+00:00",
+  "data_class": "real",
+  "scope": "ENTITY co-occurrence (crime type / legal act / district) within cases. NOT a person network - the FIR extract carries no identities (Indian confidentiality law); person-level link analysis is descoped by design.",
+  "graph": {
+    "clustered_on": "WHAT graph (crime_head <-> act, act <-> act)",
+    "nodes": 483,
+    "edges": 1430,
+    "density": 0.01228,
+    "components": 1,
+    "held_out_edges": 3128,
+    "held_out_reason": "crime_head<->district edges are near-complete bipartite; including them dropped modularity 0.468 -> 0.261. Kept as node metadata + spatial-affinity rules instead."
+  },
+  "communities": {
+    "algorithm": "Louvain (log1p-weighted)",
+    "count": 9,
+    "modularity": 0.4691,
+    "note": "modularity > 0.3 indicates meaningful community structure"
+  },
+  "association_rules": {
+    "count": 278,
+    "co_occurrence": 168,
+    "spatial_affinity": 110,
+    "min_cases": 500,
+    "min_confidence": 0.1,
+    "filter": "lift > 1.0 (co-occurs more than chance)"
+  },
+  "interpretation": "Edges/rules are ASSOCIATIONS between case attributes, not causal links and not relationships between people.",
+  "fairness": "No person data, no protected attributes. Entities are crime types, legal acts and districts only."
+}
