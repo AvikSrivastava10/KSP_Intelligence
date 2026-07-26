@@ -23,6 +23,9 @@ async function api(path) {
 }
 
 export const API_BASE_URL = API_BASE;
+// Server-rendered briefing (Catalyst SmartBrowz). Opened directly rather than fetched, so the
+// browser handles the PDF download natively.
+export const reportBriefingUrl = () => `${API_BASE}/report/briefing`;
 export const fetchOverview = () => api("/overview");
 export const fetchMeta = () => api("/meta");
 export const fetchDistricts = (perCapita) => api(`/districts${perCapita ? "?per_capita=true" : ""}`);

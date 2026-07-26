@@ -8,7 +8,7 @@ import DataClassBadge from "../components/DataClassBadge.jsx";
 import KpiCard from "../components/KpiCard.jsx";
 import InfoDot from "../components/InfoDot.jsx";
 import Reveal from "../components/Reveal.jsx";
-import { fetchHub } from "../api/client.js";
+import { fetchHub, reportBriefingUrl } from "../api/client.js";
 
 const fmt = (n) => (typeof n === "number" ? n.toLocaleString("en-IN") : n ?? "—");
 const pct = (x) => `${((x || 0) * 100).toFixed(1)}%`;
@@ -32,12 +32,17 @@ export default function StrategicHub() {
             where to deploy first. <DataClassBadge kind="real" />
           </p>
         </div>
-        <button
-          onClick={() => window.print()}
+        {/* Server-rendered via Catalyst SmartBrowz, not window.print(): a briefing that exists on
+            the server can be scheduled and circulated to a district SP, and it renders identically
+            for everyone instead of depending on one analyst's print dialog. */}
+        <a
+          href={reportBriefingUrl()}
+          target="_blank"
+          rel="noreferrer"
           className="no-print neo flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:text-indigo-600"
         >
-          <Printer size={14} /> Export briefing
-        </button>
+          <Printer size={14} /> Export briefing (PDF)
+        </a>
       </div>
 
       {error && <div className="glass rounded-2xl border border-rose-300 p-3 text-sm text-rose-600">Could not load the hub from crime_api.</div>}

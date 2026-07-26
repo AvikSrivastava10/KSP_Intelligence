@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   ShieldCheck, Database, AlertOctagon, Scale, CheckCircle2, XCircle, Info, Printer, FlaskConical,
+  Server,
 } from "lucide-react";
 import DataClassBadge from "../components/DataClassBadge.jsx";
 import KpiCard from "../components/KpiCard.jsx";
 import InfoDot from "../components/InfoDot.jsx";
 import Reveal from "../components/Reveal.jsx";
-import { fetchAudit, fetchValidation } from "../api/client.js";
+import { fetchAudit, fetchValidation, reportBriefingUrl } from "../api/client.js";
 
 const fmt = (n) => (typeof n === "number" ? n.toLocaleString("en-IN") : n ?? "—");
 // "%" reads naturally suffixed; a correlation should render as "ρ 0.971", not "0.971rho".
@@ -19,6 +20,14 @@ const VERDICT = {
   beats_baseline: { label: "Beats baseline", cls: "bg-emerald-100 text-emerald-700" },
   matches_baseline: { label: "Matches baseline", cls: "bg-sky-100 text-sky-700" },
   below_baseline: { label: "Below baseline", cls: "bg-rose-100 text-rose-700" },
+};
+// "no_catalyst_equivalent" is deliberately neutral, not a warning — it is a justified engineering
+// choice, and colouring it red would misrepresent it.
+const SERVICE_STATUS = {
+  active: { label: "Live", cls: "bg-emerald-100 text-emerald-700" },
+  configured: { label: "Configured", cls: "bg-sky-100 text-sky-700" },
+  disabled: { label: "Off", cls: "bg-slate-200 text-slate-600" },
+  no_catalyst_equivalent: { label: "No equivalent", cls: "bg-violet-100 text-violet-700" },
 };
 
 export default function DataQualityAudit() {
@@ -38,12 +47,14 @@ export default function DataQualityAudit() {
             Every limitation, exclusion and validation number in one place. <DataClassBadge kind="real" />
           </p>
         </div>
-        <button
-          onClick={() => window.print()}
+        <a
+          href={reportBriefingUrl()}
+          target="_blank"
+          rel="noreferrer"
           className="no-print neo flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:text-indigo-600"
         >
-          <Printer size={14} /> Export audit
-        </button>
+          <Printer size={14} /> Export briefing (PDF)
+        </a>
       </div>
 
       {aq.error && <div className="glass rounded-2xl border border-rose-300 p-3 text-sm text-rose-600">Could not load the audit from crime_api.</div>}
@@ -231,6 +242,48 @@ export default function DataQualityAudit() {
             </div>
             <p className="mt-3 text-[11px] leading-relaxed text-slate-500">{a.guardrails}</p>
           </Reveal>
+
+          {/* Which platform service backs which capability — published for the same reason the
+              limitations are: a reviewer should not have to reverse engineer it. */}
+          {a.catalyst_services && (
+            <Reveal className="glass rounded-3xl p-5">
+              <div className="mb-1 flex items-center gap-1.5 text-sm font-semibold text-slate-900">
+                <Server size={15} className="text-sky-500" /> Built on Catalyst — service map
+                <InfoDot text="Every capability in this platform and the Catalyst service that provides it. Where our own code is used instead, the reason is stated — in each case no Catalyst service covers that algorithm." />
+              </div>
+              <p className="mb-3 max-w-4xl text-[11px] leading-relaxed text-slate-500">
+                Deployed entirely on Zoho Catalyst. Live status comes from the running function, so
+                this reflects the actual configuration rather than an intention.
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[720px] text-left text-xs">
+                  <thead className="text-[10px] uppercase tracking-wide text-slate-500">
+                    <tr className="border-b border-slate-900/10">
+                      <th className="py-2 pr-3 font-semibold">Capability</th>
+                      <th className="py-2 pr-3 font-semibold">Service</th>
+                      <th className="py-2 pr-3 font-semibold">Status</th>
+                      <th className="py-2 font-semibold">How it is used</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {a.catalyst_services.map((s) => {
+                      const st = SERVICE_STATUS[s.status] || SERVICE_STATUS.configured;
+                      return (
+                        <tr key={s.capability} className="border-b border-slate-900/5 last:border-0">
+                          <td className="py-2 pr-3 font-medium text-slate-800">{s.capability}</td>
+                          <td className="py-2 pr-3 text-slate-600">{s.service}</td>
+                          <td className="py-2 pr-3">
+                            <span className={`whitespace-nowrap rounded-full px-1.5 py-0.5 text-[9px] font-semibold ${st.cls}`}>{st.label}</span>
+                          </td>
+                          <td className="py-2 text-[11px] leading-relaxed text-slate-500">{s.detail}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </Reveal>
+          )}
 
           <Reveal className="glass rounded-3xl p-5">
             <div className="mb-1 flex items-center gap-1.5 text-sm font-semibold text-slate-900">
