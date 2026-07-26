@@ -21,6 +21,16 @@ function readMeta() {
   return _meta;
 }
 
+/** Read a bundled JSON sidecar (model cards, ER conformance map). Missing/corrupt -> fallback,
+ *  because a metadata file failing to parse must never take an endpoint down. */
+function readJson(name, fallback = null) {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(DATA_DIR, name), "utf8"));
+  } catch (e) {
+    return fallback;
+  }
+}
+
 function readCsvTable(name) {
   return cache.remember(`csv:${name}`, 0, () => {
     const p = path.join(DATA_DIR, `${name}.csv`);
@@ -84,4 +94,4 @@ function backendInfo(ctx) {
   };
 }
 
-module.exports = { getTable, readCsvTable, readMeta, backendInfo, DATA_DIR };
+module.exports = { getTable, readCsvTable, readJson, readMeta, backendInfo, DATA_DIR };

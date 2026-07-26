@@ -669,3 +669,145 @@ describe("Zia AutoML benchmark (row 13)", () => {
     expect(row.status).toBe(trained ? "active" : "configured");
   });
 });
+
+describe("service map honesty (must agree with /health)", () => {
+  test("nothing is claimed Live while /health reports it inactive", async () => {
+    const health = (await request(app).get("/health")).body.result;
+    const audit = (await request(app).get("/audit")).body.result;
+    const byService = new Map(audit.catalyst_services.map((s) => [s.service, s.status]));
+
+    // The panel promises measured status. Off-platform these services cannot be running, and
+    // saying "active" here would contradict /health in the same breath.
+    expect(audit.runtime).toBeTruthy();
+    expect(typeof audit.runtime.on_catalyst).toBe("boolean");
+
+    if (!health.cache.active) expect(byService.get("Catalyst Cache")).not.toBe("active");
+    if (health.backend.storage !== "catalyst_datastore") {
+      expect(byService.get("Catalyst Data Store")).not.toBe("active");
+    }
+    if (!audit.runtime.on_catalyst) {
+      for (const s of ["Catalyst Functions", "Catalyst SmartBrowz", "Catalyst Cache", "Catalyst Data Store"]) {
+        expect(byService.get(s)).toBe("configured");
+      }
+    }
+  });
+
+  test("throttling row matches whichever layer /health says owns it", async () => {
+    const health = (await request(app).get("/health")).body.result;
+    const audit = (await request(app).get("/audit")).body.result;
+    const gw = audit.catalyst_services.find((s) => s.service === "Catalyst API Gateway");
+    expect(gw.status).toBe(health.throttling.enforced_by === "catalyst_api_gateway" ? "active" : "configured");
+  });
+});
+
+describe("KSP ER schema conformance (the only KSP-provided artefact)", () => {
+  test("GET /schema/er declares all 28 ER entities under their EXACT ER names", async () => {
+    const r = await request(app).get("/schema/er");
+    expect(r.status).toBe(200);
+    expect(r.body.data_class).toBe("real");
+    const d = r.body.result;
+    expect(d.entities_total).toBe(28);
+    const names = d.entities.map((e) => e.er_entity);
+    // Exact-name fidelity is the whole point: a reviewer must be able to diff this against the
+    // ER document, and real SCRB data must load without a translation layer.
+    for (const n of ["CaseMaster", "ComplainantDetails", "ActSectionAssociation", "Victim",
+      "Accused", "ArrestSurrender", "inv_arrestsurrenderaccused", "Act", "Section",
+      "CrimeHeadActSection", "CrimeHead", "CrimeSubHead", "CasteMaster", "ReligionMaster",
+      "OccupationMaster", "CaseStatusMaster", "Court", "District", "State", "Unit", "UnitType",
+      "Rank", "Designation", "Employee", "CaseCategory", "GravityOffence", "ChargesheetDetails",
+      "Inv_OccuranceTime"]) {
+      expect(names).toContain(n);
+    }
+  });
+
+  test("column names are ER-faithful, including the document's own inconsistencies", async () => {
+    const r = await request(app).get("/schema/er");
+    const byName = new Map(r.body.result.entities.map((e) => [e.er_entity, e]));
+    const cols = (n) => byName.get(n).columns.map((c) => c.column_name);
+    // CasteMaster is snake_case in the ER while everything else is PascalCase, and
+    // ArrestSurrender ends ...StateId not ...StateID. Tidying either would break a real load.
+    expect(cols("CasteMaster")).toEqual(["caste_master_id", "caste_master_name"]);
+    expect(cols("ArrestSurrender")).toContain("ArrestSurrenderStateId");
+    expect(cols("CaseMaster")).toContain("BriefFacts");
+    expect(cols("CaseMaster")).toContain("IncidentFromDate");
+    expect(cols("ChargesheetDetails")).toEqual(["CSID", "CaseMasterID", "csdate", "cstype", "PolicePersonID"]);
+  });
+
+  test("CaseMaster is genuinely materialised, not just documented", async () => {
+    const r = await request(app).get("/schema/er?entity=CaseMaster");
+    const e = r.body.result.entities[0];
+    // schema.md claimed this table was "materialized in Phase 1" when it did not exist at all.
+    expect(e.our_table).toBe("case_master");
+    expect(e.row_count).toBe(1674734);       // reconciles to the source extract exactly
+    expect(e.columns_populated).toBeGreaterThan(0);
+    expect(e.status).toBe("populated_subset");
+  });
+
+  test("ActSectionAssociation is at true one-to-many grain, not collapsed", async () => {
+    const r = await request(app).get("/schema/er?entity=ActSectionAssociation");
+    const e = r.body.result.entities[0];
+    expect(e.our_table).toBe("act_section_association");
+    // more act-section rows than cases — proof the one-to-many survived. It was previously
+    // mapped to dim_section (a reference list) and flattened to a single first_act/first_section.
+    expect(e.row_count).toBeGreaterThan(1674734);
+    expect(e.status).toBe("populated");
+  });
+
+  test("every unpopulated entity NAMES its blocker instead of being omitted", async () => {
+    const r = await request(app).get("/schema/er?status=designed_only");
+    const designed = r.body.result.entities;
+    expect(designed.length).toBeGreaterThanOrEqual(15);
+    for (const e of designed) {
+      expect(e.row_count).toBe(0);
+      expect(e.blocker).toBeTruthy();
+      expect(e.blocker_reason.length).toBeGreaterThan(40);
+      expect(e.summary.length).toBeGreaterThan(20);
+    }
+    const blockers = new Set(designed.map((e) => e.blocker));
+    expect(blockers).toContain("confidential_by_law");
+    expect(blockers).toContain("protected_attribute");
+    expect(blockers).toContain("absent_from_extract");
+  });
+
+  test("protected-attribute masters are declared but never populated", async () => {
+    const r = await request(app).get("/schema/er");
+    for (const n of ["CasteMaster", "ReligionMaster", "OccupationMaster"]) {
+      const e = r.body.result.entities.find((x) => x.er_entity === n);
+      expect(e.status).toBe("designed_only");
+      expect(e.blocker).toBe("protected_attribute");
+      expect(e.row_count).toBe(0);
+    }
+  });
+
+  test("type deviations are declared, not hidden", async () => {
+    const r = await request(app).get("/schema/er");
+    const d = r.body.result;
+    expect(d.deviations.length).toBeGreaterThan(0);
+    for (const x of d.deviations) {
+      expect(x.entity && x.column && x.er_type && x.ours && x.why).toBeTruthy();
+    }
+    // the surrogate key is the most consequential deviation and must be called out
+    expect(d.deviations.some((x) => x.column === "CaseMasterID" && /surrogate/i.test(x.why))).toBe(true);
+    expect(d.reserved_word_note).toMatch(/reserved/i);
+    expect(d.relationships_declared).toBeGreaterThanOrEqual(30);
+  });
+
+  test("no ER entity is silently dropped — statuses partition the whole set", async () => {
+    const r = await request(app).get("/schema/er");
+    const d = r.body.result;
+    const sum = Object.values(d.by_status).reduce((a, b) => a + b, 0);
+    expect(sum).toBe(d.entities_total);
+    expect(d.columns_populated).toBeGreaterThan(0);
+    expect(d.columns_populated).toBeLessThan(d.columns_total);   // honest: we do NOT cover it all
+  });
+
+  test("/audit carries the conformance summary for the trust page", async () => {
+    const r = await request(app).get("/audit");
+    const er = r.body.result.er_conformance;
+    expect(er).toBeTruthy();
+    expect(er.entities_total).toBe(28);
+    expect(er.entities.length).toBe(28);
+    expect(er.detail_endpoint).toBe("/schema/er");
+    expect(er.source_document).toMatch(/Police_FIR_ER_Diagram/);
+  });
+});
