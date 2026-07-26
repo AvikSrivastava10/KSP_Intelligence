@@ -632,3 +632,40 @@ describe("Catalyst service map (published on /audit)", () => {
     expect(custom.map((c) => c.detail).join(" ")).toMatch(/AutoML|QuickML|no client-side/i);
   });
 });
+
+describe("Zia AutoML benchmark (row 13)", () => {
+  test("GET /audit publishes the tabular benchmark WITH its protocol", async () => {
+    const r = await request(app).get("/audit");
+    const b = r.body.result.tabular_model_benchmark;
+    expect(b).toBeTruthy();
+    // two accuracy numbers from different splits are not a comparison — the protocol must ship
+    expect(b.protocol.shared_holdout_rows).toBeGreaterThan(0);
+    expect(b.protocol.train_sample_rows).toBeGreaterThan(0);
+    expect(b.protocol.disjoint_asserted).toBe(true);
+    expect(b.protocol.comparable_pair).toMatch(/zia_automl vs lightgbm_matched/);
+    expect(b.baseline_majority_class_accuracy).toBeGreaterThan(0.5);
+  });
+
+  test("the LightGBM side is already measured on the shared holdout", async () => {
+    const r = await request(app).get("/audit");
+    const res = r.body.result.tabular_model_benchmark.results;
+    for (const key of ["lightgbm_matched", "lightgbm_shipped"]) {
+      expect(res[key]).toBeTruthy();
+      expect(res[key].auc).toBeGreaterThan(0.5);
+      expect(res[key].auc).toBeLessThan(0.99);   // >0.99 would mean leakage, not skill
+      expect(res[key].n).toBe(r.body.result.tabular_model_benchmark.protocol.shared_holdout_rows);
+    }
+    // every model must be scored on the SAME number of rows or the comparison is meaningless
+    if (res.zia_automl) expect(res.zia_automl.n).toBe(res.lightgbm_matched.n);
+  });
+
+  test("Zia AutoML appears in the service map with an honest status", async () => {
+    const r = await request(app).get("/audit");
+    const row = r.body.result.catalyst_services.find((s) => /Zia AutoML/.test(s.service));
+    expect(row).toBeTruthy();
+    expect(row.capability).toMatch(/tabular/i);
+    // must not claim "active" before the console training has actually happened
+    const trained = r.body.result.tabular_model_benchmark.status === "complete";
+    expect(row.status).toBe(trained ? "active" : "configured");
+  });
+});

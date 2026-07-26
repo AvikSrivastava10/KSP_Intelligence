@@ -1,0 +1,69 @@
+{
+  "generated_at_utc": "2026-07-26T01:24:41.732268+00:00",
+  "purpose": "Benchmark Catalyst Zia AutoML against LightGBM on the SAME holdout, and publish both rather than swapping silently in either direction.",
+  "task": "binary classification \u2014 will a case be detected (offender identified)?",
+  "target_column": "outcome",
+  "positive_class": "detected",
+  "features": [
+    "season",
+    "district",
+    "crime_head",
+    "crime_subhead",
+    "gravity",
+    "complaint_mode",
+    "first_act",
+    "first_section",
+    "year",
+    "month",
+    "dow",
+    "victims",
+    "accused_count",
+    "has_coord"
+  ],
+  "protocol": {
+    "shared_holdout_rows": 2000,
+    "train_sample_rows": 100000,
+    "seed": 42,
+    "stratified": "proportional on the target, so the undetected base rate is preserved",
+    "disjoint_asserted": true,
+    "why_capped": "A console CSV upload plus AutoML training on 1.49M rows is slow and failure-prone under a deadline. The matched LightGBM run exists so the cap cannot flatter either model.",
+    "why_2000_holdout": "Zia predictions arrive through a per-request API. At n=2,000 a binary accuracy estimate carries about +/-1pp \u2014 finer than any gap that would change the conclusion.",
+    "comparable_pair": "zia_automl vs lightgbm_matched (identical training rows AND identical holdout). lightgbm_shipped is context, not a fair rival."
+  },
+  "guards": {
+    "leakage": "Filing-time features only; every disposition-derived column is dropped upstream in build_modeling_table.py and re-asserted absent here.",
+    "fairness": "No caste, religion or sex. Victims is a TOTAL. Modeled time-of-day excluded.",
+    "representation_parity": "Top-N bucketing computed on the FULL 1.67M-row table and applied BEFORE the split, so both models see identical inputs.",
+    "topn_keep_sizes": {
+      "crime_subhead": 60,
+      "first_act": 40,
+      "first_section": 60
+    }
+  },
+  "baseline_majority_class_accuracy": 0.869,
+  "results": {
+    "lightgbm_matched": {
+      "auc": 0.9704,
+      "accuracy": 0.9515,
+      "f1_detected": 0.972,
+      "n": 2000
+    },
+    "lightgbm_shipped": {
+      "auc": 0.9749,
+      "accuracy": 0.952,
+      "f1_detected": 0.9723,
+      "n": 2000
+    },
+    "zia_automl": null
+  },
+  "status": "awaiting_zia_training",
+  "console_steps": [
+    "Catalyst console -> Zia Services -> AutoML -> Create Model",
+    "Upload ml/out/zia/case_outcome_train.csv (saved into a File Store folder)",
+    "Set target column = 'outcome' (binary-class categorical)",
+    "Keep all offered columns for training, name the model, Train Model",
+    "Record the Model ID and the evaluation report figures",
+    "Score ml/out/zia/case_outcome_holdout_features.csv and save predictions as ml/out/zia/zia_predictions.csv with columns: row_id, p_detected",
+    "python ml/zia_benchmark.py --score ml/out/zia/zia_predictions.csv"
+  ]
+}

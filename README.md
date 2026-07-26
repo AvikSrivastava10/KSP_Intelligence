@@ -1098,11 +1098,49 @@ from the running function rather than asserted here.
 | Routing & throttling | **API Gateway** | Edge throttling; the in-process limiter stands down |
 | PDF reports | **SmartBrowz** | `GET /report/briefing` renders the briefing server-side |
 | CI/CD | **Pipelines** | `catalyst-pipelines.yaml`, with the test suite as a deploy gate |
+| Tabular model training | **Zia AutoML** | Benchmarked head-to-head against LightGBM on a shared holdout — [see below](#zia-automl-vs-lightgbm-a-measured-comparison) |
 
 ```bash
 cd client && npm run build
 catalyst deploy
 ```
+
+### Zia AutoML vs LightGBM: a measured comparison
+
+Catalyst names **Zia AutoML** for tabular model training, and our case-outcome model uses LightGBM.
+Rather than swap one for the other on faith, `ml/zia_benchmark.py` sets up a comparison that is
+actually fair, and both numbers are published on `/audit`.
+
+The problem it solves: Zia's console evaluation report uses **its own internal split**, so its
+accuracy is not comparable to a LightGBM figure from a 3-fold CV over 1.49M rows. Quoting the two
+side by side without fixing that would be a false comparison. So one shared holdout is fixed and
+every model is scored on exactly those rows:
+
+```
+holdout        2,000 rows, stratified (undetected base rate 0.131), seed-fixed,
+               asserted disjoint from every training set
+train sample   100,000 rows, stratified, drawn from what remains
+```
+
+| Model | ROC-AUC | Accuracy | Role |
+|---|---|---|---|
+| Catalyst Zia AutoML | *pending console training* | — | The service |
+| LightGBM (matched) | **0.9704** | 95.15% | Identical training rows **and** holdout — the fair rival |
+| LightGBM (shipped) | 0.9749 | 95.20% | What the platform serves (1.49M rows) — context only |
+| Majority-class baseline | — | 86.90% | The floor every model must clear |
+
+Only the first two rows are directly comparable. The shipped model is included because it is what
+actually runs, and omitting it would flatter whichever model won the matched test.
+
+Three honesty rules are built into the harness: the top-N bucketing is computed on the **full**
+1.67M-row table and applied *before* the split, so both models see identical inputs; a difference
+under 0.01 AUC is reported as **comparable** rather than a win, because that is inside noise at
+n=2,000; and the 100k cap is stated as a limitation of the benchmark, which is precisely why the
+matched LightGBM run exists. Full procedure in
+[`ml/ZIA_AUTOML_RUNBOOK.md`](ml/ZIA_AUTOML_RUNBOOK.md).
+
+The district-risk model is **not** benchmarked: its panel is 124 rows, where an AutoML result would be
+too unstable to compare against anything. That reason is stated on `/audit` rather than omitted.
 
 ### What is deliberately *not* a Catalyst service, and why
 
@@ -1159,6 +1197,8 @@ KSP_Intelligence/
 │   ├── mo_clustering.py  outcomes.py  network.py  socioeconomic.py
 │   ├── synthetic_persons.py  person_linkage.py    (person demo + PPRL engine)
 │   ├── validation.py                  Ground-truth proof of concept
+│   ├── zia_benchmark.py               Zia AutoML vs LightGBM on a shared holdout
+│   ├── ZIA_AUTOML_RUNBOOK.md          Console steps for the AutoML side
 │   ├── model_store.py  predict.py     Serialization registry + inference CLI
 │   ├── models/                        Serialized estimators (.joblib, gitignored)
 │   └── out/                           Model result tables

@@ -23,6 +23,14 @@ __pycache__/
 # It feeds the ML scripts but is never served and rebuilds in ~25 s.
 etl/out/case_features.parquet
 
+# --- Zia AutoML upload artifact (12 MB, regenerable, deterministic) ---
+# case_outcome_train.csv exists only to be uploaded to the AutoML console. It rebuilds identically
+# from a fixed seed via `python ml/zia_benchmark.py --export`, so committing 12 MB per regeneration
+# would bloat history for nothing.
+# The two 2,000-row HOLDOUT files ARE tracked on purpose: they are the scoring key behind the
+# published benchmark numbers, so a reviewer can re-score any model against the same rows.
+ml/out/zia/case_outcome_train.csv
+
 # --- Serialized model binaries (regenerable; keep git history lean) ---
 # ml/models/*.joblib totals ~14 MB and is rewritten on every retrain — committing it would add
 # a fresh multi-MB blob to history each time, permanently. The artifacts rebuild in ~3 min via

@@ -10,6 +10,14 @@ import Reveal from "../components/Reveal.jsx";
 import { fetchAudit, fetchValidation, reportBriefingUrl } from "../api/client.js";
 
 const fmt = (n) => (typeof n === "number" ? n.toLocaleString("en-IN") : n ?? "—");
+const pctFixed = (x) => `${((x || 0) * 100).toFixed(2)}%`;
+// Row order puts the two directly comparable models first; the shipped model is context, not a
+// rival, and saying so in the table stops the strongest number being read as the fair result.
+const BENCH_ROWS = [
+  ["zia_automl", "Catalyst Zia AutoML", "The service. Trained in the console on the matched sample."],
+  ["lightgbm_matched", "LightGBM (matched)", "Identical training rows AND holdout — the fair comparison."],
+  ["lightgbm_shipped", "LightGBM (shipped)", "What the platform serves, trained on all 1.49M cases. Context only."],
+];
 // "%" reads naturally suffixed; a correlation should render as "ρ 0.971", not "0.971rho".
 const fmtMetric = (v, unit) => (unit === "%" ? `${v}%` : unit === "rho" ? `ρ ${v}` : `${v} ${unit || ""}`.trim());
 const STATUS = {
@@ -242,6 +250,64 @@ export default function DataQualityAudit() {
             </div>
             <p className="mt-3 text-[11px] leading-relaxed text-slate-500">{a.guardrails}</p>
           </Reveal>
+
+          {/* Zia AutoML vs LightGBM. Shown with its protocol, because two accuracy numbers from
+              different splits are not a comparison — and Zia's console report uses its own split. */}
+          {a.tabular_model_benchmark && (
+            <Reveal className="glass rounded-3xl p-5">
+              <div className="mb-1 flex items-center gap-2">
+                <Scale size={16} className="text-violet-500" />
+                <div className="flex items-center gap-1.5 text-sm font-semibold text-slate-900">
+                  Zia AutoML vs LightGBM — same holdout, same training rows
+                  <InfoDot text="Catalyst names Zia AutoML for tabular model training, and ours use LightGBM. Rather than swap silently either way, every model is scored on one identical 2,000-row holdout that no model trained on. Only the first two rows are directly comparable — they share training rows as well as the holdout." />
+                </div>
+              </div>
+              <p className="mb-3 max-w-4xl text-[11px] leading-relaxed text-slate-500">
+                {a.tabular_model_benchmark.task} · {a.tabular_model_benchmark.why}
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[620px] text-left text-xs">
+                  <thead className="text-[10px] uppercase tracking-wide text-slate-500">
+                    <tr className="border-b border-slate-900/10">
+                      <th className="py-2 pr-3 font-semibold">Model</th>
+                      <th className="py-2 pr-3 text-right font-semibold">ROC-AUC</th>
+                      <th className="py-2 pr-3 text-right font-semibold">Accuracy</th>
+                      <th className="py-2 pr-3 text-right font-semibold">F1</th>
+                      <th className="py-2 font-semibold">Role in the comparison</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {BENCH_ROWS.map(([key, label, role]) => {
+                      const r = a.tabular_model_benchmark.results[key];
+                      return (
+                        <tr key={key} className="border-b border-slate-900/5 last:border-0">
+                          <td className="py-2 pr-3 font-medium text-slate-800">{label}</td>
+                          <td className="py-2 pr-3 text-right font-semibold text-slate-800">{r ? r.auc.toFixed(4) : "pending"}</td>
+                          <td className="py-2 pr-3 text-right text-slate-600">{r ? pctFixed(r.accuracy) : "—"}</td>
+                          <td className="py-2 pr-3 text-right text-slate-600">{r ? r.f1_detected.toFixed(3) : "—"}</td>
+                          <td className="py-2 text-[11px] leading-relaxed text-slate-500">{role}</td>
+                        </tr>
+                      );
+                    })}
+                    <tr className="border-t border-slate-900/10">
+                      <td className="py-2 pr-3 text-slate-500">Majority-class baseline</td>
+                      <td className="py-2 pr-3 text-right text-slate-400">—</td>
+                      <td className="py-2 pr-3 text-right text-slate-600">{pctFixed(a.tabular_model_benchmark.baseline_majority_class_accuracy)}</td>
+                      <td className="py-2 pr-3 text-right text-slate-400">—</td>
+                      <td className="py-2 text-[11px] text-slate-500">Guessing &ldquo;detected&rdquo; every time — the floor every model must clear.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-3 rounded-lg bg-slate-900/[0.03] px-3 py-2 text-[11px] leading-relaxed text-slate-600">
+                <b className="text-slate-800">Protocol: </b>
+                {a.tabular_model_benchmark.protocol.shared_holdout_rows.toLocaleString()} held-out rows,
+                {" "}{a.tabular_model_benchmark.protocol.train_sample_rows.toLocaleString()} matched training rows,
+                {" "}{a.tabular_model_benchmark.protocol.stratified}. {a.tabular_model_benchmark.protocol.why_capped}
+              </p>
+              <p className="mt-2 text-[11px] leading-relaxed text-slate-500">{a.tabular_model_benchmark.verdict_note}</p>
+            </Reveal>
+          )}
 
           {/* Which platform service backs which capability — published for the same reason the
               limitations are: a reviewer should not have to reverse engineer it. */}
