@@ -31,6 +31,13 @@ const VERDICT = {
 };
 // "no_catalyst_equivalent" is deliberately neutral, not a warning — it is a justified engineering
 // choice, and colouring it red would misrepresent it.
+// "Declared, empty" is deliberately neutral slate, not a warning colour: an entity we cannot
+// populate because the law forbids it is a correct outcome, not a defect.
+const ER_STATUS = {
+  populated: { label: "Populated", cls: "bg-emerald-100 text-emerald-700" },
+  populated_subset: { label: "Partial", cls: "bg-sky-100 text-sky-700" },
+  designed_only: { label: "Declared, empty", cls: "bg-slate-200 text-slate-600" },
+};
 const SERVICE_STATUS = {
   active: { label: "Live", cls: "bg-emerald-100 text-emerald-700" },
   configured: { label: "Configured", cls: "bg-sky-100 text-sky-700" },
@@ -309,6 +316,86 @@ export default function DataQualityAudit() {
             </Reveal>
           )}
 
+          {/* Fidelity to KSP's own database design. The ER diagram is the only artefact KSP
+              provided, so a reviewer will want to compare it against what we built — this makes
+              that comparison possible instead of asking them to take a claim on trust. */}
+          {a.er_conformance && (
+            <Reveal className="glass rounded-3xl p-5">
+              <div className="mb-1 flex items-center gap-2">
+                <Database size={16} className="text-indigo-500" />
+                <div className="flex items-center gap-1.5 text-sm font-semibold text-slate-900">
+                  KSP ER schema — conformance
+                  <InfoDot text="The official KSP ER diagram is a database DESIGN document containing no data. All 28 of its entities are declared under their exact names and column names, so real SCRB data could be loaded without a translation layer. Where we populate nothing, the blocker is named rather than the table quietly omitted." />
+                </div>
+              </div>
+              <p className="mb-3 max-w-4xl text-[11px] leading-relaxed text-slate-500">
+                Our serving schema is analytical (aggregates and model outputs); KSP&apos;s is a
+                normalised transactional design. Both are declared: all 28 ER entities exist as a
+                loadable contract, and this table says exactly how much of it our de-identified
+                extract can support.
+              </p>
+
+              <div className="mb-3 grid grid-cols-2 gap-2 lg:grid-cols-4">
+                {[
+                  ["Entities declared", a.er_conformance.entities_total, "all 28, exact ER names"],
+                  ["Populated", (a.er_conformance.by_status.populated || 0) + (a.er_conformance.by_status.populated_subset || 0), "from the FIR extract"],
+                  ["Declared, empty", a.er_conformance.by_status.designed_only || 0, "each names its blocker"],
+                  ["Columns populated", `${a.er_conformance.columns_populated}/${a.er_conformance.columns_total}`, "column-level coverage"],
+                ].map(([label, value, sub]) => (
+                  <div key={label} className="neo-inset rounded-xl p-3">
+                    <div className="text-lg font-bold text-slate-900">{value}</div>
+                    <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">{label}</div>
+                    <div className="mt-0.5 text-[10px] text-slate-400">{sub}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[760px] text-left text-xs">
+                  <thead className="text-[10px] uppercase tracking-wide text-slate-500">
+                    <tr className="border-b border-slate-900/10">
+                      <th className="py-2 pr-3 font-semibold">ER entity</th>
+                      <th className="py-2 pr-3 font-semibold">Status</th>
+                      <th className="py-2 pr-3 font-semibold">Our table</th>
+                      <th className="py-2 pr-3 text-right font-semibold">Cols</th>
+                      <th className="py-2 pr-3 text-right font-semibold">Rows</th>
+                      <th className="py-2 font-semibold">Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {a.er_conformance.entities.map((e) => {
+                      const st = ER_STATUS[e.status] || ER_STATUS.designed_only;
+                      return (
+                        <tr key={e.er_entity} className="border-b border-slate-900/5 last:border-0">
+                          <td className="py-2 pr-3 font-mono text-[11px] font-medium text-slate-800">{e.er_entity}</td>
+                          <td className="py-2 pr-3">
+                            <span className={`whitespace-nowrap rounded-full px-1.5 py-0.5 text-[9px] font-semibold ${st.cls}`}>{st.label}</span>
+                          </td>
+                          <td className="py-2 pr-3 font-mono text-[10px] text-slate-500">{e.our_table || "—"}</td>
+                          <td className="py-2 pr-3 text-right text-slate-600">{e.columns_populated}/{e.columns_total}</td>
+                          <td className="py-2 pr-3 text-right text-slate-600">{e.row_count ? fmt(e.row_count) : "—"}</td>
+                          <td className="py-2 text-[11px] leading-relaxed text-slate-500">{e.summary}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Why the empty ones are empty — stated once, in full, rather than per row. */}
+              <div className="mt-3 space-y-1.5">
+                {Object.entries(a.er_conformance.blocker_reasons || {}).map(([k, v]) => (
+                  <p key={k} className="text-[11px] leading-relaxed text-slate-500">
+                    <b className="text-slate-700">{k.replace(/_/g, " ")}:</b> {v}
+                  </p>
+                ))}
+              </div>
+              <p className="mt-3 rounded-lg bg-slate-900/[0.03] px-3 py-2 text-[11px] leading-relaxed text-slate-600">
+                {a.er_conformance.honesty}
+              </p>
+            </Reveal>
+          )}
+
           {/* Which platform service backs which capability — published for the same reason the
               limitations are: a reviewer should not have to reverse engineer it. */}
           {a.catalyst_services && (
@@ -317,10 +404,17 @@ export default function DataQualityAudit() {
                 <Server size={15} className="text-sky-500" /> Built on Catalyst — service map
                 <InfoDot text="Every capability in this platform and the Catalyst service that provides it. Where our own code is used instead, the reason is stated — in each case no Catalyst service covers that algorithm." />
               </div>
-              <p className="mb-3 max-w-4xl text-[11px] leading-relaxed text-slate-500">
-                Deployed entirely on Zoho Catalyst. Live status comes from the running function, so
-                this reflects the actual configuration rather than an intention.
+              <p className="mb-2 max-w-4xl text-[11px] leading-relaxed text-slate-500">
+                Deployed entirely on Zoho Catalyst. A service reads <b>Live</b> only when it is
+                observably serving this request, so the table reports the real configuration rather
+                than an intention.
               </p>
+              {a.runtime && (
+                <p className="mb-3 max-w-4xl rounded-lg bg-slate-900/[0.03] px-3 py-2 text-[11px] leading-relaxed text-slate-600">
+                  <b className="text-slate-800">{a.runtime.on_catalyst ? "On Catalyst: " : "Off-platform: "}</b>
+                  {a.runtime.note}
+                </p>
+              )}
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[720px] text-left text-xs">
                   <thead className="text-[10px] uppercase tracking-wide text-slate-500">
