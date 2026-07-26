@@ -63,16 +63,56 @@ const CSV_ONLY = new Set(["hotspot_cells", "agg_hotspots", "agg_district_month",
  * @param {string} name table/file base name (no extension)
  * @param {{app: any}} ctx per-request context; ctx.app is the Catalyst instance or null
  */
+// Where each table LAST actually came from. The fallback is per table and silent by design, so
+// without this there is no way to tell a working Data Store from a completely empty one — the
+// served numbers are identical either way. Instance-scoped, so it also reveals partial loads.
+const SOURCE_SEEN = new Map();   // table -> "catalyst_datastore" | "bundled_tables"
+
 async function getTable(name, ctx) {
   if (USE_DATASTORE && ctx && ctx.app && !CSV_ONLY.has(name)) {
     try {
       const rows = await readDatastoreTable(name, ctx.app);
-      if (rows && rows.length) return rows;
+      if (rows && rows.length) {
+        SOURCE_SEEN.set(name, "catalyst_datastore");
+        return rows;
+      }
     } catch (e) {
       // fall through to CSV — resilience over strictness
     }
   }
+  if (!CSV_ONLY.has(name)) SOURCE_SEEN.set(name, "bundled_tables");
   return readCsvTable(name);
+}
+
+/**
+ * Actively probe the Data Store with one cheap read.
+ *
+ * WHY: backendInfo used to report `storage: "catalyst_datastore"` purely because USE_DATASTORE was
+ * true and a Catalyst context existed. On the first live deploy that produced a flat overclaim —
+ * the flag was on, zero tables had been created, every read was silently falling back to the
+ * bundle, and /health still said Data Store. From outside it is indistinguishable, because both
+ * backends serve byte-identical rows. So the claim has to be measured, not inferred.
+ */
+async function probeDatastore(ctx) {
+  if (!USE_DATASTORE) return { reachable: false, reason: "USE_DATASTORE is not true" };
+  if (!ctx || !ctx.app) {
+    return { reachable: false, reason: "no Catalyst request context (off-platform)" };
+  }
+  try {
+    const rows = await ctx.app.zcql()
+      .executeZCQLQuery("SELECT canonical_name FROM dim_district LIMIT 0, 1");
+    const n = Array.isArray(rows) ? rows.length : 0;
+    return n > 0
+      ? { reachable: true, probe_table: "dim_district", rows_returned: n }
+      : { reachable: false, probe_table: "dim_district",
+          reason: "the table exists but returned no rows — has etl/load_datastore.py --load run?" };
+  } catch (e) {
+    return {
+      reachable: false,
+      probe_table: "dim_district",
+      reason: `ZCQL read failed: ${String((e && e.message) || e).slice(0, 160)}`,
+    };
+  }
 }
 
 /**
@@ -81,17 +121,35 @@ async function getTable(name, ctx) {
  * the Data Store copy is loaded FROM these same bundled CSVs (etl/load_datastore.py).
  * "bundled_tables" is the normal, self-contained mode; it is not degraded or sample data.
  */
-function backendInfo(ctx) {
-  const live = USE_DATASTORE && ctx && ctx.app;
-  return {
+function backendInfo(ctx, probe = null) {
+  // `storage` now reflects a MEASURED read when a probe is supplied, and falls back to the
+  // configuration-only view (clearly labelled as unverified) when one is not.
+  const observed = [...SOURCE_SEEN.values()];
+  const fromStore = observed.filter((v) => v === "catalyst_datastore").length;
+  const live = probe ? probe.reachable : Boolean(USE_DATASTORE && ctx && ctx.app);
+  const info = {
     datastore_enabled: USE_DATASTORE,
     storage: live ? "catalyst_datastore" : "bundled_tables",
     source: live ? "datastore(+csv fallback)" : "csv", // kept for backward compatibility
     data_is_real: true,
+    verified_by: probe ? "live ZCQL probe" : "configuration only (not probed)",
+    tables_observed: observed.length,
+    tables_from_datastore: fromStore,
+    tables_from_bundle: observed.length - fromStore,
     note: live
       ? "Serving precomputed tables from the Catalyst Data Store (bundled CSVs remain as a resilience fallback)."
-      : "Serving precomputed tables bundled with the function. These are REAL — built by the offline ETL from the 1,674,734-row FIR extract, byte-identical to the Data Store copy. Set USE_DATASTORE=true on a deployed Catalyst function to read from the Data Store instead.",
+      : "Serving precomputed tables bundled with the function. These are REAL — built by the offline ETL from the 1,674,734-row FIR extract, byte-identical to the Data Store copy. Nothing here is sample or degraded data.",
   };
+  if (probe && !probe.reachable) {
+    // The single most useful line during deployment: the flag is on but nothing is coming back,
+    // and here is why.
+    info.datastore_note = `USE_DATASTORE=${USE_DATASTORE} but the Data Store is not serving rows: `
+      + `${probe.reason}. Every table is falling back to the bundled copy, which is why the figures `
+      + `are still correct.`;
+  }
+  return info;
 }
 
-module.exports = { getTable, readCsvTable, readJson, readMeta, backendInfo, DATA_DIR };
+module.exports = {
+  getTable, readCsvTable, readJson, readMeta, backendInfo, probeDatastore, DATA_DIR,
+};

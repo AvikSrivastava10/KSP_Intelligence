@@ -1,21 +1,29 @@
 "use strict";
 const express = require("express");
 const { asyncH } = require("../lib/http");
-const { readMeta, backendInfo } = require("../lib/store");
-const { cacheInfo } = require("../lib/catalystCache");
+const { readMeta, backendInfo, probeDatastore } = require("../lib/store");
+const { cacheInfo, probeCache } = require("../lib/catalystCache");
 const { throttleInfo } = require("../lib/security");
 
 function buildRouter() {
   const router = express.Router();
 
-  // Liveness + which Catalyst services are actually serving this request. Reported rather than
-  // claimed, so a misconfiguration shows up here instead of being discovered during a demo.
-  router.get("/health", (req, res) => res.sendOk({
-    status: "healthy",
-    backend: backendInfo(req.ctx),
-    cache: cacheInfo(req.ctx),
-    throttling: throttleInfo(),
-  }, "real"));
+  // Liveness + which Catalyst services are actually serving this request.
+  // The Data Store and Cache claims are MEASURED here by a live probe, not inferred from env vars:
+  // the first deploy reported storage "catalyst_datastore" with zero tables created, because both
+  // backends return byte-identical rows and the per-table fallback is silent by design.
+  // This route is also excluded from the response cache — a cached health check would keep
+  // reporting the pre-deploy picture for an hour.
+  router.get("/health", asyncH(async (req, res) => {
+    const [ds, ch] = await Promise.all([probeDatastore(req.ctx), probeCache(req.ctx)]);
+    res.sendOk({
+      status: "healthy",
+      backend: backendInfo(req.ctx, ds),
+      datastore_probe: ds,
+      cache: cacheInfo(req.ctx, ch),
+      throttling: throttleInfo(),
+    }, "real");
+  }));
 
   // Full provenance / data-class map (served straight from meta.json).
   router.get("/meta", (req, res) => res.sendOk(readMeta(), "real"));

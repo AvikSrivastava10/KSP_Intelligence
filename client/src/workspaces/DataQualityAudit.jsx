@@ -41,6 +41,10 @@ const ER_STATUS = {
 const SERVICE_STATUS = {
   active: { label: "Live", cls: "bg-emerald-100 text-emerald-700" },
   configured: { label: "Configured", cls: "bg-sky-100 text-sky-700" },
+  // A service that was called and failed is a real problem, so it reads as one. "Live" is now
+  // earned by evidence: a Data Store read that returned rows, a cache value that round-tripped,
+  // a PDF that actually rendered.
+  unavailable: { label: "Not responding", cls: "bg-amber-100 text-amber-800" },
   disabled: { label: "Off", cls: "bg-slate-200 text-slate-600" },
   no_catalyst_equivalent: { label: "No equivalent", cls: "bg-violet-100 text-violet-700" },
 };

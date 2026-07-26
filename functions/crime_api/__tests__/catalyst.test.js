@@ -148,10 +148,37 @@ describe("Catalyst Data Store read path", () => {
     expect(state.queries).toHaveLength(0);
   });
 
-  test("/health reports catalyst_datastore when the context is live", async () => {
+  test("/health reports catalyst_datastore only when a probe READ actually returns rows", async () => {
+    // The probe reads dim_district. With nothing seeded it must NOT claim the Data Store — that
+    // was the exact overclaim on the first live deploy: flag on, zero tables created, /health
+    // still saying catalyst_datastore because both backends return identical rows.
+    const empty = await request(app).get("/health");
+    expect(empty.body.result.backend.storage).toBe("bundled_tables");
+    expect(empty.body.result.datastore_probe.reachable).toBe(false);
+    expect(empty.body.result.backend.datastore_note).toMatch(/falling back/i);
+
+    state.zcqlRows.dim_district = [{ canonical_name: "Testville" }];
+    const live = await request(app).get("/health");
+    expect(live.body.result.backend.storage).toBe("catalyst_datastore");
+    expect(live.body.result.backend.verified_by).toMatch(/probe/i);
+    expect(live.body.result.datastore_probe.rows_returned).toBe(1);
+    expect(live.body.result.backend.data_is_real).toBe(true);
+  });
+
+  test("/health is NEVER served from cache — a stale diagnostic misleads a deploy", async () => {
     const r = await request(app).get("/health");
-    expect(r.body.result.backend.storage).toBe("catalyst_datastore");
-    expect(r.body.result.backend.data_is_real).toBe(true);
+    expect(r.headers["x-cache"]).toBe("no-store");
+    expect(state.cachePuts.find((p) => p.k === cacheKey({ originalUrl: "/health" }))).toBeUndefined();
+  });
+
+  test("cache status is measured by a put+get round trip, not a segment handle", async () => {
+    const ok = await request(app).get("/health");
+    expect(ok.body.result.cache.active).toBe(true);
+    expect(ok.body.result.cache.verified_by).toMatch(/probe/i);
+    state.cacheGetThrows = true;
+    const bad = await request(app).get("/health");
+    expect(bad.body.result.cache.active).toBe(false);
+    expect(bad.body.result.cache.note).toMatch(/not answering/i);
   });
 
   test("KPIs are IDENTICAL whether rows arrive via ZCQL or the bundle", async () => {

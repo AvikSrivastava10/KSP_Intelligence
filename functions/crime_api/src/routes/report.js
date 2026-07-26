@@ -171,6 +171,17 @@ Predictions are statistical projections, not determinations.</div>
 </body></html>`;
 }
 
+/**
+ * Outcome of the most recent render attempt, read by /audit's service map.
+ *
+ * The map used to mark SmartBrowz "Live" whenever a Catalyst context existed. The first live deploy
+ * proved that wrong: the context was there, convertToPdf threw, the endpoint correctly degraded to
+ * HTML — and the map still said Live. A rendering service can only be reported as working if it has
+ * actually rendered something, so the endpoint records what happened and the map reports that.
+ */
+const renderState = { attempted: false, ok: false, reason: null, at: null };
+const smartbrowzState = () => ({ ...renderState });
+
 module.exports = (router, asyncH) => {
   router.get("/report/briefing", asyncH(async (req, res) => {
     const data = await gather(req.ctx);
@@ -197,6 +208,7 @@ module.exports = (router, asyncH) => {
         pdf_options: { format: "A4", print_background: true, margin: { top: "16mm", bottom: "16mm", left: "14mm", right: "14mm" } },
         navigation_options: { wait_until: "domcontentloaded", timeout: 30000 },
       });
+      Object.assign(renderState, { attempted: true, ok: true, reason: null, at: new Date().toISOString() });
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader("X-Report-Renderer", "catalyst-smartbrowz");
       res.setHeader("Content-Disposition",
@@ -206,10 +218,14 @@ module.exports = (router, asyncH) => {
       return res.status(200).end(Buffer.from(pdf));
     } catch (e) {
       // A rendering service being down must not cost the user their briefing.
+      const reason = String((e && e.message) || e).slice(0, 200);
+      Object.assign(renderState, { attempted: true, ok: false, reason, at: new Date().toISOString() });
       res.setHeader("Content-Type", "text/html; charset=utf-8");
       res.setHeader("X-Report-Renderer", "html-fallback");
-      res.setHeader("X-Report-Note", "SmartBrowz render failed; returning source HTML.");
+      res.setHeader("X-Report-Note", `SmartBrowz render failed; returning source HTML. ${reason}`);
       return res.status(200).send(html);
     }
   }));
 };
+
+module.exports.smartbrowzState = smartbrowzState;
