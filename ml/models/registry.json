@@ -1,0 +1,61 @@
+{
+  "note": "Serialized models for offline inference on NEW cases. The live API (Node) never loads these \u2014 it serves precomputed tables.",
+  "models": {
+    "district_risk": {
+      "file": "ml/models/district_risk.joblib",
+      "task": "regression: next-year growth ratio (x lag1 = volume)",
+      "estimator": "lightgbm.sklearn.LGBMRegressor",
+      "created_utc": "2026-07-25T10:05:20.686763+00:00",
+      "features": 12,
+      "training_rows": 155,
+      "metrics": {
+        "spearman_holdout_2023": 0.981,
+        "mae": 1228.8,
+        "baseline_persistence_mae": 1258.4
+      },
+      "size_kb": 205
+    },
+    "anomaly_isolation_forest": {
+      "file": "ml/models/anomaly_isolation_forest.joblib",
+      "task": "unsupervised: monthly district x category spike detection",
+      "estimator": "sklearn.ensemble._iforest.IsolationForest",
+      "created_utc": "2026-07-25T10:05:24.370168+00:00",
+      "features": 2,
+      "training_rows": 28004,
+      "metrics": {
+        "injected_spike_recall": 0.908,
+        "flagged": 415
+      },
+      "size_kb": 544
+    },
+    "case_outcome_binary": {
+      "file": "ml/models/case_outcome_binary.joblib",
+      "task": "binary: detected vs undetected",
+      "estimator": "lightgbm.sklearn.LGBMClassifier",
+      "created_utc": "2026-07-25T10:09:01.725435+00:00",
+      "features": 14,
+      "training_rows": 1488859,
+      "metrics": {
+        "auc_mean": 0.9691,
+        "accuracy": 0.9448,
+        "baseline_accuracy": 0.8689
+      },
+      "size_kb": 944
+    },
+    "case_outcome_multiclass": {
+      "file": "ml/models/case_outcome_multiclass.joblib",
+      "task": "multi-class: fir_stage (13 classes)",
+      "estimator": "lightgbm.sklearn.LGBMClassifier",
+      "created_utc": "2026-07-25T10:09:01.823417+00:00",
+      "features": 14,
+      "training_rows": 1339787,
+      "metrics": {
+        "accuracy": 0.7231,
+        "macro_f1": 0.5606,
+        "baseline_accuracy": 0.2976
+      },
+      "size_kb": 11921
+    }
+  },
+  "updated_utc": "2026-07-25T10:09:02.768122+00:00"
+}
