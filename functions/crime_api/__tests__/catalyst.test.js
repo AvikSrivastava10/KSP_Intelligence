@@ -19,9 +19,24 @@
  * Env is set BEFORE requiring the app because store.js reads USE_DATASTORE at module load, and jest
  * gives each test file its own module registry.
  */
-process.env.USE_DATASTORE = "true";
-process.env.USE_CATALYST_CACHE = "true";
-process.env.CACHE_TTL_HOURS = "1";
+// process.env is SHARED across test files under --runInBand, so these are captured and restored in
+// afterAll. Without that, whichever suite runs second inherits an on-platform configuration it never
+// asked for — and the off-platform assertions in smoke.test.js would pass or fail on file order.
+const ENV_UNDER_TEST = {
+  USE_DATASTORE: "true",
+  USE_CATALYST_CACHE: "true",
+  CACHE_TTL_HOURS: "1",
+};
+const ENV_BEFORE = Object.fromEntries(
+  Object.keys(ENV_UNDER_TEST).map((k) => [k, process.env[k]])
+);
+Object.assign(process.env, ENV_UNDER_TEST);
+afterAll(() => {
+  for (const [k, v] of Object.entries(ENV_BEFORE)) {
+    if (v === undefined) delete process.env[k];
+    else process.env[k] = v;
+  }
+});
 
 // --- the fake SDK, swappable per test ---
 const state = {
@@ -68,7 +83,13 @@ const fakeApp = {
   }),
 };
 
-jest.mock("zcatalyst-sdk-node", () => ({ initialize: () => fakeApp }), { virtual: true });
+// NOT { virtual: true }. That option is for modules which do not exist on disk, and
+// zcatalyst-sdk-node is a real dependency. With `virtual` set, this file passed on its own and
+// under parallel workers (one worker per file) but FAILED under `jest --runInBand` — the project's
+// own npm test script and the Pipelines deploy gate. In a shared process smoke.test.js resolves the
+// real module first, the virtual registration loses, initialize() throws on a non-Catalyst request,
+// ctx.app becomes null, and every on-platform branch silently reverts to its off-platform fallback.
+jest.mock("zcatalyst-sdk-node", () => ({ initialize: () => fakeApp }));
 
 const request = require("supertest");
 const app = require("../src/index");
