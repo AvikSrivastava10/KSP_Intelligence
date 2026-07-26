@@ -19,9 +19,15 @@ __pycache__/
 *.pyo
 
 # --- Intermediate pipeline artefacts (large binary; regenerable from the ETL) ---
-# case_features.parquet is a ~300 MB Parquet file produced by build_modeling_table.py.
-# It feeds the ML scripts but is never served and rebuilds in ~25 s.
-etl/out/case_features.parquet
+# Parquet files at the FULL case grain. None are served by the API (which is aggregate-only) and
+# all rebuild deterministically from the source extract in about a minute:
+#   case_features.parquet           build_modeling_table.py  1.67M rows — ML feature table
+#   case_master.parquet             build_er_core.py         1.67M rows — ER CaseMaster
+#   act_section_association.parquet build_er_core.py         4.93M rows — ER one-to-many act/section
+# A wildcard rather than one line per file, so the next case-grain table cannot be committed by
+# accident. er_core_stats.json IS tracked: it carries the row counts and provenance behind the
+# published ER conformance numbers, which should survive without the binaries.
+etl/out/*.parquet
 
 # --- Zia AutoML upload artifact (12 MB, regenerable, deterministic) ---
 # case_outcome_train.csv exists only to be uploaded to the AutoML console. It rebuilds identically

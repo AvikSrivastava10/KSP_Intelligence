@@ -39,6 +39,7 @@ import urllib.parse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import paths
+import er_schema
 
 # Authoritative Data Store schema (from schema.md §A). Catalyst column types:
 # varchar (needs max length), bigint, double, boolean. Reserved-ish names (count, year,
@@ -231,6 +232,42 @@ def measure_varchar(table, cols):
     return widths
 
 
+def er_row_counts():
+    """Row counts for the ER contract entities, measured — never guessed.
+
+    CaseMaster / ActSectionAssociation come from build_er_core.py's stats file; the reference
+    entities from the CSV that backs them. Everything else is genuinely 0 (declared, unpopulated).
+    """
+    counts = {}
+    stats_p = os.path.join(paths.OUT_DIR, "er_core_stats.json")
+    if os.path.exists(stats_p):
+        with open(stats_p, encoding="utf-8") as f:
+            st = json.load(f)
+        for ent in ("CaseMaster", "ActSectionAssociation"):
+            if ent in st:
+                counts[ent] = int(st[ent].get("rows") or 0)
+    for ent, meta in er_schema.ER_ENTITIES.items():
+        t = meta.get("our_table")
+        if not t or ent in counts:
+            continue
+        p = csv_path(t)
+        if os.path.exists(p):
+            counts[ent] = sum(1 for _ in open(p, encoding="utf-8")) - 1
+    return counts
+
+
+def emit_er_conformance():
+    """Standalone er_conformance.json — bundled into the function and served at /schema/er."""
+    doc = er_schema.conformance(er_row_counts())
+    out = os.path.join(paths.OUT_DIR, "er_conformance.json")
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump(doc, f, indent=2)
+    by = doc["by_status"]
+    print(f"[schema] wrote {out} ({doc['entities_total']} ER entities: "
+          + ", ".join(f"{k}={v}" for k, v in sorted(by.items())) + ")")
+    return doc
+
+
 def emit_schema():
     tables = []
     for table, cols in SCHEMA.items():
@@ -246,17 +283,36 @@ def emit_schema():
                 for c, t in cols
             ],
         })
+    counts = er_row_counts()
     doc = {
         "note": "Create these tables in the Catalyst console (Data Store) or via CSV-import, "
                 "then run `python etl/load_datastore.py --load`. Column types per schema.md \u00a7A.",
         "reserved_name_caveat": "Columns count/year/month/rank are valid user columns; the API "
                                 "reads via SELECT * and never references them directly.",
+        # Two independent groups, deliberately NOT merged:
+        #   serving_tables    - what the API reads. Analytical shape (dims + aggregates + model
+        #                       outputs). This is what --load populates.
+        #   er_contract_tables- the 28 KSP ER entities under their EXACT ER names and columns, so
+        #                       real SCRB data could be loaded with no translation layer. Most are
+        #                       intentionally empty; --load never touches them.
+        # Keeping them separate is the point: it makes visible which is our analytics schema and
+        # which is KSP's design, instead of blurring the two into one ambiguous list.
         "tables": tables,
+        "er_contract_tables": er_schema.contract_tables(counts),
+        "er_conformance_summary": {
+            "source_document": "datasets/Police_FIR_ER_Diagram.pdf (KSP)",
+            "entities_total": len(er_schema.ER_ENTITIES),
+            "detail": "etl/out/er_conformance.json — also served at GET /schema/er",
+        },
+        "tables_count": len(tables),
+        "er_contract_tables_count": len(er_schema.ER_ENTITIES),
     }
     out = os.path.join(paths.OUT_DIR, "datastore_schema.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(doc, f, indent=2)
-    print(f"[schema] wrote {out} ({len(tables)} tables)")
+    print(f"[schema] wrote {out} ({len(tables)} serving tables "
+          f"+ {len(er_schema.ER_ENTITIES)} ER contract tables)")
+    emit_er_conformance()
     return 0
 
 

@@ -7,6 +7,16 @@
 > The ER diagram is the **target/contract** schema. Our FIR extract is a **de-identified,
 > denormalized** slice of it, so we populate the **subset we can** and keep the rest
 > **designed-only** (present for fidelity + future real SCRB data + an anonymization layer).
+>
+> **2026-07-26 — this claim is now actually true, and previously was not.** A conformance audit
+> found that none of the 28 ER entity names and none of its column names appeared anywhere in the
+> generated schema; the "designed-only" tables described below existed in prose only, so nothing
+> could ever have been loaded into them; `case_master` was described as materialized when it did
+> not exist; and the surrogate `case_id` the whole mapping depends on had never been implemented.
+> The contract is now **machine-readable** — see [§D](#d-er-contract-machine-readable) — with all
+> 28 entities declared under their exact ER names in `datastore_schema.json`
+> (`er_contract_tables`), full detail in `etl/out/er_conformance.json`, served at `GET /schema/er`
+> and rendered on the Data Quality workspace. Source of truth: **`etl/er_schema.py`**.
 
 ## Data planes
 
@@ -116,15 +126,35 @@ the Data Store (and bundle as CSV fallback). Types use Catalyst Data Store colum
 | `dim_gravity` | gravity, count | `GravityOffence` |
 | `dim_complaint_mode` | complaint_mode, count | (not in ER — extract-only) |
 | `dim_act` | act, count | `Act` |
-| `dim_section` | act, section, count | `Section` |
+| `dim_section` | act, section, count | `Section` — **not** `ActSectionAssociation` (see below) |
 | `dim_rank` | rank, count | `Rank` (derived from `IOName` suffix) |
+
+> **Corrected mapping.** An earlier version of this table mapped `ActSectionAssociation` to
+> `dim_section`. That was wrong: `dim_section` is a *reference list* of distinct act-section pairs
+> with usage counts, which is the ER's `Section`. `ActSectionAssociation` is **per case and
+> one-to-many**. It had been collapsed to a single `first_act`/`first_section` in the modeling
+> table, so a case citing three acts kept one — measured impact: **357,119 cases (21.3%) cite two
+> or more acts**. It is now materialized at true grain (§A.4).
 
 ### A.3 Normalized core (subset of ER, materialized in Phase 1)
 
-**`case_master`** — one row per FIR. The extract has **no FIR id**, so `case_id` is a
-reconstructed deterministic surrogate. Person/narrative/time columns are absent (see §C).
-Materialized case-level in Phase 1 (from the same `ingest_fir.py`); Phase 0 emits only the
-compact aggregates above.
+**`case_master`** — one row per FIR, **materialized by `etl/build_er_core.py`** →
+`etl/out/case_master.parquet`, **1,674,734 rows, reconciling exactly to the source extract**.
+
+> **Previously this section overclaimed.** It said "Materialized case-level in Phase 1 (from the
+> same `ingest_fir.py`)". No `case_master` existed anywhere — not in `etl/out/`, not in the Data
+> Store schema — and the deterministic surrogate `case_id` it depended on had never been written
+> (`grep case_id etl/**/*.py` returned nothing). Both now exist.
+
+`CaseMasterID` is `CM-` + a 9-digit positional ordinal — deterministic for a fixed source file and
+obviously artificial. **`CrimeNo` and `CaseNo` are declared and left NULL on purpose**: the ER
+documents their exact composition, so conforming values could be synthesised and would be
+indistinguishable from real KSP crime numbers. A fabricated official-looking identifier is a worse
+outcome than an honest null.
+
+Not bundled with the function: at 1.67M rows it is far too large for the CSV-fallback pattern, and
+the API is aggregate-only by design. It exists so the ER contract is genuinely loadable, not to be
+served per case.
 
 | ER `CaseMaster` column | Our source | Status |
 |---|---|---|
@@ -170,9 +200,24 @@ association rules on top.
 
 ---
 
-## C. DESIGNED-ONLY (in ER, NOT populated) — documented, empty
+### A.4 `act_section_association` — the ER's true one-to-many act/section link
 
-Kept in the schema so real SCRB data + an anonymization layer could populate them later.
+Materialized by `etl/build_er_core.py` → `etl/out/act_section_association.parquet`,
+**4,928,708 rows** (2.94 act-sections per case). ER-faithful columns: `CaseMasterID`, `ActID`,
+`SectionID`, `ActOrderID`, `SectionOrderID`. Gitignored and not bundled, same reasoning as
+`case_master`.
+
+This is the fix for the mapping error noted in §A.2 — it is the first time the platform holds the
+per-case act-section relationship at full grain rather than a single first-act.
+
+---
+
+## C. DESIGNED-ONLY (in ER, NOT populated) — declared, empty, and loadable
+
+**These are now real table definitions, not prose.** All 28 ER entities — including every one
+below — are emitted into `datastore_schema.json` under `er_contract_tables` with their exact ER
+names and column names, so real SCRB data could be loaded without a translation layer. Each carries
+a named blocker rather than being silently omitted.
 
 | ER table | Why not populated |
 |---|---|
@@ -187,8 +232,10 @@ Kept in the schema so real SCRB data + an anonymization layer could populate the
 
 ## Reconstruction & guardrail notes
 
-- **Surrogate `case_id`** — the extract has no FIR identifier; a deterministic surrogate is
-  assigned so `CaseMaster` has a primary key and reconciliation is exact (1,674,734 rows).
+- **Surrogate `CaseMasterID`** — the extract has no FIR identifier; `build_er_core.py` assigns
+  `CM-<9-digit positional ordinal>`, deterministic for a fixed source file, so `CaseMaster` has a
+  primary key and reconciliation is exact (1,674,734 rows). *This was documented long before it
+  was implemented; it exists as of 2026-07-26.*
 - **`ActSection` split** → `Act` + `Section` (parses the repeating `<ACT> U/s: <secs>` free text).
 - **Reference tables** rebuilt from distinct values; **rank** derived from `IOName` suffixes.
 - **Geography** standardized via the canonical `dim_district` (41 FIR units → 31 KGIS polygons;
@@ -196,3 +243,55 @@ Kept in the schema so real SCRB data + an anonymization layer could populate the
 - **No protected attributes** (caste/religion/sex/occupation) are used as model features.
 - **MODELED** (time-of-day) and **SYNTHETIC** (person network) planes are always labelled and
   never presented as real or used to train real analytics.
+
+---
+
+## D. ER contract (machine-readable)
+
+`etl/er_schema.py` is the single source of truth for the KSP ER diagram. It encodes all **28
+entities** with ER-faithful table and column names, per-column provenance
+(`populated` / `reconstructed` / `absent`), the 36 declared relationships, and — where we populate
+nothing — a named blocker.
+
+Emitted by `python etl/load_datastore.py --schema` into:
+
+| Output | Contents |
+|---|---|
+| `etl/out/datastore_schema.json` → `tables` | **42 serving tables** — our analytical schema; this is what `--load` populates |
+| `etl/out/datastore_schema.json` → `er_contract_tables` | **28 ER entities**, exact ER names, creatable in the console; `--load` never touches them |
+| `etl/out/er_conformance.json` | full conformance detail — served at `GET /schema/er` |
+
+The two groups are deliberately **not merged**: one is our analytics schema, the other is KSP's
+design. Blurring them into a single list would obscure which is which.
+
+### Conformance at a glance
+
+| Status | Count | Meaning |
+|---|---|---|
+| `populated` | 1 | every meaningful column populated (`ActSectionAssociation`) |
+| `populated_subset` | 10 | some columns populated, remainder declared NULL |
+| `designed_only` | 17 | declared and empty, each with a named blocker |
+
+Blockers: `confidential_by_law` (6) · `absent_from_extract` (6) · `protected_attribute` (3) ·
+`single_value_in_extract` (2) — 17 in total.
+
+Column-level coverage is **36 of 139 (25.9%)**. That number is deliberately published: it is the
+clearest single statement of how much of KSP's own design a de-identified extract can support, and
+rounding it up would defeat the purpose of measuring it.
+
+### Declared deviations
+
+Four places where we cannot honour the ER's declared type. Each is recorded in
+`er_conformance.json → deviations` rather than hidden by quietly changing the type:
+`CaseMaster.CaseMasterID` (INT → varchar surrogate), `Act.ActCode` (code → parsed name),
+`CrimeHead.CrimeHeadID` (INT → name), `District.DistrictID` (INT → real external KGIS/LGD/Census
+codes, which is what makes the boundary and census joins independently verifiable).
+
+### Naming notes
+
+ER names are reproduced **exactly**, including the document's own inconsistencies
+(`CasteMaster.caste_master_id` is snake_case; `ArrestSurrender.ArrestSurrenderStateId` ends `Id`
+not `ID`). Tidying either would break a real SCRB load. Four table names — `Act`, `Section`,
+`State`, `Rank` — are reserved words in some SQL dialects; they are declared under their true names
+with `reserved_word_risk: true` and an `er_`-prefixed `alt_name` available if the console rejects
+them.
