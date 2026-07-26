@@ -1,6 +1,8 @@
 "use strict";
 // readJson moved into lib/store.js once a second route (schema.js) needed it.
-const { getTable, readJson, readMeta } = require("../lib/store");
+const { getTable, readJson, readMeta, probeDatastore } = require("../lib/store");
+const { probeCache } = require("../lib/catalystCache");
+const { smartbrowzState } = require("./report");
 const { num } = require("../lib/districts");
 
 /**
@@ -136,6 +138,15 @@ module.exports = (router, asyncH) => {
     // same breath — and the panel's whole value is that it reports rather than asserts.
     const onPlatform = !!(req.ctx && req.ctx.app);
     const live = (cond) => (cond ? "active" : "configured");
+    // Data Store and SmartBrowz are reported from EVIDENCE, not from the presence of a context.
+    // On the first live deploy both read "active" while neither was actually serving.
+    const [dsProbe, cacheProbe] = await Promise.all([
+      probeDatastore(req.ctx), probeCache(req.ctx),
+    ]);
+    const sb = smartbrowzState();
+    const sbStatus = !onPlatform ? "configured"
+      : sb.attempted ? (sb.ok ? "active" : "unavailable")
+        : "configured";
 
     const catalyst_services = [
       { capability: "Serverless backend logic", service: "Catalyst Functions",
@@ -143,11 +154,11 @@ module.exports = (router, asyncH) => {
       { capability: "Frontend / SPA hosting", service: "Catalyst Web Client Hosting",
         status: live(onPlatform), detail: "React 18 + Vite build served from client/dist." },
       { capability: "Relational database", service: "Catalyst Data Store",
-        status: live(process.env.USE_DATASTORE === "true" && onPlatform),
+        status: live(dsProbe.reachable),
         detail: "42-table schema generated from the real data with measured varchar widths. "
           + "The bundled CSV copy is retained as a resilience fallback and is byte-identical." },
       { capability: "Cache", service: "Catalyst Cache",
-        status: process.env.USE_CATALYST_CACHE === "false" ? "disabled" : live(onPlatform),
+        status: process.env.USE_CATALYST_CACHE === "false" ? "disabled" : live(cacheProbe.working),
         detail: "GET responses cached by URL hash. Every response is precomputed, so it is a pure "
           + "function of its query string — safe to cache and shared across function instances." },
       { capability: "API routing, throttling and access rules", service: "Catalyst API Gateway",
@@ -155,7 +166,7 @@ module.exports = (router, asyncH) => {
         detail: "Throttling at the edge. The in-process limiter stands down when the gateway is "
           + "fronting the function, so the endpoint is never left unprotected." },
       { capability: "PDF report generation", service: "Catalyst SmartBrowz",
-        status: live(onPlatform),
+        status: sbStatus,
         detail: "GET /report/briefing renders the intelligence briefing server-side, so it can be "
           + "scheduled and circulated rather than only printed from one analyst's browser." },
       { capability: "CI/CD", service: "Catalyst Pipelines",
@@ -208,6 +219,15 @@ module.exports = (router, asyncH) => {
         honesty: er.honesty,
         detail_endpoint: "/schema/er",
       } : null,
+      // The evidence behind the statuses above, so the claim is auditable rather than trusted.
+      service_evidence: {
+        datastore: dsProbe,
+        cache: cacheProbe,
+        smartbrowz: sb.attempted
+          ? { attempted: true, ok: sb.ok, reason: sb.reason, at: sb.at }
+          : { attempted: false, note: "No render attempted yet in this instance. Call "
+              + "/report/briefing once; the status here then reflects what actually happened." },
+      },
       runtime: {
         on_catalyst: onPlatform,
         note: onPlatform

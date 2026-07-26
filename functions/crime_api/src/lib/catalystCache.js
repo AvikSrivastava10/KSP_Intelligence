@@ -43,9 +43,19 @@ function segmentFor(ctx) {
  * Express middleware. Must be mounted AFTER envelope() (it wraps res.sendOk) and AFTER the
  * middleware that assigns req.ctx (it needs the Catalyst app instance).
  */
+// Diagnostics must never be cached. /health exists to report the CURRENT state of the system, and
+// the first live deploy showed it being served from cache (`x-cache: hit`) — meaning that after
+// loading Data Store tables or changing an env var it would keep reporting the old picture for up
+// to an hour. A stale health check is worse than none: it actively misleads during a deploy.
+const NEVER_CACHE = new Set(["/health", "/audit", "/schema/er"]);
+
 function responseCache({ ttlHours = TTL_HOURS } = {}) {
   return async (req, res, next) => {
     if (req.method !== "GET") return next();
+    if (NEVER_CACHE.has((req.path || "").replace(/\/+$/, "") || "/")) {
+      res.setHeader("X-Cache", "no-store");
+      return next();
+    }
     const seg = segmentFor(req.ctx);
     if (!seg) {
       res.setHeader("X-Cache", "bypass");   // local dev, or Cache not provisioned
@@ -80,20 +90,43 @@ function responseCache({ ttlHours = TTL_HOURS } = {}) {
   };
 }
 
-/** Reported by /health so the active caching layer is visible rather than assumed. */
-function cacheInfo(ctx) {
-  const live = !!segmentFor(ctx);
+/**
+ * Reported by /health. `active` is MEASURED by a real put+get round trip when a probe is run,
+ * because holding a segment object only proves the SDK returned one — not that the Cache service
+ * is provisioned and answering.
+ */
+function cacheInfo(ctx, probe = null) {
+  const live = probe ? probe.working : !!segmentFor(ctx);
   return {
     service: "catalyst_cache",
     enabled: ENABLED,
     active: live,
+    verified_by: probe ? "live put+get probe" : "segment handle only (not probed)",
     ttl_hours: TTL_HOURS,
-    scope: "GET response bodies, keyed by URL hash",
+    scope: "GET response bodies, keyed by URL hash (diagnostics endpoints are never cached)",
     note: live
       ? "Responses are cached in the Catalyst Cache service, shared across function instances."
-      : "Catalyst Cache needs a Catalyst request context, so it is inactive off-platform. "
-        + "Responses are still served from the in-process table memo (lib/cache.js).",
+      : "Catalyst Cache is not answering, so responses are computed each time and served from the "
+        + "in-process table memo (lib/cache.js). Nothing is degraded except latency."
+        + (probe && probe.reason ? ` Reason: ${probe.reason}` : ""),
   };
 }
 
-module.exports = { responseCache, cacheInfo, cacheKey };
+/** One put + one get. Cheap enough for /health, and it either works or it does not. */
+async function probeCache(ctx) {
+  const seg = segmentFor(ctx);
+  if (!seg) return { working: false, reason: "no Catalyst request context (off-platform)" };
+  const key = "resp_healthprobe";
+  const stamp = String(Date.now());
+  try {
+    await seg.put(key, stamp, 1);
+    const back = await seg.getValue(key);
+    return back === stamp
+      ? { working: true }
+      : { working: false, reason: "value written did not read back identically" };
+  } catch (e) {
+    return { working: false, reason: String((e && e.message) || e).slice(0, 160) };
+  }
+}
+
+module.exports = { responseCache, cacheInfo, probeCache, cacheKey, NEVER_CACHE };
