@@ -83,7 +83,7 @@ export default function Layout({ children }) {
             <div className="mb-1 flex items-center gap-1.5 font-semibold text-slate-700">
               <ShieldCheck size={13} className="text-emerald-500" /> Live
             </div>
-            All seven workspaces running on real FIR data — hotspots, forecasts, risk, MO patterns, entity network and socio-economic context.
+            Nine workspaces on real FIR data — hotspots, forecasts, risk, MO patterns, entity network, socio-economic context and a published data-quality audit.
           </div>
         </div>
       </aside>

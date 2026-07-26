@@ -1,8 +1,11 @@
 """Phase 3 - Emerging-trend / spike alerts ("red-zones"), offline.
 
-Compares the most recent COMPLETE year (2023) against a seasonal baseline (the mean
-annual volume over 2016-2022) for every parent-district x major-category, and flags
-red/amber spikes. 2024 is excluded (partial year -> undercounted -> false signals).
+Compares the most recent COMPLETE year (2023) against a RECENT baseline (the mean annual
+volume over 2021-2022, see BASELINE_YEARS) for every parent-district x major-category, and
+flags red/amber spikes. The baseline is deliberately recent rather than the full history:
+including the COVID-suppressed 2020-21 years would depress the baseline and make almost
+every 2023 comparison look like a spike. 2024 is excluded (partial year -> undercounted ->
+false signals).
 
 Output -> ml/out/alerts.csv
   canonical_name, kgis_code, category, period, actual, baseline, deviation_pct,

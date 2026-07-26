@@ -16,20 +16,15 @@ Linked project (read automatically from `.catalystrc`): **KSP** · `533580000000
 
 ## Step 0 — protect your secrets first
 
-The repo's `.gitignore` is currently only `node_modules/` + `datasets/`. Before creating any
-`.env`, re-add at least:
+`.gitignore` already excludes `.env`, `.env.*`, `*.pem`, `*.key`, `credentials.json` and
+`client-secret*.json`, so a local `.env` is safe to create. Verify before you start:
 
-```
-.env
-.env.*
-!.env.example
-*.pem
-*.key
-credentials.json
-client-secret*.json
+```bash
+git check-ignore -v .env
 ```
 
-Never paste OAuth values into chat, screenshots, logs or commits.
+Never paste OAuth values into chat, screenshots, logs or commits — a committed secret cannot be
+fully un-published.
 
 ---
 
@@ -42,7 +37,7 @@ The authoritative spec is generated from the real data:
 python etl/load_datastore.py --schema
 ```
 
-That writes `etl/out/datastore_schema.json` — **34 tables**, every column with its exact type and
+That writes `etl/out/datastore_schema.json` — **42 tables**, every column with its exact type and
 a **measured** `max_length` (varchar widths are sized from the longest actual value + 50% headroom,
 so long text like `association_rules.reading` (varchar 500) or `socio_correlations.caveat`
 (varchar 1000) is never silently truncated).
@@ -89,10 +84,21 @@ python etl/load_datastore.py --load --only dim_district agg_outcomes
 
 ---
 
+### Loading only part of the schema is fine
+
+`store.js` falls back to the bundled table **per table**, so you do not need all 42 in place before
+deploying. Creating the ~15 tables the core screens read (`dim_district`, `agg_outcomes`,
+`agg_case_status`, `agg_socioeconomic`, `agg_unit`, `agg_timeofday`, `risk_scores`, `alerts`,
+`anomalies`, `mo_clusters`, `outcomes_by_district`, `outcome_drivers`, `network_nodes`,
+`network_communities`, `socio_correlations`) is enough for `/health` to report
+`storage: "catalyst_datastore"`, with the remainder still served from the bundle. Four large tables
+(`hotspot_cells`, `agg_hotspots`, `agg_district_month`, `forecasts`) are pinned CSV-only by design
+and never need creating.
+
 ## Step 4 — deploy with the Data Store switched on
 
-Set `USE_DATASTORE=true` in `functions/crime_api/catalyst-config.json` (or as a function env var
-in the console), then:
+`USE_DATASTORE` already defaults to `true` in `functions/crime_api/catalyst-config.json`, so no edit
+is needed unless you want it off. Then:
 
 ```bash
 cd client && npm run build

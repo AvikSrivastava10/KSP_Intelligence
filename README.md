@@ -8,7 +8,8 @@ and patterns an investigating officer can actually use — while being explicit 
 data honestly cannot tell you.
 
 ```
-1,674,734 real FIRs  ·  2016–2024  ·  31 districts  ·  10 models  ·  9 workspaces  ·  52 automated tests
+1,674,734 real FIRs · 2016–2024 · 31 districts · 10 models · 9 workspaces · 61 automated tests
+                    deployed end-to-end on Zoho Catalyst
 ```
 
 ---
@@ -30,7 +31,7 @@ data honestly cannot tell you.
 10. [The interface: nine workspaces](#10-the-interface-nine-workspaces)
 11. [Honesty, fairness, and what we refuse to do](#11-honesty-fairness-and-what-we-refuse-to-do)
 12. [Testing and quality control](#12-testing-and-quality-control)
-13. [Deployment](#13-deployment)
+13. [Deployment and Catalyst services](#13-deployment-and-catalyst-services)
 14. [Repository layout](#14-repository-layout)
 15. [Things that went wrong (and what we learned)](#15-things-that-went-wrong-and-what-we-learned)
 
@@ -378,8 +379,8 @@ flowchart TD
 
     subgraph LIVE["LIVE — every response is a table read"]
         direction TB
-        API["<b>crime_api</b> — Node + Express<br/>32 endpoints · median 1.8 ms<br/>{ ok, data_class, result }"]
-        STORE{{"Catalyst Data Store<br/><i>or</i> bundled CSVs"}}
+        API["<b>crime_api</b> — Catalyst Functions<br/>34 endpoints · median 1.8 ms<br/>{ ok, data_class, result }"]
+        STORE{{"Catalyst Data Store<br/><i>fallback:</i> bundled CSVs"}}
         UI["<b>client/</b> — React + Vite<br/>9 workspaces · Leaflet · ECharts"]
         STORE --> API --> UI
     end
@@ -911,7 +912,7 @@ Node + Express, deployed as a Catalyst Advanced I/O function. Every response use
 That `data_class` field is not decoration — it is how the interface knows whether to show a green
 "Real data" badge, an amber "Modeled · estimated" badge, or a fuchsia "Synthetic · demo" badge.
 
-### All 32 endpoints
+### All 34 endpoints
 
 | Endpoint | Returns |
 |---|---|
@@ -939,6 +940,7 @@ That `data_class` field is not decoration — it is how the interface knows whet
 | `GET /outcomes` · `GET /outcomes/drivers` | Per-district rates; model drivers and cards |
 | **Network** | |
 | `GET /network/entity` | Force-graph nodes and edges (supports `focus=`, `type=`) |
+| `GET /network/matrix` | Crime-type × legal-act grid — the readable alternative to a force layout |
 | `GET /network/entities` | All 483 entities — searchable, sortable, paginated |
 | `GET /network/entity/:id` | One entity: neighbours, rules, community, centrality rank |
 | `GET /network/communities` | Louvain crime-pattern groups |
@@ -949,13 +951,25 @@ That `data_class` field is not decoration — it is how the interface knows whet
 | **Context & trust** | |
 | `GET /socio` | Socio-economic correlations (protected attributes segregated) |
 | `GET /hub` | Cross-model synthesis for the Strategic Hub |
-| `GET /audit` | Limitations, fairness guarantees, all model cards |
+| `GET /audit` | Limitations, fairness guarantees, model cards, Catalyst service map |
 | `GET /validation` | Ground-truth test results |
+| `GET /report/briefing` | Server-rendered intelligence briefing PDF (Catalyst SmartBrowz) |
 
-**Security:** Helmet headers, origin-restricted CORS, rate limiting (200 req/min default), request-ID
-tracing, Zod input validation, and safe URI decoding. All ZCQL table names are hardcoded literals —
-there is no query-injection surface. Client-supplied request IDs are validated against
-`^[\w.-]{1,64}$` so arbitrary content is never echoed back.
+**Security:** Helmet headers, origin-restricted CORS, request-ID tracing, Zod input validation, and
+safe URI decoding. All ZCQL table names are hardcoded literals — there is no query-injection
+surface. Client-supplied request IDs are validated against `^[\w.-]{1,64}$` so arbitrary content is
+never echoed back.
+
+Throttling is owned by **Catalyst API Gateway** when it fronts the function. An in-process limiter
+(200 req/min) remains as the default and stands down once `USE_API_GATEWAY=true` — deliberately a
+flag rather than a deletion, so if the gateway rules are not yet published the endpoint falls back
+to *protected* rather than *open*.
+
+**Caching:** GET responses are cached in **Catalyst Cache**, keyed by a hash of the URL. This is
+safe precisely because of the precompute-first architecture — every response is a pure function of
+its query string. A read error is treated exactly like a miss: a cache is an optimisation, never a
+dependency. `GET /health` reports which storage, cache and throttling layer is actually serving the
+request, so a misconfigured deploy is visible there rather than discovered during a demo.
 
 ---
 
@@ -976,8 +990,13 @@ React 18 + Vite + Tailwind, with React-Leaflet for maps and Apache ECharts for g
 | **Data Quality** | The trust page — limitations, fairness guarantees, 11 model cards, validation results |
 
 **Design decisions worth noting.** Every panel carries a data-class badge. Explanatory hover markers
-define terms like *lift*, *SHAP*, and *confidence interval* in plain words. Reports export through
-native browser Print-to-PDF — deliberately no jsPDF, keeping text selectable and dependencies minimal.
+define terms like *lift*, *SHAP*, and *confidence interval* in plain words. The briefing exports
+through **Catalyst SmartBrowz**, rendered server-side: a document that exists on the server can be
+scheduled and circulated to a district SP, and it looks identical for everyone instead of depending
+on one analyst's print dialog. The HTML is composed from the precomputed tables rather than
+screenshotted from the SPA — every workspace draws its maps and charts to canvas *after* async
+fetches settle, so pointing a headless browser at the app would intermittently capture half-drawn
+charts.
 
 The Network page in particular was rebuilt for readability after it rendered as a hairball: only 8.5%
 of edges carry ≥1,000 shared cases, so a connection-strength filter now shows 284 meaningful links
@@ -1037,10 +1056,10 @@ Everything else on every other screen is real.
 ## 12. Testing and quality control
 
 ```bash
-cd functions/crime_api && npm test     # 52 tests
+cd functions/crime_api && npm test     # 61 tests
 ```
 
-**52 automated tests** covering every endpoint, plus the guarantees that matter most:
+**61 automated tests** covering every endpoint, plus the guarantees that matter most:
 
 - Row reconciliation holds at exactly 1,674,734
 - District-centroid records never leak into hotspot layers
@@ -1050,6 +1069,13 @@ cd functions/crime_api && npm test     # 52 tests
 - No shipped model ever scores below its naive baseline
 - Malformed input returns 400, not 500; oversized request IDs are never echoed back
 - Every entity in the network has inspectable connections
+- Throttling is never simply absent — either the gateway or the in-process limiter owns it
+- The cached response layer never serves a stale `request_id`
+- The exported briefing carries its caveats, and its shortlist agrees with `/hub`
+- Every custom component in the service map explains why no Catalyst service applies
+
+These run as a **deploy gate** in Catalyst Pipelines, so a build that breaks any guarantee above
+cannot reach the demo.
 
 A separate scripted data-integrity audit checks 33 invariants across the whole pipeline — file hashes
 between source and bundle, schema-to-CSV column agreement across all 42 tables, join integrity to the
@@ -1057,15 +1083,45 @@ between source and bundle, schema-to-CSV column agreement across all 42 tables, 
 
 ---
 
-## 13. Deployment
+## 13. Deployment and Catalyst services
 
-The platform targets **Zoho Catalyst** using three services: Functions (the API), Web Client Hosting
-(the interface), and Data Store (optional table storage).
+The platform is deployed end-to-end on **Zoho Catalyst**. Each capability is served by the Catalyst
+service intended for it; the live status of every row is published on the `/audit` workspace, read
+from the running function rather than asserted here.
+
+| Capability | Catalyst service | How it is used |
+|---|---|---|
+| Serverless backend | **Functions** | `crime_api` — Advanced I/O, Node 18, 34 endpoints |
+| Frontend / SPA | **Web Client Hosting** | React 18 + Vite build served from `client/dist` |
+| Relational database | **Data Store** | 42 tables, schema generated from the real data with measured varchar widths |
+| Cache | **Cache** | GET responses keyed by URL hash |
+| Routing & throttling | **API Gateway** | Edge throttling; the in-process limiter stands down |
+| PDF reports | **SmartBrowz** | `GET /report/briefing` renders the briefing server-side |
+| CI/CD | **Pipelines** | `catalyst-pipelines.yaml`, with the test suite as a deploy gate |
 
 ```bash
 cd client && npm run build
 catalyst deploy
 ```
+
+### What is deliberately *not* a Catalyst service, and why
+
+Two components are custom, and the reason is stated on `/audit` rather than left to inference:
+
+- **The models.** KDE + DBSCAN hotspots, Holt-Winters forecasting, HDBSCAN MO clustering,
+  NetworkX + Louvain community detection, association-rule mining and the PPRL linkage engine.
+  **Zia AutoML** covers supervised tabular learning and **QuickML** covers no-code pipelines;
+  neither provides these algorithms. They run offline and the API serves only their precomputed
+  outputs, so nothing infers at request time.
+- **Maps and charts.** React-Leaflet and Apache ECharts. Catalyst offers no client-side geospatial
+  or charting component.
+
+### Why the CSV fallback stays wired
+
+`store.js` falls back to the bundled tables if a Data Store query fails, **per table**. That keeps
+the function self-contained, so a Data Store hiccup degrades to *identical data* rather than a broken
+dashboard mid-presentation. It also means a partial Data Store load is honest and functional — and
+`/health` reports which backend actually answered.
 
 Moving to the Catalyst Data Store is optional and documented step-by-step in
 [`etl/DATASTORE_RUNBOOK.md`](etl/DATASTORE_RUNBOOK.md): create 42 tables from the generated schema,
@@ -1107,11 +1163,17 @@ KSP_Intelligence/
 │   ├── models/                        Serialized estimators (.joblib, gitignored)
 │   └── out/                           Model result tables
 │
-├── functions/crime_api/               BACKEND — Node + Express (Catalyst Advanced I/O)
-│   ├── src/lib/                       Envelope, security, cache, storage-agnostic reader
-│   ├── src/routes/                    14 route modules, 32 endpoints
+├── catalyst.json                      Catalyst deployment targets (function + web client)
+├── catalyst-pipelines.yaml            CI/CD — tests gate the deploy
+│
+├── functions/crime_api/               BACKEND — Catalyst Functions (Advanced I/O)
+│   ├── src/lib/store.js               Storage-agnostic reader: Data Store -> bundled tables
+│   ├── src/lib/catalystCache.js       Catalyst Cache response layer
+│   ├── src/lib/                       Envelope, security/throttling, CSV parser, districts
+│   ├── src/routes/                    15 route modules, 34 endpoints
+│   ├── src/routes/report.js           SmartBrowz intelligence briefing
 │   ├── src/data/                      Bundled real tables (self-contained deployment)
-│   └── __tests__/                     52 Jest + Supertest tests
+│   └── __tests__/                     61 Jest + Supertest tests
 │
 └── client/                            FRONTEND — React 18 + Vite
     ├── src/workspaces/                9 workspaces
@@ -1149,6 +1211,19 @@ build is not evidence that a UI works. Click through it.*
 cases are Karnataka Railways" when the reality was "72% of Karnataka Railways cases are theft" —
 antecedent and consequent were swapped in the template. Theft is 159,021 cases statewide; 7,128 is
 4.5%. *Lesson: read the generated text as a domain expert would, not as a developer checking it renders.*
+
+**A rotated axis label cut itself in half.** The crime-type × legal-act grid truncated every column
+name and pushed the last one off the canvas. The comment in the code blamed narrow columns — "roughly
+29px wide". Measuring showed columns are ~54px and the widest label word is 39px, so width was never
+the problem: `rotate: 40` with `align: "left"` makes each label run up *and* to the right of its tick,
+straight past the edge of the canvas. *Lesson: a plausible written explanation is not a measurement.
+Measure before you optimise the wrong dimension.*
+
+**We spent twenty minutes debugging code that was not running.** An orphaned Node process from an
+earlier check still held port 9000, so a freshly started server failed with `EADDRINUSE` while the
+old build kept answering requests. Every "failure" in that round of verification was a stale
+response. *Lesson: when results contradict the code you just wrote, verify you are talking to the
+process you think you are.*
 
 **We nearly shipped beautiful fiction.** Mapping the modelled time-of-day would have produced a
 convincing spatiotemporal display that was 97.4% assumption. It would have impressed people. We built
