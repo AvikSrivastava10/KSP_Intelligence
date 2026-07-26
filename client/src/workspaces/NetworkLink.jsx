@@ -29,12 +29,12 @@ const prettyTheme = (s) => title(s).replace(/ Non-Fatal$/i, "").replace(/&/g, "a
  * Axis labels for the grid.
  *
  * The source names are full legal titles — "NARCOTIC DRUGS AND PSYCHOTROPIC SUBSTANCES ACT, 1985"
- * is 52 characters, and a column in this grid is roughly 29px wide. No rotation makes that fit, so
- * the previous version truncated everything to "Na…" and the axis became useless.
+ * is 52 characters against a ~54px column, so the raw name can never be shown on the axis.
  *
- * The fix is not a smaller font — it is to use the short forms officers actually say: IPC, CrPC,
- * NDPS, POCSO, MV Act. Shorter AND more familiar. The full legal title is still shown in the
- * tooltip, so nothing is lost.
+ * The answer is not a smaller font or a rotation angle — it is the short forms officers actually
+ * say: IPC, CrPC, NDPS, POCSO, MV Act. Shorter AND more familiar. Measured against the live
+ * payload, the longest word any of these produces is "Mineral" (~39px), which fits the label box
+ * on one line. The full legal title is still in the tooltip, so nothing is lost.
  */
 const ACT_SHORT = [
   [/^IPC\b|INDIAN PENAL/i, "IPC"],
@@ -85,16 +85,26 @@ function genericShort(name) {
   return fixAcronyms(title(t));
 }
 
+/**
+ * Safety net for the column labels. They wrap at spaces (`overflow: "break"`), so a multi-word
+ * short form always fits — but a single word wider than the label box would still spill sideways
+ * into its neighbour. Nothing in ACT_SHORT is that long; an unmapped act falling through to
+ * genericShort could be. Capping word length makes overflow impossible by construction rather
+ * than by luck with the font metrics.
+ */
+const capWords = (s) => String(s).split(" ")
+  .map((w) => (w.length > 12 ? `${w.slice(0, 11)}…` : w)).join(" ");
+
 const shortAct = (name) => {
   for (const [re, out] of ACT_SHORT) {
     const m = String(name).match(re);
-    if (m) return typeof out === "function" ? out(m) : out;
+    if (m) return capWords(typeof out === "function" ? out(m) : out);
   }
-  return genericShort(name);
+  return capWords(genericShort(name));
 };
 
 
-/** Crime types sit on the horizontal axis, so they get more room than the acts do. */
+/** Crime types are the grid's ROWS, so they get a wide left gutter and stay on one line. */
 const shortCrime = (name) => {
   const t = fixAcronyms(title(name))
     .replace(/^Motor Vehicle Accidents\s*/i, "MV Accidents ")
@@ -105,8 +115,21 @@ const shortCrime = (name) => {
     .replace(/Karnataka Police Act.*/i, "KA Police Act")
     .replace(/\s+/g, " ")
     .trim();
-  return t.length > 30 ? `${t.slice(0, 29)}…` : t;
+  // 26 chars at 10-11px stays inside the 190px left gutter, so a row name is never clipped either.
+  return t.length > 26 ? `${t.slice(0, 25)}…` : t;
 };
+
+// Grid geometry, sized from the measured label widths so nothing has to be truncated.
+// At GRID_MIN_W the plot area is (860 - 190 gutter - 18 right) = 652px, so each of the 12 columns
+// gets ~54px and the label box sits just inside it. The widest word any short form produces is
+// "Mineral" at ~39px, so every label clears its box with room to spare.
+const GRID_ROWS = 16;
+const GRID_COLS = 12;
+const COL_LABEL_W = 52;   // label box < column width, so adjacent labels cannot touch
+// The geometry above only holds if the chart actually gets that width. Below ~lg the panel is far
+// narrower, so the grid scrolls horizontally instead of silently compressing its columns — same
+// pattern the data tables in this app already use.
+const GRID_MIN_W = 860;
 
 export default function NetworkLink() {
   const [mode, setMode] = useState("entity");         // "entity" (real) | "person" (synthetic)
@@ -142,7 +165,9 @@ export default function NetworkLink() {
   const [hideHubs, setHideHubs] = useState(true);
 
   const matrixQ = useQuery({
-    queryKey: ["matrix"], queryFn: () => fetchMatrix(16, 12), enabled: view === "grid" && !isPerson,
+    queryKey: ["matrix", GRID_ROWS, GRID_COLS],
+    queryFn: () => fetchMatrix(GRID_ROWS, GRID_COLS),
+    enabled: view === "grid" && !isPerson,
   });
   const matrix = matrixQ.data?.result;
 
@@ -225,7 +250,6 @@ export default function NetworkLink() {
   };
 
   // --- GRID VIEW: crime type x legal act. Fixed positions, zero overlap, identical every load. ---
-  const shorten = (s, n) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
   const gridOption = useMemo(() => {
     if (!matrix?.cells?.length) return null;
     const rowLabels = matrix.rows.map((r) => shortCrime(r.id));
@@ -249,22 +273,30 @@ export default function NetworkLink() {
             + `<span style="color:#64748b">${c.cases.toLocaleString()} FIRs</span>`;
         },
       },
-      // Generous left/top margins: the axis labels are the point of this chart, so they get the
-      // room rather than being squeezed to fit a bigger plot area.
-      grid: { left: 196, right: 28, top: 78, bottom: 16 },
+      // The axis labels ARE the content of this chart, so they get the room. Left fits the longest
+      // offence name; top fits two wrapped lines of a law's short form.
+      grid: { left: 190, right: 18, top: 62, bottom: 16 },
       xAxis: {
         type: "category", position: "top", data: colLabels,
         axisTick: { show: false }, axisLine: { show: false },
         axisLabel: {
-          rotate: 40, fontSize: 11, color: "#334155", fontWeight: 500,
-          align: "left", verticalAlign: "middle", margin: 10,
+          // Rotation was the bug. At 40deg with align:"left" each label extends up AND to the right
+          // of its tick, so long ones were clipped by the top of the canvas and the last column's
+          // ran off the right edge — a bigger margin only moves where the cut happens.
+          // Horizontal labels boxed to the column width and wrapped onto a second line cannot
+          // overflow in either direction, whatever the text turns out to be.
+          interval: 0,                                   // never silently hide a column's name
+          width: COL_LABEL_W, overflow: "break", lineHeight: 12,
+          fontSize: 10, color: "#334155", fontWeight: 500, margin: 8,
         },
         splitArea: { show: true, areaStyle: { color: ["rgba(255,255,255,0)", "rgba(148,163,184,0.04)"] } },
       },
       yAxis: {
         type: "category", data: rowLabels, inverse: true,
         axisTick: { show: false }, axisLine: { show: false },
-        axisLabel: { fontSize: 11, color: "#334155", fontWeight: 500, margin: 10 },
+        // interval:0 on both axes — ECharts hides colliding labels by default, which would drop an
+        // offence's name silently rather than visibly. Sizing guarantees they fit instead.
+        axisLabel: { interval: 0, fontSize: 11, color: "#334155", fontWeight: 500, margin: 10 },
         splitArea: { show: true, areaStyle: { color: ["rgba(255,255,255,0)", "rgba(148,163,184,0.04)"] } },
       },
       visualMap: {
@@ -602,14 +634,18 @@ export default function NetworkLink() {
           <div className="px-2 pt-2">
             {view === "grid" ? (
               gridOption
-                ? <ReactECharts
-                    key="grid"
-                    option={gridOption}
-                    style={{ height: 520, width: "100%" }}
-                    notMerge
-                    onChartReady={chartReady}
-                    onEvents={{ click: (p) => { const c = matrix?.cells?.[p.dataIndex]; if (c) setSelected(c.crime_head); } }}
-                  />
+                ? (
+                  <div className="overflow-x-auto">
+                    <ReactECharts
+                      key="grid"
+                      option={gridOption}
+                      style={{ height: 520, width: "100%", minWidth: GRID_MIN_W }}
+                      notMerge
+                      onChartReady={chartReady}
+                      onEvents={{ click: (p) => { const c = matrix?.cells?.[p.dataIndex]; if (c) setSelected(c.crime_head); } }}
+                    />
+                  </div>
+                )
                 : <div className="grid h-[520px] place-items-center text-sm text-slate-500">Loading grid…</div>
             ) : (
               option
