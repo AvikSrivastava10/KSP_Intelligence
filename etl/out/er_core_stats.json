@@ -1,0 +1,33 @@
+{
+  "generated_at_utc": "2026-07-26T11:56:59.765731+00:00",
+  "partial_run": false,
+  "CaseMaster": {
+    "rows": 1674734,
+    "reconciles_to_source": true,
+    "expected_rows": 1674734,
+    "file": "case_master.parquet",
+    "size_kb": 17110
+  },
+  "ActSectionAssociation": {
+    "rows": 4928708,
+    "cases_citing_multiple_acts": 357119,
+    "avg_sections_per_case": 2.943,
+    "file": "act_section_association.parquet",
+    "size_kb": 11234
+  },
+  "notes": {
+    "surrogate_key": "CaseMasterID = CM-<9-digit positional ordinal>. Deterministic for a fixed source file, and obviously artificial.",
+    "null_by_design": [
+      "CrimeNo",
+      "CaseNo",
+      "CourtID",
+      "CaseCategoryID",
+      "IncidentFromDate",
+      "IncidentToDate",
+      "InfoReceivedPSDate",
+      "BriefFacts"
+    ],
+    "why_crimeno_null": "The ER documents the exact CrimeNo format, so conforming values could be synthesised \u2014 and would be indistinguishable from real KSP crime numbers. A fabricated official-looking identifier is worse than an honest null.",
+    "not_bundled": "Too large for the function's CSV-fallback bundle, and the API is aggregate-only by design. These exist so the ER contract is genuinely loadable, not to be served per-case."
+  }
+}

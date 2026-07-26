@@ -1,16 +1,7 @@
 "use strict";
-const fs = require("fs");
-const path = require("path");
-const { getTable, readMeta, DATA_DIR } = require("../lib/store");
+// readJson moved into lib/store.js once a second route (schema.js) needed it.
+const { getTable, readJson, readMeta } = require("../lib/store");
 const { num } = require("../lib/districts");
-
-function readJson(name, fallback = null) {
-  try {
-    return JSON.parse(fs.readFileSync(path.join(DATA_DIR, name), "utf8"));
-  } catch (e) {
-    return fallback;
-  }
-}
 
 /**
  * Phase 6 — Fairness & Data-Quality audit.
@@ -29,6 +20,7 @@ module.exports = (router, asyncH) => {
     const socio = readJson("socio_metrics.json", {});
     const validation = readJson("validation_metrics.json", {});
     const zia = readJson("zia_benchmark.json", null);
+    const er = readJson("er_conformance.json", null);
     const timeofday = await getTable("agg_timeofday", req.ctx);
 
     const cov = meta.coordinate_coverage || {};
@@ -138,17 +130,24 @@ module.exports = (router, asyncH) => {
     // Published for the same reason the limitations are: a reviewer should not have to reverse
     // engineer which platform service backs which capability. Where a capability is served by our
     // own code, the reason is stated rather than left to inference.
+    // A service is reported "active" only if it is OBSERVABLY serving this request. Anything that
+    // needs a Catalyst request context (Data Store, Cache, SmartBrowz, and the function runtime
+    // itself) is inactive off-platform, so claiming otherwise here would contradict /health in the
+    // same breath — and the panel's whole value is that it reports rather than asserts.
+    const onPlatform = !!(req.ctx && req.ctx.app);
+    const live = (cond) => (cond ? "active" : "configured");
+
     const catalyst_services = [
       { capability: "Serverless backend logic", service: "Catalyst Functions",
-        status: "active", detail: "crime_api — Advanced I/O function, Node 18, 34 endpoints." },
+        status: live(onPlatform), detail: "crime_api — Advanced I/O function, Node 18, 34 endpoints." },
       { capability: "Frontend / SPA hosting", service: "Catalyst Web Client Hosting",
-        status: "active", detail: "React 18 + Vite build served from client/dist." },
+        status: live(onPlatform), detail: "React 18 + Vite build served from client/dist." },
       { capability: "Relational database", service: "Catalyst Data Store",
-        status: process.env.USE_DATASTORE === "true" ? "active" : "configured",
+        status: live(process.env.USE_DATASTORE === "true" && onPlatform),
         detail: "42-table schema generated from the real data with measured varchar widths. "
           + "The bundled CSV copy is retained as a resilience fallback and is byte-identical." },
       { capability: "Cache", service: "Catalyst Cache",
-        status: process.env.USE_CATALYST_CACHE !== "false" ? "active" : "disabled",
+        status: process.env.USE_CATALYST_CACHE === "false" ? "disabled" : live(onPlatform),
         detail: "GET responses cached by URL hash. Every response is precomputed, so it is a pure "
           + "function of its query string — safe to cache and shared across function instances." },
       { capability: "API routing, throttling and access rules", service: "Catalyst API Gateway",
@@ -156,7 +155,7 @@ module.exports = (router, asyncH) => {
         detail: "Throttling at the edge. The in-process limiter stands down when the gateway is "
           + "fronting the function, so the endpoint is never left unprotected." },
       { capability: "PDF report generation", service: "Catalyst SmartBrowz",
-        status: "active",
+        status: live(onPlatform),
         detail: "GET /report/briefing renders the intelligence briefing server-side, so it can be "
           + "scheduled and circulated rather than only printed from one analyst's browser." },
       { capability: "CI/CD", service: "Catalyst Pipelines",
@@ -189,6 +188,34 @@ module.exports = (router, asyncH) => {
       fairness,
       models,
       catalyst_services,
+      // Fidelity to KSP's own database design. Summarised here for the trust page; the full
+      // 28-entity contract with every column is at GET /schema/er.
+      er_conformance: er ? {
+        source_document: er.source_document,
+        entities_total: er.entities_total,
+        by_status: er.by_status,
+        by_blocker: er.by_blocker,
+        columns_total: er.entities.reduce((a, e) => a + e.columns_total, 0),
+        columns_populated: er.entities.reduce((a, e) => a + e.columns_populated, 0),
+        blocker_reasons: Object.fromEntries(
+          er.entities.filter((e) => e.blocker).map((e) => [e.blocker, e.blocker_reason])
+        ),
+        entities: er.entities.map((e) => ({
+          er_entity: e.er_entity, status: e.status, our_table: e.our_table,
+          row_count: e.row_count, columns_total: e.columns_total,
+          columns_populated: e.columns_populated, blocker: e.blocker, summary: e.summary,
+        })),
+        honesty: er.honesty,
+        detail_endpoint: "/schema/er",
+      } : null,
+      runtime: {
+        on_catalyst: onPlatform,
+        note: onPlatform
+          ? "Observed from a Catalyst-hosted function, so service statuses below are measured."
+          : "Observed from a local Node process. Services that require a Catalyst request context "
+            + "(Data Store, Cache, SmartBrowz) report Configured rather than Live — they are wired "
+            + "and unit-tested against a mocked SDK, but nothing here claims they are running.",
+      },
       // Zia AutoML vs LightGBM on one shared holdout. Published in full — including the protocol
       // and its stated limits — because a benchmark without its protocol is just two numbers.
       tabular_model_benchmark: zia ? {
@@ -199,8 +226,8 @@ module.exports = (router, asyncH) => {
         results: zia.results,
         verdict: zia.verdict || null,
         verdict_note: zia.verdict_note
-          || "Zia AutoML training is a console step and has not been run yet; the LightGBM numbers "
-             + "below are already measured on the shared holdout and will not move.",
+          || "Zia AutoML training is a console step and has not been run yet. The LightGBM figures "
+             + "above are already measured on the shared holdout and will not move once it is.",
         why: "The Catalyst services table names Zia AutoML for tabular model training. Rather than "
           + "swap or ignore, both models are scored on identical rows and both are reported.",
       } : null,

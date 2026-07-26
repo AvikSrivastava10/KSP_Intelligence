@@ -959,7 +959,7 @@
     {
       "table_name": "network_edges",
       "data_class": "real",
-      "row_count": 400,
+      "row_count": 1430,
       "columns": [
         {
           "column_name": "src",
@@ -1554,5 +1554,1260 @@
         }
       ]
     }
-  ]
+  ],
+  "er_contract_tables": [
+    {
+      "table_name": "CaseMaster",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "populated_subset",
+      "row_count": 1674734,
+      "grain": "one row per FIR",
+      "columns": [
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "Deterministic positional surrogate (CM-000000001). The extract has no FIR identifier. INT in the ER; varchar here \u2014 recorded as a deviation."
+        },
+        {
+          "column_name": "CrimeNo",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent",
+          "note": "Deliberately NULL. The format is documented, so a conforming value could be synthesised \u2014 and would be indistinguishable from a real crime number."
+        },
+        {
+          "column_name": "CaseNo",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent",
+          "note": "Deliberately NULL, same reason as CrimeNo."
+        },
+        {
+          "column_name": "CrimeRegisteredDate",
+          "er_type": "DATE",
+          "data_type": "date",
+          "provenance": "populated",
+          "note": "From FIR_YEAR + FIR_MONTH + FIR_Day. Date only \u2014 the extract has no time."
+        },
+        {
+          "column_name": "PolicePersonID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "reconstructed",
+          "note": "Employee is not populated, so this carries the IO name+rank string, not an ID."
+        },
+        {
+          "column_name": "PoliceStationID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "From UnitName / Unit_ID."
+        },
+        {
+          "column_name": "CaseCategoryID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent",
+          "note": "Extract is FIR-only \u2014 no category variation."
+        },
+        {
+          "column_name": "GravityOffenceID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "From `FIR Type` (Heinous/Non-Heinous)."
+        },
+        {
+          "column_name": "CrimeMajorHeadID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "From CrimeGroup_Name."
+        },
+        {
+          "column_name": "CrimeMinorHeadID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "From CrimeHead_Name."
+        },
+        {
+          "column_name": "CaseStatusID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "From FIR_Stage, normalised (~300 `Transfered :UI(...)` variants collapsed)."
+        },
+        {
+          "column_name": "CourtID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent",
+          "note": "No court detail in the extract."
+        },
+        {
+          "column_name": "IncidentFromDate",
+          "er_type": "DATETIME",
+          "data_type": "datetime",
+          "provenance": "absent",
+          "note": "THE key absence. Holds the real time of day; drives our clearly-labelled MODELED time-of-day layer, which is 97.4% assumption and never trains a model."
+        },
+        {
+          "column_name": "IncidentToDate",
+          "er_type": "DATETIME",
+          "data_type": "datetime",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "InfoReceivedPSDate",
+          "er_type": "DATETIME",
+          "data_type": "datetime",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "latitude",
+          "er_type": "DECIMAL",
+          "data_type": "double",
+          "provenance": "populated",
+          "note": "29.9% real GPS, resolved to 99.54% by a tiered geocoder; every row carries geo_precision so inferred locations are never mistaken for observed ones."
+        },
+        {
+          "column_name": "longitude",
+          "er_type": "DECIMAL",
+          "data_type": "double",
+          "provenance": "populated",
+          "note": "As latitude."
+        },
+        {
+          "column_name": "BriefFacts",
+          "er_type": "NVARCHAR(MAX)",
+          "data_type": "text",
+          "provenance": "absent",
+          "note": "No narrative text, so no NLP/MO-from-text is possible. Descoped, not attempted."
+        },
+        {
+          "column_name": "canonical_name",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "reconstructed",
+          "note": "Canonical district (41 units -> 31)."
+        },
+        {
+          "column_name": "parent_district",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "reconstructed",
+          "note": "Commissionerates roll up to district."
+        },
+        {
+          "column_name": "geo_precision",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "reconstructed",
+          "note": "point|station|place|district|none."
+        },
+        {
+          "column_name": "is_2024_partial",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "reconstructed",
+          "note": "2024 is a partial year; excluded from training."
+        }
+      ]
+    },
+    {
+      "table_name": "ActSectionAssociation",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "populated",
+      "row_count": 4928708,
+      "grain": "one row per (case, act, section)",
+      "columns": [
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "key": "FK",
+          "provenance": "reconstructed",
+          "note": "Joins CaseMaster surrogate."
+        },
+        {
+          "column_name": "ActID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "Act name parsed from the free-text ActSection field."
+        },
+        {
+          "column_name": "SectionID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "Section code parsed from the same field."
+        },
+        {
+          "column_name": "ActOrderID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "reconstructed",
+          "note": "Order of appearance within the FIR text."
+        },
+        {
+          "column_name": "SectionOrderID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "reconstructed",
+          "note": "Order within the act."
+        }
+      ]
+    },
+    {
+      "table_name": "ComplainantDetails",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per complainant",
+      "columns": [
+        {
+          "column_name": "ComplainantID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "ComplainantName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "AgeYear",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "OccupationID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "ReligionID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "CasteID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "GenderID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "Victim",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per victim",
+      "columns": [
+        {
+          "column_name": "VictimMasterID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "VictimName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "AgeYear",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "GenderID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "VictimPolice",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "Accused",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per accused person",
+      "columns": [
+        {
+          "column_name": "AccusedMasterID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "AccusedName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "AgeYear",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "GenderID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "PersonID",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "ArrestSurrender",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per arrest/surrender event",
+      "columns": [
+        {
+          "column_name": "ArrestSurrenderID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "ArrestSurrenderTypeID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "ArrestSurrenderDate",
+          "er_type": "DATE",
+          "data_type": "date",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "ArrestSurrenderStateId",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "ArrestSurrenderDistrictId",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "PoliceStationID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "IOID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "CourtID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "AccusedMasterID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "IsAccused",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "IsComplainantAccused",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "inv_arrestsurrenderaccused",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "junction: arrest event <-> accused",
+      "columns": [
+        {
+          "column_name": "ArrestSurrenderID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "AccusedMasterID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "ChargesheetDetails",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per chargesheet",
+      "columns": [
+        {
+          "column_name": "CSID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "csdate",
+          "er_type": "DATETIME",
+          "data_type": "datetime",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "cstype",
+          "er_type": "CHAR",
+          "data_type": "varchar",
+          "provenance": "absent",
+          "note": "A=Chargesheet, B=False Case, C=Undetected."
+        },
+        {
+          "column_name": "PolicePersonID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "Inv_OccuranceTime",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per FIR (1:1)",
+      "columns": [
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "Act",
+      "alt_name": "er_Act",
+      "reserved_word_risk": true,
+      "plane": "populated_subset",
+      "row_count": 4831,
+      "grain": "one row per legal act",
+      "columns": [
+        {
+          "column_name": "ActCode",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "The act NAME is our key \u2014 no codes in the extract."
+        },
+        {
+          "column_name": "ActDescription",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "populated",
+          "note": "As written in the FIR text."
+        },
+        {
+          "column_name": "ShortName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "Section",
+      "alt_name": "er_Section",
+      "reserved_word_risk": true,
+      "plane": "populated_subset",
+      "row_count": 17465,
+      "grain": "one row per (act, section)",
+      "columns": [
+        {
+          "column_name": "ActCode",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "key": "FK",
+          "provenance": "reconstructed",
+          "note": "Parent act name."
+        },
+        {
+          "column_name": "SectionCode",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "populated",
+          "note": "Handles sub-parts like 304(A)."
+        },
+        {
+          "column_name": "SectionDescription",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "CrimeHeadActSection",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "crime head <-> act-section mapping",
+      "columns": [
+        {
+          "column_name": "CrimeHeadID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "ActCode",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "SectionCode",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "CrimeHead",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "populated_subset",
+      "row_count": 107,
+      "grain": "one row per major crime head",
+      "columns": [
+        {
+          "column_name": "CrimeHeadID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "The head NAME is the key; no IDs in the extract."
+        },
+        {
+          "column_name": "CrimeGroupName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "populated"
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "CrimeSubHead",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "populated_subset",
+      "row_count": 626,
+      "grain": "one row per crime sub-head",
+      "columns": [
+        {
+          "column_name": "CrimeSubHeadID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "Sub-head name is the key."
+        },
+        {
+          "column_name": "CrimeHeadID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "Parent major head."
+        },
+        {
+          "column_name": "CrimeHeadName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "populated"
+        },
+        {
+          "column_name": "SeqID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "CasteMaster",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per caste",
+      "columns": [
+        {
+          "column_name": "caste_master_id",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "caste_master_name",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "ReligionMaster",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per religion",
+      "columns": [
+        {
+          "column_name": "ReligionID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "ReligionName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "OccupationMaster",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per occupation",
+      "columns": [
+        {
+          "column_name": "OccupationID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "OccupationName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "CaseStatusMaster",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "populated_subset",
+      "row_count": 13,
+      "grain": "one row per case status",
+      "columns": [
+        {
+          "column_name": "CaseStatusID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "Status name is the key."
+        },
+        {
+          "column_name": "CaseStatusName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "populated"
+        }
+      ]
+    },
+    {
+      "table_name": "GravityOffence",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "populated_subset",
+      "row_count": 2,
+      "grain": "one row per gravity level",
+      "columns": [
+        {
+          "column_name": "GravityOffenceID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "reconstructed"
+        },
+        {
+          "column_name": "LookupValue",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "populated"
+        }
+      ]
+    },
+    {
+      "table_name": "CaseCategory",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per case category",
+      "columns": [
+        {
+          "column_name": "CaseCategoryID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "LookupValue",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "District",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "populated_subset",
+      "row_count": 41,
+      "grain": "one row per district",
+      "columns": [
+        {
+          "column_name": "DistrictID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "We carry three real external keys instead of an internal id: kgis_code, lgd_code, census_code_2011 \u2014 which is what makes the boundary/census joins verifiable."
+        },
+        {
+          "column_name": "DistrictName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "populated"
+        },
+        {
+          "column_name": "StateID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent",
+          "note": "Karnataka only."
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "State",
+      "alt_name": "er_State",
+      "reserved_word_risk": true,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per state",
+      "columns": [
+        {
+          "column_name": "StateID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "StateName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "NationalityID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "Unit",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "populated_subset",
+      "row_count": 1074,
+      "grain": "one row per police unit",
+      "columns": [
+        {
+          "column_name": "UnitID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "Unit name is the key."
+        },
+        {
+          "column_name": "UnitName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "populated",
+          "note": "The one column name we already shared with the ER."
+        },
+        {
+          "column_name": "TypeID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "ParentUnit",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "reconstructed",
+          "note": "Parent district, not a unit hierarchy."
+        },
+        {
+          "column_name": "NationalityID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "StateID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent",
+          "note": "Karnataka only."
+        },
+        {
+          "column_name": "DistrictID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "Via canonical district + kgis_code."
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "UnitType",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per unit type",
+      "columns": [
+        {
+          "column_name": "UnitTypeID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "UnitTypeName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "CityDistState",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "Hierarchy",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "Rank",
+      "alt_name": "er_Rank",
+      "reserved_word_risk": true,
+      "plane": "populated_subset",
+      "row_count": 21,
+      "grain": "one row per police rank",
+      "columns": [
+        {
+          "column_name": "RankID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "reconstructed"
+        },
+        {
+          "column_name": "RankName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "populated",
+          "note": "Parsed from IOName."
+        },
+        {
+          "column_name": "Hierarchy",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "Designation",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per designation",
+      "columns": [
+        {
+          "column_name": "DesignationID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "DesignationName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "SortOrder",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "Employee",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per police employee",
+      "columns": [
+        {
+          "column_name": "EmployeeID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "DistrictID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "UnitID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "RankID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "DesignationID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "KGID",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "FirstName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "EmployeeDOB",
+          "er_type": "DATE",
+          "data_type": "date",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "GenderID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "BloodGroupID",
+          "er_type": "INT",
+          "data_type": "int",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "PhysicallyChallenged",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "AppointmentDate",
+          "er_type": "DATE",
+          "data_type": "date",
+          "provenance": "absent"
+        }
+      ]
+    },
+    {
+      "table_name": "Court",
+      "alt_name": null,
+      "reserved_word_risk": false,
+      "plane": "designed_only",
+      "row_count": 0,
+      "grain": "one row per court",
+      "columns": [
+        {
+          "column_name": "CourtID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "PK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "CourtName",
+          "er_type": "VARCHAR",
+          "data_type": "varchar",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "DistrictID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "StateID",
+          "er_type": "INT",
+          "data_type": "int",
+          "key": "FK",
+          "provenance": "absent"
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "data_type": "boolean",
+          "provenance": "absent"
+        }
+      ]
+    }
+  ],
+  "er_conformance_summary": {
+    "source_document": "datasets/Police_FIR_ER_Diagram.pdf (KSP)",
+    "entities_total": 28,
+    "detail": "etl/out/er_conformance.json \u2014 also served at GET /schema/er"
+  },
+  "tables_count": 42,
+  "er_contract_tables_count": 28
 }

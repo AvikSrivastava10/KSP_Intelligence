@@ -239,6 +239,7 @@ The architecture trades a slow one-time build for a permanently fast runtime.
 ```
 ml/outcomes.py            ~163 s  ████████████████████████  1.49 M rows, 2 LightGBM models
 ml/mo_clustering.py        ~78 s  ███████████░░░░░░░░░░░░░  HDBSCAN on an 80 K sample
+etl/build_er_core.py       ~61 s  █████████░░░░░░░░░░░░░░░  ER CaseMaster + 4.93 M act-sections
 etl/ingest_fir.py          ~40 s  ██████░░░░░░░░░░░░░░░░░░  546 MB -> 18 tables
 ml/forecast.py             ~28 s  ████░░░░░░░░░░░░░░░░░░░░  199 series, Holt-Winters
 etl/build_modeling_table   ~25 s  ████░░░░░░░░░░░░░░░░░░░░  per-case feature table
@@ -339,6 +340,7 @@ If you have `datasets/FIR_Details_Data.csv` (546 MB, gitignored):
 ```bash
 python etl/ingest_fir.py            # streaming ETL → 18 tables        (~40 s)
 python etl/build_modeling_table.py  # per-case modelling table          (~25 s)
+python etl/build_er_core.py         # ER CaseMaster + ActSectionAssoc   (~61 s)
 python etl/build_timed_hotspots.py  # observed day/night hotspots       (~8 s)
 
 python ml/hotspots.py               # KDE + DBSCAN spatial clusters
@@ -951,7 +953,8 @@ That `data_class` field is not decoration — it is how the interface knows whet
 | **Context & trust** | |
 | `GET /socio` | Socio-economic correlations (protected attributes segregated) |
 | `GET /hub` | Cross-model synthesis for the Strategic Hub |
-| `GET /audit` | Limitations, fairness guarantees, model cards, Catalyst service map |
+| `GET /audit` | Limitations, fairness guarantees, model cards, Catalyst service map, ER conformance |
+| `GET /schema/er` | KSP ER schema contract — 28 entities, per-column provenance, named blockers |
 | `GET /validation` | Ground-truth test results |
 | `GET /report/briefing` | Server-rendered intelligence briefing PDF (Catalyst SmartBrowz) |
 
@@ -1142,6 +1145,48 @@ matched LightGBM run exists. Full procedure in
 The district-risk model is **not** benchmarked: its panel is 124 rows, where an AutoML result would be
 too unstable to compare against anything. That reason is stated on `/audit` rather than omitted.
 
+### ER schema conformance: 28 entities, published
+
+The ER diagram is the **only artefact KSP actually provided**, so fidelity to it is worth measuring
+rather than asserting. We audited ours against it and the result was uncomfortable: **zero** of its
+28 entity names and **zero** of its column names appeared anywhere in our generated schema, and the
+"designed-only" tables our own `schema.md` said were "kept in the schema" existed in prose only — so
+nothing could ever have been loaded into them.
+
+`etl/er_schema.py` now encodes the contract. All 28 entities are declared under their **exact** ER
+table and column names in `datastore_schema.json → er_contract_tables`, creatable in the Catalyst
+console, so real SCRB data could be loaded with no translation layer. Served at `GET /schema/er` and
+rendered on the Data Quality workspace.
+
+| Status | Entities | Meaning |
+|---|---|---|
+| `populated` | 1 | every meaningful column populated |
+| `populated_subset` | 10 | some columns populated, remainder declared NULL |
+| `designed_only` | 17 | declared and empty, each with a **named blocker** |
+
+Blockers are stated, never implied: `confidential_by_law` (6), `absent_from_extract` (6),
+`protected_attribute` (3), `single_value_in_extract` (2). Column-level coverage is **36 of 139
+(25.9%)** — published as-is, because it is the clearest single measure of how much of KSP's design a
+de-identified extract can support.
+
+Two tables the docs had promised but never built now exist, both reconciling to the source:
+
+- **`CaseMaster`** — 1,674,734 rows, ER column names. `CaseMasterID` is a deterministic positional
+  surrogate (`CM-000000001`); the extract has no FIR identifier. **`CrimeNo` and `CaseNo` are left
+  NULL deliberately** — the ER documents their exact format, so conforming values could be
+  synthesised and would be indistinguishable from real KSP crime numbers. A fabricated
+  official-looking identifier is worse than an honest null.
+- **`ActSectionAssociation`** — 4,928,708 rows at true one-to-many grain. This corrects a real
+  mapping error: it had been mapped to `dim_section` (a reference list) and flattened to a single
+  `first_act`/`first_section`, discarding the extra acts on **357,119 cases (21.3%)** that cite two
+  or more.
+
+Four type deviations are declared rather than hidden, the ER's own naming inconsistencies are
+reproduced exactly (`caste_master_id` in snake_case, `ArrestSurrenderStateId` ending `Id`), and the
+four table names that are SQL reserved words carry an `alt_name`. Both tables are gitignored,
+regenerable intermediates and are **not** bundled with the function — the API is aggregate-only by
+design; they exist so the contract is genuinely loadable.
+
 ### What is deliberately *not* a Catalyst service, and why
 
 Two components are custom, and the reason is stated on `/audit` rather than left to inference:
@@ -1277,8 +1322,8 @@ than the one that wins the room.*
 Built for the **Hack2Skill Datathon 2026** challenge on behalf of the Karnataka State Police / SCRB.
 
 The FIR dataset was self-sourced from Kaggle (`vanshangaria/fir-details-karnataka-police`). The only
-artifact provided by KSP was the official ER diagram, which we used as the target schema for the
-Catalyst Data Store — it contains no data.
+artifact provided by KSP was the official ER diagram — a database design document containing no data.
+We treat it as a contract: see [ER schema conformance](#er-schema-conformance-28-entities-published).
 
 Boundaries from KGIS, demographics from Census 2011, place names from GeoNames, administrative codes
 from LGD.

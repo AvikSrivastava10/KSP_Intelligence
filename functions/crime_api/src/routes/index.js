@@ -34,6 +34,7 @@ function buildRouter() {
   require("./audit")(router, asyncH);
   require("./persons")(router, asyncH);
   require("./report")(router, asyncH);
+  require("./schema")(router, asyncH);
 
   return router;
 }

@@ -14,8 +14,10 @@ outputs are loaded into the Catalyst Data Store and bundled as CSV fallback. Not
 - `common/` — shared helpers: `paths.py`, `textutils.py` (header/ActSection/rank), `districts.py` (hand-verified override map), `geo.py` (multi-tier geocoder), `timeofday.py` (documented priors).
 - `build_dim_district.py` — writes `out/dim_district.csv`, cross-validates the district map against KGIS/census/LGD (rapidfuzz + exact code checks).
 - `ingest_fir.py` — the streaming ETL; emits all aggregate + reference tables + `meta.json`; prints the Phase 0 completion report. `--limit N` for a smoke test.
-- `load_datastore.py` — Phase 1 loader **stub**; dry-run inventory of `out/` + inferred Catalyst types.
-- `schema.md` — Catalyst Data Store schema, modelled on the official ER diagram (REAL / MODELED / SYNTHETIC / designed-only planes).
+- `er_schema.py` — **the KSP ER contract**: all 28 entities with ER-faithful table/column names, per-column provenance, 36 relationships, and a named blocker wherever we populate nothing. Single source of truth for the conformance map.
+- `build_er_core.py` — materialises the ER transactional core: `case_master.parquet` (1,674,734 rows) + `act_section_association.parquet` (4,928,708 rows, true one-to-many). Gitignored, not bundled; exists so the contract is genuinely loadable.
+- `load_datastore.py` — `--plan` (dry run) · `--schema` (emits `datastore_schema.json` = 42 serving tables + 28 ER contract tables, plus `er_conformance.json`) · `--load` (idempotent REST load; never touches the ER contract tables).
+- `schema.md` — Catalyst Data Store schema (REAL / MODELED / SYNTHETIC / designed-only planes) + §D, the machine-readable ER contract.
 
 ## Run
 ```

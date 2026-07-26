@@ -1,0 +1,1668 @@
+{
+  "source_document": "datasets/Police_FIR_ER_Diagram.pdf (KSP, Confidential) \u2014 a database DESIGN document containing no data; the only artefact KSP provided.",
+  "entities_total": 28,
+  "by_status": {
+    "populated_subset": 10,
+    "populated": 1,
+    "designed_only": 17
+  },
+  "by_blocker": {
+    "confidential_by_law": 6,
+    "absent_from_extract": 6,
+    "protected_attribute": 3,
+    "single_value_in_extract": 2
+  },
+  "honesty": "Every ER entity is declared under its exact ER name with its exact column names, so real SCRB data could be loaded without a translation layer. Where we populate nothing, the blocker is named rather than the table omitted. Nothing here is populated with invented data.",
+  "deviations": [
+    {
+      "entity": "CaseMaster",
+      "column": "CaseMasterID",
+      "er_type": "INT",
+      "ours": "varchar",
+      "why": "The extract has no FIR identifier, so the key is a deterministic positional surrogate (CM-000000001). A synthetic integer would imply a real record id."
+    },
+    {
+      "entity": "Act",
+      "column": "ActCode",
+      "er_type": "VARCHAR (code)",
+      "ours": "varchar (name)",
+      "why": "No act codes in the extract; the parsed act NAME is the only available key."
+    },
+    {
+      "entity": "CrimeHead",
+      "column": "CrimeHeadID",
+      "er_type": "INT",
+      "ours": "varchar (name)",
+      "why": "Reference tables are reconstructed from distinct values, so the name is the key."
+    },
+    {
+      "entity": "District",
+      "column": "DistrictID",
+      "er_type": "INT",
+      "ours": "varchar codes",
+      "why": "We carry real external keys (KGIS, LGD, Census 2011) instead of an internal id, because those are what make the boundary and census joins independently verifiable."
+    }
+  ],
+  "reserved_word_note": "Act, Section, State and Rank are reserved words in some SQL dialects. They are declared under their true ER names; an er_ prefixed alt_name is provided if the console rejects them.",
+  "relationships": [
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CaseMasterID",
+      "cardinality": "one_to_many",
+      "child": "Victim",
+      "child_column": "CaseMasterID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CaseMasterID",
+      "cardinality": "one_to_many",
+      "child": "Accused",
+      "child_column": "CaseMasterID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CaseMasterID",
+      "cardinality": "one_to_many",
+      "child": "ArrestSurrender",
+      "child_column": "CaseMasterID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CaseMasterID",
+      "cardinality": "one_to_many",
+      "child": "ComplainantDetails",
+      "child_column": "CaseMasterID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CaseMasterID",
+      "cardinality": "one_to_many",
+      "child": "ActSectionAssociation",
+      "child_column": "CaseMasterID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CaseMasterID",
+      "cardinality": "one_to_one",
+      "child": "Inv_OccuranceTime",
+      "child_column": "CaseMasterID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CaseCategoryID",
+      "cardinality": "many_to_one",
+      "child": "CaseCategory",
+      "child_column": "CaseCategoryID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "GravityOffenceID",
+      "cardinality": "many_to_one",
+      "child": "GravityOffence",
+      "child_column": "GravityOffenceID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CrimeMajorHeadID",
+      "cardinality": "many_to_one",
+      "child": "CrimeHead",
+      "child_column": "CrimeHeadID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CrimeMinorHeadID",
+      "cardinality": "many_to_one",
+      "child": "CrimeSubHead",
+      "child_column": "CrimeSubHeadID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CaseStatusID",
+      "cardinality": "many_to_one",
+      "child": "CaseStatusMaster",
+      "child_column": "CaseStatusID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "CourtID",
+      "cardinality": "many_to_one",
+      "child": "Court",
+      "child_column": "CourtID"
+    },
+    {
+      "parent": "CaseMaster",
+      "parent_column": "PolicePersonID",
+      "cardinality": "many_to_one",
+      "child": "Employee",
+      "child_column": "EmployeeID"
+    },
+    {
+      "parent": "ArrestSurrender",
+      "parent_column": "ArrestSurrenderID",
+      "cardinality": "one_to_many",
+      "child": "inv_arrestsurrenderaccused",
+      "child_column": "ArrestSurrenderID"
+    },
+    {
+      "parent": "ArrestSurrender",
+      "parent_column": "ArrestSurrenderStateId",
+      "cardinality": "many_to_one",
+      "child": "State",
+      "child_column": "StateID"
+    },
+    {
+      "parent": "ArrestSurrender",
+      "parent_column": "ArrestSurrenderDistrictId",
+      "cardinality": "many_to_one",
+      "child": "District",
+      "child_column": "DistrictID"
+    },
+    {
+      "parent": "ArrestSurrender",
+      "parent_column": "CourtID",
+      "cardinality": "many_to_one",
+      "child": "Court",
+      "child_column": "CourtID"
+    },
+    {
+      "parent": "ArrestSurrender",
+      "parent_column": "IOID",
+      "cardinality": "many_to_one",
+      "child": "Employee",
+      "child_column": "EmployeeID"
+    },
+    {
+      "parent": "ComplainantDetails",
+      "parent_column": "OccupationID",
+      "cardinality": "many_to_one",
+      "child": "OccupationMaster",
+      "child_column": "OccupationID"
+    },
+    {
+      "parent": "ComplainantDetails",
+      "parent_column": "ReligionID",
+      "cardinality": "many_to_one",
+      "child": "ReligionMaster",
+      "child_column": "ReligionID"
+    },
+    {
+      "parent": "ComplainantDetails",
+      "parent_column": "CasteID",
+      "cardinality": "many_to_one",
+      "child": "CasteMaster",
+      "child_column": "caste_master_id"
+    },
+    {
+      "parent": "ActSectionAssociation",
+      "parent_column": "ActID",
+      "cardinality": "many_to_one",
+      "child": "Act",
+      "child_column": "ActCode"
+    },
+    {
+      "parent": "ActSectionAssociation",
+      "parent_column": "SectionID",
+      "cardinality": "many_to_one",
+      "child": "Section",
+      "child_column": "SectionCode"
+    },
+    {
+      "parent": "CrimeSubHead",
+      "parent_column": "CrimeHeadID",
+      "cardinality": "many_to_one",
+      "child": "CrimeHead",
+      "child_column": "CrimeHeadID"
+    },
+    {
+      "parent": "CrimeHead",
+      "parent_column": "CrimeHeadID",
+      "cardinality": "one_to_many",
+      "child": "CrimeHeadActSection",
+      "child_column": "CrimeHeadID"
+    },
+    {
+      "parent": "Act",
+      "parent_column": "ActCode",
+      "cardinality": "one_to_many",
+      "child": "CrimeHeadActSection",
+      "child_column": "ActCode"
+    },
+    {
+      "parent": "Act",
+      "parent_column": "ActCode",
+      "cardinality": "one_to_many",
+      "child": "Section",
+      "child_column": "ActCode"
+    },
+    {
+      "parent": "Court",
+      "parent_column": "DistrictID",
+      "cardinality": "many_to_one",
+      "child": "District",
+      "child_column": "DistrictID"
+    },
+    {
+      "parent": "District",
+      "parent_column": "StateID",
+      "cardinality": "many_to_one",
+      "child": "State",
+      "child_column": "StateID"
+    },
+    {
+      "parent": "Unit",
+      "parent_column": "TypeID",
+      "cardinality": "many_to_one",
+      "child": "UnitType",
+      "child_column": "UnitTypeID"
+    },
+    {
+      "parent": "Unit",
+      "parent_column": "StateID",
+      "cardinality": "many_to_one",
+      "child": "State",
+      "child_column": "StateID"
+    },
+    {
+      "parent": "Unit",
+      "parent_column": "DistrictID",
+      "cardinality": "many_to_one",
+      "child": "District",
+      "child_column": "DistrictID"
+    },
+    {
+      "parent": "Employee",
+      "parent_column": "DistrictID",
+      "cardinality": "many_to_one",
+      "child": "District",
+      "child_column": "DistrictID"
+    },
+    {
+      "parent": "Employee",
+      "parent_column": "UnitID",
+      "cardinality": "many_to_one",
+      "child": "Unit",
+      "child_column": "UnitID"
+    },
+    {
+      "parent": "Employee",
+      "parent_column": "RankID",
+      "cardinality": "many_to_one",
+      "child": "Rank",
+      "child_column": "RankID"
+    },
+    {
+      "parent": "Employee",
+      "parent_column": "DesignationID",
+      "cardinality": "many_to_one",
+      "child": "Designation",
+      "child_column": "DesignationID"
+    }
+  ],
+  "entities": [
+    {
+      "er_entity": "CaseMaster",
+      "status": "populated_subset",
+      "our_table": "case_master",
+      "grain": "one row per FIR",
+      "row_count": 1674734,
+      "columns_total": 18,
+      "columns_populated": 10,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "Materialised at full grain (1,674,734 rows) with ER column names. 11 of 18 columns populated or reconstructed; the rest are the person/narrative/time fields the extract does not carry.",
+      "columns": [
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "VARCHAR",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "Deterministic positional surrogate (CM-000000001). The extract has no FIR identifier. INT in the ER; varchar here \u2014 recorded as a deviation."
+        },
+        {
+          "column_name": "CrimeNo",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": "Deliberately NULL. The format is documented, so a conforming value could be synthesised \u2014 and would be indistinguishable from a real crime number."
+        },
+        {
+          "column_name": "CaseNo",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": "Deliberately NULL, same reason as CrimeNo."
+        },
+        {
+          "column_name": "CrimeRegisteredDate",
+          "er_type": "DATE",
+          "key": null,
+          "provenance": "populated",
+          "note": "From FIR_YEAR + FIR_MONTH + FIR_Day. Date only \u2014 the extract has no time."
+        },
+        {
+          "column_name": "PolicePersonID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "reconstructed",
+          "note": "Employee is not populated, so this carries the IO name+rank string, not an ID."
+        },
+        {
+          "column_name": "PoliceStationID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "From UnitName / Unit_ID."
+        },
+        {
+          "column_name": "CaseCategoryID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": "Extract is FIR-only \u2014 no category variation."
+        },
+        {
+          "column_name": "GravityOffenceID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "From `FIR Type` (Heinous/Non-Heinous)."
+        },
+        {
+          "column_name": "CrimeMajorHeadID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "From CrimeGroup_Name."
+        },
+        {
+          "column_name": "CrimeMinorHeadID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "From CrimeHead_Name."
+        },
+        {
+          "column_name": "CaseStatusID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "From FIR_Stage, normalised (~300 `Transfered :UI(...)` variants collapsed)."
+        },
+        {
+          "column_name": "CourtID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": "No court detail in the extract."
+        },
+        {
+          "column_name": "IncidentFromDate",
+          "er_type": "DATETIME",
+          "key": null,
+          "provenance": "absent",
+          "note": "THE key absence. Holds the real time of day; drives our clearly-labelled MODELED time-of-day layer, which is 97.4% assumption and never trains a model."
+        },
+        {
+          "column_name": "IncidentToDate",
+          "er_type": "DATETIME",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "InfoReceivedPSDate",
+          "er_type": "DATETIME",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "latitude",
+          "er_type": "DECIMAL",
+          "key": null,
+          "provenance": "populated",
+          "note": "29.9% real GPS, resolved to 99.54% by a tiered geocoder; every row carries geo_precision so inferred locations are never mistaken for observed ones."
+        },
+        {
+          "column_name": "longitude",
+          "er_type": "DECIMAL",
+          "key": null,
+          "provenance": "populated",
+          "note": "As latitude."
+        },
+        {
+          "column_name": "BriefFacts",
+          "er_type": "NVARCHAR(MAX)",
+          "key": null,
+          "provenance": "absent",
+          "note": "No narrative text, so no NLP/MO-from-text is possible. Descoped, not attempted."
+        }
+      ]
+    },
+    {
+      "er_entity": "ActSectionAssociation",
+      "status": "populated",
+      "our_table": "act_section_association",
+      "grain": "one row per (case, act, section)",
+      "row_count": 4928708,
+      "columns_total": 5,
+      "columns_populated": 5,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "Now materialised at true one-to-many grain. Previously schema.md mapped this to dim_section, which was wrong \u2014 dim_section is the ER's `Section` reference list. The per-case link had been collapsed to a single first_act/first_section, so a case citing three acts kept one.",
+      "columns": [
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "VARCHAR",
+          "key": "FK",
+          "provenance": "reconstructed",
+          "note": "Joins CaseMaster surrogate."
+        },
+        {
+          "column_name": "ActID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "Act name parsed from the free-text ActSection field."
+        },
+        {
+          "column_name": "SectionID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "Section code parsed from the same field."
+        },
+        {
+          "column_name": "ActOrderID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "reconstructed",
+          "note": "Order of appearance within the FIR text."
+        },
+        {
+          "column_name": "SectionOrderID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "reconstructed",
+          "note": "Order within the act."
+        }
+      ]
+    },
+    {
+      "er_entity": "ComplainantDetails",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per complainant",
+      "row_count": 0,
+      "columns_total": 8,
+      "columns_populated": 0,
+      "blocker": "confidential_by_law",
+      "blocker_reason": "Person identities are confidential under Indian law and are absent from the extract, which carries only aggregate counts. Not obtainable by any team.",
+      "summary": "Declared, never populated. Also carries caste/religion/occupation, which are protected attributes and are excluded from every model regardless.",
+      "columns": [
+        {
+          "column_name": "ComplainantID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "ComplainantName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "AgeYear",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "OccupationID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "ReligionID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "CasteID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "GenderID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "Victim",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per victim",
+      "row_count": 0,
+      "columns_total": 6,
+      "columns_populated": 0,
+      "blocker": "confidential_by_law",
+      "blocker_reason": "Person identities are confidential under Indian law and are absent from the extract, which carries only aggregate counts. Not obtainable by any team.",
+      "summary": "Declared, never populated. The extract has victim COUNTS only; we sum them to a single total and never split by sex.",
+      "columns": [
+        {
+          "column_name": "VictimMasterID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "VictimName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "AgeYear",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "GenderID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "VictimPolice",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "Accused",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per accused person",
+      "row_count": 0,
+      "columns_total": 6,
+      "columns_populated": 0,
+      "blocker": "confidential_by_law",
+      "blocker_reason": "Person identities are confidential under Indian law and are absent from the extract, which carries only aggregate counts. Not obtainable by any team.",
+      "summary": "Declared, never populated. Note PersonID is A1/A2 WITHIN a case and AccusedMasterID is per-case, so even the full KSP schema has no cross-case person key \u2014 repeat-offender tracking needs probabilistic linkage even with complete access. That is what ml/person_linkage.py implements.",
+      "columns": [
+        {
+          "column_name": "AccusedMasterID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "AccusedName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "AgeYear",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "GenderID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "PersonID",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "ArrestSurrender",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per arrest/surrender event",
+      "row_count": 0,
+      "columns_total": 12,
+      "columns_populated": 0,
+      "blocker": "confidential_by_law",
+      "blocker_reason": "Person identities are confidential under Indian law and are absent from the extract, which carries only aggregate counts. Not obtainable by any team.",
+      "summary": "Declared, never populated. The extract has aggregate arrest counts only.",
+      "columns": [
+        {
+          "column_name": "ArrestSurrenderID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "ArrestSurrenderTypeID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "ArrestSurrenderDate",
+          "er_type": "DATE",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "ArrestSurrenderStateId",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "ArrestSurrenderDistrictId",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "PoliceStationID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "IOID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "CourtID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "AccusedMasterID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "IsAccused",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "IsComplainantAccused",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "inv_arrestsurrenderaccused",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "junction: arrest event <-> accused",
+      "row_count": 0,
+      "columns_total": 2,
+      "columns_populated": 0,
+      "blocker": "confidential_by_law",
+      "blocker_reason": "Person identities are confidential under Indian law and are absent from the extract, which carries only aggregate counts. Not obtainable by any team.",
+      "summary": "Declared, never populated \u2014 depends on Accused and ArrestSurrender.",
+      "columns": [
+        {
+          "column_name": "ArrestSurrenderID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "AccusedMasterID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "ChargesheetDetails",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per chargesheet",
+      "row_count": 0,
+      "columns_total": 5,
+      "columns_populated": 0,
+      "blocker": "absent_from_extract",
+      "blocker_reason": "The column set exists in the source system but not in the de-identified extract we were able to source.",
+      "summary": "Declared, never populated. The extract carries chargesheet COUNTS per case, not dated chargesheet records \u2014 enough for our outcome model, not for this table.",
+      "columns": [
+        {
+          "column_name": "CSID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "csdate",
+          "er_type": "DATETIME",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "cstype",
+          "er_type": "CHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": "A=Chargesheet, B=False Case, C=Undetected."
+        },
+        {
+          "column_name": "PolicePersonID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "Inv_OccuranceTime",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per FIR (1:1)",
+      "row_count": 0,
+      "columns_total": 1,
+      "columns_populated": 0,
+      "blocker": "absent_from_extract",
+      "blocker_reason": "The column set exists in the source system but not in the de-identified extract we were able to source.",
+      "summary": "Declared, never populated. This is where the real occurrence time lives. Its absence is why time-of-day is MODELED and labelled as an estimate.",
+      "columns": [
+        {
+          "column_name": "CaseMasterID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "Act",
+      "status": "populated_subset",
+      "our_table": "dim_act",
+      "grain": "one row per legal act",
+      "row_count": 4831,
+      "columns_total": 4,
+      "columns_populated": 2,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "4,831 distinct acts reconstructed from the free-text ActSection field. We have names and usage counts, not official codes/descriptions.",
+      "columns": [
+        {
+          "column_name": "ActCode",
+          "er_type": "VARCHAR",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "The act NAME is our key \u2014 no codes in the extract."
+        },
+        {
+          "column_name": "ActDescription",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "populated",
+          "note": "As written in the FIR text."
+        },
+        {
+          "column_name": "ShortName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "Section",
+      "status": "populated_subset",
+      "our_table": "dim_section",
+      "grain": "one row per (act, section)",
+      "row_count": 17465,
+      "columns_total": 4,
+      "columns_populated": 2,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "17,465 distinct act-section pairs reconstructed from the same free text.",
+      "columns": [
+        {
+          "column_name": "ActCode",
+          "er_type": "VARCHAR",
+          "key": "FK",
+          "provenance": "reconstructed",
+          "note": "Parent act name."
+        },
+        {
+          "column_name": "SectionCode",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "populated",
+          "note": "Handles sub-parts like 304(A)."
+        },
+        {
+          "column_name": "SectionDescription",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "CrimeHeadActSection",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "crime head <-> act-section mapping",
+      "row_count": 0,
+      "columns_total": 3,
+      "columns_populated": 0,
+      "blocker": "absent_from_extract",
+      "blocker_reason": "The column set exists in the source system but not in the de-identified extract we were able to source.",
+      "summary": "Declared, never populated as a reference mapping. The OBSERVED equivalent is entity_edges: which crime heads actually co-occur with which acts in real FIRs (4,558 edges), which is a measurement rather than a lookup.",
+      "columns": [
+        {
+          "column_name": "CrimeHeadID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "ActCode",
+          "er_type": "VARCHAR",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "SectionCode",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "CrimeHead",
+      "status": "populated_subset",
+      "our_table": "dim_crime_head",
+      "grain": "one row per major crime head",
+      "row_count": 107,
+      "columns_total": 3,
+      "columns_populated": 2,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "107 major heads, from CrimeGroup_Name.",
+      "columns": [
+        {
+          "column_name": "CrimeHeadID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "The head NAME is the key; no IDs in the extract."
+        },
+        {
+          "column_name": "CrimeGroupName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "populated",
+          "note": ""
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "CrimeSubHead",
+      "status": "populated_subset",
+      "our_table": "dim_crime_subhead",
+      "grain": "one row per crime sub-head",
+      "row_count": 626,
+      "columns_total": 4,
+      "columns_populated": 3,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "626 sub-heads, from CrimeHead_Name, each linked to its parent major head.",
+      "columns": [
+        {
+          "column_name": "CrimeSubHeadID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "Sub-head name is the key."
+        },
+        {
+          "column_name": "CrimeHeadID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "Parent major head."
+        },
+        {
+          "column_name": "CrimeHeadName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "populated",
+          "note": ""
+        },
+        {
+          "column_name": "SeqID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "CasteMaster",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per caste",
+      "row_count": 0,
+      "columns_total": 2,
+      "columns_populated": 0,
+      "blocker": "protected_attribute",
+      "blocker_reason": "Caste, religion and occupation are protected attributes. Declared for contract fidelity and deliberately never populated or used as a model feature.",
+      "summary": "Declared for fidelity, never populated. Caste is never a model feature anywhere in this platform.",
+      "columns": [
+        {
+          "column_name": "caste_master_id",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "caste_master_name",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "ReligionMaster",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per religion",
+      "row_count": 0,
+      "columns_total": 2,
+      "columns_populated": 0,
+      "blocker": "protected_attribute",
+      "blocker_reason": "Caste, religion and occupation are protected attributes. Declared for contract fidelity and deliberately never populated or used as a model feature.",
+      "summary": "Declared for fidelity, never populated. Religion is never a model feature.",
+      "columns": [
+        {
+          "column_name": "ReligionID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "ReligionName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "OccupationMaster",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per occupation",
+      "row_count": 0,
+      "columns_total": 2,
+      "columns_populated": 0,
+      "blocker": "protected_attribute",
+      "blocker_reason": "Caste, religion and occupation are protected attributes. Declared for contract fidelity and deliberately never populated or used as a model feature.",
+      "summary": "Declared for fidelity, never populated.",
+      "columns": [
+        {
+          "column_name": "OccupationID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "OccupationName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "CaseStatusMaster",
+      "status": "populated_subset",
+      "our_table": "dim_case_status",
+      "grain": "one row per case status",
+      "row_count": 13,
+      "columns_total": 2,
+      "columns_populated": 2,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "13 normalised statuses. The raw extract had ~300 variants of `Transfered :UI(...)`, collapsed to one.",
+      "columns": [
+        {
+          "column_name": "CaseStatusID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "Status name is the key."
+        },
+        {
+          "column_name": "CaseStatusName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "populated",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "GravityOffence",
+      "status": "populated_subset",
+      "our_table": "dim_gravity",
+      "grain": "one row per gravity level",
+      "row_count": 2,
+      "columns_total": 2,
+      "columns_populated": 2,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "Heinous / Non-Heinous, from `FIR Type`.",
+      "columns": [
+        {
+          "column_name": "GravityOffenceID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": ""
+        },
+        {
+          "column_name": "LookupValue",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "populated",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "CaseCategory",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per case category",
+      "row_count": 0,
+      "columns_total": 2,
+      "columns_populated": 0,
+      "blocker": "single_value_in_extract",
+      "blocker_reason": "Not distinguishable in the extract \u2014 it holds a single value throughout (one state, one case category: FIR).",
+      "summary": "Declared, never populated \u2014 the extract is entirely FIR, with no UDR/PAR/Zero-FIR.",
+      "columns": [
+        {
+          "column_name": "CaseCategoryID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "LookupValue",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "District",
+      "status": "populated_subset",
+      "our_table": "dim_district",
+      "grain": "one row per district",
+      "row_count": 41,
+      "columns_total": 4,
+      "columns_populated": 2,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "41 FIR units mapped to 31 KGIS districts, hand-verified and cross-checked against KGIS, Census 2011 and LGD with zero errors. Four non-geographic units (CID, Coastal Security, ISD, Railways) are flagged and kept off district maps.",
+      "columns": [
+        {
+          "column_name": "DistrictID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "We carry three real external keys instead of an internal id: kgis_code, lgd_code, census_code_2011 \u2014 which is what makes the boundary/census joins verifiable."
+        },
+        {
+          "column_name": "DistrictName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "populated",
+          "note": ""
+        },
+        {
+          "column_name": "StateID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": "Karnataka only."
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "State",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per state",
+      "row_count": 0,
+      "columns_total": 4,
+      "columns_populated": 0,
+      "blocker": "single_value_in_extract",
+      "blocker_reason": "Not distinguishable in the extract \u2014 it holds a single value throughout (one state, one case category: FIR).",
+      "summary": "Declared, never populated \u2014 single-state dataset.",
+      "columns": [
+        {
+          "column_name": "StateID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "StateName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "NationalityID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "Unit",
+      "status": "populated_subset",
+      "our_table": "agg_unit",
+      "grain": "one row per police unit",
+      "row_count": 1074,
+      "columns_total": 8,
+      "columns_populated": 4,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "1,074 units. 875 of 1,071 distinct names matched to real KGIS station coordinates, which is what lifted coordinate coverage from 29.9% to 99.54%.",
+      "columns": [
+        {
+          "column_name": "UnitID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": "Unit name is the key."
+        },
+        {
+          "column_name": "UnitName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "populated",
+          "note": "The one column name we already shared with the ER."
+        },
+        {
+          "column_name": "TypeID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "ParentUnit",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "reconstructed",
+          "note": "Parent district, not a unit hierarchy."
+        },
+        {
+          "column_name": "NationalityID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "StateID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": "Karnataka only."
+        },
+        {
+          "column_name": "DistrictID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "populated",
+          "note": "Via canonical district + kgis_code."
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "UnitType",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per unit type",
+      "row_count": 0,
+      "columns_total": 5,
+      "columns_populated": 0,
+      "blocker": "absent_from_extract",
+      "blocker_reason": "The column set exists in the source system but not in the de-identified extract we were able to source.",
+      "summary": "Declared, never populated \u2014 unit type is not distinguishable in the extract.",
+      "columns": [
+        {
+          "column_name": "UnitTypeID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "UnitTypeName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "CityDistState",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "Hierarchy",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "Rank",
+      "status": "populated_subset",
+      "our_table": "dim_rank",
+      "grain": "one row per police rank",
+      "row_count": 21,
+      "columns_total": 4,
+      "columns_populated": 2,
+      "blocker": null,
+      "blocker_reason": null,
+      "summary": "21 ranks, derived from the rank suffix on IOName (e.g. '... PSI').",
+      "columns": [
+        {
+          "column_name": "RankID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "reconstructed",
+          "note": ""
+        },
+        {
+          "column_name": "RankName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "populated",
+          "note": "Parsed from IOName."
+        },
+        {
+          "column_name": "Hierarchy",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "Designation",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per designation",
+      "row_count": 0,
+      "columns_total": 4,
+      "columns_populated": 0,
+      "blocker": "absent_from_extract",
+      "blocker_reason": "The column set exists in the source system but not in the de-identified extract we were able to source.",
+      "summary": "Declared, never populated \u2014 the extract has rank but not designation.",
+      "columns": [
+        {
+          "column_name": "DesignationID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "DesignationName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "SortOrder",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "Employee",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per police employee",
+      "row_count": 0,
+      "columns_total": 12,
+      "columns_populated": 0,
+      "blocker": "confidential_by_law",
+      "blocker_reason": "Person identities are confidential under Indian law and are absent from the extract, which carries only aggregate counts. Not obtainable by any team.",
+      "summary": "Declared, never populated. IOName and KGID exist in the extract but identify serving officers, so building an employee table from them would create exactly the kind of personnel profiling this platform refuses to do. Rank is taken from the name string and the identity discarded.",
+      "columns": [
+        {
+          "column_name": "EmployeeID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "DistrictID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "UnitID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "RankID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "DesignationID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "KGID",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "FirstName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "EmployeeDOB",
+          "er_type": "DATE",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "GenderID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "BloodGroupID",
+          "er_type": "INT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "PhysicallyChallenged",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "AppointmentDate",
+          "er_type": "DATE",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "er_entity": "Court",
+      "status": "designed_only",
+      "our_table": null,
+      "grain": "one row per court",
+      "row_count": 0,
+      "columns_total": 5,
+      "columns_populated": 0,
+      "blocker": "absent_from_extract",
+      "blocker_reason": "The column set exists in the source system but not in the de-identified extract we were able to source.",
+      "summary": "Declared, never populated \u2014 no court detail in the extract.",
+      "columns": [
+        {
+          "column_name": "CourtID",
+          "er_type": "INT",
+          "key": "PK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "CourtName",
+          "er_type": "VARCHAR",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "DistrictID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "StateID",
+          "er_type": "INT",
+          "key": "FK",
+          "provenance": "absent",
+          "note": ""
+        },
+        {
+          "column_name": "Active",
+          "er_type": "BIT",
+          "key": null,
+          "provenance": "absent",
+          "note": ""
+        }
+      ]
+    }
+  ]
+}
