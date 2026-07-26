@@ -12,6 +12,14 @@ data honestly cannot tell you.
                     deployed end-to-end on Zoho Catalyst
 ```
 
+![Dashboard — statewide KPIs, the district choropleth joined on kgis_code, and the Udupi drill-down panel](docs/screenshots/01-dashboard.png)
+
+*The **Dashboard**. Six statewide KPIs across the top, the district choropleth below (raw count or
+per-capita, joined to KGIS boundaries on `kgis_code`), and a drill-down panel — here Udupi: 28,431
+FIRs, arrest 52.0%, chargesheet 77.5%, conviction 37.2%, detection 95.1%, with its full 2016–2024
+monthly series and top crime heads. Every screen carries a data-class badge; nothing on this one is
+estimated.*
+
 ---
 
 ## Table of contents
@@ -563,6 +571,15 @@ Urban (radius ~33 km). Dominant crime head: Theft. Prioritise patrol / resource 
 > deliberately did *not* use a crude longitude cutoff — that would have deleted ~50,000 legitimate
 > coastal FIRs, since Karnataka's coast reaches 74.1°E at Karwar.
 
+![Hotspot Map — heat layer with DBSCAN cluster rings, toggleable layers and a coordinate-precision filter](docs/screenshots/02-hotspot-map.png)
+
+*The **Hotspot Map**. Density heat plus DBSCAN cluster rings — the large ring over Bengaluru is the
+467-cluster model's biggest concentration. Layers toggle independently (choropleth, heat, clusters,
+station markers, observed night/day), and the precision filter below them lets you restrict the heat
+to `point` real-GPS records only. The legend states in plain words that district-centroid records are
+excluded here and appear on the choropleth alone. The time-of-day strip at the bottom carries an
+amber `Modeled · estimated` badge — the honest labelling of the one inferred layer.*
+
 ---
 
 ### 7.2 Forecasting — *how much crime next year?*
@@ -601,6 +618,16 @@ Thresholds: minimum 80-case baseline, minimum 50-case absolute increase, then �
 |---|---|
 | **Output** | **121 red zones** — 68 red, 53 amber |
 | **Surfaces as** | Pulsing red indicators on the Trends workspace and Strategic Hub |
+
+![Trends and Forecast — 12-month projection with a confidence band, the emerging-trend alert list, and the red-zone map](docs/screenshots/03-trends-forecast.png)
+
+*The **Trends & Forecast** workspace, showing §7.2 and §7.3 side by side. Solid line is recorded
+history (2016–2023), the dashed continuation is the 12-month projection, and the shaded band is the
+95% interval — drawn as a range rather than a single confident line. Right: the 121 emerging-trend
+alerts ranked by how sharply each district × crime type rose against its own 2021–22 norm (COTPA in
+Bengaluru Urban +1148%, cyber crime in Bengaluru Rural +364%). Below, the same alerts as a red-zone
+choropleth. The "In plain terms" sentence under the chart restates the projection in words, because
+a district SP should not have to read a confidence band to use it.*
 
 ---
 
@@ -710,6 +737,16 @@ legal section **4.5%**, sub-type **4.1%**, district **2.9%**.
 > inference tool rather than hiding it — for a genuine cold case (`accused_count=0`), predicted
 > detection drops to 90.3%.
 
+![Patterns and MO — day-of-week by month heatmap, the MO cluster explorer, and the case-outcome driver bars with model card](docs/screenshots/04-patterns-mo.png)
+
+*The **Patterns & MO** workspace, carrying §7.6 and §7.7 together. Top left: the day-of-week × month
+grid with the peak detected automatically and stated in a sentence rather than left for the eye to
+find. Top right: the 43 MO clusters, largest first — `burglary · night` at 5,606 incidents, each row
+naming its place-type, district and time profile. Bottom left: what is associated with a case being
+solved, captioned **"associations, not causation"** on screen, with the model card underneath —
+detection AUC 0.969 against an 86.9% baseline, 94.5% accuracy, and the 13-class stage model at 72.3%.
+Bottom right: detection rate per district, with case volume and conviction share on each row.*
+
 ---
 
 ### 7.8 Entity network — *which crimes and laws get booked together?*
@@ -765,6 +802,16 @@ Districts with better police access and higher literacy report more.
 
 Second, and stated plainly on the interface: **no protected attribute shows a significant association
 with recorded crime in this data.** We checked, and we publish the null result.
+
+![Socio-Economic Correlation — significant correlates in colour, non-significant in grey, and a separate protected-attributes audit panel](docs/screenshots/06-socio-economic.png)
+
+*The **Socio-Economic** workspace. The reporting-propensity caveat sits at the top of the page, not in
+a footnote. In the correlation chart, only statistically significant indicators are coloured —
+urbanisation and population stay grey, so a viewer cannot mistake a non-result for a finding. The
+scatter plots one dot per district behind the r = +0.41 literacy figure. Below that, protected
+attributes live in their own visually separate **"audit only"** panel, each labelled with its p-value
+and "no significant association", under an explicit note on why they are shown and never used as
+model features.*
 
 ---
 
@@ -823,6 +870,17 @@ normalise (honorifics, transliteration) → multi-token phonetic blocking
 > plus order-insensitive alignment fixed it. The 0.92 threshold came from a measured sweep and leans
 > deliberately toward **precision** — falsely merging two people into one "repeat offender" is a far
 > worse harm in policing than missing a link.
+
+![Network and Link Analysis, person tab — the synthetic-demonstration banner, suspect to victim graph, repeat-offender profiles, and the PPRL engine metrics](docs/screenshots/05-network-person.png)
+
+*The **Network & Link** workspace on its person tab — the one screen in this platform built on
+fabricated people, and the only one that needs this much labelling. The tab is marked `DEMO`, the
+header badge reads `Synthetic · demo`, and the banner states outright that no real individual is
+depicted and why person data cannot be obtained. Red nodes are repeat offenders, red edges co-accused
+links, grey edges accused↔victim. The profiles on the right show MO across districts with a
+`cross-jurisdiction` flag. The panel at the bottom draws the distinction that matters: **the linkage
+engine is real, only its test data is synthetic** — precision 96.5%, recall 99.6%, 4,590 records
+linked at a 0.92 threshold, measured against known ground truth under a stated recording-noise model.*
 
 ---
 
@@ -980,17 +1038,25 @@ request, so a misconfigured deploy is visible there rather than discovered durin
 
 React 18 + Vite + Tailwind, with React-Leaflet for maps and Apache ECharts for graphs.
 
-| Workspace | What an officer does here |
-|---|---|
-| **Strategic Hub** | The command screen. Where all three models agree attention is needed — 9 districts flagged by risk *and* alerts *and* anomalies |
-| **Dashboard** | Statewide KPIs, district choropleth (raw or per-capita), drill-down |
-| **Hotspot Map** | Heat layer, DBSCAN clusters with deployment notes, station markers, observed night/day layer |
-| **Trends & Forecast** | 12-month projections with confidence bands, pulsing red-zone alerts |
-| **Risk & Vulnerability** | Risk tiers by district, ranked list, "why it ranks here" SHAP drivers, anomaly call-outs |
-| **Patterns & MO** | MO cluster explorer, day × month heatmap with automatic peak detection, outcome drivers |
-| **Network & Link** | Entity graph with search, click-to-inspect, full entity table; Person tab (synthetic) |
-| **Socio-Economic** | Correlation analysis with protected attributes visibly segregated |
-| **Data Quality** | The trust page — limitations, fairness guarantees, 11 model cards, validation results |
+| Workspace | What an officer does here | Screenshot |
+|---|---|---|
+| **Strategic Hub** | The command screen. Where all three models agree attention is needed — 9 districts flagged by risk *and* alerts *and* anomalies | |
+| **Dashboard** | Statewide KPIs, district choropleth (raw or per-capita), drill-down | [view](docs/screenshots/01-dashboard.png) |
+| **Hotspot Map** | Heat layer, DBSCAN clusters with deployment notes, station markers, observed night/day layer | [view](docs/screenshots/02-hotspot-map.png) |
+| **Trends & Forecast** | 12-month projections with confidence bands, pulsing red-zone alerts | [view](docs/screenshots/03-trends-forecast.png) |
+| **Risk & Vulnerability** | Risk tiers by district, ranked list, "why it ranks here" SHAP drivers, anomaly call-outs | |
+| **Patterns & MO** | MO cluster explorer, day × month heatmap with automatic peak detection, outcome drivers | [view](docs/screenshots/04-patterns-mo.png) |
+| **Network & Link** | Entity graph with search, click-to-inspect, full entity table; Person tab (synthetic) | [view](docs/screenshots/05-network-person.png) |
+| **Socio-Economic** | Correlation analysis with protected attributes visibly segregated | [view](docs/screenshots/06-socio-economic.png) |
+| **Data Quality** | The trust page — limitations, fairness guarantees, 11 model cards, validation results | |
+
+Six of the nine are captured in `docs/screenshots/` and appear inline in the sections above:
+[Dashboard](docs/screenshots/01-dashboard.png) at the very top of this file, then Hotspot Map in
+[§7.1](#71-spatiotemporal-hotspots--where-is-crime-concentrated), Trends & Forecast in
+[§7.3](#73-emerging-trend-alerts--what-is-spiking-right-now), Patterns & MO in
+[§7.7](#77-case-outcome-prediction--will-this-case-be-solved), the synthetic person network in
+[the PPRL section](#bonus-the-person-linkage-engine-mlperson_linkagepy), and Socio-Economic in
+[§7.9](#79-socio-economic-correlation--the-why-behind-the-where).
 
 **Design decisions worth noting.** Every panel carries a data-class badge. Explanatory hover markers
 define terms like *lift*, *SHAP*, and *confidence interval* in plain words. The briefing exports
@@ -1225,6 +1291,7 @@ misconfiguration.
 KSP_Intelligence/
 ├── .kiro/steering/project-brief.md    Single source of truth — decisions, metrics, history
 ├── Plans/                             Architecture, product, model specs, phase-by-phase log
+├── docs/screenshots/                  Workspace screenshots used in this README
 │
 ├── datasets/                          Raw data (gitignored — sourcing documented in the brief)
 │
