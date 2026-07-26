@@ -1,0 +1,70 @@
+# Catalyst Pipelines — CI/CD for the KSP Crime Intelligence Platform.
+#
+# Replaces the manual `npm run build && catalyst deploy` step. Two things make this more than a
+# compliance tick:
+#
+#   1. THE TEST SUITE IS A DEPLOY GATE. The 59 Jest tests assert the guarantees this platform is
+#      judged on — row reconciliation at 1,674,734, district-centroid records never leaking into
+#      hotspot layers, risk drivers never exposing protected attributes, no real endpoint ever
+#      emitting a synthetic SYN- id. A build that breaks any of those must not reach the demo.
+#   2. THE CLIENT IS BUILT HERE. catalyst.json serves `client/dist`, so a stale local dist was
+#      previously deployable. Building in the pipeline makes that impossible.
+#
+# Configure as pipeline variables in the console (never commit them):
+#   PROJECT_NAME    KSP
+#   CATALYST_ORG    from the Multi-Org portal
+#   CATALYST_TOKEN  CLI token
+#   USER_NAME / USER_PASSWORD   Docker Hub credentials for the runner image
+version: 1
+
+runners:
+  Machine:
+    config-id: 2
+
+images:
+  DeployMachine:
+    image: ubuntu
+    auth:
+      username: << env.USER_NAME >>
+      password: << env.USER_PASSWORD >>
+
+jobs:
+  Test_API:
+    steps:
+      - apt-get update
+      - apt-get install -y curl
+      - curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+      - apt-get install -y nodejs
+      - cd functions/crime_api
+      - npm ci
+      # Deploy gate: if any guarantee regresses, the pipeline stops here.
+      - npm test
+
+  Build_And_Deploy:
+    steps:
+      - apt-get update
+      - apt-get install -y curl
+      - curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+      - apt-get install -y nodejs
+      - npm i -g zcatalyst-cli
+      - catalyst -v
+      # function dependencies must be present in the deployed bundle
+      - cd functions/crime_api
+      - npm ci --omit=dev
+      - cd ../..
+      # build the SPA that catalyst.json serves from client/dist
+      - cd client
+      - npm ci
+      - npm run build
+      - cd ..
+      - catalyst deploy --project << env.PROJECT_NAME >> --org << env.CATALYST_ORG >> --token << env.CATALYST_TOKEN >>
+
+stages:
+  - name: test
+    image: DeployMachine
+    jobs:
+      - Test_API
+  - name: deploy
+    image: DeployMachine
+    jobs:
+      - Build_And_Deploy

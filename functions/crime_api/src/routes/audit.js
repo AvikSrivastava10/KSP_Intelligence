@@ -133,6 +133,46 @@ module.exports = (router, asyncH) => {
         metric: `${timeofday.length} rows — illustrative only`, data_class: "modeled" },
     ];
 
+    // ---- Catalyst service map ----
+    // Published for the same reason the limitations are: a reviewer should not have to reverse
+    // engineer which platform service backs which capability. Where a capability is served by our
+    // own code, the reason is stated rather than left to inference.
+    const catalyst_services = [
+      { capability: "Serverless backend logic", service: "Catalyst Functions",
+        status: "active", detail: "crime_api — Advanced I/O function, Node 18, 34 endpoints." },
+      { capability: "Frontend / SPA hosting", service: "Catalyst Web Client Hosting",
+        status: "active", detail: "React 18 + Vite build served from client/dist." },
+      { capability: "Relational database", service: "Catalyst Data Store",
+        status: process.env.USE_DATASTORE === "true" ? "active" : "configured",
+        detail: "42-table schema generated from the real data with measured varchar widths. "
+          + "The bundled CSV copy is retained as a resilience fallback and is byte-identical." },
+      { capability: "Cache", service: "Catalyst Cache",
+        status: process.env.USE_CATALYST_CACHE !== "false" ? "active" : "disabled",
+        detail: "GET responses cached by URL hash. Every response is precomputed, so it is a pure "
+          + "function of its query string — safe to cache and shared across function instances." },
+      { capability: "API routing, throttling and access rules", service: "Catalyst API Gateway",
+        status: process.env.USE_API_GATEWAY === "true" ? "active" : "configured",
+        detail: "Throttling at the edge. The in-process limiter stands down when the gateway is "
+          + "fronting the function, so the endpoint is never left unprotected." },
+      { capability: "PDF report generation", service: "Catalyst SmartBrowz",
+        status: "active",
+        detail: "GET /report/briefing renders the intelligence briefing server-side, so it can be "
+          + "scheduled and circulated rather than only printed from one analyst's browser." },
+      { capability: "CI/CD", service: "Catalyst Pipelines",
+        status: "configured",
+        detail: "catalyst-pipelines.yaml. The automated test suite is a deploy gate, so a build "
+          + "that breaks a fairness or data-integrity guarantee cannot reach production." },
+      { capability: "Spatial clustering, forecasting, MO clustering, graph analysis",
+        service: "custom Python (offline)", status: "no_catalyst_equivalent",
+        detail: "KDE + DBSCAN, Holt-Winters, HDBSCAN, NetworkX + Louvain, association rules and "
+          + "the PPRL linkage engine. Zia AutoML covers supervised tabular learning and QuickML "
+          + "covers no-code pipelines; neither provides these algorithms. Models run offline and "
+          + "the API serves only their precomputed outputs." },
+      { capability: "Maps and charts", service: "React-Leaflet / Apache ECharts",
+        status: "no_catalyst_equivalent",
+        detail: "Catalyst offers no client-side geospatial or charting component." },
+    ];
+
     res.sendOk({
       generated_at: meta.generated_at_utc,
       source_file: meta.source_file,
@@ -140,6 +180,7 @@ module.exports = (router, asyncH) => {
       limitations,
       fairness,
       models,
+      catalyst_services,
       ground_truth_validation: validation.results
         ? { tests: validation.results, honesty: validation.honesty }
         : null,

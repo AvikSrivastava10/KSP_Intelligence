@@ -537,3 +537,98 @@ describe("crime_api hardening (audit regressions)", () => {
     expect(nan.body.result.showing).toBeLessThanOrEqual(60);
   });
 });
+
+describe("Catalyst service integration", () => {
+  test("GET /health declares which Catalyst service serves each concern", async () => {
+    const r = await request(app).get("/health");
+    expect(r.status).toBe(200);
+    const s = r.body.result;
+    // storage, cache and throttling must each be REPORTED, so a misconfigured deploy is visible
+    // here rather than discovered mid-demo.
+    expect(s.backend.storage).toMatch(/^(bundled_tables|catalyst_datastore)$/);
+    expect(s.backend.data_is_real).toBe(true);
+    expect(s.cache.service).toBe("catalyst_cache");
+    expect(typeof s.cache.active).toBe("boolean");
+    expect(s.throttling.enforced_by).toMatch(/^(catalyst_api_gateway|in_process)$/);
+  });
+
+  test("response cache never serves a stale request_id", async () => {
+    // request_id is per-request tracing; caching it would make two different requests
+    // indistinguishable in the logs.
+    const a = await request(app).get("/overview");
+    const b = await request(app).get("/overview");
+    expect(a.body.request_id).not.toBe(b.body.request_id);
+    expect(a.body.result.total_firs).toBe(b.body.result.total_firs);
+  });
+
+  test("throttling is never simply absent — one layer always owns it", async () => {
+    const r = await request(app).get("/health");
+    const t = r.body.result.throttling;
+    // If the gateway is not fronting the function, the in-process limiter must still be active.
+    if (t.enforced_by === "in_process") expect(t.requests_per_window).toBeGreaterThan(0);
+  });
+});
+
+describe("intelligence briefing export (SmartBrowz)", () => {
+  test("GET /report/briefing renders a briefing and names its renderer", async () => {
+    const r = await request(app).get("/report/briefing");
+    expect(r.status).toBe(200);
+    // Off-platform SmartBrowz is unavailable, so the route must degrade to source HTML rather
+    // than 500 — and must say which renderer produced the output either way.
+    expect(r.headers["x-report-renderer"]).toMatch(/^(catalyst-smartbrowz|html-fallback)$/);
+  });
+
+  test("briefing carries the figures, the shortlist AND the caveats", async () => {
+    const r = await request(app).get("/report/briefing?format=html");
+    expect(r.headers["x-report-renderer"]).toBe("html-source");
+    const html = r.text;
+    expect(html).toMatch(/Crime Intelligence Briefing/);
+    expect(html).toMatch(/Priority districts/);
+    expect(html).toMatch(/Priority deployment areas/);
+    expect(html).toMatch(/Ground-truth validation/);
+    // a briefing that omits its own limits is the failure mode this project guards against
+    expect(html).toMatch(/reported<\/i> crime|measure <i>reported/);
+    expect(html).toMatch(/never used as model features/);
+    expect(html).toMatch(/2024 is a partial year/);
+  });
+
+  test("briefing convergence shortlist agrees with /hub (same rule, one source of truth)", async () => {
+    const hub = await request(app).get("/hub");
+    const html = (await request(app).get("/report/briefing?format=html")).text;
+    const rows = (html.match(/<td><b>[A-Za-z .]+<\/b><\/td>/g) || []).length;
+    expect(rows).toBe(hub.body.result.priority.converging_count);
+  });
+
+  test("briefing escapes interpolated table content", async () => {
+    const html = (await request(app).get("/report/briefing?format=html")).text;
+    // no unescaped angle brackets inside cell text (would mean an injection path into the PDF)
+    expect(html).not.toMatch(/<td>[^<]*<script/i);
+  });
+});
+
+describe("Catalyst service map (published on /audit)", () => {
+  test("GET /audit lists each capability, its service and a live status", async () => {
+    const r = await request(app).get("/audit");
+    const svc = r.body.result.catalyst_services;
+    expect(Array.isArray(svc)).toBe(true);
+    expect(svc.length).toBeGreaterThanOrEqual(8);
+    expect(svc.every((s) => s.capability && s.service && s.status && s.detail)).toBe(true);
+    expect(svc.every((s) => ["active", "configured", "disabled", "no_catalyst_equivalent"].includes(s.status))).toBe(true);
+    // the four core services must be named explicitly
+    const names = svc.map((s) => s.service).join(" | ");
+    expect(names).toMatch(/Catalyst Functions/);
+    expect(names).toMatch(/Web Client Hosting/);
+    expect(names).toMatch(/Data Store/);
+    expect(names).toMatch(/Catalyst Cache/);
+    expect(names).toMatch(/SmartBrowz/);
+  });
+
+  test("custom components declare WHY no Catalyst service applies", async () => {
+    const r = await request(app).get("/audit");
+    const custom = r.body.result.catalyst_services.filter((s) => s.status === "no_catalyst_equivalent");
+    expect(custom.length).toBeGreaterThan(0);
+    // an unexplained substitution is the thing a reviewer would object to, so each must argue itself
+    for (const c of custom) expect(c.detail.length).toBeGreaterThan(60);
+    expect(custom.map((c) => c.detail).join(" ")).toMatch(/AutoML|QuickML|no client-side/i);
+  });
+});

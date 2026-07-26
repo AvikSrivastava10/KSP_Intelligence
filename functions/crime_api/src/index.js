@@ -9,6 +9,7 @@
 const express = require("express");
 const { envelope } = require("./lib/http");
 const SEC = require("./lib/security");
+const { responseCache } = require("./lib/catalystCache");
 const { buildRouter } = require("./routes");
 
 // Optional — only present/needed when deployed with USE_DATASTORE=true.
@@ -24,14 +25,20 @@ app.use(express.json({ limit: process.env.MAX_BODY || "256kb" }));
 app.use(envelope());
 app.use(SEC.rateLimiter());
 
-// Per-request storage context: Data Store when deployed + enabled, else CSV fallback.
+// Per-request Catalyst context. The SDK instance backs BOTH the Data Store reader and the Cache
+// service, so it is initialised whenever either is switched on — not only for the Data Store.
 app.use((req, res, next) => {
   req.ctx = { app: null };
-  if (process.env.USE_DATASTORE === "true" && catalystSdk) {
+  const wantsSdk = process.env.USE_DATASTORE === "true"
+    || process.env.USE_CATALYST_CACHE !== "false";
+  if (wantsSdk && catalystSdk) {
     try { req.ctx.app = catalystSdk.initialize(req); } catch (e) { req.ctx.app = null; }
   }
   next();
 });
+
+// Catalyst Cache in front of GET responses (after req.ctx, so the SDK instance is available).
+app.use(responseCache());
 
 const router = buildRouter();
 app.use("/server/crime_api", router); // Catalyst Advanced I/O base path

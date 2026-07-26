@@ -5,8 +5,11 @@
     "type": "advancedio",
     "memory": 512,
     "env_variables": {
-      "USE_DATASTORE": "false",
+      "USE_DATASTORE": "true",
       "USE_CACHE": "true",
+      "USE_CATALYST_CACHE": "true",
+      "CACHE_TTL_HOURS": "1",
+      "USE_API_GATEWAY": "false",
       "ALLOWED_ORIGINS": "",
       "RATE_LIMIT_MAX": "200",
       "RATE_LIMIT_WINDOW_MS": "60000",

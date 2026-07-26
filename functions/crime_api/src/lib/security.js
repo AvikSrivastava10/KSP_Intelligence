@@ -24,13 +24,38 @@ function corsPolicy() {
   });
 }
 
+/** Throttling is owned by Catalyst API Gateway when it fronts this function.
+ *
+ *  Rate limiting belongs at the edge, not in application code: the gateway rejects abuse before a
+ *  function instance is ever billed, and it applies uniformly across every route. So when
+ *  USE_API_GATEWAY=true the in-process limiter steps aside entirely.
+ *
+ *  It is a flag rather than a deletion on purpose — if the gateway rules are not yet published,
+ *  removing this middleware would leave the endpoint with NO throttling at all. Defaulting to the
+ *  in-process limiter means the fallback is "protected", never "open".
+ */
+const GATEWAY_FRONTED = process.env.USE_API_GATEWAY === "true";
+
 function rateLimiter() {
+  if (GATEWAY_FRONTED) return (req, res, next) => next();
   return rateLimit({
     windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10) || 60000,
     max: parseInt(process.env.RATE_LIMIT_MAX, 10) || 200,
     standardHeaders: true,
     legacyHeaders: false,
   });
+}
+
+/** Reported by /health so it is obvious which layer is enforcing limits. */
+function throttleInfo() {
+  return GATEWAY_FRONTED
+    ? { enforced_by: "catalyst_api_gateway", note: "Throttling, routing and access rules are configured on the API Gateway in front of this function." }
+    : {
+      enforced_by: "in_process",
+      requests_per_window: parseInt(process.env.RATE_LIMIT_MAX, 10) || 200,
+      window_ms: parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10) || 60000,
+      note: "Set USE_API_GATEWAY=true once the Catalyst API Gateway rules are published; the in-process limiter then stands down.",
+    };
 }
 
 /** Terminal error handler — consistent { ok:false, error, request_id } envelope.
@@ -45,4 +70,4 @@ function errorHandler() {
   };
 }
 
-module.exports = { securityHeaders, corsPolicy, rateLimiter, errorHandler };
+module.exports = { securityHeaders, corsPolicy, rateLimiter, throttleInfo, errorHandler };
