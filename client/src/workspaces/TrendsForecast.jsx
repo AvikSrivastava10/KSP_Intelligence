@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
+import { MapContainer, GeoJSON } from "react-leaflet";
+import BaseMapTiles from "../components/BaseMapTiles.jsx";
 import { useQuery } from "@tanstack/react-query";
 import ReactECharts from "echarts-for-react";
 import { TrendingUp, TrendingDown, AlertTriangle, Layers3, CalendarClock, Flame } from "lucide-react";
@@ -272,7 +273,7 @@ export default function TrendsForecast() {
         </div>
         <div className="h-[440px]">
           <MapContainer center={[15.0, 76.2]} zoom={7} minZoom={5} style={{ height: "100%", width: "100%" }} scrollWheelZoom zoomControl>
-            <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" attribution="&copy; OpenStreetMap &copy; CARTO" />
+            <BaseMapTiles />
             {geoQ.data && allAlerts.length > 0 && (
               <GeoJSON key={`rz-${allAlerts.length}`} data={geoQ.data} style={choroStyle} onEachFeature={onEachDistrict} />
             )}

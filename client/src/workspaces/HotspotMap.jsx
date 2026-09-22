@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Popup, useMap } from "react-leaflet";
+import { MapContainer, GeoJSON, CircleMarker, Popup, useMap } from "react-leaflet";
 import { useQuery } from "@tanstack/react-query";
 import ReactECharts from "echarts-for-react";
 import { Layers, MapPin, Flame, Building2, Clock } from "lucide-react";
 import HeatLayer from "../components/HeatLayer.jsx";
+import BaseMapTiles from "../components/BaseMapTiles.jsx";
 import DataClassBadge from "../components/DataClassBadge.jsx";
 import Reveal from "../components/Reveal.jsx";
 import { fetchDistricts, fetchHotspots, fetchClusters, fetchStations, fetchTimeofday, fetchTimedHotspots } from "../api/client.js";
@@ -148,7 +149,7 @@ export default function HotspotMap() {
               </div>
             )}
             <MapContainer center={[15.0, 76.2]} zoom={7} minZoom={5} style={{ height: "100%", width: "100%" }} scrollWheelZoom zoomControl>
-              <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" attribution="&copy; OpenStreetMap &copy; CARTO" />
+              <BaseMapTiles />
               {layers.choropleth && geoQ.data && districts.length > 0 && (
                 <GeoJSON key={`ch-${selected?.district || "none"}-${layers.heat}`} data={geoQ.data} style={choroStyle} onEachFeature={onEachDistrict} />
               )}

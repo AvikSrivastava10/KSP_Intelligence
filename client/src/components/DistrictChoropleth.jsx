@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
+import { MapContainer, GeoJSON } from "react-leaflet";
 import { useFilters } from "../state/store.js";
+import BaseMapTiles from "./BaseMapTiles.jsx";
 
 // Sequential crime-intensity heat (light yellow = low -> deep red = high) on a light basemap.
 const PALETTE = ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"];
@@ -73,10 +74,7 @@ export default function DistrictChoropleth({ districts, metric, geojson }) {
       scrollWheelZoom
       zoomControl
     >
-      <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-        attribution='&copy; OpenStreetMap &copy; CARTO'
-      />
+      <BaseMapTiles />
       {geojson && <GeoJSON key={geoKey} data={geojson} style={baseStyle} onEachFeature={onEachFeature} />}
     </MapContainer>
   );

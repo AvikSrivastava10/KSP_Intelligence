@@ -38,6 +38,11 @@ afterAll(() => {
   }
 });
 
+// This suite loads the app with a mocked Catalyst SDK. Clear a previously loaded app module
+// (for example, from smoke.test.js) so its module-level configuration cannot leak into this
+// suite when Jest chooses a different test-file order.
+jest.resetModules();
+
 // --- the fake SDK, swappable per test ---
 const state = {
   zcqlRows: {},          // table -> rows to serve
